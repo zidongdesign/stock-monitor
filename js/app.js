@@ -186,11 +186,13 @@ const App = {
     // 手机端：切换到详情视图
     if (this.isMobile()) {
       document.querySelector('.main-layout').classList.add('show-detail');
-      // 延迟 resize，等 DOM 更新
-      setTimeout(() => this.chart.resize(), 50);
     }
     
-    this.loadChart(code);
+    // 延迟加载图表，确保容器可见且有尺寸
+    setTimeout(() => {
+      this.chart.resize();
+      this.loadChart(code);
+    }, 100);
   },
 
   // 更新右侧股票信息
