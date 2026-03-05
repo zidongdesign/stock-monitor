@@ -21,17 +21,20 @@ const App = {
     this.stocks = saved ? JSON.parse(saved) : [...this.defaultStocks];
     
     this.chart = echarts.init(document.getElementById('chart-container'));
-    window.addEventListener('resize', () => this.chart.resize());
     
     this.bindEvents();
     this.renderStockList();
     this.refresh();
     this.startAutoRefresh();
     
-    // 默认选中第一只
-    if (this.stocks.length > 0) {
+    // 默认选中第一只（桌面端）
+    if (this.stocks.length > 0 && !this.isMobile()) {
       this.selectStock(this.stocks[0]);
     }
+  },
+
+  isMobile() {
+    return window.innerWidth <= 768;
   },
 
   bindEvents() {
@@ -55,6 +58,21 @@ const App = {
     // 手动刷新
     document.getElementById('btn-refresh').addEventListener('click', () => {
       this.refresh();
+    });
+
+    // 手机端返回按钮
+    document.getElementById('btn-back').addEventListener('click', () => {
+      document.querySelector('.main-layout').classList.remove('show-detail');
+      // resize chart when going back (in case user switches to landscape)
+    });
+
+    // 窗口大小变化时重新处理布局
+    window.addEventListener('resize', () => {
+      this.chart.resize();
+      // 如果从手机变到桌面，确保 content 可见
+      if (!this.isMobile()) {
+        document.querySelector('.main-layout').classList.remove('show-detail');
+      }
     });
   },
 
@@ -114,6 +132,8 @@ const App = {
       item.onclick = () => this.selectStock(code);
       
       const changeClass = data ? (data.changePercent > 0 ? 'up' : data.changePercent < 0 ? 'down' : '') : '';
+      const priceText = data && data.price ? data.price.toFixed(2) : '--';
+      const changeText = data && !isNaN(data.changePercent) ? (data.changePercent > 0 ? '+' : '') + data.changePercent.toFixed(2) + '%' : '--';
       
       item.innerHTML = `
         <div class="stock-item-header">
@@ -121,8 +141,8 @@ const App = {
           <span class="stock-remove" onclick="event.stopPropagation(); App.removeStock('${code}')">×</span>
         </div>
         <div class="stock-item-body">
-          <span class="stock-price ${changeClass}">${data ? data.price.toFixed(2) : '--'}</span>
-          <span class="stock-change ${changeClass}">${data ? (data.changePercent > 0 ? '+' : '') + data.changePercent.toFixed(2) + '%' : '--'}</span>
+          <span class="stock-price ${changeClass}">${priceText}</span>
+          <span class="stock-change ${changeClass}">${changeText}</span>
         </div>
         ${hasSignal ? `<div class="stock-signals">${signals.map(s => `<span class="signal signal-${s.type}">${s.reason}</span>`).join('')}</div>` : ''}
       `;
@@ -161,8 +181,16 @@ const App = {
   selectStock(code) {
     this.currentStock = code;
     this.renderStockList();
-    this.loadChart(code);
     this.updateStockInfo(code);
+    
+    // 手机端：切换到详情视图
+    if (this.isMobile()) {
+      document.querySelector('.main-layout').classList.add('show-detail');
+      // 延迟 resize，等 DOM 更新
+      setTimeout(() => this.chart.resize(), 50);
+    }
+    
+    this.loadChart(code);
   },
 
   // 更新右侧股票信息
@@ -232,6 +260,13 @@ const App = {
     const prices = data.map(d => d.price);
     const volumes = data.map(d => d.volume);
     
+    // 过滤无效价格
+    const validPrices = prices.filter(p => p > 0 && isFinite(p));
+    if (validPrices.length === 0) {
+      this.chart.setOption({ title: { text: '分时数据异常' }, series: [] });
+      return;
+    }
+    
     // 计算均价线
     const avgPrices = [];
     let totalAmount = 0, totalVol = 0;
@@ -241,12 +276,12 @@ const App = {
       avgPrices.push(totalVol > 0 ? parseFloat((totalAmount / totalVol).toFixed(2)) : d.price);
     });
 
-    // 计算Y轴范围
-    const minPrice = Math.min(...prices);
-    const maxPrice = Math.max(...prices);
-    const maxDiff = Math.max(Math.abs(maxPrice - prevClose), Math.abs(minPrice - prevClose), 0.01);
-    const yMin = parseFloat((prevClose - maxDiff * 1.1).toFixed(2));
-    const yMax = parseFloat((prevClose + maxDiff * 1.1).toFixed(2));
+    // 计算Y轴范围（基于实际数据）
+    const minPrice = Math.min(...validPrices);
+    const maxPrice = Math.max(...validPrices);
+    const maxDiff = Math.max(Math.abs(maxPrice - prevClose), Math.abs(minPrice - prevClose), prevClose * 0.001);
+    const yMin = parseFloat((prevClose - maxDiff * 1.2).toFixed(2));
+    const yMax = parseFloat((prevClose + maxDiff * 1.2).toFixed(2));
 
     const option = {
       animation: false,
@@ -261,10 +296,12 @@ const App = {
       yAxis: [
         { 
           type: 'value', gridIndex: 0, 
+          scale: true,
           min: yMin,
           max: yMax,
+          splitNumber: 4,
           splitLine: { lineStyle: { color: '#1a2a3a' } },
-          axisLabel: { fontSize: 10 }
+          axisLabel: { fontSize: 10, formatter: val => val.toFixed(2) }
         },
         { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } }
       ],

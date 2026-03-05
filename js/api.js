@@ -89,6 +89,8 @@ const StockAPI = {
     if (fields.length < 45) return null;
     
     const price = parseFloat(fields[3]);
+    if (!price || price === 0) return null; // 无有效价格，跳过
+    
     const prevClose = parseFloat(fields[4]);
     const open = parseFloat(fields[5]);
     const volume = parseFloat(fields[6]);
@@ -97,8 +99,8 @@ const StockAPI = {
     const changePercent = parseFloat(fields[32]);
     const change = parseFloat(fields[31]);
     const volumeRatio = parseFloat(fields[49]) || 0;
-    const turnover = parseFloat(fields[38]);
-    const amount = parseFloat(fields[37]);
+    const turnover = parseFloat(fields[38]) || 0;
+    const amount = parseFloat(fields[37]) || 0;
     
     return {
       code,
@@ -110,8 +112,8 @@ const StockAPI = {
       low,
       volume,
       amount,
-      change,
-      changePercent,
+      change: isNaN(change) ? 0 : change,
+      changePercent: isNaN(changePercent) ? 0 : changePercent,
       volumeRatio,
       turnover,
       time: fields[30],
@@ -196,14 +198,13 @@ const StockAPI = {
    */
   async fetchMinute(code) {
     return new Promise((resolve) => {
-      const varName = `minute_data_${code.replace(/[^a-z0-9]/g, '_')}`;
       const script = document.createElement('script');
       const timeout = setTimeout(() => {
         script.remove();
         resolve([]);
       }, 8000);
 
-      script.src = `https://data.gtimg.cn/flashdata/hushen/minute/${code}.js`;
+      script.src = `https://data.gtimg.cn/flashdata/hushen/minute/${code}.js?r=${Date.now()}`;
       script.onerror = () => {
         clearTimeout(timeout);
         script.remove();
@@ -222,11 +223,16 @@ const StockAPI = {
         lines.forEach(line => {
           const parts = line.trim().split(' ');
           if (parts.length >= 3 && /^\d{4}$/.test(parts[0])) {
-            data.push({
-              time: parts[0].substring(0, 2) + ':' + parts[0].substring(2),
-              price: parseFloat(parts[1]),
-              volume: parseFloat(parts[2])
-            });
+            const price = parseFloat(parts[1]);
+            const volume = parseFloat(parts[2]);
+            // 验证价格有效性
+            if (price > 0 && isFinite(price)) {
+              data.push({
+                time: parts[0].substring(0, 2) + ':' + parts[0].substring(2),
+                price,
+                volume
+              });
+            }
           }
         });
         resolve(data);

@@ -291,23 +291,66 @@ body {
   font-size: 14px;
 }
 
+/* 返回按钮（默认隐藏） */
+.back-btn {
+  display: none;
+  background: var(--bg-card);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--accent);
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.back-btn:hover {
+  background: var(--bg-hover);
+}
+
 /* 响应式 - 手机 */
 @media (max-width: 768px) {
-  .main-layout {
-    flex-direction: column;
+  body {
+    overflow: auto;
+    height: auto;
+    min-height: 100vh;
   }
   
+  .main-layout {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 36px);
+  }
+  
+  /* 默认：显示列表，隐藏详情 */
   .sidebar {
     width: 100%;
     min-width: 100%;
-    max-height: 40vh;
+    max-height: none;
+    height: auto;
     border-right: none;
     border-bottom: 1px solid var(--border);
   }
   
   .content {
-    flex: 1;
+    display: none;
     min-height: 0;
+  }
+  
+  /* 手机端选中股票后：隐藏列表，显示详情 */
+  .main-layout.show-detail .sidebar {
+    display: none;
+  }
+  
+  .main-layout.show-detail .content {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 36px);
+  }
+  
+  .main-layout.show-detail .back-btn {
+    display: block;
   }
   
   .info-grid {
@@ -321,6 +364,10 @@ body {
   
   .big-price {
     font-size: 20px;
+  }
+  
+  .chart-wrapper {
+    min-height: 300px;
   }
 }
 
