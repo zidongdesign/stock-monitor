@@ -368,6 +368,13 @@ body {
   
   .chart-wrapper {
     min-height: 300px;
+    flex: 1;
+  }
+  
+  #chart-container {
+    width: 100%;
+    min-height: 300px;
+    height: 100%;
   }
 }
 
