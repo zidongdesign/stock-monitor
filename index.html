@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A股实时监控</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
+<body>
+  <!-- 顶部异动栏 -->
+  <div class="alert-bar" id="alert-bar">
+    <span class="alert-none">暂无异动</span>
+  </div>
+
+  <!-- 主布局 -->
+  <div class="main-layout">
+    <!-- 左侧股票列表 -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3>📈 监控列表</h3>
+        <div class="toolbar">
+          <button id="btn-refresh" title="刷新">🔄</button>
+          <button id="btn-add" title="添加股票">＋</button>
+        </div>
+      </div>
+      <div id="stock-list"></div>
+    </div>
+
+    <!-- 右侧内容 -->
+    <div class="content">
+      <!-- 股票信息 -->
+      <div id="stock-info">
+        <p style="color: var(--text-secondary)">选择一只股票开始监控</p>
+      </div>
+      
+      <!-- 图表工具栏 -->
+      <div class="chart-toolbar">
+        <div class="view-btns">
+          <button class="view-btn active" data-view="daily">日K</button>
+          <button class="view-btn" data-view="weekly">周K</button>
+          <button class="view-btn" data-view="minute">分时</button>
+        </div>
+        <span id="refresh-status">--</span>
+      </div>
+      
+      <!-- 图表 -->
+      <div class="chart-wrapper">
+        <div id="chart-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/signal.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

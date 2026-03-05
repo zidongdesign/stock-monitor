@@ -1,0 +1,331 @@
+/* A股实时监控 - 暗色主题 */
+:root {
+  --bg: #0d1117;
+  --bg-card: #161b22;
+  --bg-hover: #1c2333;
+  --border: #21262d;
+  --text: #e6edf3;
+  --text-secondary: #8b949e;
+  --up: #ef5350;
+  --down: #26a69a;
+  --accent: #409EFF;
+  --warn: #E6A23C;
+  --danger: #F56C6C;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* 顶部异动栏 */
+.alert-bar {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 16px;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow-x: auto;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alert-none { color: var(--text-secondary); }
+
+.alert-item {
+  cursor: pointer;
+  color: var(--danger);
+  font-weight: 500;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 主布局 */
+.main-layout {
+  display: flex;
+  height: calc(100vh - 36px);
+}
+
+/* 左侧面板 */
+.sidebar {
+  width: 220px;
+  min-width: 220px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+}
+
+.sidebar-header {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sidebar-header .toolbar {
+  display: flex;
+  gap: 8px;
+}
+
+.sidebar-header button {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.sidebar-header button:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+#stock-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.stock-item {
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.stock-item:hover { background: var(--bg-hover); }
+.stock-item.active { background: var(--bg-hover); border-left: 3px solid var(--accent); }
+.stock-item.has-signal { border-left: 3px solid var(--danger); }
+
+.stock-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.stock-name { font-size: 14px; font-weight: 500; }
+
+.stock-remove {
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 16px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.stock-item:hover .stock-remove { opacity: 1; }
+.stock-remove:hover { background: var(--danger); color: #fff; }
+
+.stock-item-body {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.stock-price { font-weight: 600; font-size: 15px; }
+.stock-change { font-size: 12px; }
+
+.stock-signals {
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.signal {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.signal-buy { background: rgba(239, 83, 80, 0.2); color: var(--up); }
+.signal-sell { background: rgba(38, 166, 154, 0.2); color: var(--down); }
+.signal-warn { background: rgba(230, 162, 60, 0.2); color: var(--warn); }
+.signal-limit_up { background: var(--up); color: #fff; }
+.signal-limit_down { background: var(--down); color: #fff; }
+.signal-info { background: rgba(64, 158, 255, 0.2); color: var(--accent); }
+
+.up { color: var(--up) !important; }
+.down { color: var(--down) !important; }
+
+/* 右侧内容区 */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 股票信息区 */
+#stock-info {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.info-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.info-header small {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.info-price {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.big-price {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.info-item label {
+  color: var(--text-secondary);
+}
+
+/* 图表工具栏 */
+.chart-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+.view-btns {
+  display: flex;
+  gap: 4px;
+}
+
+.view-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.view-btn:hover { background: var(--bg-hover); color: var(--text); }
+.view-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+#refresh-status {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* 图表容器 */
+.chart-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+#chart-container {
+  width: 100%;
+  height: 100%;
+}
+
+#chart-container.loading::after {
+  content: '加载中...';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* 响应式 - 手机 */
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    min-width: 100%;
+    max-height: 40vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .content {
+    flex: 1;
+    min-height: 0;
+  }
+  
+  .info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .info-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .big-price {
+    font-size: 20px;
+  }
+}
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
