@@ -68,11 +68,13 @@ const App = {
 
     // 窗口大小变化时重新处理布局
     window.addEventListener('resize', () => {
-      this.chart.resize();
+      const chartEl = document.getElementById('chart-container');
       // 如果从手机变到桌面，确保 content 可见
       if (!this.isMobile()) {
         document.querySelector('.main-layout').classList.remove('show-detail');
+        if (chartEl) chartEl.style.height = '';
       }
+      this.chart.resize();
     });
   },
 
@@ -186,13 +188,16 @@ const App = {
     // 手机端：切换到详情视图
     if (this.isMobile()) {
       document.querySelector('.main-layout').classList.add('show-detail');
+      // 强制给图表容器高度，避免 display:none 切换后高度为 0
+      const chartEl = document.getElementById('chart-container');
+      if (chartEl) chartEl.style.height = '350px';
     }
     
     // 延迟加载图表，确保容器可见且有尺寸
     setTimeout(() => {
       this.chart.resize();
       this.loadChart(code);
-    }, 100);
+    }, 120);
   },
 
   // 更新右侧股票信息
