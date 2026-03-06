@@ -12,13 +12,39 @@ const App = {
   refreshTimer: null,
   alertStocks: [],      // 有异动信号的股票
 
-  // 默认监控列表
-  defaultStocks: ['sz000009', 'sh603659', 'sh600519', 'sz000858', 'sz300750'],
+  // 默认监控列表（今日强势自选股 2026-03-06）
+  defaultStocks: [
+    'sh601669', // 中国电建
+    'sz002149', // 西部材料
+    'sz002927', // 泰永长征
+    'sz000510', // 新金路
+    'sz300696', // 爱乐达
+    'sh603977', // 国泰集团
+    'sz300491', // 通合科技
+    'sh603826', // 坤彩科技
+    'sz300928', // 华安鑫创
+    'sz002875', // 安奈儿
+    'sh600397', // 江钨装备
+    'sh600288', // 大恒科技
+    'sz002921', // 联诚精密
+    'sh600862', // 中航高科
+    'sz002157', // 正邦科技
+    'sz300129', // 泰胜风能
+    'sh600927', // 永安期货
+    'sh600372', // 中航机载
+  ],
 
   init() {
-    // 从 localStorage 恢复
+    // 版本控制：版本变化时重置为最新默认列表
+    const LIST_VERSION = '20260306';
+    const savedVersion = localStorage.getItem('stock_monitor_version');
     const saved = localStorage.getItem('stock_monitor_list');
-    this.stocks = saved ? JSON.parse(saved) : [...this.defaultStocks];
+    if (savedVersion !== LIST_VERSION || !saved) {
+      this.stocks = [...this.defaultStocks];
+      localStorage.setItem('stock_monitor_version', LIST_VERSION);
+    } else {
+      this.stocks = JSON.parse(saved);
+    }
     
     this.chart = echarts.init(document.getElementById('chart-container'));
     
