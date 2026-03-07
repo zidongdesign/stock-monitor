@@ -140,10 +140,33 @@ const SignalDetector = {
       }
     }
 
-    return signals;
-  },
+    // 同一天去重：每天只保留一个信号，买卖冲突时按数量多的方向，理由合并
+    const byDate = {};
+    signals.forEach(s => {
+      if (!byDate[s.date]) byDate[s.date] = [];
+      byDate[s.date].push(s);
+    });
+    const merged = [];
+    Object.keys(byDate).forEach(date => {
+      const group = byDate[date];
+      const buys = group.filter(s => s.type === 'buy');
+      const sells = group.filter(s => s.type === 'sell' || s.type === 'warn');
+      let pick, reasons;
+      if (buys.length >= sells.length && buys.length > 0) {
+        pick = buys[0];
+        reasons = buys.map(s => s.reason);
+      } else if (sells.length > 0) {
+        pick = sells[0];
+        reasons = sells.map(s => s.reason);
+      } else {
+        pick = group[0];
+        reasons = group.map(s => s.reason);
+      }
+      merged.push({ ...pick, reason: reasons.join('+') });
+    });
 
-  // ====== 技术指标计算 ======
+    return merged;
+  },
   calcMA(klines, period) {
     const result = [];
     for (let i = 0; i < klines.length; i++) {
