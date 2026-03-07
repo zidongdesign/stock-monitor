@@ -31,12 +31,35 @@ const Store = {
   setGroups(groups) { this._set('sm_groups', groups); },
 
   // ---- 股票列表（按分组） ----
+  // v20260307b: 33只自选股（戈叔确认）
+  _defaultStocks: {
+    focus: [
+      'sz301265', 'sz300323', 'sz002927', 'sh688759', 'sz002063',  // 华新环保、华灿光电、泰永长征、必贝特、远光软件
+      'sz300491', 'sh603826', 'sz002157', 'sz000510', 'sz002877',  // 通合科技、坤彩科技、正邦科技、新金路、智能自控
+      'sh601669'                                                     // 中国电建
+    ],
+    watch: [
+      'sz301032', 'sh603158', 'sz000570', 'sz002227', 'sh603716',  // 新柴股份、腾龙股份、苏常柴A、奥特迅、塞力医疗
+      'sz300143', 'sz002480', 'sz002982', 'sz300365', 'sz300016',  // 盈康生命、新筑股份、湘佳股份、恒华科技、北陆药业
+      'sz002149'                                                     // 西部材料
+    ],
+    ambush: [
+      'sz300696', 'sh603977', 'sz300928', 'sz002875', 'sh600397',  // 爱乐达、国泰集团、华安鑫创、安奈儿、江钨装备
+      'sh600288', 'sz002921', 'sh600862', 'sz300129', 'sh600927',  // 大恒科技、联诚精密、中航高科、泰胜风能、永安期货
+      'sh600372'                                                     // 中航机载
+    ]
+  },
+
+  _STOCK_VERSION: '20260307b',
+
   getStocks(groupId) {
-    const all = this._get('sm_stocks', {
-      focus: ['sz301265', 'sz300323', 'sz002927', 'sh688759', 'sz002063'],
-      watch: ['sz301032', 'sh603158', 'sz000570', 'sz002227', 'sh603716'],
-      ambush: ['sz002157', 'sz300491', 'sh603826', 'sz300143', 'sz002877']
-    });
+    // 版本检查：如果版本不对，强制用新默认值
+    const ver = this._get('sm_stocks_ver', null);
+    if (ver !== this._STOCK_VERSION) {
+      this._set('sm_stocks', this._defaultStocks);
+      this._set('sm_stocks_ver', this._STOCK_VERSION);
+    }
+    const all = this._get('sm_stocks', this._defaultStocks);
     return groupId ? (all[groupId] || []) : all;
   },
 
