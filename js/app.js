@@ -51,6 +51,13 @@ const App = {
 
   isMobile() { return window.innerWidth <= 768; },
 
+  formatMarketCap(val) {
+    if (!val && val !== 0) return '--';
+    if (val >= 100000000) return (val / 100000000).toFixed(1) + '亿';
+    if (val >= 10000) return (val / 10000).toFixed(0) + '万';
+    return val.toString();
+  },
+
   // ====== Tab 导航 ======
   bindTabNav() {
     document.querySelectorAll('.tab-item').forEach(tab => {
@@ -65,6 +72,14 @@ const App = {
     this.currentTab = tab;
     document.querySelectorAll('.tab-item').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
     document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + tab));
+
+    // 切走时退出全屏并隐藏浮动按钮
+    if (tab !== 'watchlist') {
+      document.body.classList.remove('chart-fullscreen');
+      document.getElementById('float-fullscreen').style.display='none';
+    } else if (this.currentStock) {
+      document.getElementById('float-fullscreen').style.display='flex';
+    }
 
     if (tab === 'watchlist') {
       setTimeout(() => ChartManager.resize(), 100);
@@ -256,7 +271,9 @@ const App = {
     document.getElementById('btn-add-stock').addEventListener('click', () => this.showAddStockModal());
     document.getElementById('btn-manage-groups').addEventListener('click', () => this.showGroupManageModal());
     document.getElementById('btn-back').addEventListener('click', () => {
+      document.body.classList.remove('chart-fullscreen');
       document.getElementById('page-watchlist').classList.remove('show-detail');
+      document.getElementById('float-fullscreen').style.display='none';
     });
 
     // 视图切换
@@ -285,6 +302,29 @@ const App = {
     window.addEventListener('orientationchange', () => {
       setTimeout(() => ChartManager.resize(), 300);
     });
+
+    // 全屏按钮
+    document.getElementById('btn-fullscreen').addEventListener('click', () => {
+      this.toggleChartFullscreen();
+    });
+  },
+
+  toggleChartFullscreen() {
+    const isFS = document.body.classList.toggle('chart-fullscreen');
+    const floatBtn = document.getElementById('float-fullscreen');
+    floatBtn.textContent = isFS ? '✕' : '⛶';
+    // toolbar里的按钮
+    const toolbarBtn = document.getElementById('btn-fullscreen');
+    if (toolbarBtn) {
+      if (isFS) {
+        toolbarBtn.innerHTML = '✕';
+        toolbarBtn.title = '退出全屏';
+      } else {
+        toolbarBtn.innerHTML = '⛶ <span class="fs-label">全屏</span>';
+        toolbarBtn.title = '全屏图表';
+      }
+    }
+    setTimeout(() => ChartManager.resize(), 150);
   },
 
   renderGroupTabs() {
@@ -402,6 +442,9 @@ const App = {
       document.getElementById('page-watchlist').classList.add('show-detail');
     }
 
+    // 显示浮动全屏按钮
+    document.getElementById('float-fullscreen').style.display='flex';
+
     setTimeout(() => {
       ChartManager.resize();
       this.loadChart(code);
@@ -417,55 +460,27 @@ const App = {
     }
 
     const cls = d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '';
-    const flow = this.fundFlowData[code];
     const compSig = this.compSignals[code];
 
-    let flowSection = '';
-    if (flow) {
-      const flowCls = flow.mainNet > 0 ? 'flow-in' : flow.mainNet < 0 ? 'flow-out' : 'flow-neutral';
-      const trendText = flow.trend === 'in' ? '持续流入 📈' : flow.trend === 'out' ? '持续流出 📉' : '震荡 ↔️';
-      flowSection = '<div class="info-flow-section">' +
-        '<div class="info-flow-title">资金流向</div>' +
-        '<div class="info-flow-grid">' +
-          '<div class="info-flow-item"><label>主力净流入</label><span class="' + flowCls + '">' + (flow.mainNet > 0 ? '+' : '') + flow.mainNet + '万</span></div>' +
-          '<div class="info-flow-item"><label>大单买入</label><span class="up">' + (flow.bigBuy || 0) + '万</span></div>' +
-          '<div class="info-flow-item"><label>大单卖出</label><span class="down">' + (flow.bigSell || 0) + '万</span></div>' +
-          '<div class="info-flow-item"><label>趋势</label><span>' + trendText + '</span></div>' +
-        '</div>' +
-      '</div>';
-    }
-
-    let sigSection = '';
-    if (compSig) {
-      sigSection = '<div class="info-comp-signal ' + compSig.level + '">' +
-        '<span class="comp-emoji">' + compSig.emoji + '</span>' +
-        '<span class="comp-label">' + compSig.label + '</span>' +
-        '<span class="comp-score">评分: ' + compSig.score + '</span>' +
-        '<div class="comp-reason">' + compSig.reason + '</div>' +
-      '</div>';
-    }
-
     info.innerHTML =
-      '<div class="info-header">' +
-        '<h2>' + d.name + ' <small>' + (d.displayCode || code) + '</small></h2>' +
-        '<div class="info-price ' + cls + '">' +
-          '<span class="big-price">' + d.price.toFixed(2) + '</span>' +
-          '<span>' + (d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%</span>' +
-          '<span>' + (d.change > 0 ? '+' : '') + d.change.toFixed(2) + '</span>' +
+      '<div class="info-compact">' +
+        '<div class="info-compact-left">' +
+          '<span class="stock-name-compact">' + d.name + '</span>' +
+          '<span class="stock-code-compact">' + (d.displayCode || code) + '</span>' +
+        '</div>' +
+        '<div class="info-compact-right">' +
+          '<span class="compact-tag">换手 ' + (d.turnover || 0).toFixed(1) + '%</span>' +
+          '<span class="compact-tag">PE ' + (d.pe || '--') + '</span>' +
+          '<span class="compact-tag">流通 ' + this.formatMarketCap(d.floatShares) + '</span>' +
+          '<span class="compact-tag">市值 ' + this.formatMarketCap(d.floatMarketCap) + '</span>' +
         '</div>' +
       '</div>' +
-      sigSection +
-      '<div class="info-grid">' +
-        '<div class="info-item"><label>今开</label><span>' + d.open.toFixed(2) + '</span></div>' +
-        '<div class="info-item"><label>昨收</label><span>' + d.prevClose.toFixed(2) + '</span></div>' +
-        '<div class="info-item"><label>最高</label><span class="up">' + d.high.toFixed(2) + '</span></div>' +
-        '<div class="info-item"><label>最低</label><span class="down">' + d.low.toFixed(2) + '</span></div>' +
-        '<div class="info-item"><label>量比</label><span>' + (d.volumeRatio || 0).toFixed(2) + '</span></div>' +
-        '<div class="info-item"><label>换手</label><span>' + (d.turnover || 0).toFixed(2) + '%</span></div>' +
-        '<div class="info-item"><label>成交量</label><span>' + (d.volume > 10000 ? (d.volume / 10000).toFixed(0) + '万' : d.volume) + '</span></div>' +
-        '<div class="info-item"><label>成交额</label><span>' + (d.amount > 100000000 ? (d.amount / 100000000).toFixed(2) + '亿' : (d.amount / 10000).toFixed(0) + '万') + '</span></div>' +
-      '</div>' +
-      flowSection;
+      '<div class="info-price-row">' +
+        '<span class="big-price ' + cls + '">' + d.price.toFixed(2) + '</span>' +
+        '<span class="price-change ' + cls + '">' + (d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%</span>' +
+        '<span class="price-change ' + cls + '">' + (d.change > 0 ? '+' : '') + d.change.toFixed(2) + '</span>' +
+        (compSig ? '<span class="comp-signal-mini ' + compSig.level + '">' + compSig.emoji + ' ' + compSig.label + '</span>' : '') +
+      '</div>';
   },
 
   async loadChart(code) {

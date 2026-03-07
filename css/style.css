@@ -380,7 +380,7 @@ body {
 .back-btn:hover { background: var(--bg-hover); }
 
 #stock-info {
-  padding: 12px 16px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--border);
   background: var(--bg-card);
   flex-shrink: 0;
@@ -1214,6 +1214,162 @@ body {
     flex-direction: column;
     gap: 4px;
   }
+}
+
+/* ============ 详情折叠 ============ */
+.info-compact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.info-compact-left {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.stock-name-compact { font-size: 15px; font-weight: 600; }
+.stock-code-compact { font-size: 11px; color: var(--text-secondary); }
+
+.info-compact-right {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.compact-tag {
+  font-size: 10px;
+  color: var(--text-secondary);
+  background: var(--bg-hover);
+  padding: 2px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.info-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0 2px;
+  flex-wrap: wrap;
+}
+
+.info-price-row .big-price { font-size: 20px; font-weight: 700; }
+.info-price-row .price-change { font-size: 13px; font-weight: 500; }
+
+.comp-signal-mini {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.comp-signal-mini.buy {
+  background: rgba(239, 83, 80, 0.2);
+  color: var(--up);
+}
+
+.comp-signal-mini.hold {
+  background: rgba(230, 162, 60, 0.2);
+  color: var(--warn);
+}
+
+.comp-signal-mini.sell {
+  background: rgba(38, 166, 154, 0.2);
+  color: var(--down);
+}
+
+/* ============ 浮动全屏按钮 ============ */
+#float-fullscreen {
+  position: fixed;
+  bottom: 70px;
+  right: 16px;
+  z-index: 250;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 1;
+}
+
+#float-fullscreen.visible { display: flex; }
+
+/* toolbar里的小按钮保留 */
+.fullscreen-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s;
+  margin-left: 8px;
+}
+
+.fullscreen-btn:hover { background: var(--bg-hover); color: var(--text); }
+
+/* ============ 手动全屏图表模式 ============ */
+body.chart-fullscreen .tab-nav { display: none !important; }
+body.chart-fullscreen .page { height: 100vh !important; }
+body.chart-fullscreen #page-watchlist .watchlist-view { display: none !important; }
+body.chart-fullscreen #page-watchlist .detail-view {
+  display: flex !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+body.chart-fullscreen #stock-info { display: none !important; }
+body.chart-fullscreen .chart-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 300;
+  padding: 6px 12px;
+  background: rgba(22, 27, 34, 0.95);
+  backdrop-filter: blur(4px);
+}
+
+body.chart-fullscreen .chart-wrapper {
+  flex: 1 !important;
+  min-height: unset !important;
+  height: calc(100vh - 40px) !important;
+  margin-top: 40px;
+}
+
+body.chart-fullscreen #chart-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+body.chart-fullscreen .back-btn { display: none !important; }
+
+/* 全屏时浮动按钮变成右上角关闭 */
+body.chart-fullscreen #float-fullscreen {
+  top: 6px;
+  right: 6px;
+  bottom: auto;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  background: rgba(22, 27, 34, 0.85);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 /* ============ 手机横屏全屏图表 ============ */

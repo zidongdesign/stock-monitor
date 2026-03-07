@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>A股+期货 实时监控</title>
-  <link rel="stylesheet" href="css/style.css?v=20260307c">
+  <link rel="stylesheet" href="css/style.css?v=20260307i">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 </head>
@@ -95,6 +95,7 @@
           <button class="view-btn" data-view="weekly">周K</button>
         </div>
         <span id="chart-status">--</span>
+        <button class="fullscreen-btn" id="btn-fullscreen" title="全屏图表">⛶ <span class="fs-label">全屏</span></button>
       </div>
       <div class="chart-wrapper">
         <div id="chart-container"></div>
@@ -229,6 +230,9 @@
     </div>
   </div>
 
+  <!-- 浮动全屏按钮 -->
+  <button id="float-fullscreen" onclick="App.toggleChartFullscreen()" style="position:fixed;bottom:70px;right:16px;z-index:250;width:48px;height:48px;border-radius:50%;background:#409EFF;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center">⛶</button>
+
   <!-- 模态框 -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal" id="modal">
@@ -245,11 +249,11 @@
     <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgiq60teleNjV2markup" type="audio/wav">
   </audio>
 
-  <script src="js/store.js?v=20260307c"></script>
-  <script src="js/mock.js?v=20260307b"></script>
+  <script src="js/store.js?v=20260307i"></script>
+  <script src="js/mock.js?v=20260307i"></script>
   <script src="js/api.js?v=20260307b"></script>
   <script src="js/signal.js?v=20260307b"></script>
   <script src="js/chart.js?v=20260307b"></script>
-  <script src="js/app.js?v=20260307c"></script>
+  <script src="js/app.js?v=20260307i"></script>
 </body>
 </html>

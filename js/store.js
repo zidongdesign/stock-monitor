@@ -124,7 +124,7 @@ const Store = {
       changePctThreshold: 1,
       turnoverThreshold: 10,
       macd: true,
-      kdj: false,
+      kdj: true,
       cci: false,
       notification: true,
       sound: true,

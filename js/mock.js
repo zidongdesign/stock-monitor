@@ -59,8 +59,13 @@ const MockData = {
       { code: 'sz000651', name: '格力电器', price: 41.25, prevClose: 40.80, open: 40.90, high: 41.60, low: 40.70, volume: 21300000, amount: 878000000, changePercent: 1.10, change: 0.45, volumeRatio: 1.2, turnover: 0.7 }
     ];
 
-    // 补充isFutures字段
-    return stocks.map(s => ({ ...s, isFutures: false }));
+    // 补充isFutures + 估值字段
+    return stocks.map(s => {
+      const floatShares = Math.floor(s.volume / (s.turnover / 100 || 1));
+      const floatMarketCap = floatShares * s.price;
+      const pe = +(15 + Math.random() * 60).toFixed(1);
+      return { ...s, isFutures: false, pe, floatShares, floatMarketCap };
+    });
   },
 
   // 模拟三大指数
