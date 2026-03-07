@@ -1,40 +1,34 @@
-# A股实时监控
+# 📈 A股+期货 实时监控
 
-纯前端 A 股实时行情监控工具，支持 GitHub Pages 部署。
+纯前端 SPA，部署在 GitHub Pages，无需后端。
 
 ## 功能
 
-- 📈 实时行情（30秒自动刷新）
-- 📊 日K线 / 周K线 / 分时图（ECharts）
-- 🔴 异动信号检测（量比、涨跌幅、K线形态）
-- 📱 响应式设计，手机可用
-- 💾 股票列表本地存储
+- **大盘总览**：三大指数实时 + 手动定性（绿/黄/红灯）
+- **自选股监控**：A股 + 期货，分组管理，实时行情
+- **K线图表**：分时/日K/周K + MA均线 + MACD/KDJ/CCI
+- **异动信号**：实时检测 + 浏览器通知 + 声音提醒
+- **信号中心**：信号流 + 历史归档 + 类型过滤
+- **响应式**：支持手机和桌面
 
-## 信号检测
+## 数据接口
 
-| 信号 | 条件 | 类型 |
+| 数据 | 接口 | 方式 |
 |------|------|------|
-| 放量拉升 | 量比>3 且 涨幅>2% | 买入参考 |
-| 巨量 | 量比>5 | 预警 |
-| 急拉 | 涨幅>5% | 预警 |
-| 涨停 | 涨幅>9.5% | 关键 |
-| 急跌 | 跌幅>5% | 卖出参考 |
-| 三连阳/阴 | 连续3根同向K线 | K线形态 |
-| 放量阳线 | 量>前日2倍且收阳 | K线形态 |
-| 长下影线 | 下影线>实体2倍 | K线形态 |
-
-## 数据源
-
-腾讯财经 JSONP 接口（备用：新浪财经）
+| A股实时 | `qt.gtimg.cn` | JSONP |
+| A股K线 | `web.ifzq.gtimg.cn` | fetch |
+| 期货实时 | `hq.sinajs.cn` | JSONP |
+| 分时数据 | `data.gtimg.cn` | JSONP |
 
 ## 本地运行
 
 ```bash
-cd stock-monitor-web
-python3 -m http.server 8888
-# 打开 http://localhost:8888
+python3 -m http.server 8765
+# 打开 http://localhost:8765
 ```
 
 ## 部署
 
-Push 到 GitHub，启用 GitHub Pages（Actions 自动部署）。
+Push 到 `main` 分支自动部署到 GitHub Pages。
+
+访问：https://zidongdesign.github.io/stock-monitor/

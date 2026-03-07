@@ -2,59 +2,227 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A股实时监控</title>
-  <link rel="stylesheet" href="css/style.css?v=20260305">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>A股+期货 实时监控</title>
+  <link rel="stylesheet" href="css/style.css?v=20260307">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 </head>
 <body>
-  <!-- 顶部异动栏 -->
-  <div class="alert-bar" id="alert-bar">
-    <span class="alert-none">暂无异动</span>
+  <!-- 顶部Tab导航 -->
+  <nav class="tab-nav" id="tab-nav">
+    <div class="tab-item active" data-tab="overview">📊 大盘</div>
+    <div class="tab-item" data-tab="watchlist">📈 自选</div>
+    <div class="tab-item" data-tab="signals">📡 信号</div>
+    <div class="tab-item" data-tab="settings">⚙️ 设置</div>
+  </nav>
+
+  <!-- ============ 📊 大盘总览 ============ -->
+  <div class="page active" id="page-overview">
+    <div class="page-content">
+      <!-- 三大指数 -->
+      <div class="section-title">三大指数</div>
+      <div class="index-cards" id="index-cards">
+        <div class="index-card" data-code="sh000001">
+          <div class="index-name">上证指数</div>
+          <div class="index-price">--</div>
+          <div class="index-change">--</div>
+        </div>
+        <div class="index-card" data-code="sz399001">
+          <div class="index-name">深证成指</div>
+          <div class="index-price">--</div>
+          <div class="index-change">--</div>
+        </div>
+        <div class="index-card" data-code="sz399006">
+          <div class="index-name">创业板指</div>
+          <div class="index-price">--</div>
+          <div class="index-change">--</div>
+        </div>
+      </div>
+
+      <!-- 大盘定性 -->
+      <div class="section-title">大盘定性</div>
+      <div class="market-assessment" id="market-assessment">
+        <div class="assessment-btns">
+          <button class="assess-btn green" data-level="green" title="看多">🟢 绿灯</button>
+          <button class="assess-btn yellow" data-level="yellow" title="观望">🟡 黄灯</button>
+          <button class="assess-btn red" data-level="red" title="看空">🔴 红灯</button>
+        </div>
+        <input type="text" class="assess-note" id="assess-note" placeholder="备注（可选）" maxlength="100">
+        <div class="assess-status" id="assess-status">未设定</div>
+      </div>
+
+      <!-- 今日信号汇总 -->
+      <div class="section-title">今日信号汇总</div>
+      <div class="signal-timeline" id="overview-signals">
+        <div class="empty-hint">暂无信号</div>
+      </div>
+    </div>
   </div>
 
-  <!-- 主布局 -->
-  <div class="main-layout">
-    <!-- 左侧股票列表 -->
-    <div class="sidebar" id="sidebar-panel">
-      <div class="sidebar-header">
-        <h3>📈 监控列表</h3>
-        <div class="toolbar">
-          <button id="btn-refresh" title="刷新">🔄</button>
-          <button id="btn-add" title="添加股票">＋</button>
-        </div>
+  <!-- ============ 📈 自选股 ============ -->
+  <div class="page" id="page-watchlist">
+    <!-- 列表视图 -->
+    <div class="watchlist-view" id="watchlist-view">
+      <!-- 分组 Tabs -->
+      <div class="group-tabs" id="group-tabs"></div>
+      <!-- 操作栏 -->
+      <div class="watchlist-toolbar">
+        <button class="tool-btn" id="btn-add-stock">＋ 添加</button>
+        <button class="tool-btn" id="btn-manage-groups">📁 分组</button>
+        <span class="refresh-info" id="watchlist-refresh-status">--</span>
       </div>
-      <div id="stock-list"></div>
+      <!-- 股票列表 -->
+      <div class="stock-list-container" id="stock-list"></div>
     </div>
 
-    <!-- 右侧内容 -->
-    <div class="content" id="content-panel">
-      <!-- 手机端返回按钮 -->
+    <!-- 详情视图（手机端切换/桌面端右侧） -->
+    <div class="detail-view" id="detail-view">
       <button class="back-btn" id="btn-back">← 返回列表</button>
-      <!-- 股票信息 -->
       <div id="stock-info">
-        <p style="color: var(--text-secondary)">选择一只股票开始监控</p>
+        <p class="hint-text">选择一只股票查看详情</p>
       </div>
-      
-      <!-- 图表工具栏 -->
       <div class="chart-toolbar">
         <div class="view-btns">
-          <button class="view-btn active" data-view="daily">日K</button>
+          <button class="view-btn active" data-view="minute">分时</button>
+          <button class="view-btn" data-view="daily">日K</button>
           <button class="view-btn" data-view="weekly">周K</button>
-          <button class="view-btn" data-view="minute">分时</button>
         </div>
-        <span id="refresh-status">--</span>
+        <span id="chart-status">--</span>
       </div>
-      
-      <!-- 图表 -->
       <div class="chart-wrapper">
         <div id="chart-container"></div>
       </div>
     </div>
   </div>
 
-  <script src="js/api.js?v=20260305"></script>
-  <script src="js/signal.js?v=20260305"></script>
-  <script src="js/app.js?v=20260305"></script>
+  <!-- ============ 📡 信号中心 ============ -->
+  <div class="page" id="page-signals">
+    <div class="page-content">
+      <div class="signal-toolbar">
+        <select id="signal-filter" class="signal-select">
+          <option value="all">全部类型</option>
+          <option value="limit_up">涨停</option>
+          <option value="limit_down">跌停</option>
+          <option value="buy">买入信号</option>
+          <option value="sell">卖出信号</option>
+          <option value="warn">警告</option>
+          <option value="info">信息</option>
+        </select>
+        <select id="signal-day-filter" class="signal-select">
+          <option value="today">今日</option>
+          <option value="all">全部历史</option>
+        </select>
+        <button class="tool-btn" id="btn-clear-signals">清空</button>
+      </div>
+      <div class="signal-stream" id="signal-stream">
+        <div class="empty-hint">暂无信号记录</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ⚙️ 设置页 ============ -->
+  <div class="page" id="page-settings">
+    <div class="page-content">
+      <div class="settings-section">
+        <div class="section-title">刷新设置</div>
+        <div class="setting-row">
+          <label>刷新频率</label>
+          <select id="setting-refresh-interval">
+            <option value="5">5秒</option>
+            <option value="15" selected>15秒</option>
+            <option value="30">30秒</option>
+            <option value="60">60秒</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="section-title">信号阈值</div>
+        <div class="setting-row">
+          <label>量比阈值 <span id="label-volume-ratio">3.0</span></label>
+          <input type="range" id="setting-volume-ratio" min="1" max="10" step="0.5" value="3">
+        </div>
+        <div class="setting-row">
+          <label>涨跌幅触发 <span id="label-change-pct">1.0%</span></label>
+          <input type="range" id="setting-change-pct" min="0.5" max="5" step="0.5" value="1">
+        </div>
+        <div class="setting-row">
+          <label>换手率阈值 <span id="label-turnover">10%</span></label>
+          <input type="range" id="setting-turnover" min="1" max="30" step="1" value="10">
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="section-title">技术指标</div>
+        <div class="setting-row">
+          <label>MACD</label>
+          <label class="toggle"><input type="checkbox" id="setting-macd" checked><span class="slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <label>KDJ</label>
+          <label class="toggle"><input type="checkbox" id="setting-kdj"><span class="slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <label>CCI</label>
+          <label class="toggle"><input type="checkbox" id="setting-cci"><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="section-title">通知设置</div>
+        <div class="setting-row">
+          <label>浏览器通知</label>
+          <label class="toggle"><input type="checkbox" id="setting-notification" checked><span class="slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <label>声音提醒</label>
+          <label class="toggle"><input type="checkbox" id="setting-sound" checked><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="section-title">期货品种管理</div>
+        <div id="futures-list" class="futures-list"></div>
+        <div class="setting-row">
+          <input type="text" id="futures-add-code" placeholder="代码(如MA0)" class="input-sm">
+          <input type="text" id="futures-add-name" placeholder="名称(如甲醇)" class="input-sm">
+          <button class="tool-btn" id="btn-add-futures">添加</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="section-title">数据管理</div>
+        <div class="setting-row btn-row">
+          <button class="tool-btn" id="btn-export">📤 导出配置</button>
+          <button class="tool-btn" id="btn-import">📥 导入配置</button>
+          <button class="tool-btn danger" id="btn-clear-all">🗑️ 清空所有数据</button>
+        </div>
+        <input type="file" id="import-file" accept=".json" style="display:none">
+      </div>
+    </div>
+  </div>
+
+  <!-- 模态框 -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">标题</h3>
+        <button class="modal-close" id="modal-close">×</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- 隐藏的 audio 用于声音提醒 -->
+  <audio id="alert-sound" preload="auto">
+    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgiq60teleNjV2markup" type="audio/wav">
+  </audio>
+
+  <script src="js/store.js?v=20260307"></script>
+  <script src="js/api.js?v=20260307"></script>
+  <script src="js/signal.js?v=20260307"></script>
+  <script src="js/chart.js?v=20260307"></script>
+  <script src="js/app.js?v=20260307"></script>
 </body>
 </html>

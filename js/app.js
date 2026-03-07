@@ -1,72 +1,150 @@
 /**
- * A股实时监控 - 主逻辑
+ * A股+期货实时监控 - 主应用
  */
-
 const App = {
   // 状态
-  stocks: [],           // 监控的股票代码列表
-  stockData: {},        // 实时数据 { code: {...} }
-  currentStock: null,   // 当前查看的股票
-  currentView: 'daily', // daily | minute | weekly
-  chart: null,          // ECharts 实例
+  stockData: {},        // code → 实时数据
+  currentTab: 'overview',
+  currentGroup: null,
+  currentStock: null,
+  currentView: 'minute',
   refreshTimer: null,
-  alertStocks: [],      // 有异动信号的股票
 
-  // 默认监控列表（今日强势自选股 2026-03-06）
-  defaultStocks: [
-    'sh601669', // 中国电建
-    'sz002149', // 西部材料
-    'sz002927', // 泰永长征
-    'sz000510', // 新金路
-    'sz300696', // 爱乐达
-    'sh603977', // 国泰集团
-    'sz300491', // 通合科技
-    'sh603826', // 坤彩科技
-    'sz300928', // 华安鑫创
-    'sz002875', // 安奈儿
-    'sh600397', // 江钨装备
-    'sh600288', // 大恒科技
-    'sz002921', // 联诚精密
-    'sh600862', // 中航高科
-    'sz002157', // 正邦科技
-    'sz300129', // 泰胜风能
-    'sh600927', // 永安期货
-    'sh600372', // 中航机载
-  ],
-
+  // ====== 初始化 ======
   init() {
-    // 版本控制：版本变化时重置为最新默认列表
-    const LIST_VERSION = '20260306';
-    const savedVersion = localStorage.getItem('stock_monitor_version');
-    const saved = localStorage.getItem('stock_monitor_list');
-    if (savedVersion !== LIST_VERSION || !saved) {
-      this.stocks = [...this.defaultStocks];
-      localStorage.setItem('stock_monitor_version', LIST_VERSION);
-    } else {
-      this.stocks = JSON.parse(saved);
-    }
-    
-    this.chart = echarts.init(document.getElementById('chart-container'));
-    
-    this.bindEvents();
+    ChartManager.init('chart-container');
+    this.bindTabNav();
+    this.bindOverview();
+    this.bindWatchlist();
+    this.bindSignals();
+    this.bindSettings();
+    this.bindModal();
+
+    // 加载设置到UI
+    this.loadSettingsUI();
+    this.loadAssessmentUI();
+    this.loadFuturesUI();
+
+    // 初始化分组
+    const groups = Store.getGroups();
+    this.currentGroup = groups[0] ? groups[0].id : null;
+    this.renderGroupTabs();
     this.renderStockList();
-    this.refresh();
+
+    // 首次刷新
+    this.refreshAll();
     this.startAutoRefresh();
-    
-    // 默认选中第一只（桌面端）
-    if (this.stocks.length > 0 && !this.isMobile()) {
-      this.selectStock(this.stocks[0]);
+
+    // 请求通知权限
+    if (Store.getSettings().notification && 'Notification' in window) {
+      Notification.requestPermission();
     }
   },
 
-  isMobile() {
-    return window.innerWidth <= 768;
+  isMobile() { return window.innerWidth <= 768; },
+
+  // ====== Tab 导航 ======
+  bindTabNav() {
+    document.querySelectorAll('.tab-item').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        this.switchTab(target);
+      });
+    });
   },
 
-  bindEvents() {
-    // 添加股票
-    document.getElementById('btn-add').addEventListener('click', () => {
-      this.showAddDialog();
+  switchTab(tab) {
+    this.currentTab = tab;
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+    document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + tab));
+
+    if (tab === 'watchlist') {
+      setTimeout(() => ChartManager.resize(), 100);
+    }
+    if (tab === 'signals') {
+      this.renderSignalStream();
+    }
+  },
+
+  // ====== 📊 大盘总览 ======
+  bindOverview() {
+    // 定性按钮
+    document.querySelectorAll('.assess-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const level = btn.dataset.level;
+        document.querySelectorAll('.assess-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const note = document.getElementById('assess-note').value;
+        Store.setAssessment({ level, note });
+        this.loadAssessmentUI();
+      });
+    });
+
+    document.getElementById('assess-note').addEventListener('change', () => {
+      const a = Store.getAssessment();
+      if (a.level) {
+        a.note = document.getElementById('assess-note').value;
+        Store.setAssessment(a);
+        this.loadAssessmentUI();
+      }
+    });
+  },
+
+  loadAssessmentUI() {
+    const a = Store.getAssessment();
+    document.querySelectorAll('.assess-btn').forEach(b => b.classList.toggle('active', b.dataset.level === a.level));
+    document.getElementById('assess-note').value = a.note || '';
+    const levelMap = { green: '🟢 绿灯（看多）', yellow: '🟡 黄灯（观望）', red: '🔴 红灯（看空）' };
+    const statusEl = document.getElementById('assess-status');
+    if (a.level && a.date) {
+      statusEl.textContent = (levelMap[a.level] || '未知') + ' · ' + a.time + (a.note ? ' · ' + a.note : '');
+    } else {
+      statusEl.textContent = '未设定';
+    }
+  },
+
+  updateIndexCards(data) {
+    const cards = document.querySelectorAll('.index-card');
+    cards.forEach(card => {
+      const code = card.dataset.code;
+      const d = data.find(s => s.code === code);
+      if (!d) return;
+      const cls = d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '';
+      card.querySelector('.index-price').textContent = d.price.toFixed(2);
+      card.querySelector('.index-price').className = 'index-price ' + cls;
+      card.querySelector('.index-change').textContent = (d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%';
+      card.querySelector('.index-change').className = 'index-change ' + cls;
+    });
+  },
+
+  renderOverviewSignals() {
+    const signals = Store.getSignals();
+    const today = new Date().toISOString().slice(0, 10);
+    const todaySignals = signals.filter(s => s.date === today);
+    const container = document.getElementById('overview-signals');
+
+    if (todaySignals.length === 0) {
+      container.innerHTML = '<div class="empty-hint">今日暂无信号</div>';
+      return;
+    }
+
+    container.innerHTML = todaySignals.slice(0, 20).map(s =>
+      '<div class="signal-item">' +
+        '<div class="signal-time">' + s.time + '</div>' +
+        '<div class="signal-content">' +
+          '<div class="signal-stock-name">' + (s.name || s.code) + '</div>' +
+          '<div class="signal-reason"><span class="signal-badge ' + s.type + '">' + s.reason + '</span></div>' +
+        '</div>' +
+      '</div>'
+    ).join('');
+  },
+
+  // ====== 📈 自选股 ======
+  bindWatchlist() {
+    document.getElementById('btn-add-stock').addEventListener('click', () => this.showAddStockModal());
+    document.getElementById('btn-manage-groups').addEventListener('click', () => this.showGroupManageModal());
+    document.getElementById('btn-back').addEventListener('click', () => {
+      document.getElementById('page-watchlist').classList.remove('show-detail');
     });
 
     // 视图切换
@@ -75,481 +153,609 @@ const App = {
         document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
         this.currentView = e.target.dataset.view;
-        if (this.currentStock) {
-          this.loadChart(this.currentStock);
-        }
+        if (this.currentStock) this.loadChart(this.currentStock);
       });
     });
 
-    // 手动刷新
-    document.getElementById('btn-refresh').addEventListener('click', () => {
-      this.refresh();
-    });
-
-    // 手机端返回按钮
-    document.getElementById('btn-back').addEventListener('click', () => {
-      document.querySelector('.main-layout').classList.remove('show-detail');
-      // resize chart when going back (in case user switches to landscape)
-    });
-
-    // 窗口大小变化时重新处理布局
     window.addEventListener('resize', () => {
-      const chartEl = document.getElementById('chart-container');
-      // 如果从手机变到桌面，确保 content 可见
       if (!this.isMobile()) {
-        document.querySelector('.main-layout').classList.remove('show-detail');
-        if (chartEl) chartEl.style.height = '';
+        document.getElementById('page-watchlist').classList.remove('show-detail');
       }
-      this.chart.resize();
+      ChartManager.resize();
     });
   },
 
-  // 保存股票列表
-  saveStocks() {
-    localStorage.setItem('stock_monitor_list', JSON.stringify(this.stocks));
+  renderGroupTabs() {
+    const groups = Store.getGroups();
+    const allStocks = Store.getStocks();
+    const container = document.getElementById('group-tabs');
+
+    // 添加"期货"固定分组
+    const futuresCount = Store.getFutures().length;
+
+    let html = groups.map(g => {
+      const count = (allStocks[g.id] || []).length;
+      return '<div class="group-tab' + (g.id === this.currentGroup ? ' active' : '') + '" data-group="' + g.id + '">' +
+        g.name + '<span class="group-count">' + count + '</span></div>';
+    }).join('');
+
+    html += '<div class="group-tab' + (this.currentGroup === '__futures__' ? ' active' : '') + '" data-group="__futures__">' +
+      '期货<span class="group-count">' + futuresCount + '</span></div>';
+
+    container.innerHTML = html;
+
+    container.querySelectorAll('.group-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        this.currentGroup = tab.dataset.group;
+        this.renderGroupTabs();
+        this.renderStockList();
+      });
+    });
   },
 
-  // 添加股票
-  showAddDialog() {
-    const input = prompt('输入股票代码（如 sz000009 或 sh600519）：');
-    if (!input) return;
-    
-    const code = input.trim().toLowerCase();
-    if (!/^(sz|sh)\d{6}$/.test(code)) {
-      alert('格式错误！请输入 sz 或 sh + 6位数字');
-      return;
-    }
-    
-    if (this.stocks.includes(code)) {
-      alert('已在监控列表中');
-      return;
-    }
-    
-    this.stocks.push(code);
-    this.saveStocks();
-    this.renderStockList();
-    this.refresh();
-  },
-
-  // 删除股票
-  removeStock(code) {
-    this.stocks = this.stocks.filter(c => c !== code);
-    this.saveStocks();
-    if (this.currentStock === code) {
-      this.currentStock = this.stocks[0] || null;
-    }
-    this.renderStockList();
-    if (this.currentStock) {
-      this.loadChart(this.currentStock);
-    }
-  },
-
-  // 渲染股票列表
   renderStockList() {
-    const list = document.getElementById('stock-list');
-    list.innerHTML = '';
-    
-    this.stocks.forEach(code => {
-      const data = this.stockData[code];
-      const signals = data ? SignalDetector.detectRealtime(data) : [];
-      const hasSignal = signals.length > 0;
-      const isActive = code === this.currentStock;
-      
-      const item = document.createElement('div');
-      item.className = `stock-item ${isActive ? 'active' : ''} ${hasSignal ? 'has-signal' : ''}`;
-      item.onclick = () => this.selectStock(code);
-      
-      const changeClass = data ? (data.changePercent > 0 ? 'up' : data.changePercent < 0 ? 'down' : '') : '';
-      const priceText = data && data.price ? data.price.toFixed(2) : '--';
-      const changeText = data && !isNaN(data.changePercent) ? (data.changePercent > 0 ? '+' : '') + data.changePercent.toFixed(2) + '%' : '--';
-      
-      item.innerHTML = `
-        <div class="stock-item-header">
-          <span class="stock-name">${data?.name || code}</span>
-          <span class="stock-remove" onclick="event.stopPropagation(); App.removeStock('${code}')">×</span>
-        </div>
-        <div class="stock-item-body">
-          <span class="stock-price ${changeClass}">${priceText}</span>
-          <span class="stock-change ${changeClass}">${changeText}</span>
-        </div>
-        ${hasSignal ? `<div class="stock-signals">${signals.map(s => `<span class="signal signal-${s.type}">${s.reason}</span>`).join('')}</div>` : ''}
-      `;
-      
-      list.appendChild(item);
-    });
-  },
+    const container = document.getElementById('stock-list');
+    const settings = Store.getSettings();
 
-  // 渲染异动栏
-  renderAlertBar() {
-    const bar = document.getElementById('alert-bar');
-    const alerts = [];
-    
-    this.stocks.forEach(code => {
-      const data = this.stockData[code];
-      if (!data) return;
-      const signals = SignalDetector.detectRealtime(data);
-      if (signals.length > 0) {
-        alerts.push({ code, name: data.name, signals });
+    if (this.currentGroup === '__futures__') {
+      // 渲染期货列表
+      const futures = Store.getFutures();
+      if (futures.length === 0) {
+        container.innerHTML = '<div class="empty-hint">暂无期货品种，请在设置中添加</div>';
+        return;
       }
-    });
-    
-    if (alerts.length === 0) {
-      bar.innerHTML = '<span class="alert-none">暂无异动</span>';
-      return;
+      container.innerHTML = futures.map(f => {
+        const d = this.stockData[f.sina];
+        const isActive = this.currentStock === f.sina;
+        const signals = d ? SignalDetector.detectRealtime(d, settings) : [];
+        const cls = d ? (d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '') : '';
+        return '<div class="stock-item is-futures' + (isActive ? ' active' : '') + (signals.length ? ' has-signal' : '') + '" data-code="' + f.sina + '">' +
+          '<div class="stock-item-header">' +
+            '<span class="stock-name">' + (d?.name || f.name) + '<span class="stock-tag">期货</span></span>' +
+          '</div>' +
+          '<div class="stock-item-body">' +
+            '<span class="stock-price ' + cls + '">' + (d ? d.price.toFixed(2) : '--') + '</span>' +
+            '<span class="stock-change ' + cls + '">' + (d ? ((d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%') : '--') + '</span>' +
+          '</div>' +
+          (signals.length ? '<div class="stock-signals">' + signals.map(s => '<span class="signal-badge ' + s.type + '">' + s.reason + '</span>').join('') + '</div>' : '') +
+        '</div>';
+      }).join('');
+    } else {
+      const codes = Store.getStocks(this.currentGroup) || [];
+      if (codes.length === 0) {
+        container.innerHTML = '<div class="empty-hint">暂无股票，点击＋添加</div>';
+        return;
+      }
+      container.innerHTML = codes.map(code => {
+        const d = this.stockData[code];
+        const isActive = this.currentStock === code;
+        const signals = d ? SignalDetector.detectRealtime(d, settings) : [];
+        const cls = d ? (d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '') : '';
+        return '<div class="stock-item' + (isActive ? ' active' : '') + (signals.length ? ' has-signal' : '') + '" data-code="' + code + '" data-group="' + this.currentGroup + '">' +
+          '<div class="stock-item-header">' +
+            '<span class="stock-name">' + (d?.name || code) + '<span class="stock-code">' + code + '</span></span>' +
+            '<span class="stock-remove" data-remove="' + code + '">×</span>' +
+          '</div>' +
+          '<div class="stock-item-body">' +
+            '<span class="stock-price ' + cls + '">' + (d && d.price ? d.price.toFixed(2) : '--') + '</span>' +
+            '<span class="stock-change ' + cls + '">' + (d && !isNaN(d.changePercent) ? ((d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%') : '--') + '</span>' +
+            '<span class="stock-meta">' + (d ? '量比' + (d.volumeRatio || 0).toFixed(1) + ' 换手' + (d.turnover || 0).toFixed(1) + '%' : '') + '</span>' +
+          '</div>' +
+          (signals.length ? '<div class="stock-signals">' + signals.map(s => '<span class="signal-badge ' + s.type + '">' + s.reason + '</span>').join('') + '</div>' : '') +
+        '</div>';
+      }).join('');
     }
-    
-    bar.innerHTML = alerts.map(a => 
-      `<span class="alert-item" onclick="App.selectStock('${a.code}')">
-        🔴 ${a.name} ${a.signals.map(s => s.reason).join(' ')}
-      </span>`
-    ).join(' | ');
+
+    // 绑定点击事件
+    container.querySelectorAll('.stock-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        if (e.target.classList.contains('stock-remove')) return;
+        this.selectStock(item.dataset.code);
+      });
+    });
+
+    container.querySelectorAll('.stock-remove').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const code = btn.dataset.remove;
+        Store.removeStock(this.currentGroup, code);
+        this.renderGroupTabs();
+        this.renderStockList();
+      });
+    });
   },
 
-  // 选择股票
   selectStock(code) {
     this.currentStock = code;
     this.renderStockList();
     this.updateStockInfo(code);
-    
-    // 手机端：切换到详情视图
+
     if (this.isMobile()) {
-      document.querySelector('.main-layout').classList.add('show-detail');
-      // 强制给图表容器高度，避免 display:none 切换后高度为 0
-      const chartEl = document.getElementById('chart-container');
-      if (chartEl) chartEl.style.height = '350px';
+      document.getElementById('page-watchlist').classList.add('show-detail');
     }
-    
-    // 延迟加载图表，确保容器可见且有尺寸
+
     setTimeout(() => {
-      this.chart.resize();
+      ChartManager.resize();
       this.loadChart(code);
     }, 120);
   },
 
-  // 更新右侧股票信息
   updateStockInfo(code) {
-    const data = this.stockData[code];
+    const d = this.stockData[code];
     const info = document.getElementById('stock-info');
-    if (!data) {
-      info.innerHTML = '<p>加载中...</p>';
+    if (!d) {
+      info.innerHTML = '<p class="hint-text">加载中...</p>';
       return;
     }
-    
-    const changeClass = data.changePercent > 0 ? 'up' : data.changePercent < 0 ? 'down' : '';
-    
-    info.innerHTML = `
-      <div class="info-header">
-        <h2>${data.name} <small>${code}</small></h2>
-        <div class="info-price ${changeClass}">
-          <span class="big-price">${data.price.toFixed(2)}</span>
-          <span>${data.changePercent > 0 ? '+' : ''}${data.changePercent.toFixed(2)}%</span>
-          <span>${data.change > 0 ? '+' : ''}${data.change.toFixed(2)}</span>
-        </div>
-      </div>
-      <div class="info-grid">
-        <div class="info-item"><label>今开</label><span>${data.open.toFixed(2)}</span></div>
-        <div class="info-item"><label>昨收</label><span>${data.prevClose.toFixed(2)}</span></div>
-        <div class="info-item"><label>最高</label><span class="up">${data.high.toFixed(2)}</span></div>
-        <div class="info-item"><label>最低</label><span class="down">${data.low.toFixed(2)}</span></div>
-        <div class="info-item"><label>量比</label><span>${data.volumeRatio.toFixed(2)}</span></div>
-        <div class="info-item"><label>换手</label><span>${data.turnover.toFixed(2)}%</span></div>
-        <div class="info-item"><label>成交量</label><span>${(data.volume / 10000).toFixed(0)}万手</span></div>
-        <div class="info-item"><label>成交额</label><span>${(data.amount / 100000000).toFixed(2)}亿</span></div>
-      </div>
-    `;
+
+    const cls = d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '';
+    info.innerHTML =
+      '<div class="info-header">' +
+        '<h2>' + d.name + ' <small>' + (d.displayCode || code) + '</small></h2>' +
+        '<div class="info-price ' + cls + '">' +
+          '<span class="big-price">' + d.price.toFixed(2) + '</span>' +
+          '<span>' + (d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%</span>' +
+          '<span>' + (d.change > 0 ? '+' : '') + d.change.toFixed(2) + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="info-grid">' +
+        '<div class="info-item"><label>今开</label><span>' + d.open.toFixed(2) + '</span></div>' +
+        '<div class="info-item"><label>昨收</label><span>' + d.prevClose.toFixed(2) + '</span></div>' +
+        '<div class="info-item"><label>最高</label><span class="up">' + d.high.toFixed(2) + '</span></div>' +
+        '<div class="info-item"><label>最低</label><span class="down">' + d.low.toFixed(2) + '</span></div>' +
+        '<div class="info-item"><label>量比</label><span>' + (d.volumeRatio || 0).toFixed(2) + '</span></div>' +
+        '<div class="info-item"><label>换手</label><span>' + (d.turnover || 0).toFixed(2) + '%</span></div>' +
+        '<div class="info-item"><label>成交量</label><span>' + (d.volume > 10000 ? (d.volume / 10000).toFixed(0) + '万' : d.volume) + '</span></div>' +
+        '<div class="info-item"><label>成交额</label><span>' + (d.amount > 100000000 ? (d.amount / 100000000).toFixed(2) + '亿' : (d.amount / 10000).toFixed(0) + '万') + '</span></div>' +
+      '</div>';
   },
 
-  // 加载图表
   async loadChart(code) {
-    document.getElementById('chart-container').classList.add('loading');
-    
+    const statusEl = document.getElementById('chart-status');
+    statusEl.textContent = '加载中...';
+    const settings = Store.getSettings();
+
     try {
       if (this.currentView === 'minute') {
-        await this.loadMinuteChart(code);
-      } else if (this.currentView === 'weekly') {
-        await this.loadKlineChart(code, 'weekly');
+        // 期货暂无分时（腾讯接口不支持期货分时）
+        if (code.startsWith('nf_')) {
+          ChartManager.chart.setOption({ title: { text: '期货暂不支持分时图', left: 'center', top: 'center', textStyle: { color: '#8b949e', fontSize: 14 } }, xAxis: [], yAxis: [], series: [] }, true);
+        } else {
+          const data = await StockAPI.fetchMinute(code);
+          const prevClose = this.stockData[code]?.prevClose;
+          ChartManager.renderMinute(data, prevClose);
+        }
       } else {
-        await this.loadKlineChart(code, 'daily');
+        // K线（期货也不支持腾讯K线，显示提示）
+        if (code.startsWith('nf_')) {
+          ChartManager.chart.setOption({ title: { text: '期货K线暂不支持', left: 'center', top: 'center', textStyle: { color: '#8b949e', fontSize: 14 } }, xAxis: [], yAxis: [], series: [] }, true);
+        } else {
+          const klines = this.currentView === 'weekly'
+            ? await StockAPI.fetchWeeklyKline(code, 60)
+            : await StockAPI.fetchDailyKline(code, 120);
+          const kSignals = SignalDetector.detectKlineSignals(klines, settings);
+          ChartManager.renderKline(klines, kSignals, settings);
+        }
       }
+      statusEl.textContent = new Date().toLocaleTimeString('zh-CN');
     } catch (e) {
-      console.error('Chart load error:', e);
+      statusEl.textContent = '加载失败';
+      console.error('Chart error:', e);
     }
-    
-    document.getElementById('chart-container').classList.remove('loading');
   },
 
-  // 分时图
-  async loadMinuteChart(code) {
-    const data = await StockAPI.fetchMinute(code);
-    if (!data || data.length === 0) {
-      this.chart.setOption({ title: { text: '暂无分时数据' }, series: [] });
+  // ====== 📡 信号中心 ======
+  bindSignals() {
+    document.getElementById('signal-filter').addEventListener('change', () => this.renderSignalStream());
+    document.getElementById('signal-day-filter').addEventListener('change', () => this.renderSignalStream());
+    document.getElementById('btn-clear-signals').addEventListener('click', () => {
+      if (confirm('确定清空所有信号记录？')) {
+        Store.clearSignals();
+        this.renderSignalStream();
+        this.renderOverviewSignals();
+      }
+    });
+  },
+
+  renderSignalStream() {
+    const signals = Store.getSignals();
+    const typeFilter = document.getElementById('signal-filter').value;
+    const dayFilter = document.getElementById('signal-day-filter').value;
+    const today = new Date().toISOString().slice(0, 10);
+
+    let filtered = signals;
+    if (typeFilter !== 'all') filtered = filtered.filter(s => s.type === typeFilter);
+    if (dayFilter === 'today') filtered = filtered.filter(s => s.date === today);
+
+    const container = document.getElementById('signal-stream');
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="empty-hint">暂无信号记录</div>';
       return;
     }
-    
-    const stockInfo = this.stockData[code];
-    const prevClose = stockInfo?.prevClose || data[0].price;
-    
-    const times = data.map(d => d.time);
-    const prices = data.map(d => d.price);
-    const volumes = data.map(d => d.volume);
-    
-    // 过滤无效价格
-    const validPrices = prices.filter(p => p > 0 && isFinite(p));
-    if (validPrices.length === 0) {
-      this.chart.setOption({ title: { text: '分时数据异常' }, series: [] });
-      return;
-    }
-    
-    // 计算均价线
-    const avgPrices = [];
-    let totalAmount = 0, totalVol = 0;
-    data.forEach(d => {
-      totalAmount += d.price * d.volume;
-      totalVol += d.volume;
-      avgPrices.push(totalVol > 0 ? parseFloat((totalAmount / totalVol).toFixed(2)) : d.price);
+
+    // 按天分组
+    const grouped = {};
+    filtered.forEach(s => {
+      if (!grouped[s.date]) grouped[s.date] = [];
+      grouped[s.date].push(s);
     });
 
-    // 计算Y轴范围（基于实际数据）
-    const minPrice = Math.min(...validPrices);
-    const maxPrice = Math.max(...validPrices);
-    const maxDiff = Math.max(Math.abs(maxPrice - prevClose), Math.abs(minPrice - prevClose), prevClose * 0.001);
-    const yMin = parseFloat((prevClose - maxDiff * 1.2).toFixed(2));
-    const yMax = parseFloat((prevClose + maxDiff * 1.2).toFixed(2));
-
-    const option = {
-      animation: false,
-      grid: [
-        { left: 60, right: 20, top: 30, height: '55%' },
-        { left: 60, right: 20, top: '72%', height: '20%' }
-      ],
-      xAxis: [
-        { type: 'category', data: times, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: false },
-        { type: 'category', data: times, gridIndex: 1, axisLabel: { fontSize: 10 }, boundaryGap: false }
-      ],
-      yAxis: [
-        { 
-          type: 'value', gridIndex: 0, 
-          scale: true,
-          min: yMin,
-          max: yMax,
-          splitNumber: 4,
-          splitLine: { lineStyle: { color: '#1a2a3a' } },
-          axisLabel: { fontSize: 10, formatter: val => val.toFixed(2) }
-        },
-        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } }
-      ],
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: { type: 'cross' },
-        formatter(params) {
-          if (!params[0]) return '';
-          let s = `${params[0].axisValue}<br>`;
-          params.forEach(p => {
-            s += `${p.seriesName}: ${typeof p.value === 'number' ? p.value.toFixed(2) : p.value}<br>`;
-          });
-          return s;
-        }
-      },
-      series: [
-        {
-          name: '价格', type: 'line', data: prices, xAxisIndex: 0, yAxisIndex: 0,
-          lineStyle: { color: '#409EFF', width: 1.5 },
-          areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: 'rgba(64,158,255,0.3)' },
-            { offset: 1, color: 'rgba(64,158,255,0.05)' }
-          ])},
-          symbol: 'none', smooth: false
-        },
-        {
-          name: '均价', type: 'line', data: avgPrices, xAxisIndex: 0, yAxisIndex: 0,
-          lineStyle: { color: '#E6A23C', width: 1 },
-          symbol: 'none', smooth: false
-        },
-        {
-          name: '成交量', type: 'bar', data: volumes, xAxisIndex: 1, yAxisIndex: 1,
-          itemStyle: { color: '#409EFF', opacity: 0.5 }
-        }
-      ],
-      dataZoom: [{ type: 'inside', xAxisIndex: [0, 1] }]
-    };
-    
-    this.chart.setOption(option, true);
-  },
-
-  // K线图
-  async loadKlineChart(code, type) {
-    let klines;
-    if (type === 'weekly') {
-      klines = await StockAPI.fetchWeeklyKline(code, 60);
-    } else {
-      klines = await StockAPI.fetchDailyKline(code, 120);
-    }
-    
-    if (!klines || klines.length === 0) {
-      this.chart.setOption({ title: { text: '暂无K线数据' }, series: [] });
-      return;
-    }
-
-    const dates = klines.map(k => k.date);
-    const ohlc = klines.map(k => [k.open, k.close, k.low, k.high]);
-    const volumes = klines.map(k => k.volume);
-    const volumeColors = klines.map(k => k.close >= k.open ? '#ef5350' : '#26a69a');
-    
-    // MA 均线
-    const ma5 = SignalDetector.calcMA(klines, 5);
-    const ma10 = SignalDetector.calcMA(klines, 10);
-    const ma20 = SignalDetector.calcMA(klines, 20);
-    
-    // K线形态信号
-    const kSignals = SignalDetector.detectKlineSignals(klines);
-    const buyPoints = kSignals.filter(s => s.type === 'buy').map(s => ({
-      coord: [s.date, klines[s.index].low],
-      value: s.reason,
-    }));
-    const sellPoints = kSignals.filter(s => s.type === 'sell').map(s => ({
-      coord: [s.date, klines[s.index].high],
-      value: s.reason,
-    }));
-
-    const option = {
-      animation: false,
-      grid: [
-        { left: 60, right: 20, top: 30, height: '55%' },
-        { left: 60, right: 20, top: '72%', height: '20%' }
-      ],
-      xAxis: [
-        { type: 'category', data: dates, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: true },
-        { type: 'category', data: dates, gridIndex: 1, axisLabel: { fontSize: 10 }, boundaryGap: true }
-      ],
-      yAxis: [
-        { type: 'value', gridIndex: 0, scale: true, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10 } },
-        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } }
-      ],
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: { type: 'cross' }
-      },
-      series: [
-        {
-          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
-          itemStyle: {
-            color: '#ef5350', color0: '#26a69a',
-            borderColor: '#ef5350', borderColor0: '#26a69a'
-          },
-          markPoint: {
-            data: [
-              ...buyPoints.map(p => ({
-                ...p,
-                symbol: 'arrow',
-                symbolSize: 12,
-                symbolRotate: 0,
-                itemStyle: { color: '#ef5350' },
-                label: { show: true, position: 'bottom', formatter: p.value, fontSize: 9, color: '#ef5350' }
-              })),
-              ...sellPoints.map(p => ({
-                ...p,
-                symbol: 'arrow',
-                symbolSize: 12,
-                symbolRotate: 180,
-                itemStyle: { color: '#26a69a' },
-                label: { show: true, position: 'top', formatter: p.value, fontSize: 9, color: '#26a69a' }
-              }))
-            ]
-          }
-        },
-        {
-          name: 'MA5', type: 'line', data: ma5, xAxisIndex: 0, yAxisIndex: 0,
-          lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none', smooth: true
-        },
-        {
-          name: 'MA10', type: 'line', data: ma10, xAxisIndex: 0, yAxisIndex: 0,
-          lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none', smooth: true
-        },
-        {
-          name: 'MA20', type: 'line', data: ma20, xAxisIndex: 0, yAxisIndex: 0,
-          lineStyle: { width: 1, color: '#F56C6C' }, symbol: 'none', smooth: true
-        },
-        {
-          name: '成交量', type: 'bar', data: volumes.map((v, i) => ({
-            value: v,
-            itemStyle: { color: volumeColors[i] }
-          })),
-          xAxisIndex: 1, yAxisIndex: 1
-        }
-      ],
-      dataZoom: [
-        { type: 'inside', xAxisIndex: [0, 1], start: 50, end: 100 },
-        { type: 'slider', xAxisIndex: [0, 1], start: 50, end: 100, height: 20, bottom: 5 }
-      ]
-    };
-    
-    this.chart.setOption(option, true);
-  },
-
-  // 刷新数据
-  async refresh() {
-    const statusEl = document.getElementById('refresh-status');
-    statusEl.textContent = '刷新中...';
-    
-    try {
-      const data = await StockAPI.fetchRealtime(this.stocks);
-      data.forEach(d => {
-        this.stockData[d.code] = d;
+    let html = '';
+    Object.entries(grouped).sort((a, b) => b[0].localeCompare(a[0])).forEach(([date, items]) => {
+      html += '<div class="signal-date-header">' + date + ' (' + items.length + '条)</div>';
+      items.forEach(s => {
+        html += '<div class="signal-item">' +
+          '<div class="signal-time">' + s.time + '</div>' +
+          '<div class="signal-content">' +
+            '<div class="signal-stock-name">' + (s.name || s.code) + '</div>' +
+            '<div class="signal-reason"><span class="signal-badge ' + s.type + '">' + s.reason + '</span></div>' +
+          '</div>' +
+        '</div>';
       });
-      
-      this.renderStockList();
-      this.renderAlertBar();
-      
-      if (this.currentStock) {
-        this.updateStockInfo(this.currentStock);
+    });
+
+    container.innerHTML = html;
+  },
+
+  // ====== ⚙️ 设置 ======
+  bindSettings() {
+    const s = Store.getSettings();
+
+    // 刷新频率
+    document.getElementById('setting-refresh-interval').addEventListener('change', (e) => {
+      const settings = Store.getSettings();
+      settings.refreshInterval = parseInt(e.target.value);
+      Store.setSettings(settings);
+      this.startAutoRefresh();
+    });
+
+    // 滑块
+    const bindSlider = (id, labelId, key, suffix) => {
+      const el = document.getElementById(id);
+      const label = document.getElementById(labelId);
+      el.addEventListener('input', () => {
+        label.textContent = el.value + (suffix || '');
+        const settings = Store.getSettings();
+        settings[key] = parseFloat(el.value);
+        Store.setSettings(settings);
+      });
+    };
+
+    bindSlider('setting-volume-ratio', 'label-volume-ratio', 'volumeRatioThreshold', '');
+    bindSlider('setting-change-pct', 'label-change-pct', 'changePctThreshold', '%');
+    bindSlider('setting-turnover', 'label-turnover', 'turnoverThreshold', '%');
+
+    // 开关
+    const bindToggle = (id, key) => {
+      document.getElementById(id).addEventListener('change', (e) => {
+        const settings = Store.getSettings();
+        settings[key] = e.target.checked;
+        Store.setSettings(settings);
+      });
+    };
+
+    bindToggle('setting-macd', 'macd');
+    bindToggle('setting-kdj', 'kdj');
+    bindToggle('setting-cci', 'cci');
+    bindToggle('setting-notification', 'notification');
+    bindToggle('setting-sound', 'sound');
+
+    // 期货管理
+    document.getElementById('btn-add-futures').addEventListener('click', () => {
+      const code = document.getElementById('futures-add-code').value.trim().toUpperCase();
+      const name = document.getElementById('futures-add-name').value.trim();
+      if (!code || !name) { alert('请填写代码和名称'); return; }
+      if (Store.addFutures(code, name)) {
+        document.getElementById('futures-add-code').value = '';
+        document.getElementById('futures-add-name').value = '';
+        this.loadFuturesUI();
+        this.renderGroupTabs();
+      } else {
+        alert('品种已存在');
       }
-      
+    });
+
+    // 导出
+    document.getElementById('btn-export').addEventListener('click', () => {
+      const data = Store.exportAll();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'stock-monitor-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+      a.click();
+    });
+
+    // 导入
+    document.getElementById('btn-import').addEventListener('click', () => {
+      document.getElementById('import-file').click();
+    });
+
+    document.getElementById('import-file').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          Store.importAll(data);
+          alert('导入成功！页面即将刷新');
+          location.reload();
+        } catch { alert('导入失败：文件格式错误'); }
+      };
+      reader.readAsText(file);
+    });
+
+    // 清空
+    document.getElementById('btn-clear-all').addEventListener('click', () => {
+      if (confirm('确定清空所有数据？此操作不可恢复！')) {
+        Store.clearAll();
+        alert('已清空，页面即将刷新');
+        location.reload();
+      }
+    });
+  },
+
+  loadSettingsUI() {
+    const s = Store.getSettings();
+    document.getElementById('setting-refresh-interval').value = s.refreshInterval;
+    document.getElementById('setting-volume-ratio').value = s.volumeRatioThreshold;
+    document.getElementById('label-volume-ratio').textContent = s.volumeRatioThreshold;
+    document.getElementById('setting-change-pct').value = s.changePctThreshold;
+    document.getElementById('label-change-pct').textContent = s.changePctThreshold + '%';
+    document.getElementById('setting-turnover').value = s.turnoverThreshold;
+    document.getElementById('label-turnover').textContent = s.turnoverThreshold + '%';
+    document.getElementById('setting-macd').checked = s.macd;
+    document.getElementById('setting-kdj').checked = s.kdj;
+    document.getElementById('setting-cci').checked = s.cci;
+    document.getElementById('setting-notification').checked = s.notification;
+    document.getElementById('setting-sound').checked = s.sound;
+  },
+
+  loadFuturesUI() {
+    const list = Store.getFutures();
+    const container = document.getElementById('futures-list');
+    container.innerHTML = list.map(f =>
+      '<div class="futures-item">' +
+        '<span>' + f.code + ' (' + f.name + ') — ' + f.sina + '</span>' +
+        '<span class="futures-remove" data-code="' + f.code + '">×</span>' +
+      '</div>'
+    ).join('');
+
+    container.querySelectorAll('.futures-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        Store.removeFutures(btn.dataset.code);
+        this.loadFuturesUI();
+        this.renderGroupTabs();
+      });
+    });
+  },
+
+  // ====== 模态框 ======
+  bindModal() {
+    document.getElementById('modal-close').addEventListener('click', () => this.closeModal());
+    document.getElementById('modal-overlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('modal-overlay')) this.closeModal();
+    });
+  },
+
+  showModal(title, bodyHtml) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-body').innerHTML = bodyHtml;
+    document.getElementById('modal-overlay').classList.add('show');
+  },
+
+  closeModal() {
+    document.getElementById('modal-overlay').classList.remove('show');
+  },
+
+  showAddStockModal() {
+    const groups = Store.getGroups();
+    const groupOptions = groups.map(g => '<option value="' + g.id + '"' + (g.id === this.currentGroup ? ' selected' : '') + '>' + g.name + '</option>').join('');
+    const html =
+      '<div class="modal-hint">输入股票代码（如 sz000009 / sh600519）</div>' +
+      '<input type="text" id="modal-stock-code" placeholder="股票代码" autofocus>' +
+      '<select id="modal-stock-group" style="width:100%;padding:10px 12px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:14px;margin-bottom:12px;outline:none;">' + groupOptions + '</select>' +
+      '<button class="btn-primary" id="modal-add-confirm">添加</button>';
+
+    this.showModal('添加股票', html);
+
+    document.getElementById('modal-add-confirm').addEventListener('click', () => {
+      const code = document.getElementById('modal-stock-code').value.trim().toLowerCase();
+      const group = document.getElementById('modal-stock-group').value;
+
+      if (!/^(sz|sh)\d{6}$/.test(code)) {
+        alert('格式错误！请输入 sz/sh + 6位数字');
+        return;
+      }
+
+      if (Store.addStock(group, code)) {
+        this.closeModal();
+        this.renderGroupTabs();
+        this.renderStockList();
+        this.refreshAll();
+      } else {
+        alert('已在该分组中');
+      }
+    });
+
+    // 回车确认
+    document.getElementById('modal-stock-code').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('modal-add-confirm').click();
+    });
+  },
+
+  showGroupManageModal() {
+    const groups = Store.getGroups();
+    let html = '<div class="modal-hint">管理分组（拖拽排序暂不支持）</div>';
+    html += groups.map((g, i) =>
+      '<div class="group-manage-item">' +
+        '<input type="text" value="' + g.name + '" data-idx="' + i + '" class="group-name-input">' +
+        '<button data-del="' + i + '" title="删除">🗑️</button>' +
+      '</div>'
+    ).join('');
+    html += '<div style="margin-top:12px;">' +
+      '<input type="text" id="modal-new-group" placeholder="新分组名称">' +
+      '<button class="btn-primary" id="modal-add-group" style="margin-top:8px;">添加分组</button>' +
+    '</div>';
+
+    this.showModal('分组管理', html);
+
+    // 修改组名
+    document.querySelectorAll('.group-name-input').forEach(input => {
+      input.addEventListener('change', () => {
+        const idx = parseInt(input.dataset.idx);
+        const groups = Store.getGroups();
+        groups[idx].name = input.value;
+        Store.setGroups(groups);
+        this.renderGroupTabs();
+      });
+    });
+
+    // 删除分组
+    document.querySelectorAll('[data-del]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.del);
+        const groups = Store.getGroups();
+        const allStocks = Store.getStocks();
+        const removedId = groups[idx].id;
+        delete allStocks[removedId];
+        groups.splice(idx, 1);
+        Store.setGroups(groups);
+        Store.setStocks(allStocks);
+        if (this.currentGroup === removedId) {
+          this.currentGroup = groups[0] ? groups[0].id : null;
+        }
+        this.closeModal();
+        this.renderGroupTabs();
+        this.renderStockList();
+      });
+    });
+
+    // 添加分组
+    document.getElementById('modal-add-group').addEventListener('click', () => {
+      const name = document.getElementById('modal-new-group').value.trim();
+      if (!name) return;
+      const groups = Store.getGroups();
+      const id = 'g_' + Date.now();
+      groups.push({ id, name });
+      Store.setGroups(groups);
+      this.closeModal();
+      this.renderGroupTabs();
+    });
+  },
+
+  // ====== 数据刷新 ======
+  async refreshAll() {
+    const statusEl = document.getElementById('watchlist-refresh-status');
+    statusEl.textContent = '刷新中...';
+
+    try {
+      // A股（自选 + 指数）
+      const stockCodes = Store.getAllStockCodes();
+      const indexCodes = ['sh000001', 'sz399001', 'sz399006'];
+      const allCodes = [...new Set([...indexCodes, ...stockCodes])];
+
+      const [stockResults, futuresResults] = await Promise.all([
+        StockAPI.fetchRealtime(allCodes),
+        StockAPI.fetchFuturesRealtime(Store.getFutures())
+      ]);
+
+      // 更新数据缓存
+      stockResults.forEach(d => { this.stockData[d.code] = d; });
+      futuresResults.forEach(d => { this.stockData[d.code] = d; });
+
+      // 更新UI
+      this.updateIndexCards(stockResults);
+      this.renderStockList();
+      if (this.currentStock) this.updateStockInfo(this.currentStock);
+      this.renderOverviewSignals();
+
+      // 信号检测
+      this.checkSignals([...stockResults, ...futuresResults]);
+
       const now = new Date();
-      statusEl.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')} 更新`;
+      statusEl.textContent = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ':' + now.getSeconds().toString().padStart(2, '0');
     } catch (e) {
       statusEl.textContent = '刷新失败';
       console.error('Refresh error:', e);
     }
   },
 
-  // 自动刷新（交易时间30s，非交易时间60s）
+  checkSignals(allData) {
+    const settings = Store.getSettings();
+    const indexCodes = ['sh000001', 'sz399001', 'sz399006'];
+
+    allData.forEach(d => {
+      if (indexCodes.includes(d.code)) return; // 跳过指数
+      const signals = SignalDetector.detectRealtime(d, settings);
+      signals.forEach(sig => {
+        if (!Store.checkCooldown(d.code, sig.type)) {
+          Store.setCooldown(d.code, sig.type);
+          const saved = Store.addSignal({
+            code: d.code,
+            name: d.name,
+            type: sig.type,
+            reason: sig.reason,
+            price: d.price,
+            changePercent: d.changePercent
+          });
+
+          // 浏览器通知
+          if (settings.notification && 'Notification' in window && Notification.permission === 'granted') {
+            new Notification('📡 ' + d.name + ' 异动', {
+              body: sig.reason + ' | ' + d.price.toFixed(2) + ' (' + (d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%)',
+              icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📈</text></svg>'
+            });
+          }
+
+          // 声音提醒
+          if (settings.sound) {
+            this.playAlert();
+          }
+        }
+      });
+    });
+  },
+
+  playAlert() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, ctx.currentTime);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.3);
+    } catch (e) { /* ignore audio errors */ }
+  },
+
   startAutoRefresh() {
     if (this.refreshTimer) clearInterval(this.refreshTimer);
-    
-    const tick = () => {
+    const settings = Store.getSettings();
+    const interval = (settings.refreshInterval || 15) * 1000;
+
+    this.refreshTimer = setInterval(() => {
       const now = new Date();
       const h = now.getHours();
       const m = now.getMinutes();
-      const dayOfWeek = now.getDay();
-      
-      // 周末不刷新
-      if (dayOfWeek === 0 || dayOfWeek === 6) return;
-      
-      // 交易时间 9:15 - 15:05
-      const minutes = h * 60 + m;
-      if (minutes >= 555 && minutes <= 905) { // 9:15 - 15:05
-        this.refresh();
-      }
-    };
-    
-    this.refreshTimer = setInterval(tick, 30000);
-  },
+      const day = now.getDay();
 
-  // 判断是否交易时间
-  isTradingTime() {
-    const now = new Date();
-    const h = now.getHours();
-    const m = now.getMinutes();
-    const dayOfWeek = now.getDay();
-    
-    if (dayOfWeek === 0 || dayOfWeek === 6) return false;
-    
-    const minutes = h * 60 + m;
-    return (minutes >= 570 && minutes <= 690) || (minutes >= 780 && minutes <= 900);
+      // 周末不刷新
+      if (day === 0 || day === 6) return;
+
+      // 交易时间 9:15 - 15:05（包含期货交易时间）
+      const mins = h * 60 + m;
+      // A股 9:15-15:05, 期货 9:00-15:00 + 21:00-23:30
+      if ((mins >= 540 && mins <= 905) || (mins >= 1260 && mins <= 1410)) {
+        this.refreshAll();
+      }
+    }, interval);
   }
 };
 
 // 启动
-document.addEventListener('DOMContentLoaded', () => {
-  App.init();
-});
+document.addEventListener('DOMContentLoaded', () => App.init());

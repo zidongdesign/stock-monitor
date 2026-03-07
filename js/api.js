@@ -1,156 +1,33 @@
 /**
- * A股数据获取模块
- * 使用腾讯财经 JSONP 接口
+ * 行情数据接口模块
+ * A股: 腾讯 qt.gtimg.cn (JSONP)
+ * A股K线: 腾讯 web.ifzq.gtimg.cn (fetch JSON)
+ * 期货: 新浪 hq.sinajs.cn (JSONP)
+ * 分时: 腾讯 data.gtimg.cn
  */
-
 const StockAPI = {
-  // JSONP 请求封装
-  jsonp(url) {
-    return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      const timeout = setTimeout(() => {
-        script.remove();
-        reject(new Error('JSONP timeout'));
-      }, 8000);
-      
-      script.src = url;
-      script.onerror = () => {
-        clearTimeout(timeout);
-        script.remove();
-        reject(new Error('JSONP load error'));
-      };
-      script.onload = () => {
-        clearTimeout(timeout);
-        script.remove();
-      };
-      document.head.appendChild(script);
-      
-      // 腾讯接口会设置全局变量，onload 后解析
-      setTimeout(() => {
-        clearTimeout(timeout);
-        resolve();
-      }, 500);
-    });
-  },
+  // ====== A股实时行情（腾讯 JSONP） ======
+  fetchRealtime(codes) {
+    if (!codes || codes.length === 0) return Promise.resolve([]);
 
-  /**
-   * 获取实时行情
-   * 腾讯接口返回: v_sz000009="1~中国宝安~000009~7.15~7.10~..."
-   * 字段按~分割
-   */
-  async fetchRealtime(codes) {
-    if (!codes || codes.length === 0) return [];
-
-    return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      const timeout = setTimeout(() => {
-        script.remove();
-        resolve([]);
-      }, 8000);
-
-      // 先清除旧的全局变量
-      codes.forEach(code => {
-        delete window[`v_${code}`];
-      });
-
-      script.src = `https://qt.gtimg.cn/q=${codes.join(',')}`;
-      script.onerror = () => {
-        clearTimeout(timeout);
-        script.remove();
-        // 尝试备用接口
-        this._fetchRealtimeSina(codes).then(resolve).catch(() => resolve([]));
-      };
-      script.onload = () => {
-        clearTimeout(timeout);
-        script.remove();
-        
-        const results = [];
-        codes.forEach(code => {
-          const raw = window[`v_${code}`];
-          if (raw) {
-            const parsed = this._parseRealtimeQQ(code, raw);
-            if (parsed) results.push(parsed);
-          }
-        });
-        
-        if (results.length > 0) {
-          resolve(results);
-        } else {
-          // QQ 接口无数据，尝试新浪
-          this._fetchRealtimeSina(codes).then(resolve).catch(() => resolve([]));
-        }
-      };
-      document.head.appendChild(script);
-    });
-  },
-
-  _parseRealtimeQQ(code, raw) {
-    const fields = raw.split('~');
-    if (fields.length < 45) return null;
-    
-    const price = parseFloat(fields[3]);
-    if (!price || price === 0) return null; // 无有效价格，跳过
-    
-    const prevClose = parseFloat(fields[4]);
-    const open = parseFloat(fields[5]);
-    const volume = parseFloat(fields[6]);
-    const high = parseFloat(fields[33]) || price;
-    const low = parseFloat(fields[34]) || price;
-    const changePercent = parseFloat(fields[32]);
-    const change = parseFloat(fields[31]);
-    const volumeRatio = parseFloat(fields[49]) || 0;
-    const turnover = parseFloat(fields[38]) || 0;
-    const amount = parseFloat(fields[37]) || 0;
-    
-    return {
-      code,
-      name: fields[1],
-      price,
-      prevClose,
-      open,
-      high,
-      low,
-      volume,
-      amount,
-      change: isNaN(change) ? 0 : change,
-      changePercent: isNaN(changePercent) ? 0 : changePercent,
-      volumeRatio,
-      turnover,
-      time: fields[30],
-      raw: fields
-    };
-  },
-
-  // 新浪备用接口
-  async _fetchRealtimeSina(codes) {
     return new Promise((resolve) => {
       const script = document.createElement('script');
-      const timeout = setTimeout(() => {
-        script.remove();
-        resolve([]);
-      }, 8000);
-      
-      // 清除旧变量
-      codes.forEach(code => {
-        delete window[`hq_str_${code}`];
-      });
+      const timeout = setTimeout(() => { script.remove(); resolve([]); }, 8000);
 
-      script.src = `https://hq.sinajs.cn/list=${codes.join(',')}`;
-      script.charset = 'gb2312';
-      script.onerror = () => {
-        clearTimeout(timeout);
-        script.remove();
-        resolve([]);
-      };
+      // 清除旧全局变量
+      codes.forEach(code => { delete window['v_' + code]; });
+
+      script.src = 'https://qt.gtimg.cn/q=' + codes.join(',') + '&r=' + Date.now();
+      script.onerror = () => { clearTimeout(timeout); script.remove(); resolve([]); };
       script.onload = () => {
         clearTimeout(timeout);
         script.remove();
-        
+
         const results = [];
         codes.forEach(code => {
-          const raw = window[`hq_str_${code}`];
-          if (raw && raw.length > 0) {
-            const parsed = this._parseRealtimeSina(code, raw);
+          const raw = window['v_' + code];
+          if (raw) {
+            const parsed = this._parseQQ(code, raw);
             if (parsed) results.push(parsed);
           }
         });
@@ -160,64 +37,106 @@ const StockAPI = {
     });
   },
 
-  _parseRealtimeSina(code, raw) {
-    const fields = raw.split(',');
-    if (fields.length < 30) return null;
-    
-    const price = parseFloat(fields[3]);
-    const prevClose = parseFloat(fields[2]);
-    const open = parseFloat(fields[1]);
-    const high = parseFloat(fields[4]);
-    const low = parseFloat(fields[5]);
-    const volume = parseFloat(fields[8]);
-    const amount = parseFloat(fields[9]);
-    const change = price - prevClose;
-    const changePercent = prevClose > 0 ? ((change / prevClose) * 100) : 0;
-    
+  _parseQQ(code, raw) {
+    const f = raw.split('~');
+    if (f.length < 45) return null;
+    const price = parseFloat(f[3]);
+    if (!price || price === 0) return null;
+    const prevClose = parseFloat(f[4]);
     return {
       code,
-      name: fields[0],
+      name: f[1],
       price,
       prevClose,
-      open,
-      high,
-      low,
-      volume,
-      amount,
-      change,
-      changePercent: parseFloat(changePercent.toFixed(2)),
-      volumeRatio: 0, // 新浪接口没有量比
-      turnover: 0,
-      time: fields[31],
-      raw: fields
+      open: parseFloat(f[5]),
+      high: parseFloat(f[33]) || price,
+      low: parseFloat(f[34]) || price,
+      volume: parseFloat(f[6]),
+      amount: parseFloat(f[37]) || 0,
+      change: parseFloat(f[31]) || 0,
+      changePercent: parseFloat(f[32]) || 0,
+      volumeRatio: parseFloat(f[49]) || 0,
+      turnover: parseFloat(f[38]) || 0,
+      isFutures: false
     };
   },
 
-  /**
-   * 获取分时数据
-   */
-  async fetchMinute(code) {
+  // ====== 期货实时行情（新浪 JSONP） ======
+  fetchFuturesRealtime(futuresList) {
+    if (!futuresList || futuresList.length === 0) return Promise.resolve([]);
+
+    const sinaCodes = futuresList.map(f => f.sina);
+
     return new Promise((resolve) => {
       const script = document.createElement('script');
-      const timeout = setTimeout(() => {
-        script.remove();
-        resolve([]);
-      }, 8000);
+      const timeout = setTimeout(() => { script.remove(); resolve([]); }, 8000);
 
-      script.src = `https://data.gtimg.cn/flashdata/hushen/minute/${code}.js?r=${Date.now()}`;
-      script.onerror = () => {
-        clearTimeout(timeout);
-        script.remove();
-        resolve([]);
-      };
+      sinaCodes.forEach(sc => { delete window['hq_str_' + sc]; });
+
+      script.src = 'https://hq.sinajs.cn/list=' + sinaCodes.join(',') + '&r=' + Date.now();
+      // 新浪期货接口返回 utf-8
+      script.onerror = () => { clearTimeout(timeout); script.remove(); resolve([]); };
       script.onload = () => {
         clearTimeout(timeout);
         script.remove();
-        
-        // 腾讯分时数据存在 window.min_data
+
+        const results = [];
+        futuresList.forEach(f => {
+          const raw = window['hq_str_' + f.sina];
+          if (raw && raw.length > 5) {
+            const parsed = this._parseFutures(f, raw);
+            if (parsed) results.push(parsed);
+          }
+        });
+        resolve(results);
+      };
+      document.head.appendChild(script);
+    });
+  },
+
+  // 新浪期货格式: 0:名称,1:~不确定/时间~,2:开盘,3:最高,4:最低,5:昨收,6:买价,7:卖价,8:最新价,9:结算价,10:昨结算,11:买量,12:卖量,13:持仓量,14:成交量
+  _parseFutures(futuresCfg, raw) {
+    const f = raw.split(',');
+    if (f.length < 14) return null;
+    const price = parseFloat(f[8]);
+    const prevSettlement = parseFloat(f[10]) || parseFloat(f[5]);
+    if (!price || price === 0) return null;
+    const change = price - prevSettlement;
+    const changePct = prevSettlement > 0 ? (change / prevSettlement * 100) : 0;
+    return {
+      code: futuresCfg.sina,
+      name: futuresCfg.name + '主连',
+      displayCode: futuresCfg.code,
+      price,
+      prevClose: prevSettlement,
+      open: parseFloat(f[2]) || price,
+      high: parseFloat(f[3]) || price,
+      low: parseFloat(f[4]) || price,
+      volume: parseFloat(f[14]) || 0,
+      amount: 0,
+      change: parseFloat(change.toFixed(2)),
+      changePercent: parseFloat(changePct.toFixed(2)),
+      volumeRatio: 0,
+      turnover: 0,
+      isFutures: true
+    };
+  },
+
+  // ====== 分时数据（腾讯） ======
+  fetchMinute(code) {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      const timeout = setTimeout(() => { script.remove(); resolve([]); }, 8000);
+
+      script.src = 'https://data.gtimg.cn/flashdata/hushen/minute/' + code + '.js?r=' + Date.now();
+      script.onerror = () => { clearTimeout(timeout); script.remove(); resolve([]); };
+      script.onload = () => {
+        clearTimeout(timeout);
+        script.remove();
+
         const raw = window.min_data;
         if (!raw) { resolve([]); return; }
-        
+
         const lines = raw.split('\n').filter(l => l.trim() && !l.trim().startsWith('date:'));
         const data = [];
         lines.forEach(line => {
@@ -225,7 +144,6 @@ const StockAPI = {
           if (parts.length >= 3 && /^\d{4}$/.test(parts[0])) {
             const price = parseFloat(parts[1]);
             const volume = parseFloat(parts[2]);
-            // 验证价格有效性
             if (price > 0 && isFinite(price)) {
               data.push({
                 time: parts[0].substring(0, 2) + ':' + parts[0].substring(2),
@@ -241,57 +159,33 @@ const StockAPI = {
     });
   },
 
-  /**
-   * 获取日K线数据
-   */
-  async fetchDailyKline(code, count = 120) {
-    return new Promise((resolve) => {
-      const url = `https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=${code},day,,,${count},qfq`;
-      
-      fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          const key = code;
-          const dayData = json?.data?.[key]?.day || json?.data?.[key]?.qfqday || [];
-          
-          const klines = dayData.map(d => ({
-            date: d[0],
-            open: parseFloat(d[1]),
-            close: parseFloat(d[2]),
-            high: parseFloat(d[3]),
-            low: parseFloat(d[4]),
-            volume: parseFloat(d[5] || 0)
-          }));
-          resolve(klines);
-        })
-        .catch(() => resolve([]));
-    });
+  // ====== 日K线（腾讯） ======
+  fetchDailyKline(code, count) {
+    count = count || 120;
+    return fetch('https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=' + code + ',day,,,' + count + ',qfq')
+      .then(r => r.json())
+      .then(json => {
+        const d = json?.data?.[code];
+        const dayData = d?.day || d?.qfqday || [];
+        return dayData.map(k => ({
+          date: k[0], open: +k[1], close: +k[2], high: +k[3], low: +k[4], volume: +(k[5] || 0)
+        }));
+      })
+      .catch(() => []);
   },
 
-  /**
-   * 获取周K线数据
-   */
-  async fetchWeeklyKline(code, count = 60) {
-    return new Promise((resolve) => {
-      const url = `https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=${code},week,,,${count},qfq`;
-      
-      fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          const key = code;
-          const weekData = json?.data?.[key]?.week || json?.data?.[key]?.qfqweek || [];
-          
-          const klines = weekData.map(d => ({
-            date: d[0],
-            open: parseFloat(d[1]),
-            close: parseFloat(d[2]),
-            high: parseFloat(d[3]),
-            low: parseFloat(d[4]),
-            volume: parseFloat(d[5] || 0)
-          }));
-          resolve(klines);
-        })
-        .catch(() => resolve([]));
-    });
+  // ====== 周K线（腾讯） ======
+  fetchWeeklyKline(code, count) {
+    count = count || 60;
+    return fetch('https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=' + code + ',week,,,' + count + ',qfq')
+      .then(r => r.json())
+      .then(json => {
+        const d = json?.data?.[code];
+        const weekData = d?.week || d?.qfqweek || [];
+        return weekData.map(k => ({
+          date: k[0], open: +k[1], close: +k[2], high: +k[3], low: +k[4], volume: +(k[5] || 0)
+        }));
+      })
+      .catch(() => []);
   }
 };
