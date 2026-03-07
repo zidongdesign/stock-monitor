@@ -1,9 +1,13 @@
 /**
- * A股+期货实时监控 - 主应用
+ * A股+期货实时监控 - 主应用 V2
+ * 新增: 资金流向/综合评分/决策面板/板块异动/模拟模式
  */
 const App = {
   // 状态
   stockData: {},        // code → 实时数据
+  fundFlowData: {},     // code → 资金流向
+  compSignals: {},      // code → 综合信号
+  sectorData: [],       // 板块数据
   currentTab: 'overview',
   currentGroup: null,
   currentStock: null,
@@ -24,6 +28,7 @@ const App = {
     this.loadSettingsUI();
     this.loadAssessmentUI();
     this.loadFuturesUI();
+    this.loadMockModeUI();
 
     // 初始化分组
     const groups = Store.getGroups();
@@ -39,6 +44,9 @@ const App = {
     if (Store.getSettings().notification && 'Notification' in window) {
       Notification.requestPermission();
     }
+
+    // 模拟模式指示器
+    this.updateMockIndicator();
   },
 
   isMobile() { return window.innerWidth <= 768; },
@@ -63,6 +71,7 @@ const App = {
     }
     if (tab === 'signals') {
       this.renderSignalStream();
+      this.renderSectorAlerts();
     }
   },
 
@@ -137,6 +146,109 @@ const App = {
         '</div>' +
       '</div>'
     ).join('');
+  },
+
+  // ====== 决策面板 ======
+  renderDecisionPanel() {
+    const panel = document.getElementById('decision-panel');
+    if (!panel) return;
+
+    const allCodes = Store.getAllStockCodes();
+    if (allCodes.length === 0) {
+      panel.innerHTML = '<div class="empty-hint">请先添加自选股</div>';
+      return;
+    }
+
+    // 按信号级别分组
+    const urgent = [];   // 🔴
+    const attention = []; // 🟡 with notable signals
+    const normal = [];    // 🟢 正常持有
+
+    allCodes.forEach(code => {
+      const stock = this.stockData[code];
+      if (!stock) return;
+      const sig = this.compSignals[code];
+      const flow = this.fundFlowData[code];
+      
+      const item = { code, stock, sig, flow };
+      
+      if (sig && sig.level === 'sell') {
+        urgent.push(item);
+      } else if (sig && sig.level === 'buy') {
+        attention.push(item);
+      } else {
+        normal.push(item);
+      }
+    });
+
+    // Sort by score
+    urgent.sort((a, b) => (a.sig?.score || 50) - (b.sig?.score || 50));
+    attention.sort((a, b) => (b.sig?.score || 50) - (a.sig?.score || 50));
+
+    let html = '';
+
+    // 🔴 紧急决策
+    if (urgent.length > 0) {
+      html += '<div class="decision-group"><div class="decision-group-header sell">🔴 紧急决策 (' + urgent.length + ')</div>';
+      urgent.forEach(item => { html += this._renderDecisionItem(item); });
+      html += '</div>';
+    }
+
+    // 🟢 买入关注（值得关注）
+    if (attention.length > 0) {
+      html += '<div class="decision-group"><div class="decision-group-header buy">🟢 买入关注 (' + attention.length + ')</div>';
+      attention.forEach(item => { html += this._renderDecisionItem(item); });
+      html += '</div>';
+    }
+
+    // 🟡 正常持有（默认折叠）
+    if (normal.length > 0) {
+      html += '<div class="decision-group collapsed">' +
+        '<div class="decision-group-header hold collapsible" onclick="this.parentElement.classList.toggle(\'collapsed\')">' +
+          '🟡 正常持有 (' + normal.length + ') <span class="collapse-arrow">▼</span>' +
+        '</div>' +
+        '<div class="decision-group-body">';
+      normal.forEach(item => { html += this._renderDecisionItem(item); });
+      html += '</div></div>';
+    }
+
+    if (!html) {
+      html = '<div class="empty-hint">暂无决策数据</div>';
+    }
+
+    panel.innerHTML = html;
+  },
+
+  _renderDecisionItem(item) {
+    const { stock, sig, flow } = item;
+    const cls = stock.changePercent > 0 ? 'up' : stock.changePercent < 0 ? 'down' : '';
+    const flowHtml = flow ? this._renderFlowTag(flow) : '';
+    const sigHtml = sig ? '<span class="comp-signal-badge ' + sig.level + '">' + sig.emoji + ' ' + sig.label + '</span>' : '';
+    
+    return '<div class="decision-item">' +
+      '<div class="decision-item-left">' +
+        '<span class="decision-name">' + stock.name + '</span>' +
+        sigHtml +
+      '</div>' +
+      '<div class="decision-item-mid">' +
+        '<span class="decision-price ' + cls + '">' + stock.price.toFixed(2) + '</span>' +
+        '<span class="decision-change ' + cls + '">' + (stock.changePercent > 0 ? '+' : '') + stock.changePercent.toFixed(2) + '%</span>' +
+        flowHtml +
+      '</div>' +
+      '<div class="decision-item-reason">' + (sig ? sig.reason : '') + '</div>' +
+    '</div>';
+  },
+
+  _renderFlowTag(flow) {
+    if (!flow) return '';
+    const cls = flow.mainNet > 0 ? 'flow-in' : flow.mainNet < 0 ? 'flow-out' : 'flow-neutral';
+    let text;
+    if (Math.abs(flow.mainNet) >= 10000) {
+      text = (flow.mainNet > 0 ? '+' : '') + (flow.mainNet / 10000).toFixed(1) + '亿';
+    } else {
+      text = (flow.mainNet > 0 ? '+' : '') + flow.mainNet + '万';
+    }
+    return '<span class="flow-tag ' + cls + '">' + text + '</span>';
   },
 
   // ====== 📈 自选股 ======
@@ -231,6 +343,11 @@ const App = {
         const isActive = this.currentStock === code;
         const signals = d ? SignalDetector.detectRealtime(d, settings) : [];
         const cls = d ? (d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '') : '';
+        const flow = this.fundFlowData[code];
+        const compSig = this.compSignals[code];
+        const flowHtml = flow ? this._renderFlowTag(flow) : '';
+        const compHtml = compSig ? '<span class="comp-signal-badge ' + compSig.level + '">' + compSig.emoji + ' ' + compSig.label + '</span>' : '';
+        
         return '<div class="stock-item' + (isActive ? ' active' : '') + (signals.length ? ' has-signal' : '') + '" data-code="' + code + '" data-group="' + this.currentGroup + '">' +
           '<div class="stock-item-header">' +
             '<span class="stock-name">' + (d?.name || code) + '<span class="stock-code">' + code + '</span></span>' +
@@ -241,6 +358,7 @@ const App = {
             '<span class="stock-change ' + cls + '">' + (d && !isNaN(d.changePercent) ? ((d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%') : '--') + '</span>' +
             '<span class="stock-meta">' + (d ? '量比' + (d.volumeRatio || 0).toFixed(1) + ' 换手' + (d.turnover || 0).toFixed(1) + '%' : '') + '</span>' +
           '</div>' +
+          '<div class="stock-item-tags">' + flowHtml + compHtml + '</div>' +
           (signals.length ? '<div class="stock-signals">' + signals.map(s => '<span class="signal-badge ' + s.type + '">' + s.reason + '</span>').join('') + '</div>' : '') +
         '</div>';
       }).join('');
@@ -289,6 +407,34 @@ const App = {
     }
 
     const cls = d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '';
+    const flow = this.fundFlowData[code];
+    const compSig = this.compSignals[code];
+
+    let flowSection = '';
+    if (flow) {
+      const flowCls = flow.mainNet > 0 ? 'flow-in' : flow.mainNet < 0 ? 'flow-out' : 'flow-neutral';
+      const trendText = flow.trend === 'in' ? '持续流入 📈' : flow.trend === 'out' ? '持续流出 📉' : '震荡 ↔️';
+      flowSection = '<div class="info-flow-section">' +
+        '<div class="info-flow-title">资金流向</div>' +
+        '<div class="info-flow-grid">' +
+          '<div class="info-flow-item"><label>主力净流入</label><span class="' + flowCls + '">' + (flow.mainNet > 0 ? '+' : '') + flow.mainNet + '万</span></div>' +
+          '<div class="info-flow-item"><label>大单买入</label><span class="up">' + (flow.bigBuy || 0) + '万</span></div>' +
+          '<div class="info-flow-item"><label>大单卖出</label><span class="down">' + (flow.bigSell || 0) + '万</span></div>' +
+          '<div class="info-flow-item"><label>趋势</label><span>' + trendText + '</span></div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    let sigSection = '';
+    if (compSig) {
+      sigSection = '<div class="info-comp-signal ' + compSig.level + '">' +
+        '<span class="comp-emoji">' + compSig.emoji + '</span>' +
+        '<span class="comp-label">' + compSig.label + '</span>' +
+        '<span class="comp-score">评分: ' + compSig.score + '</span>' +
+        '<div class="comp-reason">' + compSig.reason + '</div>' +
+      '</div>';
+    }
+
     info.innerHTML =
       '<div class="info-header">' +
         '<h2>' + d.name + ' <small>' + (d.displayCode || code) + '</small></h2>' +
@@ -298,6 +444,7 @@ const App = {
           '<span>' + (d.change > 0 ? '+' : '') + d.change.toFixed(2) + '</span>' +
         '</div>' +
       '</div>' +
+      sigSection +
       '<div class="info-grid">' +
         '<div class="info-item"><label>今开</label><span>' + d.open.toFixed(2) + '</span></div>' +
         '<div class="info-item"><label>昨收</label><span>' + d.prevClose.toFixed(2) + '</span></div>' +
@@ -307,7 +454,8 @@ const App = {
         '<div class="info-item"><label>换手</label><span>' + (d.turnover || 0).toFixed(2) + '%</span></div>' +
         '<div class="info-item"><label>成交量</label><span>' + (d.volume > 10000 ? (d.volume / 10000).toFixed(0) + '万' : d.volume) + '</span></div>' +
         '<div class="info-item"><label>成交额</label><span>' + (d.amount > 100000000 ? (d.amount / 100000000).toFixed(2) + '亿' : (d.amount / 10000).toFixed(0) + '万') + '</span></div>' +
-      '</div>';
+      '</div>' +
+      flowSection;
   },
 
   async loadChart(code) {
@@ -357,6 +505,58 @@ const App = {
     });
   },
 
+  // ====== 板块异动渲染 ======
+  renderSectorAlerts() {
+    const container = document.getElementById('sector-alerts');
+    if (!container) return;
+
+    const sectors = this.sectorData;
+    const allCodes = Store.getAllStockCodes();
+    
+    // 筛选异动板块（涨跌>2%）
+    const alerts = sectors.filter(s => Math.abs(s.changePercent) >= 2);
+    
+    if (alerts.length === 0) {
+      container.innerHTML = '<div class="empty-hint">暂无板块异动（涨跌>2%触发）</div>';
+      return;
+    }
+
+    // 按涨跌幅绝对值排序
+    alerts.sort((a, b) => Math.abs(b.changePercent) - Math.abs(a.changePercent));
+
+    container.innerHTML = alerts.map(s => {
+      const cls = s.changePercent > 0 ? 'up' : 'down';
+      const related = (s.relatedCodes || []).filter(c => allCodes.includes(c));
+      const relatedNames = related.map(c => {
+        const d = this.stockData[c];
+        return d ? d.name : c;
+      });
+      
+      return '<div class="sector-alert-item">' +
+        '<div class="sector-alert-header">' +
+          '<span class="sector-name">' + s.name + '</span>' +
+          '<span class="sector-change ' + cls + '">' + (s.changePercent > 0 ? '+' : '') + s.changePercent.toFixed(2) + '%</span>' +
+        '</div>' +
+        '<div class="sector-alert-body">' +
+          '<span class="sector-leader">龙头: ' + s.leader + ' ' + (s.leaderChange > 0 ? '+' : '') + (s.leaderChange || 0).toFixed(1) + '%</span>' +
+          (relatedNames.length > 0
+            ? '<span class="sector-related">📌 自选关联: ' + relatedNames.join(', ') + '</span>'
+            : '<span class="sector-no-related">无自选关联</span>') +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    // 也展示全部板块（小列表）
+    const otherSectors = sectors.filter(s => Math.abs(s.changePercent) < 2).slice(0, 10);
+    if (otherSectors.length > 0) {
+      container.innerHTML += '<div class="sector-others-title" onclick="this.nextElementSibling.classList.toggle(\'hidden\')">其他板块 ▼</div>';
+      container.innerHTML += '<div class="sector-others hidden">' + otherSectors.map(s => {
+        const cls = s.changePercent > 0 ? 'up' : s.changePercent < 0 ? 'down' : '';
+        return '<div class="sector-other-item"><span>' + s.name + '</span><span class="' + cls + '">' + (s.changePercent > 0 ? '+' : '') + s.changePercent.toFixed(2) + '%</span></div>';
+      }).join('') + '</div>';
+    }
+  },
+
   renderSignalStream() {
     const signals = Store.getSignals();
     const typeFilter = document.getElementById('signal-filter').value;
@@ -400,6 +600,17 @@ const App = {
   // ====== ⚙️ 设置 ======
   bindSettings() {
     const s = Store.getSettings();
+
+    // 模拟模式
+    document.getElementById('setting-mock-mode').addEventListener('change', (e) => {
+      const settings = Store.getSettings();
+      const val = e.target.value;
+      settings.mockMode = val === 'true' ? true : val === 'false' ? false : 'auto';
+      Store.setSettings(settings);
+      this.updateMockIndicator();
+      // 立即刷新
+      this.refreshAll();
+    });
 
     // 刷新频率
     document.getElementById('setting-refresh-interval').addEventListener('change', (e) => {
@@ -530,6 +741,32 @@ const App = {
     });
   },
 
+  loadMockModeUI() {
+    const s = Store.getSettings();
+    const el = document.getElementById('setting-mock-mode');
+    if (el) {
+      el.value = s.mockMode === true ? 'true' : s.mockMode === false ? 'false' : 'auto';
+    }
+    this.updateMockIndicator();
+  },
+
+  updateMockIndicator() {
+    const isMock = MockData && MockData.shouldUseMock();
+    const statusEl = document.getElementById('mock-status');
+    if (statusEl) {
+      statusEl.innerHTML = isMock
+        ? '<span class="mock-badge active">📊 当前: 模拟数据</span>'
+        : '<span class="mock-badge real">🔴 当前: 实时数据</span>';
+    }
+    // 更新导航栏指示
+    const nav = document.getElementById('tab-nav');
+    if (isMock) {
+      nav.classList.add('mock-mode');
+    } else {
+      nav.classList.remove('mock-mode');
+    }
+  },
+
   // ====== 模态框 ======
   bindModal() {
     document.getElementById('modal-close').addEventListener('click', () => this.closeModal());
@@ -650,25 +887,51 @@ const App = {
     statusEl.textContent = '刷新中...';
 
     try {
+      // 更新模拟模式指示
+      this.updateMockIndicator();
+
       // A股（自选 + 指数）
       const stockCodes = Store.getAllStockCodes();
       const indexCodes = ['sh000001', 'sz399001', 'sz399006'];
       const allCodes = [...new Set([...indexCodes, ...stockCodes])];
 
-      const [stockResults, futuresResults] = await Promise.all([
+      const [stockResults, futuresResults, fundFlowResults, sectorResults] = await Promise.all([
         StockAPI.fetchRealtime(allCodes),
-        StockAPI.fetchFuturesRealtime(Store.getFutures())
+        StockAPI.fetchFuturesRealtime(Store.getFutures()),
+        StockAPI.fetchFundFlowBatch(stockCodes.filter(c => !c.startsWith('nf_'))),
+        StockAPI.fetchSectorList()
       ]);
 
       // 更新数据缓存
       stockResults.forEach(d => { this.stockData[d.code] = d; });
       futuresResults.forEach(d => { this.stockData[d.code] = d; });
+      this.fundFlowData = fundFlowResults || {};
+      this.sectorData = sectorResults || [];
+
+      // 计算综合信号（模拟模式下直接用mock数据）
+      if (MockData && MockData.shouldUseMock()) {
+        const mockSignals = MockData.getComprehensiveSignals();
+        this.compSignals = mockSignals;
+      } else {
+        // 实时模式：对每只股票计算综合信号
+        for (const code of stockCodes) {
+          const stock = this.stockData[code];
+          if (!stock || stock.isFutures) continue;
+          try {
+            const klines = await StockAPI.fetchDailyKline(code, 30);
+            const flow = this.fundFlowData[code];
+            this.compSignals[code] = SignalDetector.calcComprehensiveSignal(stock, klines, flow);
+          } catch { /* skip */ }
+        }
+      }
 
       // 更新UI
       this.updateIndexCards(stockResults);
       this.renderStockList();
       if (this.currentStock) this.updateStockInfo(this.currentStock);
       this.renderOverviewSignals();
+      this.renderDecisionPanel();
+      this.renderSectorAlerts();
 
       // 信号检测
       this.checkSignals([...stockResults, ...futuresResults]);
@@ -739,6 +1002,9 @@ const App = {
     const interval = (settings.refreshInterval || 15) * 1000;
 
     this.refreshTimer = setInterval(() => {
+      // 模拟模式下不需要频繁刷新（数据不变），但首次会刷
+      if (MockData && MockData.shouldUseMock()) return;
+
       const now = new Date();
       const h = now.getHours();
       const m = now.getMinutes();

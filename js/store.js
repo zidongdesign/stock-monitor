@@ -104,7 +104,8 @@ const Store = {
       kdj: false,
       cci: false,
       notification: true,
-      sound: true
+      sound: true,
+      mockMode: 'auto'  // true=强制模拟, false=强制实时, 'auto'=自动
     });
   },
 
@@ -159,6 +160,24 @@ const Store = {
     const key = `${code}_${type}`;
     cd.keys[key] = true;
     this._set('sm_cooldown', cd);
+  },
+
+  // ---- 资金流向缓存 ----
+  getFundFlowCache() {
+    return this._get('sm_fundflow', {});
+  },
+
+  setFundFlowCache(data) {
+    this._set('sm_fundflow', data);
+  },
+
+  // ---- 综合信号缓存 ----
+  getCompSignalCache() {
+    return this._get('sm_compsignal', {});
+  },
+
+  setCompSignalCache(data) {
+    this._set('sm_compsignal', data);
   },
 
   // ---- 导出/导入 ----

@@ -4,11 +4,115 @@
  * A股K线: 腾讯 web.ifzq.gtimg.cn (fetch JSON)
  * 期货: 新浪 hq.sinajs.cn (JSONP)
  * 分时: 腾讯 data.gtimg.cn
+ * 资金流向: 东方财富 push2.eastmoney.com
  */
 const StockAPI = {
+
+  // ====== 股票代码 → 东方财富 secid 转换 ======
+  _toSecid(code) {
+    // sz000001 → 0.000001, sh600519 → 1.600519
+    if (code.startsWith('sz')) return '0.' + code.slice(2);
+    if (code.startsWith('sh')) return '1.' + code.slice(2);
+    return code;
+  },
+
+  // ====== 资金流向（东方财富实时资金流） ======
+  fetchFundFlow(code) {
+    if (MockData && MockData.shouldUseMock()) {
+      const flowData = MockData.getFundFlowData();
+      return Promise.resolve(flowData[code] || null);
+    }
+
+    const secid = this._toSecid(code);
+    const url = 'https://push2.eastmoney.com/api/qt/stock/fflow/kline/get?lmt=0&klt=1&secid=' + secid + '&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63&ut=b2884a393a59ad64002292a3e90d46a5&cb=';
+    
+    return fetch(url)
+      .then(r => r.json())
+      .then(json => {
+        const klines = json?.data?.klines;
+        if (!klines || klines.length === 0) return null;
+        
+        // 累计今日资金流
+        let mainNet = 0, bigBuy = 0, bigSell = 0;
+        klines.forEach(line => {
+          const parts = line.split(',');
+          // f52=主力净流入, f53=小单净流入, f54=中单净流入, f55=大单净流入, f56=超大单净流入
+          mainNet = parseFloat(parts[1]) || 0; // 累计主力净流入
+        });
+        
+        const last = klines[klines.length - 1].split(',');
+        mainNet = parseFloat(last[1]) || 0;
+        
+        // 判断趋势
+        let trend = 'neutral';
+        if (klines.length >= 3) {
+          const recent = klines.slice(-3).map(l => parseFloat(l.split(',')[1]) || 0);
+          const increasing = recent[2] > recent[1] && recent[1] > recent[0];
+          const decreasing = recent[2] < recent[1] && recent[1] < recent[0];
+          if (increasing && mainNet > 0) trend = 'in';
+          else if (decreasing && mainNet < 0) trend = 'out';
+        } else {
+          trend = mainNet > 5000000 ? 'in' : mainNet < -5000000 ? 'out' : 'neutral';
+        }
+
+        return {
+          mainNet: Math.round(mainNet / 10000), // 万元
+          mainNetRaw: mainNet,
+          bigBuy: 0,
+          bigSell: 0,
+          trend
+        };
+      })
+      .catch(() => null);
+  },
+
+  // 批量获取资金流向
+  fetchFundFlowBatch(codes) {
+    if (!codes || codes.length === 0) return Promise.resolve({});
+    if (MockData && MockData.shouldUseMock()) {
+      return Promise.resolve(MockData.getFundFlowData());
+    }
+    // 逐个请求（东方财富无批量接口），限制并发
+    const results = {};
+    const tasks = codes.map(code =>
+      this.fetchFundFlow(code).then(data => { if (data) results[code] = data; })
+    );
+    return Promise.all(tasks).then(() => results);
+  },
+
+  // ====== 板块实时排名（东方财富） ======
+  fetchSectorList() {
+    if (MockData && MockData.shouldUseMock()) {
+      return Promise.resolve(MockData.getSectorData());
+    }
+
+    const url = 'https://push2.eastmoney.com/api/qt/clist/get?fid=f3&po=1&pz=30&np=1&fs=m:90+t:2&fields=f2,f3,f4,f12,f14,f128,f140,f136&ut=b2884a393a59ad64002292a3e90d46a5&cb=';
+    
+    return fetch(url)
+      .then(r => r.json())
+      .then(json => {
+        const list = json?.data?.diff;
+        if (!list) return [];
+        return Object.values(list).map(item => ({
+          name: item.f14,
+          code: item.f12,
+          changePercent: item.f3 / 100 || 0,
+          leader: item.f140 || item.f128 || '--',
+          leaderChange: item.f136 / 100 || 0,
+          relatedCodes: []
+        }));
+      })
+      .catch(() => []);
+  },
   // ====== A股实时行情（腾讯 JSONP） ======
   fetchRealtime(codes) {
     if (!codes || codes.length === 0) return Promise.resolve([]);
+    
+    // 模拟模式
+    if (MockData && MockData.shouldUseMock()) {
+      const allMock = [...MockData.getIndexData(), ...MockData.getRealtimeData()];
+      return Promise.resolve(allMock.filter(s => codes.includes(s.code)));
+    }
 
     return new Promise((resolve) => {
       const script = document.createElement('script');
@@ -64,6 +168,12 @@ const StockAPI = {
   // ====== 期货实时行情（新浪 JSONP） ======
   fetchFuturesRealtime(futuresList) {
     if (!futuresList || futuresList.length === 0) return Promise.resolve([]);
+    
+    // 模拟模式
+    if (MockData && MockData.shouldUseMock()) {
+      const mockFutures = MockData.getFuturesData();
+      return Promise.resolve(mockFutures.filter(f => futuresList.some(fl => fl.sina === f.code)));
+    }
 
     const sinaCodes = futuresList.map(f => f.sina);
 
@@ -124,6 +234,10 @@ const StockAPI = {
 
   // ====== 分时数据（腾讯） ======
   fetchMinute(code) {
+    // 模拟模式
+    if (MockData && MockData.shouldUseMock()) {
+      return Promise.resolve(MockData.getMinuteData(code));
+    }
     return new Promise((resolve) => {
       const script = document.createElement('script');
       const timeout = setTimeout(() => { script.remove(); resolve([]); }, 8000);
@@ -162,6 +276,10 @@ const StockAPI = {
   // ====== 日K线（腾讯） ======
   fetchDailyKline(code, count) {
     count = count || 120;
+    // 模拟模式
+    if (MockData && MockData.shouldUseMock()) {
+      return Promise.resolve(MockData.getDailyKlineData(code, count));
+    }
     return fetch('https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=' + code + ',day,,,' + count + ',qfq')
       .then(r => r.json())
       .then(json => {
@@ -177,6 +295,10 @@ const StockAPI = {
   // ====== 周K线（腾讯） ======
   fetchWeeklyKline(code, count) {
     count = count || 60;
+    // 模拟模式
+    if (MockData && MockData.shouldUseMock()) {
+      return Promise.resolve(MockData.getWeeklyKlineData(code, count));
+    }
     return fetch('https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=' + code + ',week,,,' + count + ',qfq')
       .then(r => r.json())
       .then(json => {

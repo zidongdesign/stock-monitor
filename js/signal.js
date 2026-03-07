@@ -220,5 +220,144 @@ const SignalDetector = {
       result.push(+cci.toFixed(2));
     }
     return result;
+  },
+
+  // ====== 综合技术指标评分 ======
+  // 基于 MACD/KDJ/量价/MA位置 综合判断
+  // 返回: { level: 'buy'|'hold'|'sell', emoji, label, score, reason }
+  calcComprehensiveSignal(stock, klines, fundFlow) {
+    // 模拟模式直接返回预设数据
+    if (MockData && MockData.shouldUseMock()) {
+      const mockSignals = MockData.getComprehensiveSignals();
+      if (mockSignals[stock.code]) return mockSignals[stock.code];
+    }
+
+    if (!klines || klines.length < 26) {
+      return { level: 'hold', emoji: '🟡', label: '持有观察', score: 50, reason: 'K线数据不足，无法综合判断' };
+    }
+
+    let score = 50; // 基准分 50
+    const reasons = [];
+    const len = klines.length;
+    const last = klines[len - 1];
+
+    // 1. MACD 状态（±15分）
+    const macd = this.calcMACD(klines);
+    if (macd.length >= 2) {
+      const curr = macd[macd.length - 1];
+      const prev = macd[macd.length - 2];
+      if (prev.hist < 0 && curr.hist >= 0) {
+        score += 15; reasons.push('MACD金叉');
+      } else if (prev.hist > 0 && curr.hist <= 0) {
+        score -= 15; reasons.push('MACD死叉');
+      } else if (curr.hist > 0 && curr.hist > prev.hist) {
+        score += 8; reasons.push('MACD红柱放大');
+      } else if (curr.hist < 0 && curr.hist < prev.hist) {
+        score -= 8; reasons.push('MACD绿柱放大');
+      } else if (curr.dif > 0 && curr.dea > 0) {
+        score += 5;
+      } else if (curr.dif < 0 && curr.dea < 0) {
+        score -= 5;
+      }
+    }
+
+    // 2. KDJ 状态（±12分）
+    const kdj = this.calcKDJ(klines);
+    if (kdj.length >= 2) {
+      const curr = kdj[kdj.length - 1];
+      const prev = kdj[kdj.length - 2];
+      if (curr.k > 80 && curr.d > 80) {
+        score -= 10; reasons.push('KDJ超买(>80)');
+      } else if (curr.k < 20 && curr.d < 20) {
+        score += 10; reasons.push('KDJ超卖(<20)');
+      }
+      if (prev.j < prev.d && curr.j >= curr.d && curr.j < 50) {
+        score += 12; reasons.push('KDJ金叉');
+      } else if (prev.j > prev.d && curr.j <= curr.d && curr.j > 50) {
+        score -= 12; reasons.push('KDJ死叉');
+      }
+    }
+
+    // 3. 量价关系（±10分）
+    if (stock.volumeRatio > 2 && stock.changePercent > 1) {
+      score += 10; reasons.push('放量上涨(量比' + stock.volumeRatio.toFixed(1) + ')');
+    } else if (stock.volumeRatio > 2 && stock.changePercent < -1) {
+      score -= 10; reasons.push('放量下跌(量比' + stock.volumeRatio.toFixed(1) + ')');
+    } else if (stock.volumeRatio < 0.8 && stock.changePercent > 0) {
+      score += 3; reasons.push('缩量上涨');
+    } else if (stock.volumeRatio < 0.8 && stock.changePercent < -1) {
+      score -= 5; reasons.push('缩量阴跌');
+    }
+
+    // 4. MA 位置关系（±10分）
+    const ma5 = this.calcMA(klines, 5);
+    const ma10 = this.calcMA(klines, 10);
+    const ma20 = this.calcMA(klines, 20);
+    const price = last.close;
+    let maAbove = 0;
+    if (ma5[len - 1] && price > ma5[len - 1]) maAbove++;
+    if (ma10[len - 1] && price > ma10[len - 1]) maAbove++;
+    if (ma20[len - 1] && price > ma20[len - 1]) maAbove++;
+
+    if (maAbove === 3) {
+      score += 10; reasons.push('站上MA5/10/20');
+    } else if (maAbove === 2) {
+      score += 5;
+    } else if (maAbove === 0) {
+      score -= 10; reasons.push('跌破所有均线');
+    } else if (maAbove === 1) {
+      score -= 3;
+    }
+
+    // MA5/MA10 排列
+    if (ma5[len - 1] && ma10[len - 1]) {
+      if (ma5[len - 2] < ma10[len - 2] && ma5[len - 1] >= ma10[len - 1]) {
+        score += 5; reasons.push('MA5上穿MA10');
+      } else if (ma5[len - 2] > ma10[len - 2] && ma5[len - 1] <= ma10[len - 1]) {
+        score -= 5; reasons.push('MA5下穿MA10');
+      }
+    }
+
+    // 5. 资金流向加分（±10分）
+    if (fundFlow) {
+      if (fundFlow.mainNet > 2000) {
+        score += 10; reasons.push('主力净流入+' + this._formatMoney(fundFlow.mainNet));
+      } else if (fundFlow.mainNet > 500) {
+        score += 5; reasons.push('主力小幅流入');
+      } else if (fundFlow.mainNet < -2000) {
+        score -= 10; reasons.push('主力净流出' + this._formatMoney(fundFlow.mainNet));
+      } else if (fundFlow.mainNet < -500) {
+        score -= 5; reasons.push('主力小幅流出');
+      }
+      
+      if (fundFlow.trend === 'in') {
+        score += 3;
+      } else if (fundFlow.trend === 'out') {
+        score -= 3;
+      }
+    }
+
+    // 限制分数在 0-100
+    score = Math.max(0, Math.min(100, score));
+
+    // 生成信号级别
+    let level, emoji, label;
+    if (score >= 65) {
+      level = 'buy'; emoji = '🟢'; label = '买入关注';
+    } else if (score >= 40) {
+      level = 'hold'; emoji = '🟡'; label = '持有观察';
+    } else {
+      level = 'sell'; emoji = '🔴'; label = '注意风险';
+    }
+
+    // 组合理由（取前3个最重要的）
+    const reason = reasons.slice(0, 3).join('，') || '指标中性';
+
+    return { level, emoji, label, score, reason };
+  },
+
+  _formatMoney(val) {
+    if (Math.abs(val) >= 10000) return (val / 10000).toFixed(1) + '亿';
+    return val + '万';
   }
 };
