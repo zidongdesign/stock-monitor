@@ -32,6 +32,12 @@ const ChartManager = {
     const prices = data.map(d => d.price);
     const volumes = data.map(d => d.volume);
 
+    // 成交量红绿柱（与上一分钟比）
+    const volColors = volumes.map((v, i) => {
+      if (i === 0) return prices[i] >= prevClose ? '#ef5350' : '#26a69a';
+      return prices[i] >= prices[i - 1] ? '#ef5350' : '#26a69a';
+    });
+
     // 均价线
     const avgPrices = [];
     let totalAmt = 0, totalVol = 0;
@@ -40,6 +46,26 @@ const ChartManager = {
       totalVol += d.volume;
       avgPrices.push(totalVol > 0 ? +(totalAmt / totalVol).toFixed(2) : d.price);
     });
+
+    // 分时KDJ（用滑动窗口9分钟的高低价）
+    const n = 9;
+    const kdjData = [];
+    let prevK = 50, prevD = 50;
+    for (let i = 0; i < prices.length; i++) {
+      const start = Math.max(0, i - n + 1);
+      let high = -Infinity, low = Infinity;
+      for (let j = start; j <= i; j++) {
+        if (prices[j] > high) high = prices[j];
+        if (prices[j] < low) low = prices[j];
+      }
+      const rsv = high === low ? 50 : (prices[i] - low) / (high - low) * 100;
+      const k = 2 / 3 * prevK + 1 / 3 * rsv;
+      const d = 2 / 3 * prevD + 1 / 3 * k;
+      const j2 = 3 * k - 2 * d;
+      kdjData.push({ k: +k.toFixed(2), d: +d.toFixed(2), j: +j2.toFixed(2) });
+      prevK = k;
+      prevD = d;
+    }
 
     const validPrices = prices.filter(p => p > 0 && isFinite(p));
     if (validPrices.length === 0) return;
@@ -52,16 +78,19 @@ const ChartManager = {
     const opt = {
       animation: false,
       grid: [
-        { left: 60, right: 20, top: 30, height: '55%' },
-        { left: 60, right: 20, top: '72%', height: '20%' }
+        { left: 60, right: 20, top: 30, height: '40%' },
+        { left: 60, right: 20, top: '52%', height: '15%' },
+        { left: 60, right: 20, top: '72%', height: '18%' }
       ],
       xAxis: [
         { type: 'category', data: times, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: false },
-        { type: 'category', data: times, gridIndex: 1, axisLabel: { fontSize: 10 }, boundaryGap: false }
+        { type: 'category', data: times, gridIndex: 1, axisLabel: { show: false }, boundaryGap: false },
+        { type: 'category', data: times, gridIndex: 2, axisLabel: { fontSize: 10 }, boundaryGap: false }
       ],
       yAxis: [
         { type: 'value', gridIndex: 0, scale: true, min: yMin, max: yMax, splitNumber: 4, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10, formatter: v => v.toFixed(2) } },
-        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } }
+        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } },
+        { type: 'value', gridIndex: 2, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9 } }
       ],
       tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
       series: [
@@ -79,11 +108,24 @@ const ChartManager = {
           lineStyle: { color: '#E6A23C', width: 1 }, symbol: 'none'
         },
         {
-          name: '成交量', type: 'bar', data: volumes, xAxisIndex: 1, yAxisIndex: 1,
-          itemStyle: { color: '#409EFF', opacity: 0.5 }
+          name: '成交量', type: 'bar',
+          data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i], opacity: 0.6 } })),
+          xAxisIndex: 1, yAxisIndex: 1
+        },
+        {
+          name: 'K', type: 'line', data: kdjData.map(k => k.k), xAxisIndex: 2, yAxisIndex: 2,
+          lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none'
+        },
+        {
+          name: 'D', type: 'line', data: kdjData.map(k => k.d), xAxisIndex: 2, yAxisIndex: 2,
+          lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none'
+        },
+        {
+          name: 'J', type: 'line', data: kdjData.map(k => k.j), xAxisIndex: 2, yAxisIndex: 2,
+          lineStyle: { width: 1, color: '#F56C6C' }, symbol: 'none'
         }
       ],
-      dataZoom: [{ type: 'inside', xAxisIndex: [0, 1] }]
+      dataZoom: [{ type: 'inside', xAxisIndex: [0, 1, 2] }]
     };
 
     this.chart.setOption(opt, true);
