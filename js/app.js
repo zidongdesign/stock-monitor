@@ -275,6 +275,16 @@ const App = {
       }
       ChartManager.resize();
     });
+
+    // 横屏切换时重新resize图表
+    if (screen.orientation) {
+      screen.orientation.addEventListener('change', () => {
+        setTimeout(() => ChartManager.resize(), 300);
+      });
+    }
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => ChartManager.resize(), 300);
+    });
   },
 
   renderGroupTabs() {

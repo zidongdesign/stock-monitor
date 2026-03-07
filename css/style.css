@@ -1215,3 +1215,82 @@ body {
     gap: 4px;
   }
 }
+
+/* ============ 手机横屏全屏图表 ============ */
+@media (max-height: 500px) and (orientation: landscape) {
+  /* 隐藏顶部Tab导航 */
+  .tab-nav { display: none !important; }
+
+  /* 页面撑满 */
+  .page { padding: 0 !important; height: 100vh !important; }
+
+  /* 自选股页：隐藏左侧列表，图表全屏 */
+  #page-watchlist .watchlist-view { display: none !important; }
+  #page-watchlist .detail-view {
+    width: 100vw !important;
+    height: 100vh !important;
+  }
+
+  /* 详情头部精简 */
+  .detail-header {
+    padding: 4px 8px !important;
+    flex-shrink: 0;
+  }
+  .detail-header .stock-name { font-size: 14px !important; }
+  .detail-header .stock-code { font-size: 11px !important; }
+
+  /* 图表区域撑满剩余空间 */
+  .chart-wrapper {
+    flex: 1 !important;
+    min-height: unset !important;
+    height: calc(100vh - 80px) !important;
+  }
+
+  #chart-container {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* 详情下方信息区隐藏（横屏只看图表） */
+  .detail-info-section { display: none !important; }
+
+  /* 返回按钮保留在左上角 */
+  .back-btn {
+    position: fixed !important;
+    top: 4px;
+    left: 4px;
+    z-index: 200;
+    background: rgba(13, 17, 23, 0.8) !important;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* 视图切换（分时/日K/周K）浮在右上角 */
+  .view-tabs {
+    position: fixed !important;
+    top: 4px;
+    right: 4px;
+    z-index: 200;
+    background: rgba(13, 17, 23, 0.8) !important;
+    border-radius: var(--radius);
+    backdrop-filter: blur(4px);
+  }
+
+  /* 大盘页横屏也全屏显示 */
+  #page-overview .page-content {
+    height: 100vh !important;
+    overflow-y: auto !important;
+  }
+
+  /* 信号页横屏适配 */
+  #page-signals .page-content {
+    height: 100vh !important;
+    overflow-y: auto !important;
+  }
+}
