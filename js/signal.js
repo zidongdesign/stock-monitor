@@ -61,33 +61,61 @@ const SignalDetector = {
     const signals = [];
     const len = klines.length;
 
+    // === 趋势追踪：只在趋势启动时发信号，延续中不重复 ===
+    let upStreak = 0;   // 连续阳线天数
+    let downStreak = 0; // 连续阴线天数
+    let lastVolBuyIdx = -99; // 上次放量阳线信号位置
+
     for (let i = 2; i < len; i++) {
       const c = klines[i], p = klines[i - 1], p2 = klines[i - 2];
 
-      // 放量阳线
-      if (c.volume > p.volume * 2 && c.close > c.open) {
-        signals.push({ index: i, date: c.date, type: 'buy', reason: '放量阳线' });
+      // 计算连涨/连跌天数
+      if (c.close > c.open) { upStreak++; downStreak = 0; }
+      else if (c.close < c.open) { downStreak++; upStreak = 0; }
+      else { upStreak = 0; downStreak = 0; }
+
+      // 放量阳线：只在趋势初期报（距上次信号>=3天），持续放量不重复
+      if (c.volume > p.volume * 2 && c.close > c.open && (i - lastVolBuyIdx) >= 3) {
+        // 前一天不是放量阳线才报（避免连续放量天天报）
+        const prevAlsoVol = i >= 2 && p.volume > klines[i - 2].volume * 2 && p.close > p.open;
+        if (!prevAlsoVol) {
+          signals.push({ index: i, date: c.date, type: 'buy', reason: '放量阳线' });
+          lastVolBuyIdx = i;
+        }
       }
 
-      // 三连阳
-      if (c.close > c.open && p.close > p.open && p2.close > p2.open) {
+      // 三连阳：只报第一次（第3天），后续连涨不再报
+      // 即 upStreak == 3 时报，upStreak > 3 不报
+      if (upStreak === 3) {
         signals.push({ index: i, date: c.date, type: 'buy', reason: '三连阳' });
       }
 
-      // 三连阴
-      if (c.close < c.open && p.close < p.open && p2.close < p2.open) {
+      // 三连阴：同理，只报第一次
+      if (downStreak === 3) {
         signals.push({ index: i, date: c.date, type: 'sell', reason: '三连阴' });
       }
 
-      // 长下影线
+      // 长下影线（形态信号，不存在连续问题，保留）
       const body = Math.abs(c.close - c.open);
       const lowerShadow = Math.min(c.open, c.close) - c.low;
       if (lowerShadow > body * 2 && body > 0) {
         signals.push({ index: i, date: c.date, type: 'buy', reason: '长下影线' });
       }
+
+      // 趋势变化信号（新增）：连涨后首次收阴 / 连跌后首次收阳
+      if (i >= 4) {
+        const prevUpStreak = [klines[i-1], klines[i-2], klines[i-3]].every(k => k.close > k.open);
+        if (prevUpStreak && c.close < c.open && c.volume > p.volume * 1.5) {
+          signals.push({ index: i, date: c.date, type: 'sell', reason: '连涨后放量转阴' });
+        }
+        const prevDownStreak = [klines[i-1], klines[i-2], klines[i-3]].every(k => k.close < k.open);
+        if (prevDownStreak && c.close > c.open && c.volume > p.volume * 1.5) {
+          signals.push({ index: i, date: c.date, type: 'buy', reason: '连跌后放量转阳' });
+        }
+      }
     }
 
-    // MA 金叉/死叉
+    // MA 金叉/死叉（交叉点信号，本身不存在连续问题）
     const ma5 = this.calcMA(klines, 5);
     const ma10 = this.calcMA(klines, 10);
     for (let i = 1; i < len; i++) {
