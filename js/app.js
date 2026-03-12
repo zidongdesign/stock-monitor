@@ -742,6 +742,16 @@ const App = {
       // Render using the full-layout chart
       const periodLabels = { '5': '5分钟', '15': '15分钟', '30': '30分钟', '60': '60分钟', 'daily': '日K', 'weekly': '周K' };
       ChartManager.renderFuturesKline('futures-kline-chart', klines, signals, periodLabels[period]);
+
+      // Keep reference for cleanup/resize
+      const chartEl = document.getElementById('futures-kline-chart');
+      if (chartEl) {
+        this._futuresChart = echarts.getInstanceByDom(chartEl);
+        if (!this._futuresResizeHandler) {
+          this._futuresResizeHandler = () => { if (this._futuresChart) this._futuresChart.resize(); };
+          window.addEventListener('resize', this._futuresResizeHandler);
+        }
+      }
     } catch (e) {
       console.error('Futures kline error:', e);
       const el = document.getElementById('futures-kline-chart');
