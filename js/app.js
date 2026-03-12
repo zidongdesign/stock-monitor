@@ -548,31 +548,8 @@ const App = {
       // 技术分析面板容器
       html += '<div id="futures-analysis-panel"></div>';
 
-      // 实时行情信息
-      const sel = futures.find(f => f.code === this.currentFutures);
-      const d = sel ? this.stockData[sel.sina] : null;
-      if (d && d.price > 0) {
-        const cls = d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '';
-        html += '<div class="futures-realtime-info">' +
-          '<div class="fri-header">' +
-            '<span class="fri-name">' + d.name + '</span>' +
-            '<span class="fri-code">' + sel.code + '</span>' +
-          '</div>' +
-          '<div class="fri-body">' +
-            '<div class="fri-price ' + cls + '">' + d.price.toFixed(2) + '</div>' +
-            '<div class="fri-details">' +
-              '<span class="fri-item ' + cls + '">涨跌 ' + (d.change > 0 ? '+' : '') + d.change.toFixed(2) + ' (' + (d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%)</span>' +
-              '<span class="fri-item">开盘 ' + d.open.toFixed(2) + '</span>' +
-              '<span class="fri-item">最高 ' + d.high.toFixed(2) + '</span>' +
-              '<span class="fri-item">最低 ' + d.low.toFixed(2) + '</span>' +
-              '<span class="fri-item">成交量 ' + (d.volume || 0) + '</span>' +
-              '<span class="fri-item">昨结算 ' + d.prevClose.toFixed(2) + '</span>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
-      } else {
-        html += '<div class="futures-realtime-info"><div class="empty-hint">' + (d === null ? '暂无数据' : '暂无数据') + '</div></div>';
-      }
+      // 实时行情信息（占位，由 updateFuturesRealtimeInfo 填充）
+      html += '<div class="futures-realtime-info" id="futures-realtime-info"><div class="empty-hint">加载行情...</div></div>';
 
       container.innerHTML = html;
 
@@ -1428,6 +1405,7 @@ const App = {
       this.updateIndexCards(stockResults);
       this.loadMiniCharts();
       this.renderStockList();
+      this.updateFuturesRealtimeInfo();
       if (this.currentStock) this.updateStockInfo(this.currentStock);
       this.renderOverviewSignals();
       this.renderDecisionPanel();
@@ -1441,6 +1419,34 @@ const App = {
     } catch (e) {
       statusEl.textContent = '刷新失败';
       console.error('Refresh error:', e);
+    }
+  },
+
+  updateFuturesRealtimeInfo() {
+    const el = document.getElementById('futures-realtime-info');
+    if (!el) return;
+    const futures = Store.getFutures();
+    const sel = futures.find(f => f.code === this.currentFutures);
+    if (!sel) { el.innerHTML = ''; return; }
+    const d = this.stockData[sel.sina];
+    if (d && d.price > 0) {
+      const cls = d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '';
+      el.innerHTML =
+        '<div class="fri-header">' +
+          '<span class="fri-name">' + d.name + '</span>' +
+          '<span class="fri-code">' + sel.code + '</span>' +
+        '</div>' +
+        '<div class="fri-body">' +
+          '<div class="fri-price ' + cls + '">' + d.price.toFixed(2) + '</div>' +
+          '<div class="fri-details">' +
+            '<span class="fri-item ' + cls + '">涨跌 ' + (d.change > 0 ? '+' : '') + d.change.toFixed(2) + ' (' + (d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%)</span>' +
+            '<span class="fri-item">开盘 ' + d.open.toFixed(2) + '</span>' +
+            '<span class="fri-item">最高 ' + d.high.toFixed(2) + '</span>' +
+            '<span class="fri-item">最低 ' + d.low.toFixed(2) + '</span>' +
+            '<span class="fri-item">成交量 ' + (d.volume || 0) + '</span>' +
+            '<span class="fri-item">昨结算 ' + d.prevClose.toFixed(2) + '</span>' +
+          '</div>' +
+        '</div>';
     }
   },
 

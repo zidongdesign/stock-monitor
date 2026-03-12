@@ -213,7 +213,7 @@ const ChartManager = {
   },
 
   // ====== 期货多周期K线图（完整布局：K线+MA + 成交量 + KDJ + MACD + 信号） ======
-  renderFuturesKline(containerId, klines, signals, periodLabel) {
+  renderFuturesKline(containerId, klines, signals, periodLabel, reversalSignal) {
     const el = document.getElementById(containerId);
     if (!el) return;
     let chart = echarts.getInstanceByDom(el);

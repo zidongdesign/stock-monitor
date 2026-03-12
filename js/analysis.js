@@ -258,5 +258,174 @@ const FuturesAnalysis = {
         '<div class="fa-detail">' + prediction.subText + '</div>' +
       '</div>' +
     '</div>';
+  },
+
+  // ====== 计算KDJ ======
+  calcKDJ(klines, n) {
+    n = n || 9;
+    const result = [];
+    let prevK = 50, prevD = 50;
+    for (let i = 0; i < klines.length; i++) {
+      const start = Math.max(0, i - n + 1);
+      let high = -Infinity, low = Infinity;
+      for (let j = start; j <= i; j++) {
+        if (klines[j].high > high) high = klines[j].high;
+        if (klines[j].low < low) low = klines[j].low;
+      }
+      const rsv = high === low ? 50 : (klines[i].close - low) / (high - low) * 100;
+      const k = 2 / 3 * prevK + 1 / 3 * rsv;
+      const d = 2 / 3 * prevD + 1 / 3 * k;
+      const j = 3 * k - 2 * d;
+      result.push({ k: +k.toFixed(2), d: +d.toFixed(2), j: +j.toFixed(2) });
+      prevK = k;
+      prevD = d;
+    }
+    return result;
+  },
+
+  // ====== 趋势转折检测 ======
+  detectTrendReversal(symbol, klines, dailyKlines) {
+    const result = { hasReversal: false, type: null, strength: null, conditions: [], dailyContext: '', summary: '', klineIndex: -1 };
+    if (!klines || klines.length < 15) return result;
+
+    const len = klines.length;
+    const last = len - 1;
+    const prev = len - 2;
+
+    // 计算指标
+    const ma5 = this.calcMA(klines, 5);
+    const ma10 = this.calcMA(klines, 10);
+    const macd = this.calcMACD(klines);
+    const kdj = this.calcKDJ(klines);
+
+    // ====== 检测各条件 ======
+    const bearishConditions = [];
+    const bullishConditions = [];
+
+    // 1. MA5 下穿/上穿 MA10
+    if (ma5[last] !== null && ma10[last] !== null && ma5[prev] !== null && ma10[prev] !== null) {
+      if (ma5[prev] > ma10[prev] && ma5[last] <= ma10[last]) {
+        bearishConditions.push('MA5下穿MA10');
+      }
+      if (ma5[prev] < ma10[prev] && ma5[last] >= ma10[last]) {
+        bullishConditions.push('MA5上穿MA10');
+      }
+    }
+
+    // 2. MACD 死叉/金叉 或 红柱转绿柱/绿柱转红柱
+    if (macd.hists.length >= 2) {
+      const currHist = macd.hists[last];
+      const prevHist = macd.hists[prev];
+      const currDif = macd.difs[last];
+      const prevDif = macd.difs[prev];
+      const currDea = macd.deas[last];
+      const prevDea = macd.deas[prev];
+
+      // 死叉：DIF从上方穿过DEA
+      if (prevDif > prevDea && currDif <= currDea) {
+        bearishConditions.push('MACD死叉');
+      } else if (prevHist > 0 && currHist <= 0) {
+        bearishConditions.push('MACD红柱转绿');
+      }
+
+      // 金叉：DIF从下方穿过DEA
+      if (prevDif < prevDea && currDif >= currDea) {
+        bullishConditions.push('MACD金叉');
+      } else if (prevHist < 0 && currHist >= 0) {
+        bullishConditions.push('MACD绿柱转红');
+      }
+    }
+
+    // 3. 放量阴线/阳线
+    if (len >= 2) {
+      const c = klines[last];
+      const p = klines[prev];
+      if (c.volume > p.volume * 1.5 && c.close < c.open) {
+        bearishConditions.push('放量阴线');
+      }
+      if (c.volume > p.volume * 1.5 && c.close > c.open) {
+        bullishConditions.push('放量阳线');
+      }
+    }
+
+    // 4. KDJ 高位死叉/低位金叉
+    if (kdj.length >= 2) {
+      const currK = kdj[last].k;
+      const prevK = kdj[prev].k;
+      const currD = kdj[last].d;
+      const prevD = kdj[prev].d;
+
+      if (prevK > 80 && prevK > prevD && currK <= currD) {
+        bearishConditions.push('KDJ高位死叉');
+      }
+      if (prevK < 20 && prevK < prevD && currK >= currD) {
+        bullishConditions.push('KDJ低位金叉');
+      }
+    }
+
+    // ====== 至少2个条件才触发 ======
+    let type = null, conditions = [];
+    if (bearishConditions.length >= 2) {
+      type = 'bearish_reversal';
+      conditions = bearishConditions;
+    } else if (bullishConditions.length >= 2) {
+      type = 'bullish_reversal';
+      conditions = bullishConditions;
+    }
+
+    if (!type) return result;
+
+    // ====== 日线大方向验证 ======
+    const dailyTrend = this.analyzeDailyTrend(dailyKlines);
+    const dailyContext = '日线' + dailyTrend.trend;
+    let contextNote = '';
+
+    if (type === 'bearish_reversal') {
+      if (dailyTrend.trend === '偏多') {
+        contextNote = '短线回调风险，大方向仍偏多';
+      } else if (dailyTrend.trend === '偏空') {
+        contextNote = '趋势共振，转折信号更强';
+      } else {
+        contextNote = '震荡格局中出现空头信号';
+      }
+    } else {
+      if (dailyTrend.trend === '偏空') {
+        contextNote = '短线反弹，但大方向偏空，谨慎';
+      } else if (dailyTrend.trend === '偏多') {
+        contextNote = '趋势共振，转折信号更强';
+      } else {
+        contextNote = '震荡格局中出现多头信号';
+      }
+    }
+
+    // 信号强度
+    let strength = 'weak';
+    if (conditions.length >= 4) strength = 'strong';
+    else if (conditions.length >= 3) strength = 'medium';
+
+    // 查品种名
+    const nameMap = {};
+    const futures = (typeof Store !== 'undefined') ? Store.getFutures() : [];
+    futures.forEach(f => { nameMap[f.code] = f.name; });
+    const displayName = nameMap[symbol] || symbol;
+
+    const typeLabel = type === 'bearish_reversal' ? '多转空' : '空转多';
+    const emoji = type === 'bearish_reversal' ? '🟢▼' : '🔴▲';
+    const sr = this.calcSupportResistance(klines);
+    const keyLevel = type === 'bearish_reversal' ? '支撑位' + sr.support : '压力位' + sr.resistance;
+
+    const summary = '⚠️ ' + displayName + '：' + conditions.join('+') + '，' + typeLabel + '，' + contextNote;
+
+    return {
+      hasReversal: true,
+      type,
+      strength,
+      conditions,
+      dailyContext,
+      contextNote,
+      summary,
+      klineIndex: last,
+      sr
+    };
   }
 };
