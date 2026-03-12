@@ -15,10 +15,9 @@ const MockData = {
   // 是否应使用模拟数据
   shouldUseMock() {
     const settings = Store.getSettings();
-    if (settings.mockMode === false) return false;
-    if (settings.mockMode === true) return true;
-    // 默认：auto - 非交易时间用模拟
-    return !this.isTradingTime();
+    // 只有用户手动开启 mock 时才返回 true
+    // auto 模式和 false 都不启用 mock（真实接口收盘后也能返回收盘价）
+    return settings.mockMode === true;
   },
 
   // ========== 20只模拟自选股 ==========

@@ -3,7 +3,7 @@
  * A股: 腾讯 qt.gtimg.cn (JSONP)
  * A股K线: 腾讯 web.ifzq.gtimg.cn (fetch JSON)
  * 期货: 新浪 hq.sinajs.cn (JSONP)
- * 分时: 腾讯 data.gtimg.cn
+ * 分时: 东方财富 push2his.eastmoney.com
  * 资金流向: 东方财富 push2.eastmoney.com
  */
 const StockAPI = {
@@ -232,45 +232,29 @@ const StockAPI = {
     };
   },
 
-  // ====== 分时数据（腾讯） ======
+  // ====== 分时数据（东方财富） ======
   fetchMinute(code) {
     // 模拟模式
     if (MockData && MockData.shouldUseMock()) {
       return Promise.resolve(MockData.getMinuteData(code));
     }
-    return new Promise((resolve) => {
-      const script = document.createElement('script');
-      const timeout = setTimeout(() => { script.remove(); resolve([]); }, 8000);
-
-      script.src = 'https://data.gtimg.cn/flashdata/hushen/minute/' + code + '.js?r=' + Date.now();
-      script.onerror = () => { clearTimeout(timeout); script.remove(); resolve([]); };
-      script.onload = () => {
-        clearTimeout(timeout);
-        script.remove();
-
-        const raw = window.min_data;
-        if (!raw) { resolve([]); return; }
-
-        const lines = raw.split('\n').filter(l => l.trim() && !l.trim().startsWith('date:'));
-        const data = [];
-        lines.forEach(line => {
-          const parts = line.trim().split(' ');
-          if (parts.length >= 3 && /^\d{4}$/.test(parts[0])) {
-            const price = parseFloat(parts[1]);
-            const volume = parseFloat(parts[2]);
-            if (price > 0 && isFinite(price)) {
-              data.push({
-                time: parts[0].substring(0, 2) + ':' + parts[0].substring(2),
-                price,
-                volume
-              });
-            }
-          }
-        });
-        resolve(data);
-      };
-      document.head.appendChild(script);
-    });
+    const secid = this._toSecid(code);
+    const url = 'https://push2his.eastmoney.com/api/qt/stock/trends2/get?secid=' + secid + '&fields1=f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13&fields2=f51,f52,f53,f54,f55,f56,f57,f58&iscr=0&ndays=1';
+    return fetch(url)
+      .then(r => r.json())
+      .then(json => {
+        const trends = json?.data?.trends;
+        if (!trends || trends.length === 0) return [];
+        return trends.map(item => {
+          const parts = item.split(',');
+          return {
+            time: parts[0].split(' ')[1].substring(0, 5),
+            price: parseFloat(parts[2]),
+            volume: parseInt(parts[5])
+          };
+        }).filter(d => d.price > 0 && isFinite(d.price));
+      })
+      .catch(() => []);
   },
 
   // ====== 日K线（腾讯） ======
