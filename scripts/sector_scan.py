@@ -155,17 +155,19 @@ def fetch_stock_fund_flow_for_sector(category: str, max_stocks: int = 50) -> dic
 # 4. 拉取全局个股资金排名（作为资金过滤依据）
 # ============================================================
 
-def fetch_global_fund_flow(pages: int = 5) -> dict[str, float]:
+def fetch_global_fund_flow(num: int = 500) -> dict[str, dict]:
     """
-    拉取全市场个股资金排名 TOP 500，返回 { code: netamount } 映射。
-    用于快速查询某只股票的资金净流入。
+    用新浪 ssl_bkzj_ssggzj 接口拉取全市场个股资金排名。
+    拉流入TOP500 + 流出TOP500，覆盖1000只。
+    返回: { code: { netamount, name, changeratio, r0_net, ratioamount } }
     """
-    code_to_net = {}
-    for page in range(1, pages + 1):
+    results = {}
+
+    for asc, label in [(0, "流入"), (1, "流出")]:
         url = (
             f"https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/"
-            f"MoneyFlow.ssl_bkzj_zjlrqs?page={page}&num=100&sort=netamount&asc=0"
-            f"&bankuai=&shession="
+            f"MoneyFlow.ssl_bkzj_ssggzj?page=1&num={num}&sort=netamount&asc={asc}"
+            f"&bankuai=&shession=f"
         )
         try:
             resp = requests.get(url, headers=HEADERS, timeout=15)
@@ -173,21 +175,21 @@ def fetch_global_fund_flow(pages: int = 5) -> dict[str, float]:
             data = json.loads(resp.text)
             for item in data:
                 symbol = item.get("symbol", "")
-                if not symbol:
+                if not symbol or symbol in results:
                     continue
-                # 统一为 sz/sh 格式
-                if symbol.startswith(("0", "3")):
-                    code = "sz" + symbol
-                elif symbol.startswith("6"):
-                    code = "sh" + symbol
-                else:
-                    code = symbol
-                code_to_net[code] = float(item.get("netamount", 0))
-            time.sleep(0.3)
+                results[symbol] = {
+                    "netamount": float(item.get("netamount", 0)),
+                    "name": item.get("name", ""),
+                    "changeratio": float(item.get("changeratio", 0)) * 100,
+                    "r0_net": float(item.get("r0_net", 0)),
+                    "ratioamount": float(item.get("ratioamount", 0)),
+                }
+            print(f"  [资金排名] {label} TOP{num}: {len(data)} 条")
         except Exception as e:
-            print(f"  [资金排名] 第 {page} 页失败: {e}")
-    print(f"[资金排名] 共获取 {len(code_to_net)} 只个股资金数据")
-    return code_to_net
+            print(f"  [资金排名] {label}拉取失败: {e}")
+
+    print(f"[资金排名] 共获取 {len(results)} 只个股资金数据")
+    return results
 
 
 # ============================================================
@@ -340,7 +342,9 @@ def run_sector_scan() -> dict:
 
     # 2. 拉取全局个股资金排名（用于过滤）
     print("\n[资金排名] 拉取全市场个股资金排名...")
-    fund_flow_map = fetch_global_fund_flow(pages=5)
+    raw_flow = fetch_global_fund_flow(num=500)
+    # filter_hot_stocks 期望 { code: netamount(float) }
+    fund_flow_map = {code: info["netamount"] for code, info in raw_flow.items()}
 
     # 3. 对每个板块拉取成分股并筛选
     sectors_result = []
