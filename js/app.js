@@ -12,6 +12,7 @@ const App = {
   currentGroup: null,
   currentStock: null,
   currentView: 'minute',
+  viewMode: 'list',     // list | grid
   refreshTimer: null,
 
   // ====== 初始化 ======
@@ -121,6 +122,14 @@ const App = {
     if (tab !== 'watchlist') {
       document.body.classList.remove('chart-fullscreen');
       document.getElementById('float-fullscreen').style.display='none';
+      // 退出网格视图
+      if (this.viewMode === 'grid') {
+        this.viewMode = 'list';
+        GridView.dispose();
+        document.getElementById('stock-list').style.display = '';
+        document.getElementById('detail-view').style.display = '';
+        document.getElementById('btn-grid-view').classList.remove('grid-active');
+      }
     } else if (this.currentStock) {
       document.getElementById('float-fullscreen').style.display='flex';
     }
@@ -319,6 +328,7 @@ const App = {
   bindWatchlist() {
     document.getElementById('btn-add-stock').addEventListener('click', () => this.showAddStockModal());
     document.getElementById('btn-manage-groups').addEventListener('click', () => this.showGroupManageModal());
+    document.getElementById('btn-grid-view').addEventListener('click', () => this.toggleGridView());
     document.getElementById('btn-back').addEventListener('click', () => {
       document.body.classList.remove('chart-fullscreen');
       document.getElementById('page-watchlist').classList.remove('show-detail');
@@ -400,6 +410,13 @@ const App = {
         this.currentGroup = tab.dataset.group;
         this.renderGroupTabs();
         this.renderStockList();
+        // 网格模式下切分组要重新渲染
+        if (this.viewMode === 'grid') {
+          const codes = this.currentGroup === '__futures__'
+            ? Store.getFutures().map(f => f.sina)
+            : (Store.getStocks(this.currentGroup) || []);
+          GridView.render(codes, this.stockData);
+        }
       });
     });
   },
@@ -498,6 +515,41 @@ const App = {
         this.renderStockList();
       });
     });
+  },
+
+  toggleGridView() {
+    if (this.viewMode === 'grid') {
+      this.viewMode = 'list';
+      GridView.dispose();
+      document.getElementById('stock-list').style.display = '';
+      document.getElementById('detail-view').style.display = '';
+      document.getElementById('btn-grid-view').classList.remove('grid-active');
+    } else {
+      this.viewMode = 'grid';
+      document.getElementById('stock-list').style.display = 'none';
+      document.getElementById('page-watchlist').classList.remove('show-detail');
+      document.getElementById('float-fullscreen').style.display = 'none';
+      document.getElementById('btn-grid-view').classList.add('grid-active');
+
+      // 隐藏详情视图（桌面端）
+      if (!this.isMobile()) {
+        document.getElementById('detail-view').style.display = 'none';
+      }
+
+      const codes = this.currentGroup === '__futures__'
+        ? Store.getFutures().map(f => f.sina)
+        : (Store.getStocks(this.currentGroup) || []);
+      GridView.render(codes, this.stockData);
+    }
+  },
+
+  switchToListView(code) {
+    this.viewMode = 'list';
+    GridView.dispose();
+    document.getElementById('stock-list').style.display = '';
+    document.getElementById('detail-view').style.display = '';
+    document.getElementById('btn-grid-view').classList.remove('grid-active');
+    this.selectStock(code);
   },
 
   selectStock(code) {

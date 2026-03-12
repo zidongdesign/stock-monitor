@@ -79,10 +79,13 @@
       <div class="watchlist-toolbar">
         <button class="tool-btn" id="btn-add-stock">＋ 添加</button>
         <button class="tool-btn" id="btn-manage-groups">📁 分组</button>
+        <button class="tool-btn" id="btn-grid-view" title="多股同列">⊞ 同列</button>
         <span class="refresh-info" id="watchlist-refresh-status">--</span>
       </div>
       <!-- 股票列表 -->
       <div class="stock-list-container" id="stock-list"></div>
+      <!-- 多股同列网格 -->
+      <div id="grid-view-container" style="display:none;flex:1;overflow:hidden;"></div>
     </div>
 
     <!-- 详情视图（手机端切换/桌面端右侧） -->
@@ -257,7 +260,8 @@
   <script src="js/api.js?v=20260307b"></script>
   <script src="js/signal.js?v=20260307i"></script>
   <script src="js/chart.js?v=20260307i"></script>
+  <script src="js/grid-view.js?v=20260312"></script>
   <script src="js/data-loader.js?v=20260312"></script>
-  <script src="js/app.js?v=20260312"></script>
+  <script src="js/app.js?v=20260312b"></script>
 </body>
 </html>
