@@ -276,6 +276,43 @@ const StockAPI = {
       .catch(() => []);
   },
 
+  // ====== 期货5分钟K线（新浪） ======
+  fetchFutures5minKline(symbol) {
+    // symbol: e.g. 'MA0', 'SA0'
+    return new Promise((resolve) => {
+      const cbVar = '_' + symbol;
+      const script = document.createElement('script');
+      const timeout = setTimeout(() => { script.remove(); resolve([]); }, 10000);
+
+      // 清除旧全局变量
+      delete window[cbVar];
+
+      const url = 'https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20' + cbVar + '=/InnerFuturesNewService.getFewMinLine?symbol=' + symbol + '&type=5&r=' + Date.now();
+      script.src = url;
+      script.onerror = () => { clearTimeout(timeout); script.remove(); resolve([]); };
+      script.onload = () => {
+        clearTimeout(timeout);
+        script.remove();
+
+        const raw = window[cbVar];
+        if (!raw || !Array.isArray(raw)) { resolve([]); return; }
+
+        const klines = raw.map(item => ({
+          time: item.d,
+          open: parseFloat(item.o),
+          high: parseFloat(item.h),
+          low: parseFloat(item.l),
+          close: parseFloat(item.c),
+          volume: parseInt(item.v) || 0,
+          openInterest: parseInt(item.p) || 0
+        })).filter(k => k.open > 0 && k.close > 0);
+
+        resolve(klines);
+      };
+      document.head.appendChild(script);
+    });
+  },
+
   // ====== 周K线（腾讯） ======
   fetchWeeklyKline(code, count) {
     count = count || 60;

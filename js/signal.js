@@ -273,6 +273,104 @@ const SignalDetector = {
     return result;
   },
 
+  // ====== 期货5分钟K线信号检测 ======
+  detectFutures5min(klines) {
+    if (!klines || klines.length < 5) return [];
+    const signals = [];
+    const len = klines.length;
+
+    // 计算 MA5 / MA10
+    const ma5 = this.calcMA(klines, 5);
+    const ma10 = this.calcMA(klines, 10);
+
+    // 趋势跟踪
+    let upStreak = 0, downStreak = 0;
+    let lastBuyIdx = -99, lastSellIdx = -99;
+
+    for (let i = 2; i < len; i++) {
+      const c = klines[i], p = klines[i - 1];
+
+      // 连涨/连跌计数
+      if (c.close > c.open) { upStreak++; downStreak = 0; }
+      else if (c.close < c.open) { downStreak++; upStreak = 0; }
+      else { upStreak = 0; downStreak = 0; }
+
+      // 趋势信号：连续3根同向，只在第3根报，延续不重复
+      if (upStreak === 3 && (i - lastBuyIdx) >= 3) {
+        signals.push({ index: i, time: c.time, type: 'buy', reason: '三连阳趋势' });
+        lastBuyIdx = i;
+      }
+      if (downStreak === 3 && (i - lastSellIdx) >= 3) {
+        signals.push({ index: i, time: c.time, type: 'sell', reason: '三连阴趋势' });
+        lastSellIdx = i;
+      }
+
+      // 量价配合：趋势中放量加速
+      if (upStreak >= 2 && c.volume > p.volume * 1.5 && (i - lastBuyIdx) >= 3) {
+        signals.push({ index: i, time: c.time, type: 'buy', reason: '放量加速' });
+        lastBuyIdx = i;
+      }
+      if (downStreak >= 2 && c.volume > p.volume * 1.5 && (i - lastSellIdx) >= 3) {
+        signals.push({ index: i, time: c.time, type: 'sell', reason: '放量下跌' });
+        lastSellIdx = i;
+      }
+
+      // 均线交叉
+      if (ma5[i] && ma10[i] && ma5[i - 1] && ma10[i - 1]) {
+        if (ma5[i - 1] < ma10[i - 1] && ma5[i] >= ma10[i]) {
+          signals.push({ index: i, time: c.time, type: 'buy', reason: 'MA5上穿MA10' });
+        }
+        if (ma5[i - 1] > ma10[i - 1] && ma5[i] <= ma10[i]) {
+          signals.push({ index: i, time: c.time, type: 'sell', reason: 'MA5下穿MA10' });
+        }
+      }
+
+      // 突破信号：突破近20根K线最高/最低价
+      if (i >= 20) {
+        let high20 = -Infinity, low20 = Infinity;
+        for (let j = i - 20; j < i; j++) {
+          if (klines[j].high > high20) high20 = klines[j].high;
+          if (klines[j].low < low20) low20 = klines[j].low;
+        }
+        if (c.close > high20 && (i - lastBuyIdx) >= 5) {
+          signals.push({ index: i, time: c.time, type: 'buy', reason: '突破20根高点' });
+          lastBuyIdx = i;
+        }
+        if (c.close < low20 && (i - lastSellIdx) >= 5) {
+          signals.push({ index: i, time: c.time, type: 'sell', reason: '跌破20根低点' });
+          lastSellIdx = i;
+        }
+      }
+    }
+
+    // 同一时间去重：每根K线只保留一个信号
+    const byTime = {};
+    signals.forEach(s => {
+      if (!byTime[s.time]) byTime[s.time] = [];
+      byTime[s.time].push(s);
+    });
+    const merged = [];
+    Object.keys(byTime).forEach(time => {
+      const group = byTime[time];
+      const buys = group.filter(s => s.type === 'buy');
+      const sells = group.filter(s => s.type === 'sell');
+      let pick, reasons;
+      if (buys.length >= sells.length && buys.length > 0) {
+        pick = buys[0];
+        reasons = buys.map(s => s.reason);
+      } else if (sells.length > 0) {
+        pick = sells[0];
+        reasons = sells.map(s => s.reason);
+      } else {
+        pick = group[0];
+        reasons = group.map(s => s.reason);
+      }
+      merged.push({ ...pick, reason: [...new Set(reasons)].join('+') });
+    });
+
+    return merged;
+  },
+
   // ====== 综合技术指标评分 ======
   // 基于 MACD/KDJ/量价/MA位置 综合判断
   // 返回: { level: 'buy'|'hold'|'sell', emoji, label, score, reason }

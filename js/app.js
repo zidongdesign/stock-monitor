@@ -14,6 +14,8 @@ const App = {
   currentView: 'minute',
   viewMode: 'list',     // list | grid
   refreshTimer: null,
+  futuresKlineTimer: null,  // 期货K线刷新定时器
+  currentFutures: null,     // 当前选中的期货品种 code (如 'MA0')
 
   // ====== 初始化 ======
   init() {
@@ -424,30 +426,95 @@ const App = {
   renderStockList() {
     const container = document.getElementById('stock-list');
     const settings = Store.getSettings();
+    const detailView = document.getElementById('detail-view');
+
+    // 期货模式下隐藏右侧详情面板，非期货模式恢复
+    if (this.currentGroup === '__futures__') {
+      if (detailView) detailView.style.display = 'none';
+    } else {
+      if (detailView) detailView.style.display = '';
+      // 清理期货 K 线资源
+      if (this._futuresChart) { this._futuresChart.dispose(); this._futuresChart = null; }
+      if (this.futuresKlineTimer) { clearInterval(this.futuresKlineTimer); this.futuresKlineTimer = null; }
+    }
 
     if (this.currentGroup === '__futures__') {
-      // 渲染期货列表
+      // ====== 期货独立页面：Tab + K线 + 行情 ======
       const futures = Store.getFutures();
       if (futures.length === 0) {
         container.innerHTML = '<div class="empty-hint">暂无期货品种，请在设置中添加</div>';
         return;
       }
-      container.innerHTML = futures.map(f => {
+      // 默认选中第一个
+      if (!this.currentFutures || !futures.find(f => f.code === this.currentFutures)) {
+        this.currentFutures = futures[0].code;
+      }
+
+      // 品种横向 Tab
+      let html = '<div class="futures-tabs">';
+      futures.forEach(f => {
         const d = this.stockData[f.sina];
-        const isActive = this.currentStock === f.sina;
-        const signals = d ? SignalDetector.detectRealtime(d, settings) : [];
         const cls = d ? (d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '') : '';
-        return '<div class="stock-item is-futures' + (isActive ? ' active' : '') + (signals.length ? ' has-signal' : '') + '" data-code="' + f.sina + '">' +
-          '<div class="stock-item-header">' +
-            '<span class="stock-name">' + (d?.name || f.name) + '<span class="stock-tag">期货</span></span>' +
-          '</div>' +
-          '<div class="stock-item-body">' +
-            '<span class="stock-price ' + cls + '">' + (d ? d.price.toFixed(2) : '--') + '</span>' +
-            '<span class="stock-change ' + cls + '">' + (d ? ((d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%') : '--') + '</span>' +
-          '</div>' +
-          (signals.length ? '<div class="stock-signals">' + signals.map(s => '<span class="signal-badge ' + s.type + '">' + s.reason + '</span>').join('') + '</div>' : '') +
+        const active = f.code === this.currentFutures ? ' active' : '';
+        html += '<div class="futures-tab-item' + active + ' ' + cls + '" data-fcode="' + f.code + '">' +
+          '<span class="ftab-name">' + f.name + '</span>' +
+          (d ? '<span class="ftab-pct ' + cls + '">' + (d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%</span>' : '') +
         '</div>';
-      }).join('');
+      });
+      html += '</div>';
+
+      // K线图容器
+      html += '<div class="futures-kline-wrap"><div id="futures-kline-chart"></div></div>';
+
+      // 实时行情信息
+      const sel = futures.find(f => f.code === this.currentFutures);
+      const d = sel ? this.stockData[sel.sina] : null;
+      if (d) {
+        const cls = d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '';
+        html += '<div class="futures-realtime-info">' +
+          '<div class="fri-header">' +
+            '<span class="fri-name">' + d.name + '</span>' +
+            '<span class="fri-code">' + sel.code + '</span>' +
+          '</div>' +
+          '<div class="fri-body">' +
+            '<div class="fri-price ' + cls + '">' + d.price.toFixed(2) + '</div>' +
+            '<div class="fri-details">' +
+              '<span class="fri-item ' + cls + '">涨跌 ' + (d.change > 0 ? '+' : '') + d.change.toFixed(2) + ' (' + (d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%)</span>' +
+              '<span class="fri-item">开盘 ' + d.open.toFixed(2) + '</span>' +
+              '<span class="fri-item">最高 ' + d.high.toFixed(2) + '</span>' +
+              '<span class="fri-item">最低 ' + d.low.toFixed(2) + '</span>' +
+              '<span class="fri-item">成交量 ' + (d.volume || 0) + '</span>' +
+              '<span class="fri-item">昨结算 ' + d.prevClose.toFixed(2) + '</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      } else {
+        html += '<div class="futures-realtime-info"><div class="empty-hint">加载中...</div></div>';
+      }
+
+      container.innerHTML = html;
+
+      // 绑定 Tab 点击
+      container.querySelectorAll('.futures-tab-item').forEach(tab => {
+        tab.addEventListener('click', () => {
+          this.currentFutures = tab.dataset.fcode;
+          this.renderStockList();
+          this.loadFuturesKline();
+        });
+      });
+
+      // 初始化 K 线图表并加载数据
+      setTimeout(() => {
+        const el = document.getElementById('futures-kline-chart');
+        if (el) {
+          if (this._futuresChart) this._futuresChart.dispose();
+          this._futuresChart = echarts.init(el);
+          window.addEventListener('resize', () => { if (this._futuresChart) this._futuresChart.resize(); });
+          this.loadFuturesKline();
+          this.startFuturesKlineRefresh();
+        }
+      }, 50);
+      return;
     } else {
       const codes = Store.getStocks(this.currentGroup) || [];
       if (codes.length === 0) {
@@ -550,6 +617,106 @@ const App = {
     document.getElementById('detail-view').style.display = '';
     document.getElementById('btn-grid-view').classList.remove('grid-active');
     this.selectStock(code);
+  },
+
+  // ====== 期货 K 线加载与刷新 ======
+  async loadFuturesKline() {
+    if (!this.currentFutures || !this._futuresChart) return;
+    try {
+      const klines = await StockAPI.fetchFutures5minKline(this.currentFutures);
+      const signals = SignalDetector.detectFutures5min(klines);
+      // 用 _futuresChart 渲染
+      this._renderFutures5minChart(klines, signals);
+    } catch (e) {
+      console.error('Futures kline error:', e);
+    }
+  },
+
+  _renderFutures5minChart(klines, signals) {
+    const chart = this._futuresChart;
+    if (!chart) return;
+    if (!klines || klines.length === 0) {
+      chart.setOption({ title: { text: '暂无5分钟K线数据', left: 'center', top: 'center', textStyle: { color: '#8b949e', fontSize: 14 } }, xAxis: [], yAxis: [], series: [] }, true);
+      return;
+    }
+    const data = klines.slice(-48);
+    const offset = klines.length - data.length;
+    const mappedSignals = (signals || []).filter(s => s.index >= offset).map(s => ({ ...s, index: s.index - offset }));
+
+    const times = data.map(k => k.time.replace(/^\d{4}-\d{2}-\d{2}\s*/, '').substring(0, 5));
+    const ohlc = data.map(k => [k.open, k.close, k.low, k.high]);
+    const volumes = data.map(k => k.volume);
+    const volColors = data.map(k => k.close >= k.open ? '#ef5350' : '#26a69a');
+
+    const ma5 = SignalDetector.calcMA(data, 5);
+    const ma10 = SignalDetector.calcMA(data, 10);
+
+    const buyPts = mappedSignals.filter(s => s.type === 'buy').map(s => ({
+      coord: [times[s.index], data[s.index].low], value: s.reason
+    }));
+    const sellPts = mappedSignals.filter(s => s.type === 'sell').map(s => ({
+      coord: [times[s.index], data[s.index].high], value: s.reason
+    }));
+
+    chart.setOption({
+      animation: false,
+      grid: [
+        { left: 60, right: 20, top: 30, height: '55%' },
+        { left: 60, right: 20, top: '72%', height: '18%' }
+      ],
+      xAxis: [
+        { type: 'category', data: times, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: true },
+        { type: 'category', data: times, gridIndex: 1, axisLabel: { fontSize: 10 }, boundaryGap: true }
+      ],
+      yAxis: [
+        { type: 'value', gridIndex: 0, scale: true, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10 } },
+        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } }
+      ],
+      tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+      series: [
+        {
+          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
+          itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' },
+          markPoint: {
+            data: [
+              ...buyPts.map(p => ({
+                ...p, symbol: 'triangle', symbolSize: 12,
+                itemStyle: { color: '#ef5350' },
+                label: { show: true, position: 'bottom', formatter: p.value, fontSize: 8, color: '#ef5350' }
+              })),
+              ...sellPts.map(p => ({
+                ...p, symbol: 'triangle', symbolSize: 12, symbolRotate: 180,
+                itemStyle: { color: '#26a69a' },
+                label: { show: true, position: 'top', formatter: p.value, fontSize: 8, color: '#26a69a' }
+              }))
+            ]
+          }
+        },
+        { name: 'MA5', type: 'line', data: ma5, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none', smooth: true },
+        { name: 'MA10', type: 'line', data: ma10, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none', smooth: true },
+        {
+          name: '成交量', type: 'bar',
+          data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
+          xAxisIndex: 1, yAxisIndex: 1
+        }
+      ],
+      dataZoom: [{ type: 'inside', xAxisIndex: [0, 1] }]
+    }, true);
+  },
+
+  startFuturesKlineRefresh() {
+    if (this.futuresKlineTimer) clearInterval(this.futuresKlineTimer);
+    this.futuresKlineTimer = setInterval(() => {
+      if (this.currentGroup !== '__futures__') return;
+      const now = new Date();
+      const h = now.getHours(), m = now.getMinutes(), day = now.getDay();
+      if (day === 0 || day === 6) return;
+      const mins = h * 60 + m;
+      // 期货交易时间 9:00-15:00, 21:00-23:30
+      if ((mins >= 540 && mins <= 900) || (mins >= 1260 && mins <= 1410)) {
+        this.loadFuturesKline();
+      }
+    }, 5 * 60 * 1000); // 5分钟
   },
 
   selectStock(code) {

@@ -131,6 +131,87 @@ const ChartManager = {
     this.chart.setOption(opt, true);
   },
 
+  // ====== 期货5分钟K线图 ======
+  renderFutures5min(klines, signals) {
+    if (!this.chart) return;
+    if (!klines || klines.length === 0) {
+      this.chart.setOption({ title: { text: '暂无5分钟K线数据', left: 'center', top: 'center', textStyle: { color: '#8b949e', fontSize: 14 } }, xAxis: [], yAxis: [], series: [] }, true);
+      return;
+    }
+
+    // 最多显示最近48根（4小时）
+    const data = klines.slice(-48);
+    // 重新映射 signal index
+    const offset = klines.length - data.length;
+    const mappedSignals = (signals || []).filter(s => s.index >= offset).map(s => ({ ...s, index: s.index - offset }));
+
+    const times = data.map(k => k.time.replace(/^\d{4}-\d{2}-\d{2}\s*/, '').substring(0, 5));
+    const ohlc = data.map(k => [k.open, k.close, k.low, k.high]);
+    const volumes = data.map(k => k.volume);
+    const volColors = data.map(k => k.close >= k.open ? '#ef5350' : '#26a69a');
+
+    // MA5 / MA10
+    const ma5 = SignalDetector.calcMA(data, 5);
+    const ma10 = SignalDetector.calcMA(data, 10);
+
+    // 买卖信号 markPoint
+    const buyPts = mappedSignals.filter(s => s.type === 'buy').map(s => ({
+      coord: [times[s.index], data[s.index].low],
+      value: s.reason
+    }));
+    const sellPts = mappedSignals.filter(s => s.type === 'sell').map(s => ({
+      coord: [times[s.index], data[s.index].high],
+      value: s.reason
+    }));
+
+    const opt = {
+      animation: false,
+      grid: [
+        { left: 60, right: 20, top: 30, height: '55%' },
+        { left: 60, right: 20, top: '72%', height: '18%' }
+      ],
+      xAxis: [
+        { type: 'category', data: times, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: true },
+        { type: 'category', data: times, gridIndex: 1, axisLabel: { fontSize: 10 }, boundaryGap: true }
+      ],
+      yAxis: [
+        { type: 'value', gridIndex: 0, scale: true, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10 } },
+        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } }
+      ],
+      tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+      series: [
+        {
+          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
+          itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' },
+          markPoint: {
+            data: [
+              ...buyPts.map(p => ({
+                ...p, symbol: 'triangle', symbolSize: 12,
+                itemStyle: { color: '#ef5350' },
+                label: { show: true, position: 'bottom', formatter: p.value, fontSize: 8, color: '#ef5350' }
+              })),
+              ...sellPts.map(p => ({
+                ...p, symbol: 'triangle', symbolSize: 12, symbolRotate: 180,
+                itemStyle: { color: '#26a69a' },
+                label: { show: true, position: 'top', formatter: p.value, fontSize: 8, color: '#26a69a' }
+              }))
+            ]
+          }
+        },
+        { name: 'MA5', type: 'line', data: ma5, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none', smooth: true },
+        { name: 'MA10', type: 'line', data: ma10, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none', smooth: true },
+        {
+          name: '成交量', type: 'bar',
+          data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
+          xAxisIndex: 1, yAxisIndex: 1
+        }
+      ],
+      dataZoom: [{ type: 'inside', xAxisIndex: [0, 1] }]
+    };
+
+    this.chart.setOption(opt, true);
+  },
+
   // ====== K线图 ======
   renderKline(klines, klineSignals, settings) {
     if (!this.chart) return;

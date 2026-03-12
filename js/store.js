@@ -97,7 +97,10 @@ const Store = {
       { code: 'RB0', name: '螺纹', sina: 'nf_RB0' },
       { code: 'AU0', name: '黄金', sina: 'nf_AU0' },
       { code: 'AG0', name: '白银', sina: 'nf_AG0' },
-      { code: 'CU0', name: '铜', sina: 'nf_CU0' }
+      { code: 'CU0', name: '铜', sina: 'nf_CU0' },
+      { code: 'C0', name: '玉米', sina: 'nf_C0' },
+      { code: 'TA0', name: 'PTA', sina: 'nf_TA0' },
+      { code: 'V0', name: 'PVC', sina: 'nf_V0' }
     ]);
   },
 
