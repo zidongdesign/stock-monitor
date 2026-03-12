@@ -239,7 +239,7 @@ const ChartManager = {
     }, true);
   },
 
-  // ====== 指数K线图（含MA均线） ======
+  // ====== 指数K线图（含MA均线 + KDJ + MACD） ======
   renderIndexKline(containerId, klines, period) {
     const el = document.getElementById(containerId);
     if (!el) return;
@@ -263,19 +263,31 @@ const ChartManager = {
     const ma10 = SignalDetector.calcMA(klines, 10);
     const ma20 = SignalDetector.calcMA(klines, 20);
 
+    // KDJ 计算
+    const kdj = SignalDetector.calcKDJ(klines);
+    // MACD 计算
+    const macd = SignalDetector.calcMACD(klines);
+
+    // 布局：K线50% + 成交量10% + KDJ 15% + MACD 15% + 间距10%
     chart.setOption({
       animation: false,
       grid: [
-        { left: 60, right: 20, top: 30, height: '55%' },
-        { left: 60, right: 20, top: '72%', height: '18%' }
+        { left: 60, right: 20, top: 30, height: '48%' },   // grid0: K线主图
+        { left: 60, right: 20, top: '56%', height: '8%' },  // grid1: 成交量
+        { left: 60, right: 20, top: '67%', height: '14%' }, // grid2: KDJ
+        { left: 60, right: 20, top: '84%', height: '14%' }  // grid3: MACD
       ],
       xAxis: [
-        { type: 'category', data: dates, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: true },
-        { type: 'category', data: dates, gridIndex: 1, axisLabel: { fontSize: 10 }, boundaryGap: true }
+        { type: 'category', data: dates, gridIndex: 0, axisLabel: { show: false }, boundaryGap: true },
+        { type: 'category', data: dates, gridIndex: 1, axisLabel: { show: false }, boundaryGap: true },
+        { type: 'category', data: dates, gridIndex: 2, axisLabel: { show: false }, boundaryGap: true },
+        { type: 'category', data: dates, gridIndex: 3, axisLabel: { fontSize: 10 }, boundaryGap: true }
       ],
       yAxis: [
         { type: 'value', gridIndex: 0, scale: true, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10 } },
-        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } }
+        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } },
+        { type: 'value', gridIndex: 2, min: 0, max: 100, splitLine: { show: false }, axisLabel: { fontSize: 9 } },
+        { type: 'value', gridIndex: 3, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9 } }
       ],
       tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
       legend: {
@@ -285,6 +297,7 @@ const ChartManager = {
         itemWidth: 14, itemHeight: 2
       },
       series: [
+        // K线主图
         {
           name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
           itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' }
@@ -292,15 +305,54 @@ const ChartManager = {
         { name: 'MA5', type: 'line', data: ma5, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none', smooth: true },
         { name: 'MA10', type: 'line', data: ma10, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none', smooth: true },
         { name: 'MA20', type: 'line', data: ma20, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#F56C6C' }, symbol: 'none', smooth: true },
+        // 成交量
         {
           name: '成交量', type: 'bar',
           data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
           xAxisIndex: 1, yAxisIndex: 1
+        },
+        // KDJ
+        {
+          name: 'K', type: 'line', data: kdj.map(k => k.k), xAxisIndex: 2, yAxisIndex: 2,
+          lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none'
+        },
+        {
+          name: 'D', type: 'line', data: kdj.map(k => k.d), xAxisIndex: 2, yAxisIndex: 2,
+          lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none',
+          markLine: {
+            silent: true, symbol: 'none',
+            lineStyle: { type: 'dashed', color: '#333', width: 1 },
+            data: [{ yAxis: 20 }, { yAxis: 80 }],
+            label: { show: false }
+          }
+        },
+        {
+          name: 'J', type: 'line', data: kdj.map(k => k.j), xAxisIndex: 2, yAxisIndex: 2,
+          lineStyle: { width: 1, color: '#ab47bc' }, symbol: 'none'
+        },
+        // MACD
+        {
+          name: 'DIF', type: 'line', data: macd.map(m => m.dif), xAxisIndex: 3, yAxisIndex: 3,
+          lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none'
+        },
+        {
+          name: 'DEA', type: 'line', data: macd.map(m => m.dea), xAxisIndex: 3, yAxisIndex: 3,
+          lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none',
+          markLine: {
+            silent: true, symbol: 'none',
+            lineStyle: { type: 'dashed', color: '#333', width: 1 },
+            data: [{ yAxis: 0 }],
+            label: { show: false }
+          }
+        },
+        {
+          name: 'MACD', type: 'bar',
+          data: macd.map(m => ({ value: m.hist, itemStyle: { color: m.hist >= 0 ? '#ef5350' : '#26a69a' } })),
+          xAxisIndex: 3, yAxisIndex: 3
         }
       ],
       dataZoom: [
-        { type: 'inside', xAxisIndex: [0, 1], start: 50, end: 100 },
-        { type: 'slider', xAxisIndex: [0, 1], start: 50, end: 100, height: 20, bottom: 5 }
+        { type: 'inside', xAxisIndex: [0, 1, 2, 3], start: 50, end: 100 }
       ]
     }, true);
 
