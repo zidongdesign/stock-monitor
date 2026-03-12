@@ -376,7 +376,7 @@ const ChartManager = {
         }
       ],
       dataZoom: [
-        { type: 'inside', xAxisIndex: [0, 1, 2, 3], start: 60, end: 100 }
+        { type: 'inside', xAxisIndex: [0, 1, 2, 3], start: Math.max(0, (klines.length - 30) / klines.length * 100), end: 100 }
       ]
     }, true);
 

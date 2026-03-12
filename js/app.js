@@ -545,6 +545,9 @@ const App = {
       // K线图容器（加 loading 提示）
       html += '<div class="futures-kline-wrap"><div id="futures-kline-chart"></div><div id="futures-kline-loading" class="futures-loading">加载K线数据...</div></div>';
 
+      // 技术分析面板容器
+      html += '<div id="futures-analysis-panel"></div>';
+
       // 实时行情信息
       const sel = futures.find(f => f.code === this.currentFutures);
       const d = sel ? this.stockData[sel.sina] : null;
@@ -751,6 +754,15 @@ const App = {
           this._futuresResizeHandler = () => { if (this._futuresChart) this._futuresChart.resize(); };
           window.addEventListener('resize', this._futuresResizeHandler);
         }
+      }
+
+      // 技术分析
+      if (typeof FuturesAnalysis !== 'undefined') {
+        try {
+          const analysis = await FuturesAnalysis.analyze(symbol, klines);
+          const panelEl = document.getElementById('futures-analysis-panel');
+          if (panelEl) panelEl.innerHTML = FuturesAnalysis.renderHTML(analysis);
+        } catch (e) { console.error('Analysis error:', e); }
       }
     } catch (e) {
       console.error('Futures kline error:', e);
