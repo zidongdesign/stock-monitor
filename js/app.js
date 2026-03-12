@@ -16,6 +16,14 @@ const App = {
 
   // ====== 初始化 ======
   init() {
+    // 信号逻辑版本号：更新后自动清空旧信号重算
+    const SIGNAL_VERSION = 2;
+    if (Store._get('sm_signal_ver', 0) < SIGNAL_VERSION) {
+      Store.clearSignals();
+      Store._set('sm_signal_ver', SIGNAL_VERSION);
+      console.log('[信号] 逻辑更新，已清空旧信号，将自动重算');
+    }
+
     ChartManager.init('chart-container');
     this.bindTabNav();
     this.bindOverview();
