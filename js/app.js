@@ -36,6 +36,33 @@ const App = {
     this.renderGroupTabs();
     this.renderStockList();
 
+    // 加载服务端分析数据
+    DataLoader.loadAnalysis().then(analysis => {
+      if (analysis) {
+        this._analysisData = analysis;
+        // 更新数据时间提示
+        const timeEl = document.getElementById('data-update-time');
+        if (timeEl && analysis.updated) {
+          const d = new Date(analysis.updated);
+          timeEl.textContent = '📊 分析数据更新于 ' + d.toLocaleDateString('zh-CN') + ' ' + d.toLocaleTimeString('zh-CN', {hour:'2-digit',minute:'2-digit'});
+        }
+        // 更新UI显示分析标签
+        this.renderStockList();
+        this.renderDecisionPanel();
+      }
+    });
+
+    DataLoader.loadWatchlist().then(wl => {
+      if (wl && DataLoader.shouldUpdateStocks(wl.version)) {
+        Store._defaultStocks = wl.groups;
+        Store._STOCK_VERSION = wl.version;
+        Store._set('sm_stocks', wl.groups);
+        Store._set('sm_stocks_ver', wl.version);
+        this.renderGroupTabs();
+        this.renderStockList();
+      }
+    });
+
     // 首次刷新
     this.refreshAll();
     this.startAutoRefresh();
@@ -408,7 +435,25 @@ const App = {
             '<span class="stock-change ' + cls + '">' + (d && !isNaN(d.changePercent) ? ((d.changePercent > 0 ? '+' : '') + d.changePercent.toFixed(2) + '%') : '--') + '</span>' +
             '<span class="stock-meta">' + (d ? '量比' + (d.volumeRatio || 0).toFixed(1) + ' 换手' + (d.turnover || 0).toFixed(1) + '%' : '') + '</span>' +
           '</div>' +
-          '<div class="stock-item-tags">' + flowHtml + compHtml + '</div>' +
+          '<div class="stock-item-tags">' + flowHtml + compHtml + (() => {
+            const analysis = this._analysisData?.stocks?.[code];
+            let aHtml = '';
+            if (analysis) {
+              const scoreClass = analysis.score >= 70 ? 'score-high' : analysis.score >= 40 ? 'score-mid' : 'score-low';
+              aHtml += '<span class="analysis-score ' + scoreClass + '">' + analysis.score + '分</span>';
+              if (analysis.financial && analysis.financial.grade) {
+                aHtml += '<span class="analysis-grade grade-' + analysis.financial.grade.toLowerCase() + '">财务' + analysis.financial.grade + '</span>';
+              }
+              const actionMap = { buy: '🟢买入', hold: '🟡持有', reduce: '🟠减仓', eliminate: '🔴淘汰' };
+              if (analysis.action && analysis.action !== 'hold') {
+                aHtml += '<span class="analysis-action action-' + analysis.action + '">' + (actionMap[analysis.action] || '') + '</span>';
+              }
+              (analysis.tags || []).forEach(tag => {
+                aHtml += '<span class="analysis-tag">' + tag + '</span>';
+              });
+            }
+            return aHtml;
+          })() + '</div>' +
           (signals.length ? '<div class="stock-signals">' + signals.map(s => '<span class="signal-badge ' + s.type + '">' + s.reason + '</span>').join('') + '</div>' : '') +
         '</div>';
       }).join('');

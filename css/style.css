@@ -1450,3 +1450,25 @@ body.chart-fullscreen #float-fullscreen {
     overflow-y: auto !important;
   }
 }
+
+/* 分析数据标签 */
+.analysis-score { display:inline-block; padding:2px 6px; border-radius:4px; font-size:11px; font-weight:600; margin:2px; }
+.score-high { background:#1a3a1a; color:#3fb950; }
+.score-mid { background:#3a3a1a; color:#d29922; }
+.score-low { background:#3a1a1a; color:#f85149; }
+
+.analysis-grade { display:inline-block; padding:2px 6px; border-radius:4px; font-size:11px; margin:2px; }
+.grade-a { background:#1a3a1a; color:#3fb950; }
+.grade-b { background:#1a2a3a; color:#58a6ff; }
+.grade-c { background:#3a3a1a; color:#d29922; }
+.grade-d { background:#3a1a1a; color:#f85149; }
+
+.analysis-action { display:inline-block; padding:2px 6px; border-radius:4px; font-size:11px; margin:2px; font-weight:600; }
+.action-buy { background:#1a3a1a; color:#3fb950; }
+.action-reduce { background:#3a2a1a; color:#d29922; }
+.action-eliminate { background:#3a1a1a; color:#f85149; }
+
+.analysis-tag { display:inline-block; padding:2px 6px; border-radius:4px; font-size:10px; margin:2px; background:#1a2a3a; color:#58a6ff; }
+
+/* 数据更新时间提示 */
+.data-update-hint { font-size:11px; color:#8b949e; padding:4px 8px; text-align:right; }
