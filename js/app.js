@@ -16,6 +16,7 @@ const App = {
   refreshTimer: null,
   futuresKlineTimer: null,  // 期货K线刷新定时器
   currentFutures: null,     // 当前选中的期货品种 code (如 'MA0')
+  currentFuturesPeriod: '5', // 当前期货K线周期: '5','15','30','60','daily','weekly'
 
   // ====== 初始化 ======
   init() {
@@ -525,13 +526,29 @@ const App = {
       });
       html += '</div>';
 
-      // K线图容器
-      html += '<div class="futures-kline-wrap"><div id="futures-kline-chart"></div></div>';
+      // 周期切换 Tab
+      const periods = [
+        { key: '5', label: '5分' },
+        { key: '15', label: '15分' },
+        { key: '30', label: '30分' },
+        { key: '60', label: '60分' },
+        { key: 'daily', label: '日' },
+        { key: 'weekly', label: '周' }
+      ];
+      html += '<div class="futures-period-tabs">';
+      periods.forEach(p => {
+        const active = p.key === this.currentFuturesPeriod ? ' active' : '';
+        html += '<div class="futures-period-item' + active + '" data-period="' + p.key + '">' + p.label + '</div>';
+      });
+      html += '</div>';
+
+      // K线图容器（加 loading 提示）
+      html += '<div class="futures-kline-wrap"><div id="futures-kline-chart"></div><div id="futures-kline-loading" class="futures-loading">加载K线数据...</div></div>';
 
       // 实时行情信息
       const sel = futures.find(f => f.code === this.currentFutures);
       const d = sel ? this.stockData[sel.sina] : null;
-      if (d) {
+      if (d && d.price > 0) {
         const cls = d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '';
         html += '<div class="futures-realtime-info">' +
           '<div class="fri-header">' +
@@ -551,12 +568,12 @@ const App = {
           '</div>' +
         '</div>';
       } else {
-        html += '<div class="futures-realtime-info"><div class="empty-hint">加载中...</div></div>';
+        html += '<div class="futures-realtime-info"><div class="empty-hint">' + (d === null ? '暂无数据' : '暂无数据') + '</div></div>';
       }
 
       container.innerHTML = html;
 
-      // 绑定 Tab 点击
+      // 绑定品种 Tab 点击
       container.querySelectorAll('.futures-tab-item').forEach(tab => {
         tab.addEventListener('click', () => {
           this.currentFutures = tab.dataset.fcode;
@@ -565,13 +582,25 @@ const App = {
         });
       });
 
+      // 绑定周期 Tab 点击
+      container.querySelectorAll('.futures-period-item').forEach(tab => {
+        tab.addEventListener('click', () => {
+          this.currentFuturesPeriod = tab.dataset.period;
+          // Update active state without full re-render
+          container.querySelectorAll('.futures-period-item').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          this.loadFuturesKline();
+        });
+      });
+
       // 初始化 K 线图表并加载数据
       setTimeout(() => {
         const el = document.getElementById('futures-kline-chart');
         if (el) {
-          if (this._futuresChart) this._futuresChart.dispose();
-          this._futuresChart = echarts.init(el);
-          window.addEventListener('resize', () => { if (this._futuresChart) this._futuresChart.resize(); });
+          // Dispose any existing chart from previous render
+          if (this._futuresChart) { this._futuresChart.dispose(); this._futuresChart = null; }
+          const existingChart = echarts.getInstanceByDom(el);
+          if (existingChart) existingChart.dispose();
           this.loadFuturesKline();
           this.startFuturesKlineRefresh();
         }
@@ -683,93 +712,57 @@ const App = {
 
   // ====== 期货 K 线加载与刷新 ======
   async loadFuturesKline() {
-    if (!this.currentFutures || !this._futuresChart) return;
+    if (!this.currentFutures) return;
+
+    // Show loading
+    const loadingEl = document.getElementById('futures-kline-loading');
+    if (loadingEl) loadingEl.style.display = 'flex';
+
     try {
-      const klines = await StockAPI.fetchFutures5minKline(this.currentFutures);
+      const symbol = this.currentFutures;
+      const period = this.currentFuturesPeriod;
+      let klines = [];
+
+      if (period === 'daily') {
+        klines = await StockAPI.fetchFuturesDailyKline(symbol);
+        // Show last 120 days
+        klines = klines.slice(-120);
+      } else if (period === 'weekly') {
+        klines = await StockAPI.fetchFuturesWeeklyKline(symbol);
+        // Show last 60 weeks
+        klines = klines.slice(-60);
+      } else {
+        // Minute K-lines: 5/15/30/60
+        klines = await StockAPI.fetchFuturesMinKline(symbol, parseInt(period));
+      }
+
+      // Run signal detection on all periods
       const signals = SignalDetector.detectFutures5min(klines);
-      // 用 _futuresChart 渲染
-      this._renderFutures5minChart(klines, signals);
+
+      // Render using the full-layout chart
+      const periodLabels = { '5': '5分钟', '15': '15分钟', '30': '30分钟', '60': '60分钟', 'daily': '日K', 'weekly': '周K' };
+      ChartManager.renderFuturesKline('futures-kline-chart', klines, signals, periodLabels[period]);
     } catch (e) {
       console.error('Futures kline error:', e);
-    }
-  },
-
-  _renderFutures5minChart(klines, signals) {
-    const chart = this._futuresChart;
-    if (!chart) return;
-    if (!klines || klines.length === 0) {
-      chart.setOption({ title: { text: '暂无5分钟K线数据', left: 'center', top: 'center', textStyle: { color: '#8b949e', fontSize: 14 } }, xAxis: [], yAxis: [], series: [] }, true);
-      return;
-    }
-    const data = klines.slice(-48);
-    const offset = klines.length - data.length;
-    const mappedSignals = (signals || []).filter(s => s.index >= offset).map(s => ({ ...s, index: s.index - offset }));
-
-    const times = data.map(k => k.time.replace(/^\d{4}-\d{2}-\d{2}\s*/, '').substring(0, 5));
-    const ohlc = data.map(k => [k.open, k.close, k.low, k.high]);
-    const volumes = data.map(k => k.volume);
-    const volColors = data.map(k => k.close >= k.open ? '#ef5350' : '#26a69a');
-
-    const ma5 = SignalDetector.calcMA(data, 5);
-    const ma10 = SignalDetector.calcMA(data, 10);
-
-    const buyPts = mappedSignals.filter(s => s.type === 'buy').map(s => ({
-      coord: [times[s.index], data[s.index].low], value: s.reason
-    }));
-    const sellPts = mappedSignals.filter(s => s.type === 'sell').map(s => ({
-      coord: [times[s.index], data[s.index].high], value: s.reason
-    }));
-
-    chart.setOption({
-      animation: false,
-      grid: [
-        { left: 60, right: 20, top: 30, height: '55%' },
-        { left: 60, right: 20, top: '72%', height: '18%' }
-      ],
-      xAxis: [
-        { type: 'category', data: times, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: true },
-        { type: 'category', data: times, gridIndex: 1, axisLabel: { fontSize: 10 }, boundaryGap: true }
-      ],
-      yAxis: [
-        { type: 'value', gridIndex: 0, scale: true, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10 } },
-        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } }
-      ],
-      tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
-      series: [
-        {
-          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
-          itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' },
-          markPoint: {
-            data: [
-              ...buyPts.map(p => ({
-                ...p, symbol: 'triangle', symbolSize: 12,
-                itemStyle: { color: '#ef5350' },
-                label: { show: true, position: 'bottom', formatter: p.value, fontSize: 8, color: '#ef5350' }
-              })),
-              ...sellPts.map(p => ({
-                ...p, symbol: 'triangle', symbolSize: 12, symbolRotate: 180,
-                itemStyle: { color: '#26a69a' },
-                label: { show: true, position: 'top', formatter: p.value, fontSize: 8, color: '#26a69a' }
-              }))
-            ]
-          }
-        },
-        { name: 'MA5', type: 'line', data: ma5, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none', smooth: true },
-        { name: 'MA10', type: 'line', data: ma10, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none', smooth: true },
-        {
-          name: '成交量', type: 'bar',
-          data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
-          xAxisIndex: 1, yAxisIndex: 1
+      const el = document.getElementById('futures-kline-chart');
+      if (el) {
+        let chart = echarts.getInstanceByDom(el);
+        if (chart) {
+          chart.setOption({ title: { text: '加载失败', left: 'center', top: 'center', textStyle: { color: '#8b949e', fontSize: 14 } }, xAxis: [], yAxis: [], series: [] }, true);
         }
-      ],
-      dataZoom: [{ type: 'inside', xAxisIndex: [0, 1] }]
-    }, true);
+      }
+    } finally {
+      if (loadingEl) loadingEl.style.display = 'none';
+    }
   },
 
   startFuturesKlineRefresh() {
     if (this.futuresKlineTimer) clearInterval(this.futuresKlineTimer);
+    // Only auto-refresh minute K-lines during trading hours
     this.futuresKlineTimer = setInterval(() => {
       if (this.currentGroup !== '__futures__') return;
+      // Only refresh minute periods, not daily/weekly
+      if (this.currentFuturesPeriod === 'daily' || this.currentFuturesPeriod === 'weekly') return;
       const now = new Date();
       const h = now.getHours(), m = now.getMinutes(), day = now.getDay();
       if (day === 0 || day === 6) return;

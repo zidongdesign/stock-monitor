@@ -276,18 +276,17 @@ const StockAPI = {
       .catch(() => []);
   },
 
-  // ====== 期货5分钟K线（新浪） ======
-  fetchFutures5minKline(symbol) {
-    // symbol: e.g. 'MA0', 'SA0'
+  // ====== 期货分钟K线（新浪，支持多周期） ======
+  fetchFuturesMinKline(symbol, type) {
+    // symbol: e.g. 'MA0'; type: 5/15/30/60
+    type = type || 5;
     return new Promise((resolve) => {
-      const cbVar = '_' + symbol;
+      const cbVar = '_' + symbol + '_' + type;
       const script = document.createElement('script');
       const timeout = setTimeout(() => { script.remove(); resolve([]); }, 10000);
-
-      // 清除旧全局变量
       delete window[cbVar];
 
-      const url = 'https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20' + cbVar + '=/InnerFuturesNewService.getFewMinLine?symbol=' + symbol + '&type=5&r=' + Date.now();
+      const url = 'https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20' + cbVar + '=/InnerFuturesNewService.getFewMinLine?symbol=' + symbol + '&type=' + type + '&r=' + Date.now();
       script.src = url;
       script.onerror = () => { clearTimeout(timeout); script.remove(); resolve([]); };
       script.onload = () => {
@@ -298,6 +297,7 @@ const StockAPI = {
         if (!raw || !Array.isArray(raw)) { resolve([]); return; }
 
         const klines = raw.map(item => ({
+          date: item.d,
           time: item.d,
           open: parseFloat(item.o),
           high: parseFloat(item.h),
@@ -310,6 +310,89 @@ const StockAPI = {
         resolve(klines);
       };
       document.head.appendChild(script);
+    });
+  },
+
+  // ====== 期货5分钟K线（兼容旧调用） ======
+  fetchFutures5minKline(symbol) {
+    return this.fetchFuturesMinKline(symbol, 5);
+  },
+
+  // ====== 期货日K线（新浪） ======
+  fetchFuturesDailyKline(symbol) {
+    return new Promise((resolve) => {
+      const cbVar = '_daily_' + symbol;
+      const script = document.createElement('script');
+      const timeout = setTimeout(() => { script.remove(); resolve([]); }, 15000);
+      delete window[cbVar];
+
+      const url = 'https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20' + cbVar + '=/InnerFuturesNewService.getDailyKLine?symbol=' + symbol + '&r=' + Date.now();
+      script.src = url;
+      script.onerror = () => { clearTimeout(timeout); script.remove(); resolve([]); };
+      script.onload = () => {
+        clearTimeout(timeout);
+        script.remove();
+
+        const raw = window[cbVar];
+        if (!raw || !Array.isArray(raw)) { resolve([]); return; }
+
+        const klines = raw.map(item => ({
+          date: item.d,
+          time: item.d,
+          open: parseFloat(item.o),
+          high: parseFloat(item.h),
+          low: parseFloat(item.l),
+          close: parseFloat(item.c),
+          volume: parseInt(item.v) || 0,
+          openInterest: parseInt(item.p) || 0
+        })).filter(k => k.open > 0 && k.close > 0);
+
+        resolve(klines);
+      };
+      document.head.appendChild(script);
+    });
+  },
+
+  // ====== 期货周K线（基于日K聚合） ======
+  fetchFuturesWeeklyKline(symbol) {
+    return this.fetchFuturesDailyKline(symbol).then(dailyKlines => {
+      if (!dailyKlines || dailyKlines.length === 0) return [];
+      const weeks = [];
+      let currentWeek = null;
+
+      dailyKlines.forEach(k => {
+        const d = new Date(k.date);
+        // Get Monday of that week (ISO week)
+        const day = d.getDay() || 7; // Sunday = 7
+        const monday = new Date(d);
+        monday.setDate(d.getDate() - day + 1);
+        const weekKey = monday.toISOString().substring(0, 10);
+
+        if (!currentWeek || currentWeek._key !== weekKey) {
+          if (currentWeek) weeks.push(currentWeek);
+          currentWeek = {
+            _key: weekKey,
+            date: k.date,  // Use Friday/last trading day as display date
+            time: k.date,
+            open: k.open,
+            high: k.high,
+            low: k.low,
+            close: k.close,
+            volume: k.volume,
+            openInterest: k.openInterest
+          };
+        } else {
+          currentWeek.date = k.date;
+          currentWeek.time = k.date;
+          currentWeek.high = Math.max(currentWeek.high, k.high);
+          currentWeek.low = Math.min(currentWeek.low, k.low);
+          currentWeek.close = k.close;
+          currentWeek.volume += k.volume;
+          currentWeek.openInterest = k.openInterest;
+        }
+      });
+      if (currentWeek) weeks.push(currentWeek);
+      return weeks;
     });
   },
 

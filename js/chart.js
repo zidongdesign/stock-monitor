@@ -131,7 +131,7 @@ const ChartManager = {
     this.chart.setOption(opt, true);
   },
 
-  // ====== 期货5分钟K线图 ======
+  // ====== 期货5分钟K线图（旧版，保留兼容） ======
   renderFutures5min(klines, signals) {
     if (!this.chart) return;
     if (!klines || klines.length === 0) {
@@ -210,6 +210,195 @@ const ChartManager = {
     };
 
     this.chart.setOption(opt, true);
+  },
+
+  // ====== 期货多周期K线图（完整布局：K线+MA + 成交量 + KDJ + MACD + 信号） ======
+  renderFuturesKline(containerId, klines, signals, periodLabel) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    let chart = echarts.getInstanceByDom(el);
+    if (!chart) chart = echarts.init(el);
+
+    if (!klines || klines.length === 0) {
+      chart.setOption({
+        title: { text: '暂无K线数据', left: 'center', top: 'center', textStyle: { color: '#8b949e', fontSize: 14 } },
+        xAxis: [], yAxis: [], series: []
+      }, true);
+      return chart;
+    }
+
+    const dates = klines.map(k => k.date || k.time);
+    const ohlc = klines.map(k => [k.open, k.close, k.low, k.high]);
+    const volumes = klines.map(k => k.volume);
+    const volColors = klines.map(k => k.close >= k.open ? '#ef5350' : '#26a69a');
+
+    const ma5 = SignalDetector.calcMA(klines, 5);
+    const ma10 = SignalDetector.calcMA(klines, 10);
+    const ma20 = SignalDetector.calcMA(klines, 20);
+
+    // KDJ & MACD
+    const kdj = SignalDetector.calcKDJ(klines);
+    const macd = SignalDetector.calcMACD(klines);
+
+    // 信号去噪：最多10个，间隔>=3根K线，只显示箭头
+    const filteredSignals = this._denoiseSignals(signals, klines);
+
+    const buyPts = filteredSignals.filter(s => s.type === 'buy').map(s => ({
+      coord: [dates[s.index], klines[s.index].low],
+      value: s.reason
+    }));
+    const sellPts = filteredSignals.filter(s => s.type === 'sell').map(s => ({
+      coord: [dates[s.index], klines[s.index].high],
+      value: s.reason
+    }));
+
+    chart.setOption({
+      animation: false,
+      grid: [
+        { left: 60, right: 20, top: 30, height: '40%' },   // K线主图
+        { left: 60, right: 20, top: '50%', height: '8%' },  // 成交量
+        { left: 60, right: 20, top: '61%', height: '14%' }, // KDJ
+        { left: 60, right: 20, top: '78%', height: '14%' }  // MACD
+      ],
+      xAxis: [
+        { type: 'category', data: dates, gridIndex: 0, axisLabel: { show: false }, boundaryGap: true },
+        { type: 'category', data: dates, gridIndex: 1, axisLabel: { show: false }, boundaryGap: true },
+        { type: 'category', data: dates, gridIndex: 2, axisLabel: { show: false }, boundaryGap: true },
+        { type: 'category', data: dates, gridIndex: 3, axisLabel: { fontSize: 10 }, boundaryGap: true }
+      ],
+      yAxis: [
+        { type: 'value', gridIndex: 0, scale: true, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10 } },
+        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } },
+        { type: 'value', gridIndex: 2, min: 0, max: 100, splitLine: { show: false }, axisLabel: { fontSize: 9 } },
+        { type: 'value', gridIndex: 3, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9 } }
+      ],
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'cross' },
+        formatter: function(params) {
+          if (!params || params.length === 0) return '';
+          let tip = params[0].axisValue + '<br/>';
+          params.forEach(p => {
+            if (p.seriesName === 'K线' && p.data) {
+              tip += '开: ' + p.data[0] + ' 收: ' + p.data[1] + '<br/>低: ' + p.data[2] + ' 高: ' + p.data[3] + '<br/>';
+            } else if (p.seriesName && p.value != null) {
+              tip += p.marker + ' ' + p.seriesName + ': ' + (typeof p.value === 'object' ? p.value.value : p.value) + '<br/>';
+            }
+          });
+          // Show signal info at this index
+          const idx = params[0].dataIndex;
+          const sig = filteredSignals.find(s => s.index === idx);
+          if (sig) {
+            tip += '<br/><b style="color:' + (sig.type === 'buy' ? '#ef5350' : '#26a69a') + '">' +
+              (sig.type === 'buy' ? '🔺买入' : '🔻卖出') + ': ' + sig.reason + '</b>';
+          }
+          return tip;
+        }
+      },
+      legend: {
+        data: ['MA5', 'MA10', 'MA20'],
+        top: 4, right: 20,
+        textStyle: { color: '#8b949e', fontSize: 10 },
+        itemWidth: 14, itemHeight: 2
+      },
+      series: [
+        // K线主图
+        {
+          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
+          itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' },
+          markPoint: {
+            data: [
+              ...buyPts.map(p => ({
+                ...p, symbol: 'triangle', symbolSize: 12,
+                itemStyle: { color: '#ef5350' },
+                label: { show: false }  // 不显示文字，hover时tooltip显示
+              })),
+              ...sellPts.map(p => ({
+                ...p, symbol: 'triangle', symbolSize: 12, symbolRotate: 180,
+                itemStyle: { color: '#26a69a' },
+                label: { show: false }
+              }))
+            ],
+            tooltip: {
+              formatter: function(param) {
+                return param.value || '';
+              }
+            }
+          }
+        },
+        { name: 'MA5', type: 'line', data: ma5, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none', smooth: true },
+        { name: 'MA10', type: 'line', data: ma10, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none', smooth: true },
+        { name: 'MA20', type: 'line', data: ma20, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#F56C6C' }, symbol: 'none', smooth: true },
+        // 成交量
+        {
+          name: '成交量', type: 'bar',
+          data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
+          xAxisIndex: 1, yAxisIndex: 1
+        },
+        // KDJ
+        {
+          name: 'K', type: 'line', data: kdj.map(k => k.k), xAxisIndex: 2, yAxisIndex: 2,
+          lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none'
+        },
+        {
+          name: 'D', type: 'line', data: kdj.map(k => k.d), xAxisIndex: 2, yAxisIndex: 2,
+          lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none',
+          markLine: {
+            silent: true, symbol: 'none',
+            lineStyle: { type: 'dashed', color: '#333', width: 1 },
+            data: [{ yAxis: 20 }, { yAxis: 80 }],
+            label: { show: false }
+          }
+        },
+        {
+          name: 'J', type: 'line', data: kdj.map(k => k.j), xAxisIndex: 2, yAxisIndex: 2,
+          lineStyle: { width: 1, color: '#ab47bc' }, symbol: 'none'
+        },
+        // MACD
+        {
+          name: 'DIF', type: 'line', data: macd.map(m => m.dif), xAxisIndex: 3, yAxisIndex: 3,
+          lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none'
+        },
+        {
+          name: 'DEA', type: 'line', data: macd.map(m => m.dea), xAxisIndex: 3, yAxisIndex: 3,
+          lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none',
+          markLine: {
+            silent: true, symbol: 'none',
+            lineStyle: { type: 'dashed', color: '#333', width: 1 },
+            data: [{ yAxis: 0 }],
+            label: { show: false }
+          }
+        },
+        {
+          name: 'MACD', type: 'bar',
+          data: macd.map(m => ({ value: m.hist, itemStyle: { color: m.hist >= 0 ? '#ef5350' : '#26a69a' } })),
+          xAxisIndex: 3, yAxisIndex: 3
+        }
+      ],
+      dataZoom: [
+        { type: 'inside', xAxisIndex: [0, 1, 2, 3], start: 60, end: 100 }
+      ]
+    }, true);
+
+    return chart;
+  },
+
+  // ====== 信号去噪：最多10个、间隔>=3根K线 ======
+  _denoiseSignals(signals, klines) {
+    if (!signals || signals.length === 0) return [];
+    // Sort by index descending (latest first)
+    const sorted = signals.slice().sort((a, b) => b.index - a.index);
+    const result = [];
+    let lastIdx = Infinity;
+
+    for (const s of sorted) {
+      if (result.length >= 10) break;
+      // Ensure at least 3 K-lines gap from last kept signal
+      if (Math.abs(lastIdx - s.index) < 3) continue;
+      result.push(s);
+      lastIdx = s.index;
+    }
+    return result;
   },
 
   // ====== 迷你分时图（极简） ======
