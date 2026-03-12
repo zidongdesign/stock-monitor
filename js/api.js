@@ -313,6 +313,28 @@ const StockAPI = {
     });
   },
 
+  // ====== 指数K线（东方财富） ======
+  fetchIndexKline(secid, klt, limit) {
+    limit = limit || 120;
+    const url = 'https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=' + secid +
+      '&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56,f57,f58&klt=' + klt +
+      '&fqt=1&end=20500101&lmt=' + limit;
+    return fetch(url)
+      .then(r => r.json())
+      .then(json => {
+        const klines = json?.data?.klines;
+        if (!klines || klines.length === 0) return [];
+        return klines.map(line => {
+          const p = line.split(',');
+          return {
+            date: p[0], open: +p[1], close: +p[2], high: +p[3], low: +p[4],
+            volume: +p[5], amount: +p[6]
+          };
+        });
+      })
+      .catch(() => []);
+  },
+
   // ====== 周K线（腾讯） ======
   fetchWeeklyKline(code, count) {
     count = count || 60;

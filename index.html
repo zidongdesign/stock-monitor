@@ -23,33 +23,43 @@
       <!-- 三大指数 -->
       <div class="section-title">三大指数</div>
       <div class="index-cards" id="index-cards">
-        <div class="index-card" data-code="sh000001">
+        <div class="index-card" data-code="sh000001" data-secid="1.000001">
           <div class="index-name">上证指数</div>
           <div class="index-price">--</div>
           <div class="index-change">--</div>
+          <div class="index-mini-chart" id="mini-chart-sh000001"></div>
         </div>
-        <div class="index-card" data-code="sz399001">
+        <div class="index-card" data-code="sz399001" data-secid="0.399001">
           <div class="index-name">深证成指</div>
           <div class="index-price">--</div>
           <div class="index-change">--</div>
+          <div class="index-mini-chart" id="mini-chart-sz399001"></div>
         </div>
-        <div class="index-card" data-code="sz399006">
+        <div class="index-card" data-code="sz399006" data-secid="0.399006">
           <div class="index-name">创业板指</div>
           <div class="index-price">--</div>
           <div class="index-change">--</div>
+          <div class="index-mini-chart" id="mini-chart-sz399006"></div>
         </div>
       </div>
 
-      <!-- 大盘定性 -->
-      <div class="section-title">大盘定性</div>
-      <div class="market-assessment" id="market-assessment">
-        <div class="assessment-btns">
-          <button class="assess-btn green" data-level="green" title="看多">🟢 绿灯</button>
-          <button class="assess-btn yellow" data-level="yellow" title="观望">🟡 黄灯</button>
-          <button class="assess-btn red" data-level="red" title="看空">🔴 红灯</button>
+      <!-- 指数K线详情面板 -->
+      <div class="index-detail-panel" id="index-detail-panel" style="display:none;">
+        <div class="index-detail-header">
+          <button class="index-detail-back" id="index-detail-back">← 返回</button>
+          <span class="index-detail-title" id="index-detail-title">上证指数</span>
         </div>
-        <input type="text" class="assess-note" id="assess-note" placeholder="备注（可选）" maxlength="100">
-        <div class="assess-status" id="assess-status">未设定</div>
+        <div class="index-detail-tabs" id="index-detail-tabs">
+          <div class="idx-tab" data-klt="30">30分</div>
+          <div class="idx-tab" data-klt="60">60分</div>
+          <div class="idx-tab" data-klt="120">120分</div>
+          <div class="idx-tab active" data-klt="101">日</div>
+          <div class="idx-tab" data-klt="103">月</div>
+          <div class="idx-tab" data-klt="year">年</div>
+        </div>
+        <div class="index-detail-chart-wrap">
+          <div id="index-kline-chart"></div>
+        </div>
       </div>
 
       <!-- 今日信号汇总 -->

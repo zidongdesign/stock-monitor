@@ -212,6 +212,101 @@ const ChartManager = {
     this.chart.setOption(opt, true);
   },
 
+  // ====== 迷你分时图（极简） ======
+  renderMiniMinute(containerId, data, prevClose) {
+    const el = document.getElementById(containerId);
+    if (!el || !data || data.length === 0) return;
+    let chart = echarts.getInstanceByDom(el);
+    if (!chart) chart = echarts.init(el);
+    
+    prevClose = prevClose || data[0].price;
+    const prices = data.map(d => d.price);
+    const lineColor = prices[prices.length - 1] >= prevClose ? '#ef5350' : '#26a69a';
+    const areaColor = prices[prices.length - 1] >= prevClose
+      ? 'rgba(239,83,80,0.15)' : 'rgba(38,166,154,0.15)';
+
+    chart.setOption({
+      animation: false,
+      grid: { left: 0, right: 0, top: 2, bottom: 2 },
+      xAxis: { type: 'category', show: false, data: data.map(d => d.time) },
+      yAxis: { type: 'value', show: false, scale: true },
+      tooltip: { show: false },
+      series: [{
+        type: 'line', data: prices, symbol: 'none',
+        lineStyle: { color: lineColor, width: 1.5 },
+        areaStyle: { color: areaColor }
+      }]
+    }, true);
+  },
+
+  // ====== 指数K线图（含MA均线） ======
+  renderIndexKline(containerId, klines, period) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    let chart = echarts.getInstanceByDom(el);
+    if (!chart) chart = echarts.init(el);
+
+    if (!klines || klines.length === 0) {
+      chart.setOption({
+        title: { text: '暂无K线数据', left: 'center', top: 'center', textStyle: { color: '#8b949e', fontSize: 14 } },
+        xAxis: [], yAxis: [], series: []
+      }, true);
+      return chart;
+    }
+
+    const dates = klines.map(k => k.date);
+    const ohlc = klines.map(k => [k.open, k.close, k.low, k.high]);
+    const volumes = klines.map(k => k.volume);
+    const volColors = klines.map(k => k.close >= k.open ? '#ef5350' : '#26a69a');
+
+    const ma5 = SignalDetector.calcMA(klines, 5);
+    const ma10 = SignalDetector.calcMA(klines, 10);
+    const ma20 = SignalDetector.calcMA(klines, 20);
+
+    chart.setOption({
+      animation: false,
+      grid: [
+        { left: 60, right: 20, top: 30, height: '55%' },
+        { left: 60, right: 20, top: '72%', height: '18%' }
+      ],
+      xAxis: [
+        { type: 'category', data: dates, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: true },
+        { type: 'category', data: dates, gridIndex: 1, axisLabel: { fontSize: 10 }, boundaryGap: true }
+      ],
+      yAxis: [
+        { type: 'value', gridIndex: 0, scale: true, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10 } },
+        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } }
+      ],
+      tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+      legend: {
+        data: ['MA5', 'MA10', 'MA20'],
+        top: 4, right: 20,
+        textStyle: { color: '#8b949e', fontSize: 10 },
+        itemWidth: 14, itemHeight: 2
+      },
+      series: [
+        {
+          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
+          itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' }
+        },
+        { name: 'MA5', type: 'line', data: ma5, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none', smooth: true },
+        { name: 'MA10', type: 'line', data: ma10, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none', smooth: true },
+        { name: 'MA20', type: 'line', data: ma20, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#F56C6C' }, symbol: 'none', smooth: true },
+        {
+          name: '成交量', type: 'bar',
+          data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
+          xAxisIndex: 1, yAxisIndex: 1
+        }
+      ],
+      dataZoom: [
+        { type: 'inside', xAxisIndex: [0, 1], start: 50, end: 100 },
+        { type: 'slider', xAxisIndex: [0, 1], start: 50, end: 100, height: 20, bottom: 5 }
+      ]
+    }, true);
+
+    return chart;
+  },
+
   // ====== K线图 ======
   renderKline(klines, klineSignals, settings) {
     if (!this.chart) return;

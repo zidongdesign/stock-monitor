@@ -131,54 +131,82 @@ body {
   font-weight: 500;
 }
 
-/* 大盘定性 */
-.market-assessment {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-}
-
-.assessment-btns {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.assess-btn {
-  flex: 1;
-  padding: 10px;
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  background: transparent;
-  color: var(--text);
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
-}
-
-.assess-btn:hover { opacity: 0.8; }
-.assess-btn.green.active { border-color: var(--success); background: rgba(103, 194, 58, 0.15); }
-.assess-btn.yellow.active { border-color: var(--warn); background: rgba(230, 162, 60, 0.15); }
-.assess-btn.red.active { border-color: var(--danger); background: rgba(245, 108, 108, 0.15); }
-
-.assess-note {
+/* 迷你分时图 */
+.index-mini-chart {
   width: 100%;
-  padding: 8px 12px;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  color: var(--text);
-  font-size: 13px;
-  margin-bottom: 8px;
-  outline: none;
+  height: 60px;
+  margin-top: 8px;
 }
 
-.assess-note:focus { border-color: var(--accent); }
+/* 指数K线详情面板 */
+.index-detail-panel {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 300;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
 
-.assess-status {
-  font-size: 12px;
+.index-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.index-detail-back {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.index-detail-back:hover { opacity: 0.8; }
+
+.index-detail-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.index-detail-tabs {
+  display: flex;
+  gap: 0;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.idx-tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 0;
+  font-size: 13px;
   color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.idx-tab:hover { color: var(--text); }
+.idx-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+.index-detail-chart-wrap {
+  flex: 1;
+  padding: 8px;
+  overflow: hidden;
+}
+
+#index-kline-chart {
+  width: 100%;
+  height: 100%;
 }
 
 /* 信号时间线 */

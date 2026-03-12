@@ -126,17 +126,6 @@ const Store = {
 
   setSettings(s) { this._set('sm_settings', s); },
 
-  // ---- 大盘定性 ----
-  getAssessment() {
-    return this._get('sm_assessment', { level: null, note: '', time: null, date: null });
-  },
-
-  setAssessment(a) {
-    a.time = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
-    a.date = new Date().toISOString().slice(0, 10);
-    this._set('sm_assessment', a);
-  },
-
   // ---- 信号历史 ----
   getSignals() {
     return this._get('sm_signals', []);
@@ -198,7 +187,7 @@ const Store = {
   // ---- 导出/导入 ----
   exportAll() {
     const data = {};
-    ['sm_groups', 'sm_stocks', 'sm_futures', 'sm_settings', 'sm_assessment', 'sm_signals'].forEach(key => {
+    ['sm_groups', 'sm_stocks', 'sm_futures', 'sm_settings', 'sm_signals'].forEach(key => {
       const raw = localStorage.getItem(key);
       if (raw) data[key] = JSON.parse(raw);
     });
@@ -214,7 +203,7 @@ const Store = {
 
   clearAll() {
     this._cache = {};
-    ['sm_groups', 'sm_stocks', 'sm_futures', 'sm_settings', 'sm_assessment', 'sm_signals', 'sm_cooldown'].forEach(key => {
+    ['sm_groups', 'sm_stocks', 'sm_futures', 'sm_settings', 'sm_signals', 'sm_cooldown'].forEach(key => {
       localStorage.removeItem(key);
     });
   }

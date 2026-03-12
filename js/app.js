@@ -37,7 +37,6 @@ const App = {
 
     // 加载设置到UI
     this.loadSettingsUI();
-    this.loadAssessmentUI();
     this.loadFuturesUI();
     this.loadMockModeUI();
 
@@ -151,39 +150,102 @@ const App = {
   },
 
   // ====== 📊 大盘总览 ======
+  _indexDetailChart: null,
+  _currentIndexSecid: null,
+  _currentIndexKlt: '101',
+  _miniCharts: {},
+
   bindOverview() {
-    // 定性按钮
-    document.querySelectorAll('.assess-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const level = btn.dataset.level;
-        document.querySelectorAll('.assess-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const note = document.getElementById('assess-note').value;
-        Store.setAssessment({ level, note });
-        this.loadAssessmentUI();
+    // 指数卡片点击 → 进入K线详情
+    document.querySelectorAll('.index-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const code = card.dataset.code;
+        const secid = card.dataset.secid;
+        const name = card.querySelector('.index-name').textContent;
+        this.showIndexDetail(name, secid);
       });
     });
 
-    document.getElementById('assess-note').addEventListener('change', () => {
-      const a = Store.getAssessment();
-      if (a.level) {
-        a.note = document.getElementById('assess-note').value;
-        Store.setAssessment(a);
-        this.loadAssessmentUI();
-      }
+    // 返回按钮
+    document.getElementById('index-detail-back').addEventListener('click', () => {
+      this.hideIndexDetail();
+    });
+
+    // 周期tab切换
+    document.querySelectorAll('.idx-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.idx-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        this._currentIndexKlt = tab.dataset.klt;
+        this.loadIndexKline();
+      });
     });
   },
 
-  loadAssessmentUI() {
-    const a = Store.getAssessment();
-    document.querySelectorAll('.assess-btn').forEach(b => b.classList.toggle('active', b.dataset.level === a.level));
-    document.getElementById('assess-note').value = a.note || '';
-    const levelMap = { green: '🟢 绿灯（看多）', yellow: '🟡 黄灯（观望）', red: '🔴 红灯（看空）' };
-    const statusEl = document.getElementById('assess-status');
-    if (a.level && a.date) {
-      statusEl.textContent = (levelMap[a.level] || '未知') + ' · ' + a.time + (a.note ? ' · ' + a.note : '');
+  async showIndexDetail(name, secid) {
+    this._currentIndexSecid = secid;
+    this._currentIndexKlt = '101';
+    document.getElementById('index-detail-title').textContent = name;
+    document.getElementById('index-detail-panel').style.display = 'flex';
+    // Reset active tab to 日K
+    document.querySelectorAll('.idx-tab').forEach(t => t.classList.toggle('active', t.dataset.klt === '101'));
+    await this.loadIndexKline();
+  },
+
+  hideIndexDetail() {
+    document.getElementById('index-detail-panel').style.display = 'none';
+    if (this._indexDetailChart) {
+      this._indexDetailChart.dispose();
+      this._indexDetailChart = null;
+    }
+  },
+
+  async loadIndexKline() {
+    const secid = this._currentIndexSecid;
+    const klt = this._currentIndexKlt;
+    if (!secid) return;
+
+    let klines;
+    if (klt === 'year') {
+      // 年K: 从月K聚合
+      const monthData = await StockAPI.fetchIndexKline(secid, 103, 500);
+      klines = this._aggregateYearlyKline(monthData);
     } else {
-      statusEl.textContent = '未设定';
+      const limit = (klt === '101' || klt === '103') ? 250 : 120;
+      klines = await StockAPI.fetchIndexKline(secid, klt, limit);
+    }
+
+    this._indexDetailChart = ChartManager.renderIndexKline('index-kline-chart', klines, klt);
+  },
+
+  _aggregateYearlyKline(monthData) {
+    if (!monthData || monthData.length === 0) return [];
+    const yearMap = {};
+    monthData.forEach(k => {
+      const year = k.date.substring(0, 4);
+      if (!yearMap[year]) yearMap[year] = [];
+      yearMap[year].push(k);
+    });
+    return Object.entries(yearMap).sort((a, b) => a[0].localeCompare(b[0])).map(([year, months]) => ({
+      date: year,
+      open: months[0].open,
+      close: months[months.length - 1].close,
+      high: Math.max(...months.map(m => m.high)),
+      low: Math.min(...months.map(m => m.low)),
+      volume: months.reduce((s, m) => s + m.volume, 0)
+    }));
+  },
+
+  async loadMiniCharts() {
+    const indexCodes = ['sh000001', 'sz399001', 'sz399006'];
+    for (const code of indexCodes) {
+      try {
+        const data = await StockAPI.fetchMinute(code);
+        const prevClose = this.stockData[code]?.prevClose;
+        ChartManager.renderMiniMinute('mini-chart-' + code, data, prevClose);
+      } catch (e) {
+        console.error('Mini chart error for ' + code, e);
+      }
     }
   },
 
@@ -1349,6 +1411,7 @@ const App = {
 
       // 更新UI
       this.updateIndexCards(stockResults);
+      this.loadMiniCharts();
       this.renderStockList();
       if (this.currentStock) this.updateStockInfo(this.currentStock);
       this.renderOverviewSignals();
