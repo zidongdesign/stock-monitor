@@ -591,8 +591,11 @@ const App = {
           if (existingChart) existingChart.dispose();
           this.loadFuturesKline();
           this.startFuturesKlineRefresh();
-          this.scanAllFuturesReversals();
-          this.startTickerRefresh();
+          // 延迟扫描转折信号，避免跟K线加载争抢JSONP
+          setTimeout(() => {
+            this.scanAllFuturesReversals();
+            this.startTickerRefresh();
+          }, 3000);
         }
       }, 50);
       return;
