@@ -187,11 +187,13 @@ const ChartManager = {
             data: [
               ...buyPts.map(p => ({
                 ...p, symbol: 'triangle', symbolSize: 12,
+                symbolOffset: [0, 8],
                 itemStyle: { color: '#ef5350' },
                 label: { show: true, position: 'bottom', formatter: p.value, fontSize: 8, color: '#ef5350' }
               })),
               ...sellPts.map(p => ({
                 ...p, symbol: 'triangle', symbolSize: 12, symbolRotate: 180,
+                symbolOffset: [0, -8],
                 itemStyle: { color: '#26a69a' },
                 label: { show: true, position: 'top', formatter: p.value, fontSize: 8, color: '#26a69a' }
               }))
@@ -310,11 +312,13 @@ const ChartManager = {
             data: [
               ...buyPts.map(p => ({
                 ...p, symbol: 'triangle', symbolSize: 12,
+                symbolOffset: [0, 8],
                 itemStyle: { color: '#ef5350' },
                 label: { show: false }
               })),
               ...sellPts.map(p => ({
                 ...p, symbol: 'triangle', symbolSize: 12, symbolRotate: 180,
+                symbolOffset: [0, -8],
                 itemStyle: { color: '#26a69a' },
                 label: { show: false }
               })),
@@ -326,6 +330,7 @@ const ChartManager = {
                 value: reversalSignal.summary,
                 symbol: 'triangle',
                 symbolSize: 18,
+                symbolOffset: reversalSignal.type === 'bearish_reversal' ? [0, -12] : [0, 12],
                 symbolRotate: reversalSignal.type === 'bearish_reversal' ? 180 : 0,
                 itemStyle: {
                   color: reversalSignal.type === 'bearish_reversal' ? '#26a69a' : '#ef5350',
