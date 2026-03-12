@@ -6,6 +6,7 @@
  * 分时: 东方财富 push2his.eastmoney.com
  * 资金流向: 东方财富 push2.eastmoney.com
  */
+let _jsonpSeq = 0;
 const StockAPI = {
 
   // ====== 股票代码 → 东方财富 secid 转换 ======
@@ -281,10 +282,10 @@ const StockAPI = {
     // symbol: e.g. 'MA0'; type: 5/15/30/60
     type = type || 5;
     return new Promise((resolve) => {
-      const cbVar = '_' + symbol + '_' + type;
+      const seq = ++_jsonpSeq;
+      const cbVar = '_' + symbol + '_' + type + '_' + seq;
       const script = document.createElement('script');
-      const timeout = setTimeout(() => { script.remove(); resolve([]); }, 10000);
-      delete window[cbVar];
+      const timeout = setTimeout(() => { script.remove(); delete window[cbVar]; resolve([]); }, 10000);
 
       const url = 'https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20' + cbVar + '=/InnerFuturesNewService.getFewMinLine?symbol=' + symbol + '&type=' + type + '&r=' + Date.now();
       script.src = url;
@@ -294,6 +295,7 @@ const StockAPI = {
         script.remove();
 
         const raw = window[cbVar];
+        delete window[cbVar];
         if (!raw || !Array.isArray(raw)) { resolve([]); return; }
 
         const klines = raw.map(item => ({
@@ -321,10 +323,10 @@ const StockAPI = {
   // ====== 期货日K线（新浪） ======
   fetchFuturesDailyKline(symbol) {
     return new Promise((resolve) => {
-      const cbVar = '_daily_' + symbol;
+      const seq = ++_jsonpSeq;
+      const cbVar = '_daily_' + symbol + '_' + seq;
       const script = document.createElement('script');
-      const timeout = setTimeout(() => { script.remove(); resolve([]); }, 15000);
-      delete window[cbVar];
+      const timeout = setTimeout(() => { script.remove(); delete window[cbVar]; resolve([]); }, 15000);
 
       const url = 'https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20' + cbVar + '=/InnerFuturesNewService.getDailyKLine?symbol=' + symbol + '&r=' + Date.now();
       script.src = url;
@@ -334,6 +336,7 @@ const StockAPI = {
         script.remove();
 
         const raw = window[cbVar];
+        delete window[cbVar];
         if (!raw || !Array.isArray(raw)) { resolve([]); return; }
 
         const klines = raw.map(item => ({
