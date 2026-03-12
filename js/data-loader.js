@@ -20,6 +20,14 @@ const DataLoader = {
     } catch { return null; }
   },
 
+  async loadSectors() {
+    try {
+      const resp = await fetch('data/sectors.json?t=' + Date.now());
+      if (!resp.ok) return null;
+      return await resp.json();
+    } catch { return null; }
+  },
+
   // 检查是否需要更新自选股列表
   shouldUpdateStocks(remoteVersion) {
     const localVer = Store._STOCK_VERSION;

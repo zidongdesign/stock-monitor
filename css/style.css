@@ -1472,3 +1472,25 @@ body.chart-fullscreen #float-fullscreen {
 
 /* 数据更新时间提示 */
 .data-update-hint { font-size:11px; color:#8b949e; padding:4px 8px; text-align:right; }
+
+/* 板块扫描结果 */
+.sector-scan-time { font-size: 11px; color: #8b949e; padding: 4px 8px; text-align: right; }
+.sector-hot-stocks { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px; }
+.sector-hot-tag { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; background: #1a2a3a; color: #8b949e; }
+.sector-hot-tag.up { color: #f85149; background: rgba(248,81,73,0.1); }
+.sector-hot-tag.down { color: #3fb950; background: rgba(63,185,80,0.1); }
+
+/* 板块推荐个股 */
+.recommend-section { margin-top: 16px; }
+.recommend-title { font-size: 14px; font-weight: 600; color: var(--text); padding: 8px; border-bottom: 1px solid var(--border); }
+.recommend-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 8px; border-bottom: 1px solid var(--border-light, #21262d); }
+.recommend-info { flex: 1; }
+.recommend-name { font-weight: 600; color: var(--text); }
+.recommend-sector { font-size: 11px; color: #8b949e; margin-left: 6px; }
+.recommend-reason { font-size: 12px; color: #8b949e; margin-top: 4px; }
+.recommend-score { font-size: 13px; font-weight: 600; margin-right: 8px; }
+.recommend-score.high { color: #3fb950; }
+.recommend-score.mid { color: #d29922; }
+.btn-add-recommend { padding: 4px 10px; border-radius: 4px; background: #238636; color: #fff; border: none; font-size: 12px; cursor: pointer; white-space: nowrap; }
+.btn-add-recommend:hover { background: #2ea043; }
+.btn-add-recommend:disabled { cursor: default; }

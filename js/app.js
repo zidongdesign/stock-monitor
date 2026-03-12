@@ -63,6 +63,15 @@ const App = {
       }
     });
 
+    // 加载板块扫描数据
+    DataLoader.loadSectors().then(sectors => {
+      if (sectors) {
+        this._sectorsData = sectors;
+        this.renderSectorScanResults();
+        this.renderSectorRecommend();
+      }
+    });
+
     // 首次刷新
     this.refreshAll();
     this.startAutoRefresh();
@@ -113,7 +122,12 @@ const App = {
     }
     if (tab === 'signals') {
       this.renderSignalStream();
-      this.renderSectorAlerts();
+      if (this._sectorsData) {
+        this.renderSectorScanResults();
+        this.renderSectorRecommend();
+      } else {
+        this.renderSectorAlerts();
+      }
     }
   },
 
@@ -572,6 +586,117 @@ const App = {
         this.renderSignalStream();
         this.renderOverviewSignals();
       }
+    });
+  },
+
+  // ====== 板块扫描结果渲染（来自 sectors.json） ======
+  renderSectorScanResults() {
+    const container = document.getElementById('sector-alerts');
+    if (!container) return;
+    const data = this._sectorsData;
+    if (!data || !data.sectors || data.sectors.length === 0) return;
+
+    const allCodes = Store.getAllStockCodes();
+    let html = '';
+
+    // 更新时间
+    if (data.updated) {
+      const d = new Date(data.updated);
+      html += '<div class="sector-scan-time">📊 板块扫描更新于 ' +
+        d.toLocaleDateString('zh-CN') + ' ' +
+        d.toLocaleTimeString('zh-CN', {hour:'2-digit',minute:'2-digit'}) + '</div>';
+    }
+
+    data.sectors.forEach(s => {
+      const cls = s.avgChange > 0 ? 'up' : s.avgChange < 0 ? 'down' : '';
+      const netAmountStr = s.netAmount >= 100000000
+        ? (s.netAmount / 100000000).toFixed(1) + '亿'
+        : (s.netAmount / 10000).toFixed(0) + '万';
+
+      html += '<div class="sector-alert-item">' +
+        '<div class="sector-alert-header">' +
+          '<span class="sector-name">' + s.name + '</span>' +
+          '<span class="sector-change ' + cls + '">' +
+            (s.avgChange > 0 ? '+' : '') + s.avgChange.toFixed(2) + '% · 净流入 ' + netAmountStr +
+          '</span>' +
+        '</div>' +
+        '<div class="sector-alert-body">';
+
+      if (s.leader && s.leader.name) {
+        html += '<span class="sector-leader">龙头: ' + s.leader.name +
+          (s.leader.change ? ' ' + (s.leader.change > 0 ? '+' : '') + s.leader.change.toFixed(1) + '%' : '') +
+          '</span>';
+      }
+
+      // 热门个股展示
+      if (s.hotStocks && s.hotStocks.length > 0) {
+        html += '<div class="sector-hot-stocks">';
+        s.hotStocks.slice(0, 3).forEach(st => {
+          const stCls = st.change > 0 ? 'up' : st.change < 0 ? 'down' : '';
+          const inWatchlist = allCodes.includes(st.code);
+          html += '<span class="sector-hot-tag ' + stCls + '">' +
+            (inWatchlist ? '📌' : '') + st.name + ' ' +
+            (st.change > 0 ? '+' : '') + st.change + '%' +
+          '</span>';
+        });
+        html += '</div>';
+      }
+
+      html += '</div></div>';
+    });
+
+    container.innerHTML = html;
+  },
+
+  renderSectorRecommend() {
+    const data = this._sectorsData;
+    if (!data || !data.recommend || data.recommend.length === 0) return;
+
+    // 找到或创建推荐区域
+    let section = document.getElementById('sector-recommend');
+    if (!section) {
+      const container = document.getElementById('sector-alerts');
+      if (!container) return;
+      section = document.createElement('div');
+      section.id = 'sector-recommend';
+      section.className = 'recommend-section';
+      container.parentNode.insertBefore(section, container.nextSibling);
+    }
+
+    let html = '<div class="recommend-title">🎯 板块热股推荐</div>';
+    data.recommend.forEach(r => {
+      const scoreClass = r.score >= 70 ? 'high' : r.score >= 50 ? 'mid' : '';
+      html += '<div class="recommend-item">' +
+        '<div class="recommend-info">' +
+          '<span class="recommend-name">' + r.name + '</span>' +
+          '<span class="recommend-sector">' + r.sector + '</span>' +
+          '<div class="recommend-reason">' + r.reason + '</div>' +
+        '</div>' +
+        '<span class="recommend-score ' + scoreClass + '">' + r.score + '分</span>' +
+        '<button class="btn-add-recommend" data-code="' + r.code + '" data-group="' + (r.suggestGroup || 'watch') + '">+ 加自选</button>' +
+      '</div>';
+    });
+
+    section.innerHTML = html;
+
+    // 绑定添加按钮
+    section.querySelectorAll('.btn-add-recommend').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const code = btn.dataset.code;
+        const group = btn.dataset.group;
+        if (Store.addStock(group, code)) {
+          btn.textContent = '✓ 已添加';
+          btn.disabled = true;
+          btn.style.background = '#6e7681';
+          this.renderGroupTabs();
+          this.renderStockList();
+        } else {
+          btn.textContent = '已在自选';
+          btn.disabled = true;
+          btn.style.background = '#6e7681';
+        }
+      });
     });
   },
 
