@@ -14,6 +14,8 @@ import traceback
 from datetime import datetime, timedelta
 from pathlib import Path
 
+import requests
+
 import akshare as ak
 import numpy as np
 import pandas as pd
@@ -281,56 +283,76 @@ def analyze_technical(symbol: str) -> dict:
 # 3. 资金流向分析
 # ============================================================
 
-def analyze_fund_flow(symbol: str) -> dict:
-    """拉取个股资金流向（东方财富）"""
-    pure = code_to_pure(symbol)
-    market = code_to_market(symbol)  # "sz" or "sh"
-    result = {
-        "mainNet5d": 0, "mainDaysIn": 0, "trend": "unknown",
+def fetch_fund_flow_sina() -> dict:
+    """新浪全市场资金流向排名，一次拉流入+流出各500条"""
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)'}
+    results = {}
+
+    # 净流入排名前500
+    url_in = ('https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php'
+              '/MoneyFlow.ssl_bkzj_ssggzj?page=1&num=500&sort=netamount&asc=0&bankuai=&shession=f')
+    try:
+        r = requests.get(url_in, headers=headers, timeout=15)
+        data = json.loads(r.text)
+        for item in data:
+            symbol = item.get('symbol', '')
+            results[symbol] = {
+                'mainNet5d': round(float(item.get('netamount', 0)) / 10000, 0),
+                'r0_net': round(float(item.get('r0_net', 0)) / 10000, 0),
+                'inAmount': round(float(item.get('inamount', 0)) / 10000, 0),
+                'outAmount': round(float(item.get('outamount', 0)) / 10000, 0),
+                'netRatio': float(item.get('ratioamount', 0)),
+            }
+    except Exception as e:
+        print(f'  ⚠️ 新浪资金排名(流入)失败: {e}')
+
+    # 净流出排名前500（升序）
+    url_out = ('https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php'
+               '/MoneyFlow.ssl_bkzj_ssggzj?page=1&num=500&sort=netamount&asc=1&bankuai=&shession=f')
+    try:
+        r = requests.get(url_out, headers=headers, timeout=15)
+        data = json.loads(r.text)
+        for item in data:
+            symbol = item.get('symbol', '')
+            if symbol not in results:
+                results[symbol] = {
+                    'mainNet5d': round(float(item.get('netamount', 0)) / 10000, 0),
+                    'r0_net': round(float(item.get('r0_net', 0)) / 10000, 0),
+                    'inAmount': round(float(item.get('inamount', 0)) / 10000, 0),
+                    'outAmount': round(float(item.get('outamount', 0)) / 10000, 0),
+                    'netRatio': float(item.get('ratioamount', 0)),
+                }
+    except Exception as e:
+        print(f'  ⚠️ 新浪资金排名(流出)失败: {e}')
+
+    return results
+
+
+def analyze_fund_flow(symbol: str, sina_data: dict) -> dict:
+    """从新浪全市场资金数据中查找个股资金流向"""
+    # 不在榜上 → 资金不活跃
+    if symbol not in sina_data:
+        return {
+            "mainNet5d": 0, "r0Net": 0, "netRatio": 0, "trend": "neutral",
+        }
+
+    item = sina_data[symbol]
+    net = item['mainNet5d']
+    ratio = item['netRatio']
+
+    if net > 0:
+        trend = "in"
+    elif net < 0:
+        trend = "out"
+    else:
+        trend = "neutral"
+
+    return {
+        "mainNet5d": net,
+        "r0Net": item['r0_net'],
+        "netRatio": ratio,
+        "trend": trend,
     }
-
-    try:
-        df = ak.stock_individual_fund_flow(stock=pure, market=market)
-    except Exception as e:
-        print(f"  [资金] {symbol} 拉取失败: {e}")
-        return result
-
-    if df is None or df.empty:
-        return result
-
-    # 取最近 10 天
-    df = df.tail(10).copy()
-
-    # 列名可能包含 "主力净流入-净额" 或类似
-    main_col = None
-    for col in df.columns:
-        if "主力" in str(col) and "净" in str(col) and "额" in str(col):
-            main_col = col
-            break
-
-    if main_col is None:
-        # fallback: try column index
-        print(f"  [资金] {symbol} 未找到主力净流入列，columns={df.columns.tolist()}")
-        return result
-
-    recent5 = df.tail(5)
-    try:
-        values = pd.to_numeric(recent5[main_col], errors="coerce").fillna(0)
-        total = float(values.sum())
-        days_in = int((values > 0).sum())
-        result["mainNet5d"] = round(total / 10000, 2)  # 转万元
-        result["mainDaysIn"] = days_in
-
-        if days_in >= 4:
-            result["trend"] = "in"
-        elif days_in >= 2:
-            result["trend"] = "mixed"
-        else:
-            result["trend"] = "out"
-    except Exception as e:
-        print(f"  [资金] {symbol} 数据解析失败: {e}")
-
-    return result
 
 
 # ============================================================
@@ -382,22 +404,25 @@ def compute_score(fin: dict, tech: dict, fund: dict) -> int:
     if tech.get("aboveMa20"):
         tech_score = min(30, tech_score + 3)
 
-    # 资金分 (0-30)
-    fund_trend = fund.get("trend", "unknown")
-    if fund_trend == "in":
-        fund_score = 26
-    elif fund_trend == "mixed":
-        fund_score = 18
-    elif fund_trend == "out":
-        fund_score = 8
-    else:
-        fund_score = 15  # unknown 给中间值
+    # 资金分 (0-30) — 基于新浪全市场资金排名
+    fund_trend = fund.get("trend", "neutral")
+    net = fund.get("mainNet5d", 0)
+    net_ratio = fund.get("netRatio", 0)
 
-    days_in = fund.get("mainDaysIn", 0)
-    if days_in >= 4:
-        fund_score = min(30, fund_score + 4)
-    elif days_in >= 3:
-        fund_score = min(30, fund_score + 2)
+    if fund_trend == "neutral" and net == 0 and net_ratio == 0:
+        # 不在榜上，资金不活跃
+        fund_score = 10
+    elif net > 0 and net_ratio > 0.1:
+        # 强流入（10%以上净流入占比）
+        fund_score = 25 + min(5, int(net_ratio * 10))  # 25-30
+        fund_score = min(30, fund_score)
+    elif net > 0:
+        # 正流入
+        fund_score = 18 + min(6, int(net_ratio * 30))  # 18-24
+        fund_score = min(24, fund_score)
+    else:
+        # 资金流出
+        fund_score = max(0, 9 + min(0, int(net_ratio * 20)))  # 0-9
 
     return fin_score + tech_score + fund_score
 
@@ -446,6 +471,8 @@ def generate_tags(fin: dict, tech: dict, fund: dict) -> list[str]:
         tags.append("主力流入")
     elif fund.get("trend") == "out":
         tags.append("主力流出")
+    elif fund.get("trend") == "neutral" and fund.get("mainNet5d", 0) == 0:
+        tags.append("资金平淡")
 
     return tags
 
@@ -472,11 +499,13 @@ def generate_reason(fin: dict, tech: dict, fund: dict, action: str) -> str:
     elif trend == "down":
         parts.append("下降趋势")
 
-    fund_trend = fund.get("trend", "unknown")
+    fund_trend = fund.get("trend", "neutral")
     if fund_trend == "in":
-        parts.append("主力持续流入")
+        parts.append("主力净流入")
     elif fund_trend == "out":
         parts.append("主力流出")
+    elif fund_trend == "neutral" and fund.get("mainNet5d", 0) == 0:
+        parts.append("资金不活跃")
 
     return "，".join(parts) if parts else "数据不足"
 
@@ -501,6 +530,11 @@ def main():
     print(f"📊 开始分析 {total} 只自选股 ({updated})")
     print("=" * 60)
 
+    # 一次性拉取新浪全市场资金数据
+    print("💰 拉取新浪全市场资金流向...")
+    sina_fund_data = fetch_fund_flow_sina()
+    print(f"  ✅ 获取 {len(sina_fund_data)} 条资金数据")
+
     stocks_data = {}
     eliminate_list = []
 
@@ -521,11 +555,9 @@ def main():
             print(f"     趋势={tech['trend']}  MA20上方={tech['aboveMa20']}  KDJ={tech['kdjSignal']}")
             time.sleep(0.5)
 
-            # 3. 资金
-            print(f"  💰 拉取资金流向...")
-            fund = analyze_fund_flow(symbol)
-            print(f"     5日净流入={fund['mainNet5d']}万  流入天数={fund['mainDaysIn']}  趋势={fund['trend']}")
-            time.sleep(0.5)
+            # 3. 资金（从预拉取的新浪数据中查找）
+            fund = analyze_fund_flow(symbol, sina_fund_data)
+            print(f"     净流入={fund['mainNet5d']}万  超大单={fund['r0Net']}万  占比={fund['netRatio']}  趋势={fund['trend']}")
 
             # 4. 评分
             score = compute_score(fin, tech, fund)
@@ -562,7 +594,7 @@ def main():
                 "score": 0,
                 "financial": {"roe": None, "roeTrend": "unknown", "netProfitGrowth3y": [], "cashFlowPositive": None, "grade": "C"},
                 "technical": {"trend": "unknown", "aboveMa20": None, "kdjSignal": "unknown", "support": None, "resistance": None},
-                "fundFlow": {"mainNet5d": 0, "mainDaysIn": 0, "trend": "unknown"},
+                "fundFlow": {"mainNet5d": 0, "r0Net": 0, "netRatio": 0, "trend": "neutral"},
                 "action": "hold",
                 "tags": ["数据异常"],
                 "reason": f"分析失败: {str(e)[:50]}",
