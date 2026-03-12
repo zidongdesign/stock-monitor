@@ -311,13 +311,29 @@ const ChartManager = {
               ...buyPts.map(p => ({
                 ...p, symbol: 'triangle', symbolSize: 12,
                 itemStyle: { color: '#ef5350' },
-                label: { show: false }  // 不显示文字，hover时tooltip显示
+                label: { show: false }
               })),
               ...sellPts.map(p => ({
                 ...p, symbol: 'triangle', symbolSize: 12, symbolRotate: 180,
                 itemStyle: { color: '#26a69a' },
                 label: { show: false }
-              }))
+              })),
+              // 趋势转折大三角
+              ...(reversalSignal && reversalSignal.hasReversal && reversalSignal.klineIndex >= 0 ? [{
+                coord: reversalSignal.type === 'bearish_reversal'
+                  ? [dates[reversalSignal.klineIndex], klines[reversalSignal.klineIndex].high]
+                  : [dates[reversalSignal.klineIndex], klines[reversalSignal.klineIndex].low],
+                value: reversalSignal.summary,
+                symbol: 'triangle',
+                symbolSize: 18,
+                symbolRotate: reversalSignal.type === 'bearish_reversal' ? 180 : 0,
+                itemStyle: {
+                  color: reversalSignal.type === 'bearish_reversal' ? '#26a69a' : '#ef5350',
+                  shadowBlur: 10,
+                  shadowColor: reversalSignal.type === 'bearish_reversal' ? 'rgba(38,166,154,0.8)' : 'rgba(239,83,80,0.8)'
+                },
+                label: { show: false }
+              }] : [])
             ],
             tooltip: {
               formatter: function(param) {

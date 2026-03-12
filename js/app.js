@@ -15,6 +15,7 @@ const App = {
   viewMode: 'list',     // list | grid
   refreshTimer: null,
   futuresKlineTimer: null,  // 期货K线刷新定时器
+  _tickerTimer: null,       // 滚动条刷新定时器
   currentFutures: null,     // 当前选中的期货品种 code (如 'MA0')
   currentFuturesPeriod: '5', // 当前期货K线周期: '5','15','30','60','daily','weekly'
 
@@ -499,6 +500,7 @@ const App = {
       // 清理期货 K 线资源
       if (this._futuresChart) { this._futuresChart.dispose(); this._futuresChart = null; }
       if (this.futuresKlineTimer) { clearInterval(this.futuresKlineTimer); this.futuresKlineTimer = null; }
+      if (this._tickerTimer) { clearInterval(this._tickerTimer); this._tickerTimer = null; }
     }
 
     if (this.currentGroup === '__futures__') {
@@ -525,6 +527,12 @@ const App = {
         '</div>';
       });
       html += '</div>';
+
+      // 趋势转折滚动文字条
+      html += '<div class="futures-ticker" id="futures-ticker" style="display:none">' +
+        '<span class="ticker-icon">⚠️</span>' +
+        '<div class="ticker-content" id="futures-ticker-content"></div>' +
+      '</div>';
 
       // 周期切换 Tab
       const periods = [
@@ -583,6 +591,8 @@ const App = {
           if (existingChart) existingChart.dispose();
           this.loadFuturesKline();
           this.startFuturesKlineRefresh();
+          this.scanAllFuturesReversals();
+          this.startTickerRefresh();
         }
       }, 50);
       return;
@@ -719,9 +729,18 @@ const App = {
       // Run signal detection on all periods
       const signals = SignalDetector.detectFutures5min(klines);
 
+      // 趋势转折检测
+      let reversalSignal = null;
+      if (typeof FuturesAnalysis !== 'undefined') {
+        try {
+          const dailyKlines = await FuturesAnalysis.fetchDailyWithCache(symbol);
+          reversalSignal = FuturesAnalysis.detectTrendReversal(symbol, klines, dailyKlines);
+        } catch (e) { console.error('Reversal detection error:', e); }
+      }
+
       // Render using the full-layout chart
       const periodLabels = { '5': '5分钟', '15': '15分钟', '30': '30分钟', '60': '60分钟', 'daily': '日K', 'weekly': '周K' };
-      ChartManager.renderFuturesKline('futures-kline-chart', klines, signals, periodLabels[period]);
+      ChartManager.renderFuturesKline('futures-kline-chart', klines, signals, periodLabels[period], reversalSignal);
 
       // Keep reference for cleanup/resize
       const chartEl = document.getElementById('futures-kline-chart');
@@ -738,7 +757,25 @@ const App = {
         try {
           const analysis = await FuturesAnalysis.analyze(symbol, klines);
           const panelEl = document.getElementById('futures-analysis-panel');
-          if (panelEl) panelEl.innerHTML = FuturesAnalysis.renderHTML(analysis);
+          if (panelEl) {
+            let panelHTML = '';
+            // 趋势转折提示（醒目）
+            if (reversalSignal && reversalSignal.hasReversal) {
+              const typeLabel = reversalSignal.type === 'bearish_reversal' ? '多转空' : '空转多';
+              const keyLevel = reversalSignal.sr
+                ? (reversalSignal.type === 'bearish_reversal' ? '建议关注支撑位 ' + reversalSignal.sr.support : '建议关注压力位 ' + reversalSignal.sr.resistance)
+                : '';
+              panelHTML += '<div class="reversal-alert">' +
+                '<div class="reversal-alert-title">⚠️ 趋势转折信号</div>' +
+                '<div class="reversal-alert-divider">━━━━━━━━━━━━━━</div>' +
+                '<div class="reversal-alert-type">' + typeLabel + '：' + reversalSignal.conditions.join(' + ') + '</div>' +
+                '<div class="reversal-alert-context">' + reversalSignal.dailyContext + '，' + reversalSignal.contextNote + '</div>' +
+                (keyLevel ? '<div class="reversal-alert-level">' + keyLevel + '</div>' : '') +
+              '</div>';
+            }
+            panelHTML += FuturesAnalysis.renderHTML(analysis);
+            panelEl.innerHTML = panelHTML;
+          }
         } catch (e) { console.error('Analysis error:', e); }
       }
     } catch (e) {
@@ -770,6 +807,54 @@ const App = {
       if ((mins >= 540 && mins <= 900) || (mins >= 1260 && mins <= 1410)) {
         this.loadFuturesKline();
       }
+    }, 5 * 60 * 1000); // 5分钟
+  },
+
+  // ====== 全品种趋势转折扫描（滚动条用） ======
+  async scanAllFuturesReversals() {
+    if (typeof FuturesAnalysis === 'undefined') return;
+    const futures = Store.getFutures();
+    if (!futures || futures.length === 0) return;
+
+    const summaries = [];
+    for (const f of futures) {
+      try {
+        const klines = await StockAPI.fetchFuturesMinKline(f.code, 5);
+        if (!klines || klines.length < 15) continue;
+        const dailyKlines = await FuturesAnalysis.fetchDailyWithCache(f.code);
+        const reversal = FuturesAnalysis.detectTrendReversal(f.code, klines, dailyKlines);
+        if (reversal.hasReversal) {
+          summaries.push(reversal.summary);
+        }
+      } catch (e) { console.error('Reversal scan error for ' + f.code, e); }
+    }
+
+    this._updateTicker(summaries);
+  },
+
+  _updateTicker(summaries) {
+    const tickerEl = document.getElementById('futures-ticker');
+    const contentEl = document.getElementById('futures-ticker-content');
+    if (!tickerEl || !contentEl) return;
+
+    if (summaries.length === 0) {
+      tickerEl.style.display = 'none';
+      return;
+    }
+
+    const text = summaries.join(' | ');
+    contentEl.textContent = text;
+    // 根据文字长度调整滚动速度（大约每个字符0.3秒）
+    const duration = Math.max(15, text.length * 0.3);
+    contentEl.style.animationDuration = duration + 's';
+    tickerEl.style.display = 'block';
+  },
+
+  startTickerRefresh() {
+    if (this._tickerTimer) clearInterval(this._tickerTimer);
+    this._tickerTimer = setInterval(() => {
+      if (this.currentGroup !== '__futures__') return;
+      this.scanAllFuturesReversals();
     }, 5 * 60 * 1000); // 5分钟
   },
 

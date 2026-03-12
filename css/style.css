@@ -1738,3 +1738,67 @@ body.chart-fullscreen #float-fullscreen {
   .fa-title { font-size: 14px; }
   .fa-detail { font-size: 11px; padding-left: 18px; }
 }
+
+/* 趋势转折滚动文字条 */
+.futures-ticker {
+  background: rgba(255, 165, 0, 0.1);
+  border: 1px solid rgba(255, 165, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  height: 30px;
+  line-height: 30px;
+  margin: 4px 0;
+  position: relative;
+}
+.ticker-icon {
+  position: absolute;
+  left: 8px;
+  z-index: 1;
+  background: rgba(255, 165, 0, 0.1);
+  padding-right: 8px;
+}
+.ticker-content {
+  color: #ffa500;
+  font-size: 14px;
+  white-space: nowrap;
+  animation: ticker-scroll 20s linear infinite;
+  padding-left: 30px;
+}
+@keyframes ticker-scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* 趋势转折提示面板 */
+.reversal-alert {
+  background: rgba(255, 165, 0, 0.12);
+  border: 1px solid rgba(255, 165, 0, 0.4);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 8px;
+  color: #ffa500;
+}
+.reversal-alert-title {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.reversal-alert-divider {
+  color: rgba(255, 165, 0, 0.4);
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+.reversal-alert-type {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.reversal-alert-context {
+  font-size: 13px;
+  color: #d4a04a;
+  margin-bottom: 2px;
+}
+.reversal-alert-level {
+  font-size: 13px;
+  color: #d4a04a;
+}
