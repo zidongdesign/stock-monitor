@@ -2,21 +2,32 @@
 
 Python 脚本每天收盘后生成以下 JSON 文件，前端启动时 fetch 读取。
 
-## data/watchlist.json — 自选股名单
+## data/watchlist.json — 自选股名单（自动补入/淘汰）
 
 ```json
 {
-  "version": "20260312",
-  "updated": "2026-03-12T15:35:00+08:00",
-  "groups": {
-    "focus": ["sz301265", "sz300323"],
-    "watch": ["sz301032", "sh603158"],
-    "ambush": ["sz300696", "sh603977"]
-  }
+  "version": "20260312a",
+  "startDate": "2026-03-12",
+  "dayCount": 1,
+  "stocks": [
+    {
+      "code": "sz301265",
+      "name": "华新环保",
+      "group": "focus",
+      "addedDate": "2026-03-12",
+      "source": "initial"
+    }
+  ],
+  "todayAdded": ["sz301265"],
+  "todayRemoved": []
 }
 ```
 
-前端逻辑：如果 version > 本地 _STOCK_VERSION，自动替换股票列表。
+- `version`: 格式 YYYYMMDDx（a/b/c...），前端通过版本比较自动同步
+- `startDate`: 池子初始化日期
+- `dayCount`: 池子运行天数（>= 10 天才触发自动淘汰）
+- `stocks`: 当前池内股票列表
+- `todayAdded` / `todayRemoved`: 今日变动的代码列表
 
 ## data/analysis.json — 每日分析结果
 
@@ -43,7 +54,8 @@ Python 脚本每天收盘后生成以下 JSON 文件，前端启动时 fetch 读
       },
       "fundFlow": {
         "mainNet5d": 1500,
-        "mainDaysIn": 3,
+        "r0Net": 500,
+        "netRatio": 0.05,
         "trend": "in"
       },
       "action": "hold",
@@ -51,21 +63,28 @@ Python 脚本每天收盘后生成以下 JSON 文件，前端启动时 fetch 读
       "reason": "ROE健康，主力持续流入，短期均线多头"
     }
   },
-  "eliminate": [
-    {
-      "code": "sz002157",
-      "name": "正邦科技",
-      "reason": "净利润连续3年下滑，ROE<5%",
-      "fromGroup": "focus"
-    }
+  "todayAdded": [
+    { "code": "sh600519", "name": "贵州茅台", "score": 88, "sector": "白酒" }
   ],
-  "recommend": [
+  "todayRemoved": [
+    { "code": "sz002157", "name": "正邦科技", "date": "2026-03-22", "score": 25, "reason": "评分最低淘汰" }
+  ],
+  "eliminate": [],
+  "recommend": []
+}
+```
+
+## data/history.json — 淘汰历史记录
+
+```json
+{
+  "removed": [
     {
-      "code": "sh600519",
-      "name": "贵州茅台",
-      "score": 88,
-      "reason": "ROE>20%，主力持续加仓",
-      "suggestGroup": "watch"
+      "code": "sz002063",
+      "name": "远光软件",
+      "date": "2026-03-22",
+      "score": 25,
+      "reason": "评分最低淘汰"
     }
   ]
 }
@@ -88,5 +107,15 @@ Python 脚本每天收盘后生成以下 JSON 文件，前端启动时 fetch 读
 - reduce: 建议减仓
 - eliminate: 建议淘汰
 
-### tags
-前端直接显示的标签，如：["ROE健康", "主力流入", "破位风险"]
+### 自动淘汰规则
+- 池子运行天数 >= 10 天才触发
+- 每次淘汰评分最低的 5 只
+- 池子上限 50 只
+
+### 自动补入过滤
+- ❌ 科创板（688开头）
+- ❌ 北交所（8开头6位数）
+- ❌ ST股
+- ❌ 近5日涨幅>30%
+- ❌ 财务D级
+- ❌ 已在池中

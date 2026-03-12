@@ -1,45 +1,50 @@
 {
-  "version": "20260312",
-  "updated": "2026-03-12T18:39:11+08:00",
-  "groups": {
-    "focus": [
-      "sz301265",
-      "sz300323",
-      "sz002927",
-      "sh688759",
-      "sz002063",
-      "sz300491",
-      "sh603826",
-      "sz002157",
-      "sz000510",
-      "sz002877",
-      "sh601669"
-    ],
-    "watch": [
-      "sz301032",
-      "sh603158",
-      "sz000570",
-      "sz002227",
-      "sh603716",
-      "sz300143",
-      "sz002480",
-      "sz002982",
-      "sz300365",
-      "sz300016",
-      "sz002149"
-    ],
-    "ambush": [
-      "sz300696",
-      "sh603977",
-      "sz300928",
-      "sz002875",
-      "sh600397",
-      "sh600288",
-      "sz002921",
-      "sh600862",
-      "sz300129",
-      "sh600927",
-      "sh600372"
-    ]
-  }
+  "version": "20260312a",
+  "startDate": "2026-03-12",
+  "dayCount": 1,
+  "stocks": [
+    {
+      "code": "sh603158",
+      "name": "腾龙股份",
+      "group": "focus",
+      "addedDate": "2026-03-12",
+      "source": "initial"
+    },
+    {
+      "code": "sz002063",
+      "name": "远光软件",
+      "group": "focus",
+      "addedDate": "2026-03-12",
+      "source": "initial"
+    },
+    {
+      "code": "sz002157",
+      "name": "正邦科技",
+      "group": "focus",
+      "addedDate": "2026-03-12",
+      "source": "initial"
+    },
+    {
+      "code": "sh601669",
+      "name": "中国电建",
+      "group": "focus",
+      "addedDate": "2026-03-12",
+      "source": "initial"
+    },
+    {
+      "code": "sz300129",
+      "name": "泰胜风能",
+      "group": "focus",
+      "addedDate": "2026-03-12",
+      "source": "initial"
+    }
+  ],
+  "todayAdded": [
+    "sh603158",
+    "sz002063",
+    "sz002157",
+    "sh601669",
+    "sz300129"
+  ],
+  "todayRemoved": []
 }

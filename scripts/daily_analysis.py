@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-每日自选股分析脚本
-用途：收盘后拉取财务/技术/资金数据，生成 watchlist.json + analysis.json
+每日自选股分析脚本（含自动补入/淘汰）
+用途：收盘后拉取财务/技术/资金数据，自动淘汰低分股 + 补入新股
 调度：每日 15:35 (cron: 35 15 * * 1-5)
 路径：~/chenpitang/project/stock-monitor-web/scripts/daily_analysis.py
-输出：~/chenpitang/project/stock-monitor-web/data/watchlist.json
-      ~/chenpitang/project/stock-monitor-web/data/analysis.json
+输出：data/watchlist.json, data/analysis.json, data/history.json
 """
 
 import json
+import re
 import time
 import traceback
 from datetime import datetime, timedelta
@@ -26,8 +26,9 @@ import pandas as pd
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
+STORE_JS = Path(__file__).resolve().parent.parent / "js" / "store.js"
 
-# 33 只自选股（来自 store.js _defaultStocks）
+# 原始 33 只自选股（供 init_pool.py 使用）
 STOCK_GROUPS = {
     "focus": [
         "sz301265", "sz300323", "sz002927", "sh688759", "sz002063",
@@ -46,7 +47,12 @@ STOCK_GROUPS = {
     ],
 }
 
-# 股票名称映射（静态，减少 API 调用）
+POOL_MAX = 50          # 池子上限
+ELIMINATE_COUNT = 5    # 每次淘汰数量
+ADD_COUNT = 5          # 每次补入数量
+MATURE_DAYS = 10       # 池子运行天数 >= 此值才触发淘汰
+
+# 静态股票名称映射（可被 watchlist.json 覆盖）
 STOCK_NAMES = {
     "sz301265": "华新环保", "sz300323": "华灿光电", "sz002927": "泰永长征",
     "sh688759": "必贝特", "sz002063": "远光软件", "sz300491": "通合科技",
@@ -77,7 +83,6 @@ def code_to_market(code: str) -> str:
 # ============================================================
 
 def parse_pct(val) -> float | None:
-    """把 '15.2%' / '-3.5%' / False / NaN 转成 float"""
     if val is False or val is None or (isinstance(val, float) and np.isnan(val)):
         return None
     s = str(val).strip().replace("%", "").replace(",", "")
@@ -90,7 +95,6 @@ def parse_pct(val) -> float | None:
 
 
 def parse_money(val) -> float | None:
-    """把 '8862.82万' / '1.97亿' 转成 float（单位：万元）"""
     if val is False or val is None or (isinstance(val, float) and np.isnan(val)):
         return None
     s = str(val).strip().replace(",", "")
@@ -126,19 +130,16 @@ def analyze_financial(symbol: str) -> dict:
     if df is None or df.empty:
         return result
 
-    # 只取年报数据（12-31），最近 4 年
     annual = df[df["报告期"].astype(str).str.endswith("12-31")].copy()
     annual = annual.sort_values("报告期").tail(4)
 
     if annual.empty:
         return result
 
-    # ROE（最新年报）
     latest = annual.iloc[-1]
     roe = parse_pct(latest.get("净资产收益率"))
     result["roe"] = roe
 
-    # ROE 趋势（近 3 年）
     roe_list = [parse_pct(r.get("净资产收益率")) for _, r in annual.iterrows()]
     roe_list = [x for x in roe_list if x is not None]
     if len(roe_list) >= 2:
@@ -149,7 +150,6 @@ def analyze_financial(symbol: str) -> dict:
         else:
             result["roeTrend"] = "flat"
 
-    # 净利润增速（近 3 年年报）
     growth_list = []
     for _, r in annual.tail(3).iterrows():
         g = parse_pct(r.get("净利润同比增长率"))
@@ -157,7 +157,6 @@ def analyze_financial(symbol: str) -> dict:
             growth_list.append(round(g, 2))
     result["netProfitGrowth3y"] = growth_list
 
-    # 经营现金流（最新年报）
     cf = latest.get("每股经营现金流")
     if cf is not None and cf is not False:
         try:
@@ -166,10 +165,8 @@ def analyze_financial(symbol: str) -> dict:
         except (ValueError, TypeError):
             pass
 
-    # 评级
     roe_val = roe if roe is not None else 0
     all_growth_positive = all(g > 0 for g in growth_list) if growth_list else False
-    any_decline = any(g < 0 for g in growth_list) if growth_list else True
     consecutive_decline = (
         len(growth_list) >= 2 and all(g < 0 for g in growth_list[-2:])
     )
@@ -192,7 +189,6 @@ def analyze_financial(symbol: str) -> dict:
 # ============================================================
 
 def compute_kdj(df: pd.DataFrame, n: int = 9, m1: int = 3, m2: int = 3) -> pd.DataFrame:
-    """计算 KDJ"""
     low_min = df["最低"].rolling(window=n, min_periods=1).min()
     high_max = df["最高"].rolling(window=n, min_periods=1).max()
     rsv = (df["收盘"] - low_min) / (high_max - low_min + 1e-10) * 100
@@ -212,7 +208,6 @@ def compute_kdj(df: pd.DataFrame, n: int = 9, m1: int = 3, m2: int = 3) -> pd.Da
 
 
 def analyze_technical(symbol: str) -> dict:
-    """日 K 线 + MA + KDJ"""
     pure = code_to_pure(symbol)
     result = {
         "trend": "unknown", "aboveMa20": None,
@@ -236,7 +231,6 @@ def analyze_technical(symbol: str) -> dict:
 
     df = df.sort_values("日期").reset_index(drop=True)
 
-    # MA
     for n in [5, 10, 20, 60]:
         df[f"MA{n}"] = df["收盘"].rolling(window=n, min_periods=1).mean()
 
@@ -245,11 +239,9 @@ def analyze_technical(symbol: str) -> dict:
     ma5 = float(last["MA5"])
     ma10 = float(last["MA10"])
     ma20 = float(last["MA20"])
-    ma60 = float(last["MA60"]) if len(df) >= 60 else None
 
     result["aboveMa20"] = price > ma20
 
-    # 趋势判断
     if price > ma5 > ma10 > ma20:
         result["trend"] = "up"
     elif price < ma5 < ma10 < ma20:
@@ -257,7 +249,6 @@ def analyze_technical(symbol: str) -> dict:
     else:
         result["trend"] = "sideways"
 
-    # KDJ
     df = compute_kdj(df)
     if len(df) >= 2:
         k_now, d_now = float(df["K"].iloc[-1]), float(df["D"].iloc[-1])
@@ -271,7 +262,6 @@ def analyze_technical(symbol: str) -> dict:
         else:
             result["kdjSignal"] = "bearish"
 
-    # 支撑位/阻力位（近 20 日最低/最高）
     recent = df.tail(20)
     result["support"] = round(float(recent["最低"].min()), 2)
     result["resistance"] = round(float(recent["最高"].max()), 2)
@@ -279,67 +269,69 @@ def analyze_technical(symbol: str) -> dict:
     return result
 
 
+def get_recent_5d_gain(symbol: str) -> float | None:
+    """获取近 5 日累计涨幅（%）"""
+    pure = code_to_pure(symbol)
+    end_date = datetime.now().strftime("%Y%m%d")
+    start_date = (datetime.now() - timedelta(days=15)).strftime("%Y%m%d")
+    try:
+        df = ak.stock_zh_a_hist(
+            symbol=pure, period="daily",
+            start_date=start_date, end_date=end_date, adjust="qfq"
+        )
+        if df is None or len(df) < 2:
+            return None
+        df = df.sort_values("日期").reset_index(drop=True)
+        recent = df.tail(5)
+        if len(recent) < 2:
+            return None
+        start_price = float(recent.iloc[0]["开盘"])
+        end_price = float(recent.iloc[-1]["收盘"])
+        if start_price <= 0:
+            return None
+        return round((end_price - start_price) / start_price * 100, 2)
+    except Exception:
+        return None
+
+
 # ============================================================
 # 3. 资金流向分析
 # ============================================================
 
 def fetch_fund_flow_sina() -> dict:
-    """新浪全市场资金流向排名，一次拉流入+流出各500条"""
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)'}
     results = {}
 
-    # 净流入排名前500
-    url_in = ('https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php'
-              '/MoneyFlow.ssl_bkzj_ssggzj?page=1&num=500&sort=netamount&asc=0&bankuai=&shession=f')
-    try:
-        r = requests.get(url_in, headers=headers, timeout=15)
-        data = json.loads(r.text)
-        for item in data:
-            symbol = item.get('symbol', '')
-            results[symbol] = {
-                'mainNet5d': round(float(item.get('netamount', 0)) / 10000, 0),
-                'r0_net': round(float(item.get('r0_net', 0)) / 10000, 0),
-                'inAmount': round(float(item.get('inamount', 0)) / 10000, 0),
-                'outAmount': round(float(item.get('outamount', 0)) / 10000, 0),
-                'netRatio': float(item.get('ratioamount', 0)),
-            }
-    except Exception as e:
-        print(f'  ⚠️ 新浪资金排名(流入)失败: {e}')
-
-    # 净流出排名前500（升序）
-    url_out = ('https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php'
-               '/MoneyFlow.ssl_bkzj_ssggzj?page=1&num=500&sort=netamount&asc=1&bankuai=&shession=f')
-    try:
-        r = requests.get(url_out, headers=headers, timeout=15)
-        data = json.loads(r.text)
-        for item in data:
-            symbol = item.get('symbol', '')
-            if symbol not in results:
-                results[symbol] = {
-                    'mainNet5d': round(float(item.get('netamount', 0)) / 10000, 0),
-                    'r0_net': round(float(item.get('r0_net', 0)) / 10000, 0),
-                    'inAmount': round(float(item.get('inamount', 0)) / 10000, 0),
-                    'outAmount': round(float(item.get('outamount', 0)) / 10000, 0),
-                    'netRatio': float(item.get('ratioamount', 0)),
-                }
-    except Exception as e:
-        print(f'  ⚠️ 新浪资金排名(流出)失败: {e}')
+    for asc, label in [(0, "流入"), (1, "流出")]:
+        url = (
+            f'https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php'
+            f'/MoneyFlow.ssl_bkzj_ssggzj?page=1&num=500&sort=netamount&asc={asc}&bankuai=&shession=f'
+        )
+        try:
+            r = requests.get(url, headers=headers, timeout=15)
+            data = json.loads(r.text)
+            for item in data:
+                symbol = item.get('symbol', '')
+                if symbol and symbol not in results:
+                    results[symbol] = {
+                        'mainNet5d': round(float(item.get('netamount', 0)) / 10000, 0),
+                        'r0_net': round(float(item.get('r0_net', 0)) / 10000, 0),
+                        'inAmount': round(float(item.get('inamount', 0)) / 10000, 0),
+                        'outAmount': round(float(item.get('outamount', 0)) / 10000, 0),
+                        'netRatio': float(item.get('ratioamount', 0)),
+                    }
+        except Exception as e:
+            print(f'  ⚠️ 新浪资金排名({label})失败: {e}')
 
     return results
 
 
 def analyze_fund_flow(symbol: str, sina_data: dict) -> dict:
-    """从新浪全市场资金数据中查找个股资金流向"""
-    # 不在榜上 → 资金不活跃
     if symbol not in sina_data:
-        return {
-            "mainNet5d": 0, "r0Net": 0, "netRatio": 0, "trend": "neutral",
-        }
+        return {"mainNet5d": 0, "r0Net": 0, "netRatio": 0, "trend": "neutral"}
 
     item = sina_data[symbol]
     net = item['mainNet5d']
-    ratio = item['netRatio']
-
     if net > 0:
         trend = "in"
     elif net < 0:
@@ -350,7 +342,7 @@ def analyze_fund_flow(symbol: str, sina_data: dict) -> dict:
     return {
         "mainNet5d": net,
         "r0Net": item['r0_net'],
-        "netRatio": ratio,
+        "netRatio": item['netRatio'],
         "trend": trend,
     }
 
@@ -360,7 +352,6 @@ def analyze_fund_flow(symbol: str, sina_data: dict) -> dict:
 # ============================================================
 
 def compute_score(fin: dict, tech: dict, fund: dict) -> int:
-    """综合评分 0-100"""
     # 财务分 (0-40)
     grade = fin.get("grade", "C")
     if grade == "A":
@@ -372,7 +363,6 @@ def compute_score(fin: dict, tech: dict, fund: dict) -> int:
     else:
         fin_score = 8
 
-    # ROE 加分
     roe = fin.get("roe")
     if roe is not None:
         if roe > 20:
@@ -391,7 +381,6 @@ def compute_score(fin: dict, tech: dict, fund: dict) -> int:
     else:
         tech_score = 10
 
-    # KDJ 加分
     kdj = tech.get("kdjSignal", "unknown")
     if kdj == "golden_cross":
         tech_score = min(30, tech_score + 5)
@@ -400,35 +389,29 @@ def compute_score(fin: dict, tech: dict, fund: dict) -> int:
     elif kdj == "death_cross":
         tech_score = max(0, tech_score - 3)
 
-    # 均线加分
     if tech.get("aboveMa20"):
         tech_score = min(30, tech_score + 3)
 
-    # 资金分 (0-30) — 基于新浪全市场资金排名
+    # 资金分 (0-30)
     fund_trend = fund.get("trend", "neutral")
     net = fund.get("mainNet5d", 0)
     net_ratio = fund.get("netRatio", 0)
 
     if fund_trend == "neutral" and net == 0 and net_ratio == 0:
-        # 不在榜上，资金不活跃
         fund_score = 10
     elif net > 0 and net_ratio > 0.1:
-        # 强流入（10%以上净流入占比）
-        fund_score = 25 + min(5, int(net_ratio * 10))  # 25-30
+        fund_score = 25 + min(5, int(net_ratio * 10))
         fund_score = min(30, fund_score)
     elif net > 0:
-        # 正流入
-        fund_score = 18 + min(6, int(net_ratio * 30))  # 18-24
+        fund_score = 18 + min(6, int(net_ratio * 30))
         fund_score = min(24, fund_score)
     else:
-        # 资金流出
-        fund_score = max(0, 9 + min(0, int(net_ratio * 20)))  # 0-9
+        fund_score = max(0, 9 + min(0, int(net_ratio * 20)))
 
     return fin_score + tech_score + fund_score
 
 
 def determine_action(score: int, grade: str, trend: str) -> str:
-    """根据评分和信号决定 action"""
     if score < 30 or grade == "D":
         return "eliminate"
     elif score >= 70 and trend == "up":
@@ -440,7 +423,6 @@ def determine_action(score: int, grade: str, trend: str) -> str:
 
 
 def generate_tags(fin: dict, tech: dict, fund: dict) -> list[str]:
-    """生成前端展示标签"""
     tags = []
     roe = fin.get("roe")
     if roe is not None and roe > 15:
@@ -478,7 +460,6 @@ def generate_tags(fin: dict, tech: dict, fund: dict) -> list[str]:
 
 
 def generate_reason(fin: dict, tech: dict, fund: dict, action: str) -> str:
-    """生成简短原因"""
     parts = []
     grade = fin.get("grade", "C")
     roe = fin.get("roe")
@@ -511,146 +492,369 @@ def generate_reason(fin: dict, tech: dict, fund: dict, action: str) -> str:
 
 
 # ============================================================
+# 5. 对单只股票评分（供外部调用）
+# ============================================================
+
+def score_single(symbol: str, name: str, sina_data: dict) -> dict:
+    """评分单只股票，返回完整数据 dict"""
+    try:
+        fin = analyze_financial(symbol)
+        time.sleep(0.5)
+        tech = analyze_technical(symbol)
+        time.sleep(0.5)
+        fund = analyze_fund_flow(symbol, sina_data)
+
+        score = compute_score(fin, tech, fund)
+        action = determine_action(score, fin["grade"], tech["trend"])
+        tags = generate_tags(fin, tech, fund)
+        reason = generate_reason(fin, tech, fund, action)
+
+        return {
+            "name": name,
+            "score": score,
+            "financial": fin,
+            "technical": tech,
+            "fundFlow": fund,
+            "action": action,
+            "tags": tags,
+            "reason": reason,
+        }
+    except Exception as e:
+        print(f"  ❌ {symbol} 评分失败: {e}")
+        traceback.print_exc()
+        return {
+            "name": name,
+            "score": 0,
+            "financial": {"roe": None, "roeTrend": "unknown", "netProfitGrowth3y": [], "cashFlowPositive": None, "grade": "C"},
+            "technical": {"trend": "unknown", "aboveMa20": None, "kdjSignal": "unknown", "support": None, "resistance": None},
+            "fundFlow": {"mainNet5d": 0, "r0Net": 0, "netRatio": 0, "trend": "neutral"},
+            "action": "hold",
+            "tags": ["数据异常"],
+            "reason": f"分析失败: {str(e)[:50]}",
+        }
+
+
+# ============================================================
+# 6. 补入候选：从板块扫描获取
+# ============================================================
+
+def get_candidates_from_sector_scan() -> list[dict]:
+    """调用 sector_scan 逻辑获取推荐个股"""
+    try:
+        import sys, os
+        sys.path.insert(0, os.path.dirname(__file__))
+        from sector_scan import run_sector_scan
+        result = run_sector_scan()
+        return result.get("recommend", [])
+    except Exception as e:
+        print(f"  ⚠️ 板块扫描失败: {e}")
+        traceback.print_exc()
+        return []
+
+
+def is_filtered_out(code: str, name: str) -> str | None:
+    """检查是否被过滤，返回过滤原因或 None"""
+    pure = code_to_pure(code)
+    # 科创板
+    if pure.startswith("688"):
+        return "科创板"
+    # 北交所
+    if pure.startswith("8") and len(pure) == 6:
+        return "北交所"
+    # ST
+    if "ST" in name.upper():
+        return "ST股"
+    return None
+
+
+# ============================================================
+# 7. 更新 store.js
+# ============================================================
+
+def update_store_js(stocks: list[dict], version: str):
+    """更新 js/store.js 的 _defaultStocks 和 _STOCK_VERSION"""
+    content = STORE_JS.read_text(encoding="utf-8")
+
+    # 所有股票放 focus 组
+    codes_str = ", ".join(f"'{s['code']}'" for s in stocks)
+    names_comment = "、".join(s["name"] for s in stocks[:5])
+    if len(stocks) > 5:
+        names_comment += f" 等{len(stocks)}只"
+
+    new_default = (
+        f"_defaultStocks: {{\n"
+        f"    focus: [\n"
+        f"      {codes_str}\n"
+        f"    // {names_comment}\n"
+        f"    ]\n"
+        f"  }}"
+    )
+
+    content = re.sub(
+        r"_defaultStocks:\s*\{[^}]*(?:\{[^}]*\}[^}]*)*\}",
+        new_default,
+        content,
+        flags=re.DOTALL,
+    )
+
+    content = re.sub(
+        r"_STOCK_VERSION:\s*'[^']*'",
+        f"_STOCK_VERSION: '{version}'",
+        content,
+    )
+
+    STORE_JS.write_text(content, encoding="utf-8")
+    print(f"  ✅ 更新 js/store.js: version={version}")
+
+
+# ============================================================
 # 主流程
 # ============================================================
 
+def load_watchlist() -> dict | None:
+    path = DATA_DIR / "watchlist.json"
+    if path.exists():
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return None
+
+
+def load_history() -> dict:
+    path = DATA_DIR / "history.json"
+    if path.exists():
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {"removed": []}
+
+
 def main():
     now = datetime.now()
+    today = now.strftime("%Y-%m-%d")
     updated = now.strftime("%Y-%m-%dT%H:%M:%S+08:00")
-    version = now.strftime("%Y%m%d")
 
-    all_codes = []
-    code_to_group = {}
-    for group, codes in STOCK_GROUPS.items():
-        for c in codes:
-            all_codes.append(c)
-            code_to_group[c] = group
+    # 加载当前自选池
+    wl = load_watchlist()
+    if wl is None or "stocks" not in wl:
+        print("❌ watchlist.json 不存在或格式不对，请先运行 init_pool.py")
+        return
 
-    total = len(all_codes)
-    print(f"📊 开始分析 {total} 只自选股 ({updated})")
+    pool_stocks = wl["stocks"]
+    start_date = wl.get("startDate", today)
+    day_count = (datetime.strptime(today, "%Y-%m-%d") - datetime.strptime(start_date, "%Y-%m-%d")).days + 1
+
+    pool_codes = set(s["code"] for s in pool_stocks)
+    pool_size = len(pool_stocks)
+
+    print(f"📊 当前池子: {pool_size} 只 | 起始日期: {start_date} | 第 {day_count} 天")
     print("=" * 60)
 
-    # 一次性拉取新浪全市场资金数据
+    # 一次性拉取资金数据
     print("💰 拉取新浪全市场资金流向...")
-    sina_fund_data = fetch_fund_flow_sina()
-    print(f"  ✅ 获取 {len(sina_fund_data)} 条资金数据")
+    sina_data = fetch_fund_flow_sina()
+    print(f"  ✅ 获取 {len(sina_data)} 条资金数据")
 
+    # ---- 对池内股票评分 ----
+    print(f"\n📊 评分 {pool_size} 只自选股...")
     stocks_data = {}
-    eliminate_list = []
+    for i, stock in enumerate(pool_stocks, 1):
+        symbol = stock["code"]
+        name = stock.get("name", STOCK_NAMES.get(symbol, symbol))
+        print(f"  [{i}/{pool_size}] {symbol} {name}")
 
-    for i, symbol in enumerate(all_codes, 1):
-        name = STOCK_NAMES.get(symbol, symbol)
-        print(f"\n[{i}/{total}] {symbol} {name}")
+        data = score_single(symbol, name, sina_data)
+        stocks_data[symbol] = data
+        # 更新 STOCK_NAMES 缓存
+        STOCK_NAMES[symbol] = name
 
-        try:
-            # 1. 财务
-            print(f"  📑 拉取财务数据...")
-            fin = analyze_financial(symbol)
-            print(f"     ROE={fin['roe']}  Grade={fin['grade']}  增速={fin['netProfitGrowth3y']}")
-            time.sleep(0.5)
+    # 按评分排序
+    scored_pool = sorted(
+        [(s["code"], stocks_data[s["code"]]["score"]) for s in pool_stocks],
+        key=lambda x: x[1],
+    )
 
-            # 2. 技术
-            print(f"  📈 拉取K线数据...")
-            tech = analyze_technical(symbol)
-            print(f"     趋势={tech['trend']}  MA20上方={tech['aboveMa20']}  KDJ={tech['kdjSignal']}")
-            time.sleep(0.5)
+    print(f"\n📊 评分完成。最低: {scored_pool[0][0]}={scored_pool[0][1]}分  最高: {scored_pool[-1][0]}={scored_pool[-1][1]}分")
 
-            # 3. 资金（从预拉取的新浪数据中查找）
-            fund = analyze_fund_flow(symbol, sina_fund_data)
-            print(f"     净流入={fund['mainNet5d']}万  超大单={fund['r0Net']}万  占比={fund['netRatio']}  趋势={fund['trend']}")
+    # ---- 自动淘汰 ----
+    today_removed = []
+    history = load_history()
 
-            # 4. 评分
-            score = compute_score(fin, tech, fund)
-            action = determine_action(score, fin["grade"], tech["trend"])
-            tags = generate_tags(fin, tech, fund)
-            reason = generate_reason(fin, tech, fund, action)
+    if day_count >= MATURE_DAYS:
+        eliminate_count = min(ELIMINATE_COUNT, len(scored_pool))
+        to_remove = scored_pool[:eliminate_count]
 
-            print(f"  ⭐ 评分={score}  建议={action}  标签={tags}")
-
-            stocks_data[symbol] = {
+        print(f"\n🗑️ 淘汰 {eliminate_count} 只（池子已运行 {day_count} 天 >= {MATURE_DAYS}）:")
+        for code, score in to_remove:
+            name = STOCK_NAMES.get(code, code)
+            print(f"  ❌ {code} {name}: {score}分")
+            today_removed.append({
+                "code": code,
                 "name": name,
+                "date": today,
                 "score": score,
-                "financial": fin,
-                "technical": tech,
-                "fundFlow": fund,
-                "action": action,
-                "tags": tags,
-                "reason": reason,
-            }
+                "reason": "评分最低淘汰",
+            })
+            pool_codes.discard(code)
 
-            if action == "eliminate":
-                eliminate_list.append({
-                    "code": symbol,
-                    "name": name,
-                    "reason": reason,
-                    "fromGroup": code_to_group.get(symbol, "unknown"),
-                })
+        # 更新 history.json
+        history["removed"].extend(today_removed)
+    else:
+        print(f"\n⏳ 池子运行 {day_count} 天 < {MATURE_DAYS} 天，暂不淘汰")
 
-        except Exception as e:
-            print(f"  ❌ {symbol} 分析失败: {e}")
-            traceback.print_exc()
-            stocks_data[symbol] = {
+    # 如果池子超上限，额外淘汰
+    current_pool = [s for s in pool_stocks if s["code"] in pool_codes]
+    while len(current_pool) > POOL_MAX:
+        # 找分最低的
+        worst = min(current_pool, key=lambda s: stocks_data[s["code"]]["score"])
+        code = worst["code"]
+        name = worst.get("name", code)
+        score = stocks_data[code]["score"]
+        print(f"  ❌ 超上限淘汰: {code} {name}: {score}分")
+        today_removed.append({
+            "code": code,
+            "name": name,
+            "date": today,
+            "score": score,
+            "reason": "超上限淘汰",
+        })
+        pool_codes.discard(code)
+        current_pool = [s for s in current_pool if s["code"] != code]
+        history["removed"].append(today_removed[-1])
+
+    # ---- 自动补入 ----
+    today_added = []
+    spots_available = POOL_MAX - len(current_pool)
+    add_target = min(ADD_COUNT, spots_available)
+
+    if add_target > 0:
+        print(f"\n🔍 扫描板块，寻找 {add_target} 只补入候选...")
+        candidates = get_candidates_from_sector_scan()
+        print(f"  板块扫描返回 {len(candidates)} 只候选")
+
+        filtered_candidates = []
+        for cand in candidates:
+            code = cand["code"]
+            name = cand.get("name", "")
+
+            # 已在池中
+            if code in pool_codes:
+                continue
+
+            # 基础过滤
+            filter_reason = is_filtered_out(code, name)
+            if filter_reason:
+                print(f"  ⛔ {code} {name}: {filter_reason}")
+                continue
+
+            # 评分
+            print(f"  📊 评分候选: {code} {name}")
+            data = score_single(code, name, sina_data)
+            stocks_data[code] = data
+
+            # 财务 D 级过滤
+            if data["financial"].get("grade") == "D":
+                print(f"  ⛔ {code} {name}: 财务D级")
+                continue
+
+            # 近 5 日涨幅 > 30%
+            gain_5d = get_recent_5d_gain(code)
+            time.sleep(0.5)
+            if gain_5d is not None and gain_5d > 30:
+                print(f"  ⛔ {code} {name}: 近5日涨幅{gain_5d}%>30%")
+                continue
+
+            filtered_candidates.append({
+                "code": code,
                 "name": name,
-                "score": 0,
-                "financial": {"roe": None, "roeTrend": "unknown", "netProfitGrowth3y": [], "cashFlowPositive": None, "grade": "C"},
-                "technical": {"trend": "unknown", "aboveMa20": None, "kdjSignal": "unknown", "support": None, "resistance": None},
-                "fundFlow": {"mainNet5d": 0, "r0Net": 0, "netRatio": 0, "trend": "neutral"},
-                "action": "hold",
-                "tags": ["数据异常"],
-                "reason": f"分析失败: {str(e)[:50]}",
-            }
+                "score": data["score"],
+                "sector": cand.get("sector", ""),
+            })
 
-    # ============================================================
-    # 生成 JSON
-    # ============================================================
+        # 按评分排序取 TOP N
+        filtered_candidates.sort(key=lambda x: -x["score"])
+        to_add = filtered_candidates[:add_target]
 
-    print("\n" + "=" * 60)
-    print("📝 生成 JSON 文件...")
+        print(f"\n✅ 补入 {len(to_add)} 只:")
+        for cand in to_add:
+            print(f"  ➕ {cand['code']} {cand['name']}: {cand['score']}分 [{cand['sector']}]")
+            current_pool.append({
+                "code": cand["code"],
+                "name": cand["name"],
+                "group": "focus",
+                "addedDate": today,
+                "source": f"sector:{cand['sector']}",
+            })
+            pool_codes.add(cand["code"])
+            STOCK_NAMES[cand["code"]] = cand["name"]
+            today_added.append({
+                "code": cand["code"],
+                "name": cand["name"],
+                "score": cand["score"],
+                "sector": cand["sector"],
+            })
+    else:
+        print(f"\n⚠️ 池子已满 ({len(current_pool)}/{POOL_MAX})，无法补入")
 
-    # watchlist.json
-    watchlist = {
-        "version": version,
-        "updated": updated,
-        "groups": {g: codes for g, codes in STOCK_GROUPS.items()},
+    # ---- 生成版本号 ----
+    # 格式: YYYYMMDDx, x = a/b/c...
+    base_ver = now.strftime("%Y%m%d")
+    old_ver = wl.get("version", "")
+    if old_ver.startswith(base_ver) and len(old_ver) > len(base_ver):
+        suffix = old_ver[len(base_ver):]
+        next_suffix = chr(ord(suffix[0]) + 1) if suffix else "b"
+    else:
+        next_suffix = "a"
+    new_version = base_ver + next_suffix
+
+    # ---- 写 watchlist.json ----
+    new_watchlist = {
+        "version": new_version,
+        "startDate": start_date,
+        "dayCount": day_count,
+        "stocks": current_pool,
+        "todayAdded": [a["code"] for a in today_added],
+        "todayRemoved": [r["code"] for r in today_removed],
     }
-    watchlist_path = DATA_DIR / "watchlist.json"
-    with open(watchlist_path, "w", encoding="utf-8") as f:
-        json.dump(watchlist, f, ensure_ascii=False, indent=2)
-    print(f"  ✅ {watchlist_path}")
 
-    # analysis.json
+    wl_path = DATA_DIR / "watchlist.json"
+    with open(wl_path, "w", encoding="utf-8") as f:
+        json.dump(new_watchlist, f, ensure_ascii=False, indent=2)
+    print(f"\n✅ 写入 {wl_path} (v{new_version}, {len(current_pool)}只)")
+
+    # ---- 写 analysis.json ----
     analysis = {
         "updated": updated,
         "stocks": stocks_data,
-        "eliminate": eliminate_list,
-        "recommend": [],  # 推荐功能待后续实现
+        "todayAdded": today_added,
+        "todayRemoved": today_removed,
+        "eliminate": [
+            {"code": r["code"], "name": r["name"], "reason": r["reason"]}
+            for r in today_removed
+        ],
+        "recommend": [],
     }
+
     analysis_path = DATA_DIR / "analysis.json"
     with open(analysis_path, "w", encoding="utf-8") as f:
         json.dump(analysis, f, ensure_ascii=False, indent=2)
-    print(f"  ✅ {analysis_path}")
+    print(f"✅ 写入 {analysis_path}")
 
-    # 汇总
-    print("\n" + "=" * 60)
-    print("📊 分析汇总:")
-    scores = [(s, d["score"], d["action"]) for s, d in stocks_data.items()]
-    scores.sort(key=lambda x: -x[1])
+    # ---- 写 history.json ----
+    history_path = DATA_DIR / "history.json"
+    with open(history_path, "w", encoding="utf-8") as f:
+        json.dump(history, f, ensure_ascii=False, indent=2)
+    print(f"✅ 写入 {history_path}")
 
-    print(f"\n  🏆 TOP 5:")
-    for s, sc, act in scores[:5]:
-        print(f"     {s} {STOCK_NAMES.get(s, '')}: {sc}分 [{act}]")
+    # ---- 更新 store.js ----
+    update_store_js(current_pool, new_version)
 
-    print(f"\n  ⚠️  淘汰候选 ({len(eliminate_list)}):")
-    for e in eliminate_list:
-        print(f"     {e['code']} {e['name']}: {e['reason']}")
-
-    grade_counts = {"A": 0, "B": 0, "C": 0, "D": 0}
-    for d in stocks_data.values():
-        g = d["financial"].get("grade", "C")
-        grade_counts[g] = grade_counts.get(g, 0) + 1
-    print(f"\n  📑 财务评级分布: A={grade_counts['A']} B={grade_counts['B']} C={grade_counts['C']} D={grade_counts['D']}")
-
-    print(f"\n✅ 完成！共分析 {total} 只股票")
+    # ---- 汇总 ----
+    print(f"\n{'=' * 60}")
+    print(f"📊 汇总:")
+    print(f"  池子: {pool_size} → {len(current_pool)} 只")
+    print(f"  淘汰: {len(today_removed)} 只")
+    print(f"  补入: {len(today_added)} 只")
+    print(f"  版本: {new_version}")
+    print(f"{'=' * 60}")
 
 
 if __name__ == "__main__":
