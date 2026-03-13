@@ -234,19 +234,21 @@ const StockAPI = {
     if (MockData && MockData.shouldUseMock()) {
       return Promise.resolve(MockData.getMinuteData(code));
     }
-    const secid = this._toSecid(code);
-    const url = 'https://push2his.eastmoney.com/api/qt/stock/trends2/get?secid=' + secid + '&fields1=f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13&fields2=f51,f52,f53,f54,f55,f56,f57,f58&iscr=0&ndays=1';
+    // 腾讯分时接口：格式 sh600519 → sh600519, sz000001 → sz000001
+    const txCode = code; // 已经是 sh/sz 开头
+    const url = 'https://web.ifzq.gtimg.cn/appstock/app/minute/query?code=' + txCode;
     return fetch(url)
       .then(r => r.json())
       .then(json => {
-        const trends = json?.data?.trends;
-        if (!trends || trends.length === 0) return [];
-        return trends.map(item => {
-          const parts = item.split(',');
+        const dataArr = json?.data?.[txCode]?.data?.data;
+        if (!dataArr || dataArr.length === 0) return [];
+        return dataArr.map(item => {
+          // 腾讯格式: "0930 12.52 5058 6332616.00"
+          const parts = item.split(' ');
           return {
-            time: parts[0].split(' ')[1].substring(0, 5),
-            price: parseFloat(parts[2]),
-            volume: parseInt(parts[5])
+            time: parts[0].substring(0, 2) + ':' + parts[0].substring(2, 4),
+            price: parseFloat(parts[1]),
+            volume: parseInt(parts[2])
           };
         }).filter(d => d.price > 0 && isFinite(d.price));
       })
