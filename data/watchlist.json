@@ -1,7 +1,7 @@
 {
-  "version": "20260312a",
+  "version": "20260313a",
   "startDate": "2026-03-12",
-  "dayCount": 1,
+  "dayCount": 2,
   "stocks": [
     {
       "code": "sh603158",
@@ -37,14 +37,49 @@
       "group": "focus",
       "addedDate": "2026-03-12",
       "source": "initial"
+    },
+    {
+      "code": "sz002056",
+      "name": "横店东磁",
+      "group": "focus",
+      "addedDate": "2026-03-13",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sh600096",
+      "name": "云天化",
+      "group": "focus",
+      "addedDate": "2026-03-13",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sz002487",
+      "name": "大金重工",
+      "group": "focus",
+      "addedDate": "2026-03-13",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh601991",
+      "name": "大唐发电",
+      "group": "focus",
+      "addedDate": "2026-03-13",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sz000792",
+      "name": "盐湖股份",
+      "group": "focus",
+      "addedDate": "2026-03-13",
+      "source": "sector:保险重仓"
     }
   ],
   "todayAdded": [
-    "sh603158",
-    "sz002063",
-    "sz002157",
-    "sh601669",
-    "sz300129"
+    "sz002056",
+    "sh600096",
+    "sz002487",
+    "sh601991",
+    "sz000792"
   ],
   "todayRemoved": []
 }
