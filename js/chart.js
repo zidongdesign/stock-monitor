@@ -22,86 +22,72 @@ const ChartManager = {
   // ====== 分时图 ======
   // ====== 异动信号检测 ======
   _detectMinuteSignals(data, dataMap, fullTimes, prevClose, fundFlow) {
-    const signals = []; // { time, type: 'buy'|'sell', priority, reason }
-    const signalMap = {}; // 去重：每个时间点只保留最重要的
-
-    // 构建 fundFlow 时间映射
-    const flowMap = {};
-    if (fundFlow && fundFlow.length > 0) {
-      fundFlow.forEach(f => { flowMap[f.time] = f; });
-    }
-
     // 构建数据有序列表
     const ordered = [];
     fullTimes.forEach(t => {
       if (dataMap[t]) ordered.push({ time: t, ...dataMap[t] });
     });
+    if (ordered.length < 10) return [];
+
+    // 用 5 分钟均线平滑价格，检测趋势转折
+    const N = 5;
+    const smooth = [];
+    for (let i = 0; i < ordered.length; i++) {
+      if (i < N - 1) { smooth.push(null); continue; }
+      let sum = 0;
+      for (let j = i - N + 1; j <= i; j++) sum += ordered[j].price;
+      smooth.push(sum / N);
+    }
+
+    // 检测趋势转折点：均线方向连续变化后反转
+    // 至少连续 5 分钟同方向后才认为是一个趋势段
+    const signals = [];
+    const MIN_TREND_LEN = 5; // 最少持续 5 分钟才算趋势
+    const MIN_MOVE_PCT = 0.003; // 趋势段至少 0.3% 幅度
+    const MIN_SIGNAL_GAP = 10; // 两个信号至少间隔 10 分钟
+
+    let trendDir = 0; // 1=上涨 -1=下跌 0=未知
+    let trendStart = 0;
+    let trendHigh = ordered[0].price;
+    let trendLow = ordered[0].price;
+    let lastSignalIdx = -MIN_SIGNAL_GAP;
 
     for (let i = 1; i < ordered.length; i++) {
-      const cur = ordered[i];
-      const prev = ordered[i - 1];
-      const t = cur.time;
+      if (smooth[i] == null || smooth[i - 1] == null) continue;
 
-      // 1) 放量异动：当前成交量 > 前 10 分钟均量 × 5
-      if (i >= 2) {
-        const lookback = ordered.slice(Math.max(0, i - 10), i);
-        const avgVol = lookback.reduce((s, d) => s + d.volume, 0) / lookback.length;
-        if (avgVol > 0 && cur.volume > avgVol * 5) {
-          const type = cur.price >= prev.price ? 'buy' : 'sell';
-          const prio = 2;
-          if (!signalMap[t] || signalMap[t].priority < prio) {
-            signalMap[t] = { time: t, type, priority: prio, reason: '放量', price: cur.price };
-          }
-        }
-      }
+      const dir = smooth[i] > smooth[i - 1] ? 1 : (smooth[i] < smooth[i - 1] ? -1 : 0);
+      if (dir === 0) continue;
 
-      // 2) 急拉/急跌：1 分钟涨跌幅 > 1.2%
-      if (prev.price > 0) {
-        const chg = (cur.price - prev.price) / prev.price;
-        if (Math.abs(chg) > 0.012) {
-          const type = chg > 0 ? 'buy' : 'sell';
-          const prio = 3;
-          if (!signalMap[t] || signalMap[t].priority < prio) {
-            signalMap[t] = { time: t, type, priority: prio, reason: chg > 0 ? '急拉' : '急跌', price: cur.price };
-          }
-        }
-      }
+      if (dir === trendDir || trendDir === 0) {
+        // 趋势延续
+        trendDir = dir;
+        trendHigh = Math.max(trendHigh, ordered[i].price);
+        trendLow = Math.min(trendLow, ordered[i].price);
+      } else {
+        // 趋势反转
+        const trendLen = i - trendStart;
+        const movePct = trendDir === 1 
+          ? (trendHigh - ordered[trendStart].price) / ordered[trendStart].price
+          : (ordered[trendStart].price - trendLow) / ordered[trendStart].price;
 
-      // 3) 主力资金异动
-      if (fundFlow && fundFlow.length > 0 && flowMap[t] && i >= 2) {
-        // 计算当分钟增量（累计值之差）
-        const prevFlowT = ordered[i - 1].time;
-        const curFlow = flowMap[t];
-        const prevFlow = flowMap[prevFlowT];
-        if (curFlow && prevFlow) {
-          const delta = curFlow.main - prevFlow.main;
-          // 前10分钟增量均值
-          const flowDeltas = [];
-          for (let j = Math.max(1, i - 10); j < i; j++) {
-            const ft = ordered[j].time;
-            const ftp = ordered[j - 1].time;
-            if (flowMap[ft] && flowMap[ftp]) {
-              flowDeltas.push(flowMap[ft].main - flowMap[ftp].main);
-            }
-          }
-          if (flowDeltas.length > 0) {
-            const avgDelta = flowDeltas.reduce((s, d) => s + d, 0) / flowDeltas.length;
-            if (avgDelta !== 0 && Math.abs(delta) > Math.abs(avgDelta) * 5) {
-              const type = delta > 0 ? 'buy' : 'sell';
-              const prio = 4;
-              if (!signalMap[t] || signalMap[t].priority < prio) {
-                signalMap[t] = { time: t, type, priority: prio, reason: delta > 0 ? '主力流入' : '主力流出', price: cur.price };
-              }
-            }
-          }
+        if (trendLen >= MIN_TREND_LEN && movePct >= MIN_MOVE_PCT && (i - lastSignalIdx) >= MIN_SIGNAL_GAP) {
+          // 前一段是上涨 → 现在转跌 = sell（绿箭头）
+          // 前一段是下跌 → 现在转涨 = buy（红箭头）
+          const type = trendDir === 1 ? 'sell' : 'buy';
+          const price = ordered[i].price;
+          signals.push({ time: ordered[i].time, type, priority: 5, reason: type === 'buy' ? '转涨' : '转跌', price });
+          lastSignalIdx = i;
         }
+
+        trendDir = dir;
+        trendStart = i;
+        trendHigh = ordered[i].price;
+        trendLow = ordered[i].price;
       }
     }
 
-    // 只保留优先级最高的 5 个信号
-    const allSignals = Object.values(signalMap);
-    allSignals.sort((a, b) => b.priority - a.priority);
-    return allSignals.slice(0, 5);
+    // 最多 5 个
+    return signals.slice(-5);
   },
 
   renderMinute(data, prevClose, fundFlow) {
