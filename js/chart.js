@@ -175,8 +175,8 @@ const ChartManager = {
     // 4. 映射到完整时间轴
     const mappedPrices = fullTimes.map(t => dataMap[t] ? dataMap[t].price : null);
     const mappedAvgPrices = fullTimes.map(t => avgMap[t] != null ? avgMap[t] : null);
-    const mappedVolumes = fullTimes.map(t => dataMap[t] ? dataMap[t].volume : 0);
-    const mappedVolColors = fullTimes.map(t => volColorMap[t] || 'transparent');
+    const mappedVolumes = fullTimes.map(t => dataMap[t] ? dataMap[t].volume : null);
+    const mappedVolColors = fullTimes.map(t => volColorMap[t] || 'rgba(0,0,0,0)');
 
     // 5. 计算 Y 轴范围（只用有效价格）
     const validPrices = mappedPrices.filter(p => p != null && p > 0 && isFinite(p));
