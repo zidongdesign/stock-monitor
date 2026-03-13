@@ -209,35 +209,17 @@ const ChartManager = {
       label: { show: false }
     }));
 
-    // 资金流向面积图：正负分色
+    // 资金流向面积图：用 bar 代替 line 避免 null 填充问题
     const fundFlowSeries = [];
     if (hasFundFlow) {
-      // 正值（净流入）
       fundFlowSeries.push({
-        name: '主力流入', type: 'line', data: mappedMainFlow.map(v => v != null && v >= 0 ? v : null),
+        name: '主力资金', type: 'bar',
+        data: mappedMainFlow.map(v => v != null ? {
+          value: v,
+          itemStyle: { color: v >= 0 ? 'rgba(239,83,80,0.7)' : 'rgba(38,166,154,0.7)' }
+        } : { value: 0, itemStyle: { color: 'transparent' } }),
         xAxisIndex: 2, yAxisIndex: 2,
-        connectNulls: false,
-        lineStyle: { width: 1, color: '#ef5350' },
-        areaStyle: { color: 'rgba(239,83,80,0.3)' },
-        symbol: 'none'
-      });
-      // 负值（净流出）
-      fundFlowSeries.push({
-        name: '主力流出', type: 'line', data: mappedMainFlow.map(v => v != null && v < 0 ? v : null),
-        xAxisIndex: 2, yAxisIndex: 2,
-        connectNulls: false,
-        lineStyle: { width: 1, color: '#26a69a' },
-        areaStyle: { color: 'rgba(38,166,154,0.3)' },
-        symbol: 'none'
-      });
-      // 零线完整数据（连续线）
-      fundFlowSeries.push({
-        name: '主力资金', type: 'line', data: mappedMainFlow,
-        xAxisIndex: 2, yAxisIndex: 2,
-        connectNulls: false,
-        lineStyle: { width: 1.5, color: '#b0b0b0' },
-        symbol: 'none',
-        z: 3
+        barMaxWidth: 2
       });
     }
 
