@@ -43,14 +43,12 @@ const ChartManager = {
     // 至少连续 5 分钟同方向后才认为是一个趋势段
     const signals = [];
     const MIN_TREND_LEN = 5; // 最少持续 5 分钟才算趋势
-    const MIN_MOVE_PCT = 0.003; // 趋势段至少 0.3% 幅度
-    const MIN_SIGNAL_GAP = 10; // 两个信号至少间隔 10 分钟
+    const MIN_MOVE_PCT = 0.005; // 趋势段至少 0.5% 幅度
 
     let trendDir = 0; // 1=上涨 -1=下跌 0=未知
     let trendStart = 0;
     let trendHigh = ordered[0].price;
     let trendLow = ordered[0].price;
-    let lastSignalIdx = -MIN_SIGNAL_GAP;
 
     for (let i = 1; i < ordered.length; i++) {
       if (smooth[i] == null || smooth[i - 1] == null) continue;
@@ -70,13 +68,12 @@ const ChartManager = {
           ? (trendHigh - ordered[trendStart].price) / ordered[trendStart].price
           : (ordered[trendStart].price - trendLow) / ordered[trendStart].price;
 
-        if (trendLen >= MIN_TREND_LEN && movePct >= MIN_MOVE_PCT && (i - lastSignalIdx) >= MIN_SIGNAL_GAP) {
+        if (trendLen >= MIN_TREND_LEN && movePct >= MIN_MOVE_PCT) {
           // 前一段是上涨 → 现在转跌 = sell（绿箭头）
           // 前一段是下跌 → 现在转涨 = buy（红箭头）
           const type = trendDir === 1 ? 'sell' : 'buy';
           const price = ordered[i].price;
           signals.push({ time: ordered[i].time, type, priority: 5, reason: type === 'buy' ? '转涨' : '转跌', price });
-          lastSignalIdx = i;
         }
 
         trendDir = dir;
@@ -86,8 +83,7 @@ const ChartManager = {
       }
     }
 
-    // 最多 5 个
-    return signals.slice(-5);
+    return signals;
   },
 
   renderMinute(data, prevClose, fundFlow) {
