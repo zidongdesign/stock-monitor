@@ -78,19 +78,68 @@ const Store = {
   },
 
   // ---- 期货品种 ----
+  // 交易所 → 东方财富 market 映射
+  _FUTURES_EXCHANGE: {
+    // 郑商所 ZCE
+    MA: 115, SA: 115, TA: 115, SR: 115, CF: 115, FG: 115, RM: 115,
+    OI: 115, AP: 115, CJ: 115, PF: 115, PK: 115, SF: 115, SM: 115,
+    UR: 115, ZC: 115, CY: 115, PX: 115, SH: 115,
+    // 大商所 DCE
+    C: 114, CS: 114, M: 114, Y: 114, P: 114, PP: 114, V: 114,
+    L: 114, EB: 114, EG: 114, PG: 114, J: 114, JM: 114, I: 114,
+    JD: 114, RR: 114, A: 114, B: 114, BB: 114, FB: 114, LH: 114,
+    // 上期所 SHFE
+    RB: 113, HC: 113, CU: 113, AL: 113, ZN: 113, NI: 113, SN: 113,
+    AU: 113, AG: 113, SS: 113, BU: 113, RU: 113, SP: 113, FU: 113,
+    PB: 113, WR: 113, AO: 113, BR: 113,
+    // 上海能源 INE
+    SC: 142, LU: 142, NR: 142, BC: 142, EC: 142,
+    // 中金所 CFFEX
+    IF: 8, IC: 8, IH: 8, IM: 8, T: 8, TF: 8, TS: 8, TL: 8
+  },
+
+  // code (如 'MA0') → 东方财富 secid (如 '115.MAM')
+  _codeToSecid(code) {
+    // 去掉尾部数字得到品种前缀: MA0→MA, RB0→RB, SC0→SC
+    const prefix = code.replace(/\d+$/, '');
+    const market = this._FUTURES_EXCHANGE[prefix];
+    if (!market) return null;
+    // 主连格式: 品种+M (如 MAM, RBM, AUM)
+    return market + '.' + prefix + 'M';
+  },
+
+  _FUTURES_VERSION: '20260313a',
+
   getFutures() {
-    return this._get('sm_futures', [
-      { code: 'MA0', name: '甲醇', sina: 'nf_MA0' },
-      { code: 'SA0', name: '纯碱', sina: 'nf_SA0' },
-      { code: 'SC0', name: '原油', sina: 'nf_SC0' },
-      { code: 'RB0', name: '螺纹', sina: 'nf_RB0' },
-      { code: 'AU0', name: '黄金', sina: 'nf_AU0' },
-      { code: 'AG0', name: '白银', sina: 'nf_AG0' },
-      { code: 'CU0', name: '铜', sina: 'nf_CU0' },
-      { code: 'C0', name: '玉米', sina: 'nf_C0' },
-      { code: 'TA0', name: 'PTA', sina: 'nf_TA0' },
-      { code: 'V0', name: 'PVC', sina: 'nf_V0' }
-    ]);
+    const ver = this._get('sm_futures_ver', null);
+    const defaults = [
+      { code: 'MA0', name: '甲醇', secid: '115.MAM' },
+      { code: 'SA0', name: '纯碱', secid: '115.SAM' },
+      { code: 'SC0', name: '原油', secid: '142.SCM' },
+      { code: 'RB0', name: '螺纹', secid: '113.RBM' },
+      { code: 'AU0', name: '黄金', secid: '113.AUM' },
+      { code: 'AG0', name: '白银', secid: '113.AGM' },
+      { code: 'CU0', name: '铜', secid: '113.CUM' },
+      { code: 'C0', name: '玉米', secid: '114.CM' },
+      { code: 'TA0', name: 'PTA', secid: '115.TAM' },
+      { code: 'V0', name: 'PVC', secid: '114.VM' }
+    ];
+    if (ver !== this._FUTURES_VERSION) {
+      this._set('sm_futures', defaults);
+      this._set('sm_futures_ver', this._FUTURES_VERSION);
+      return defaults;
+    }
+    // 自动为旧数据补 secid（兼容 localStorage 中只有 sina 的记录）
+    const list = this._get('sm_futures', defaults);
+    let changed = false;
+    list.forEach(f => {
+      if (!f.secid) {
+        f.secid = this._codeToSecid(f.code);
+        changed = true;
+      }
+    });
+    if (changed) this._set('sm_futures', list);
+    return list;
   },
 
   setFutures(list) { this._set('sm_futures', list); },
@@ -98,7 +147,9 @@ const Store = {
   addFutures(code, name) {
     const list = this.getFutures();
     if (list.find(f => f.code === code)) return false;
-    list.push({ code, name, sina: 'nf_' + code });
+    const secid = this._codeToSecid(code);
+    if (!secid) return false; // 未知品种
+    list.push({ code, name, secid });
     this.setFutures(list);
     return true;
   },

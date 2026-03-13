@@ -2,11 +2,10 @@
  * 行情数据接口模块
  * A股: 腾讯 qt.gtimg.cn (JSONP)
  * A股K线: 腾讯 web.ifzq.gtimg.cn (fetch JSON)
- * 期货: 新浪 hq.sinajs.cn (JSONP)
+ * 期货: 东方财富 push2.eastmoney.com / push2his.eastmoney.com
  * 分时: 东方财富 push2his.eastmoney.com
  * 资金流向: 东方财富 push2.eastmoney.com
  */
-let _jsonpSeq = 0;
 const StockAPI = {
 
   // ====== 股票代码 → 东方财富 secid 转换 ======
@@ -166,67 +165,63 @@ const StockAPI = {
     };
   },
 
-  // ====== 期货实时行情（新浪 JSONP） ======
+  // ====== 期货实时行情（东方财富 batch） ======
   fetchFuturesRealtime(futuresList) {
     if (!futuresList || futuresList.length === 0) return Promise.resolve([]);
     
     // 模拟模式
     if (MockData && MockData.shouldUseMock()) {
       const mockFutures = MockData.getFuturesData();
-      return Promise.resolve(mockFutures.filter(f => futuresList.some(fl => fl.sina === f.code)));
+      return Promise.resolve(mockFutures.filter(f => futuresList.some(fl => fl.secid === f.code || fl.sina === f.code)));
     }
 
-    const sinaCodes = futuresList.map(f => f.sina);
+    const secids = futuresList.map(f => f.secid).filter(Boolean).join(',');
+    if (!secids) return Promise.resolve([]);
 
-    return new Promise((resolve) => {
-      const script = document.createElement('script');
-      const timeout = setTimeout(() => { script.remove(); resolve([]); }, 8000);
-
-      sinaCodes.forEach(sc => { delete window['hq_str_' + sc]; });
-
-      script.src = 'https://hq.sinajs.cn/list=' + sinaCodes.join(',') + '&r=' + Date.now();
-      // 新浪期货接口返回 utf-8
-      script.onerror = () => { clearTimeout(timeout); script.remove(); resolve([]); };
-      script.onload = () => {
-        clearTimeout(timeout);
-        script.remove();
-
-        const results = [];
-        futuresList.forEach(f => {
-          const raw = window['hq_str_' + f.sina];
-          if (raw && raw.length > 5) {
-            const parsed = this._parseFutures(f, raw);
-            if (parsed) results.push(parsed);
-          }
-        });
-        resolve(results);
-      };
-      document.head.appendChild(script);
-    });
+    const url = 'https://push2.eastmoney.com/api/qt/ulist.np/get?ut=fa5fd1943c7b386f172d6893dbfba10b&fltt=2&secids=' + secids + '&fields=f2,f3,f4,f5,f6,f12,f14,f15,f16,f17,f18';
+    return fetch(url)
+      .then(r => r.json())
+      .then(json => {
+        const list = json?.data?.diff;
+        if (!list || list.length === 0) return [];
+        return list.map(item => this._parseFutures(futuresList, item)).filter(Boolean);
+      })
+      .catch(() => []);
   },
 
-  // 新浪期货格式: 0:名称,1:~不确定/时间~,2:开盘,3:最高,4:最低,5:昨收,6:买价,7:卖价,8:最新价,9:结算价,10:昨结算,11:买量,12:卖量,13:持仓量,14:成交量
-  _parseFutures(futuresCfg, raw) {
-    const f = raw.split(',');
-    if (f.length < 14) return null;
-    const price = parseFloat(f[8]);
-    const prevSettlement = parseFloat(f[10]) || parseFloat(f[5]);
-    if (!price || price === 0) return null;
-    const change = price - prevSettlement;
-    const changePct = prevSettlement > 0 ? (change / prevSettlement * 100) : 0;
+  // 东方财富期货: f2=最新价, f3=涨跌幅%, f4=涨跌额, f5=成交量, f6=成交额, f12=代码, f14=名称
+  // f15=最高, f16=最低, f17=开盘, f18=昨结算
+  _parseFutures(futuresList, item) {
+    const price = item.f2;
+    if (!price || price === '-') return null;
+    // 通过 f12（如 MAM）匹配到 futuresList 中的配置
+    const code12 = (item.f12 || '').toUpperCase();
+    const cfg = futuresList.find(f => {
+      if (!f.secid) return false;
+      const secCode = f.secid.split('.')[1] || '';
+      return secCode.toUpperCase() === code12;
+    });
+    const displayCode = cfg ? cfg.code : code12;
+    const displayName = cfg ? cfg.name + '主连' : item.f14;
+    const secid = cfg ? cfg.secid : '';
+
+    const prevClose = item.f18 || 0;
+    const change = item.f4 || 0;
+    const changePct = item.f3 || 0;
+
     return {
-      code: futuresCfg.sina,
-      name: futuresCfg.name + '主连',
-      displayCode: futuresCfg.code,
-      price,
-      prevClose: prevSettlement,
-      open: parseFloat(f[2]) || price,
-      high: parseFloat(f[3]) || price,
-      low: parseFloat(f[4]) || price,
-      volume: parseFloat(f[14]) || 0,
-      amount: 0,
-      change: parseFloat(change.toFixed(2)),
-      changePercent: parseFloat(changePct.toFixed(2)),
+      code: secid,
+      name: displayName,
+      displayCode: displayCode,
+      price: price,
+      prevClose: prevClose,
+      open: item.f17 || price,
+      high: item.f15 || price,
+      low: item.f16 || price,
+      volume: item.f5 || 0,
+      amount: item.f6 || 0,
+      change: parseFloat(change.toFixed ? change.toFixed(2) : change),
+      changePercent: parseFloat(changePct.toFixed ? changePct.toFixed(2) : changePct),
       volumeRatio: 0,
       turnover: 0,
       isFutures: true
@@ -277,42 +272,49 @@ const StockAPI = {
       .catch(() => []);
   },
 
-  // ====== 期货分钟K线（新浪，支持多周期） ======
+  // ====== 期货分钟K线（东方财富，支持多周期） ======
+  // secid 来自 Store 的 futures 配置，如 '115.MAM'
+  // 如果传入的是老格式 code（如 'MA0'），尝试自动转换
+  _getFuturesSecid(symbol) {
+    if (symbol.includes('.')) return symbol; // 已经是 secid
+    // 从 Store 查找
+    if (typeof Store !== 'undefined') {
+      const futures = Store.getFutures();
+      const found = futures.find(f => f.code === symbol);
+      if (found && found.secid) return found.secid;
+      // 尝试自动推断
+      return Store._codeToSecid(symbol) || symbol;
+    }
+    return symbol;
+  },
+
   fetchFuturesMinKline(symbol, type) {
-    // symbol: e.g. 'MA0'; type: 5/15/30/60
     type = type || 5;
-    return new Promise((resolve) => {
-      const seq = ++_jsonpSeq;
-      const cbVar = '_' + symbol + '_' + type + '_' + seq;
-      const script = document.createElement('script');
-      const timeout = setTimeout(() => { script.remove(); delete window[cbVar]; resolve([]); }, 10000);
-
-      const url = 'https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20' + cbVar + '=/InnerFuturesNewService.getFewMinLine?symbol=' + symbol + '&type=' + type + '&r=' + Date.now();
-      script.src = url;
-      script.onerror = () => { clearTimeout(timeout); script.remove(); resolve([]); };
-      script.onload = () => {
-        clearTimeout(timeout);
-        script.remove();
-
-        const raw = window[cbVar];
-        delete window[cbVar];
-        if (!raw || !Array.isArray(raw)) { resolve([]); return; }
-
-        const klines = raw.map(item => ({
-          date: item.d,
-          time: item.d,
-          open: parseFloat(item.o),
-          high: parseFloat(item.h),
-          low: parseFloat(item.l),
-          close: parseFloat(item.c),
-          volume: parseInt(item.v) || 0,
-          openInterest: parseInt(item.p) || 0
-        })).filter(k => k.open > 0 && k.close > 0);
-
-        resolve(klines);
-      };
-      document.head.appendChild(script);
-    });
+    const secid = this._getFuturesSecid(symbol);
+    // klt: 5=5分钟, 15=15分钟, 30=30分钟, 60=60分钟
+    const url = 'https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=' + secid +
+      '&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56,f57,f58&klt=' + type +
+      '&fqt=0&end=20500101&lmt=200';
+    return fetch(url)
+      .then(r => r.json())
+      .then(json => {
+        const klines = json?.data?.klines;
+        if (!klines || klines.length === 0) return [];
+        return klines.map(line => {
+          const p = line.split(',');
+          return {
+            date: p[0],
+            time: p[0],
+            open: +p[1],
+            close: +p[2],
+            high: +p[3],
+            low: +p[4],
+            volume: +p[5],
+            openInterest: 0
+          };
+        }).filter(k => k.open > 0 && k.close > 0);
+      })
+      .catch(() => []);
   },
 
   // ====== 期货5分钟K线（兼容旧调用） ======
@@ -320,83 +322,58 @@ const StockAPI = {
     return this.fetchFuturesMinKline(symbol, 5);
   },
 
-  // ====== 期货日K线（新浪） ======
+  // ====== 期货日K线（东方财富） ======
   fetchFuturesDailyKline(symbol) {
-    return new Promise((resolve) => {
-      const seq = ++_jsonpSeq;
-      const cbVar = '_daily_' + symbol + '_' + seq;
-      const script = document.createElement('script');
-      const timeout = setTimeout(() => { script.remove(); delete window[cbVar]; resolve([]); }, 15000);
-
-      const url = 'https://stock2.finance.sina.com.cn/futures/api/jsonp.php/var%20' + cbVar + '=/InnerFuturesNewService.getDailyKLine?symbol=' + symbol + '&r=' + Date.now();
-      script.src = url;
-      script.onerror = () => { clearTimeout(timeout); script.remove(); resolve([]); };
-      script.onload = () => {
-        clearTimeout(timeout);
-        script.remove();
-
-        const raw = window[cbVar];
-        delete window[cbVar];
-        if (!raw || !Array.isArray(raw)) { resolve([]); return; }
-
-        const klines = raw.map(item => ({
-          date: item.d,
-          time: item.d,
-          open: parseFloat(item.o),
-          high: parseFloat(item.h),
-          low: parseFloat(item.l),
-          close: parseFloat(item.c),
-          volume: parseInt(item.v) || 0,
-          openInterest: parseInt(item.p) || 0
-        })).filter(k => k.open > 0 && k.close > 0);
-
-        resolve(klines);
-      };
-      document.head.appendChild(script);
-    });
+    const secid = this._getFuturesSecid(symbol);
+    const url = 'https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=' + secid +
+      '&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56,f57,f58&klt=101&fqt=0&end=20500101&lmt=300';
+    return fetch(url)
+      .then(r => r.json())
+      .then(json => {
+        const klines = json?.data?.klines;
+        if (!klines || klines.length === 0) return [];
+        return klines.map(line => {
+          const p = line.split(',');
+          return {
+            date: p[0],
+            time: p[0],
+            open: +p[1],
+            close: +p[2],
+            high: +p[3],
+            low: +p[4],
+            volume: +p[5],
+            openInterest: 0
+          };
+        }).filter(k => k.open > 0 && k.close > 0);
+      })
+      .catch(() => []);
   },
 
-  // ====== 期货周K线（基于日K聚合） ======
+  // ====== 期货周K线（东方财富） ======
   fetchFuturesWeeklyKline(symbol) {
-    return this.fetchFuturesDailyKline(symbol).then(dailyKlines => {
-      if (!dailyKlines || dailyKlines.length === 0) return [];
-      const weeks = [];
-      let currentWeek = null;
-
-      dailyKlines.forEach(k => {
-        const d = new Date(k.date);
-        // Get Monday of that week (ISO week)
-        const day = d.getDay() || 7; // Sunday = 7
-        const monday = new Date(d);
-        monday.setDate(d.getDate() - day + 1);
-        const weekKey = monday.toISOString().substring(0, 10);
-
-        if (!currentWeek || currentWeek._key !== weekKey) {
-          if (currentWeek) weeks.push(currentWeek);
-          currentWeek = {
-            _key: weekKey,
-            date: k.date,  // Use Friday/last trading day as display date
-            time: k.date,
-            open: k.open,
-            high: k.high,
-            low: k.low,
-            close: k.close,
-            volume: k.volume,
-            openInterest: k.openInterest
+    const secid = this._getFuturesSecid(symbol);
+    const url = 'https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=' + secid +
+      '&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56,f57,f58&klt=102&fqt=0&end=20500101&lmt=100';
+    return fetch(url)
+      .then(r => r.json())
+      .then(json => {
+        const klines = json?.data?.klines;
+        if (!klines || klines.length === 0) return [];
+        return klines.map(line => {
+          const p = line.split(',');
+          return {
+            date: p[0],
+            time: p[0],
+            open: +p[1],
+            close: +p[2],
+            high: +p[3],
+            low: +p[4],
+            volume: +p[5],
+            openInterest: 0
           };
-        } else {
-          currentWeek.date = k.date;
-          currentWeek.time = k.date;
-          currentWeek.high = Math.max(currentWeek.high, k.high);
-          currentWeek.low = Math.min(currentWeek.low, k.low);
-          currentWeek.close = k.close;
-          currentWeek.volume += k.volume;
-          currentWeek.openInterest = k.openInterest;
-        }
-      });
-      if (currentWeek) weeks.push(currentWeek);
-      return weeks;
-    });
+        }).filter(k => k.open > 0 && k.close > 0);
+      })
+      .catch(() => []);
   },
 
   // ====== 指数K线（东方财富） ======

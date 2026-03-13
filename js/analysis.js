@@ -233,6 +233,314 @@ const FuturesAnalysis = {
     return { dailyTrend, recent5, prediction, sr };
   },
 
+  // ====== 分段分析（每5根K线一组）======
+  analyzeBySegments(klines, segmentSize) {
+    segmentSize = segmentSize || 5;
+    if (!klines || klines.length < 5) return [];
+
+    const segments = [];
+    const maxSegments = 4; // 最多4段
+    let end = klines.length;
+
+    while (end > 0 && segments.length < maxSegments) {
+      const start = Math.max(0, end - segmentSize);
+      const chunk = klines.slice(start, end);
+      if (chunk.length < 2) break; // 太短没意义
+
+      // 用 analyzeRecent5 的逻辑（传入 chunk，内部取 slice(-5)）
+      // 为了让 analyzeRecent5 对不足5根的也能工作，手动实现
+      const result = this._analyzeSegment(chunk);
+      result.timeStart = chunk[0].time || chunk[0].datetime || '';
+      result.timeEnd = chunk[chunk.length - 1].time || chunk[chunk.length - 1].datetime || '';
+      result.klineCount = chunk.length;
+      segments.push(result);
+
+      end = start;
+    }
+
+    return segments; // 已经是最新在前（从尾部开始分的）
+  },
+
+  // 分析单个分段（复用 analyzeRecent5 逻辑，但支持不足5根）
+  _analyzeSegment(chunk) {
+    let yangCount = 0, yinCount = 0, dojiCount = 0;
+    const types = [];
+
+    chunk.forEach(k => {
+      const body = Math.abs(k.close - k.open);
+      const range = k.high - k.low;
+      if (range > 0 && body < range * 0.1) {
+        dojiCount++; types.push('十字星');
+      } else if (k.close > k.open) {
+        yangCount++; types.push('阳');
+      } else {
+        yinCount++; types.push('阴');
+      }
+    });
+
+    let pattern = types.join('');
+
+    // 量能趋势
+    const vols = chunk.map(k => k.volume);
+    let volume = '量能不规则';
+    let increasing = true, decreasing = true;
+    for (let i = 1; i < vols.length; i++) {
+      if (vols[i] <= vols[i - 1]) increasing = false;
+      if (vols[i] >= vols[i - 1]) decreasing = false;
+    }
+    if (increasing) volume = '📈 量能递增';
+    else if (decreasing) volume = '📉 量能递减';
+    else volume = '📊 量能不规则';
+
+    // 形态
+    let lastBar = '';
+    const lastK = chunk[chunk.length - 1];
+    const lastBody = Math.abs(lastK.close - lastK.open);
+    const lastRange = lastK.high - lastK.low;
+    const upperShadow = lastK.high - Math.max(lastK.open, lastK.close);
+    const lowerShadow = Math.min(lastK.open, lastK.close) - lastK.low;
+
+    let consYang = 0, consYin = 0;
+    for (let i = chunk.length - 1; i >= 0; i--) {
+      if (chunk[i].close > chunk[i].open) consYang++;
+      else break;
+    }
+    for (let i = chunk.length - 1; i >= 0; i--) {
+      if (chunk[i].close < chunk[i].open) consYin++;
+      else break;
+    }
+
+    if (consYang >= 3) lastBar = '连阳上攻';
+    else if (consYin >= 3) lastBar = '连阴下跌';
+    else if (lastRange > 0 && upperShadow > lastBody * 2 && upperShadow > lastRange * 0.4) lastBar = '长上影线';
+    else if (lastRange > 0 && lowerShadow > lastBody * 2 && lowerShadow > lastRange * 0.4) lastBar = '长下影线';
+    else if (lastRange > 0 && lastBody < lastRange * 0.1) lastBar = '十字星';
+    else if (lastK.close > lastK.open) lastBar = '收阳';
+    else lastBar = '收阴';
+
+    // 多空评分 -2 ~ +2
+    let bullish = 0;
+    if (yangCount >= 3) bullish += 1;
+    if (yinCount >= 3) bullish -= 1;
+    if (consYang >= 3) bullish += 1;
+    if (consYin >= 3) bullish -= 1;
+    if (increasing && yangCount > yinCount) bullish += 1;
+    if (increasing && yinCount > yangCount) bullish -= 1;
+
+    // 涨跌幅
+    const changeP = chunk[0].open > 0 ? ((chunk[chunk.length - 1].close - chunk[0].open) / chunk[0].open * 100).toFixed(2) : '0.00';
+
+    return { pattern, volume, lastBar, bullish, yangCount, yinCount, dojiCount, changeP };
+  },
+
+  // ====== 异动检测 ======
+  detectAnomalies(klines) {
+    if (!klines || klines.length < 6) return [];
+
+    const anomalies = [];
+    const len = klines.length;
+
+    // 辅助：取时间标签
+    const timeLabel = (k) => {
+      const t = k.time || k.datetime || '';
+      // 如果是分钟K线格式 "2025-03-13 14:35"，只取时间部分
+      if (t.includes(' ')) return t.split(' ')[1] || t;
+      return t;
+    };
+
+    // 1. 放量异动：当前K线量 > 前5根均量 * 2
+    for (let i = Math.max(5, len - 5); i < len; i++) {
+      let sumVol = 0;
+      for (let j = i - 5; j < i; j++) sumVol += klines[j].volume;
+      const avgVol = sumVol / 5;
+      if (avgVol > 0 && klines[i].volume > avgVol * 2) {
+        const ratio = (klines[i].volume / avgVol).toFixed(1);
+        const change = klines[i].open > 0 ? ((klines[i].close - klines[i].open) / klines[i].open * 100).toFixed(1) : '0';
+        const dir = klines[i].close >= klines[i].open ? '阳' : '阴';
+        anomalies.push({
+          time: timeLabel(klines[i]),
+          type: 'volume',
+          label: '放量大' + dir + '线',
+          detail: '量比' + ratio + 'x，' + (change >= 0 ? '涨' : '跌') + change + '%',
+          severity: ratio >= 3 ? 'high' : 'medium'
+        });
+      }
+    }
+
+    // 2. 大阳/大阴线：实体 > 近10根平均实体 * 2
+    if (len >= 11) {
+      for (let i = Math.max(10, len - 5); i < len; i++) {
+        let sumBody = 0;
+        for (let j = i - 10; j < i; j++) sumBody += Math.abs(klines[j].close - klines[j].open);
+        const avgBody = sumBody / 10;
+        const curBody = Math.abs(klines[i].close - klines[i].open);
+        if (avgBody > 0 && curBody > avgBody * 2) {
+          const ratio = (curBody / avgBody).toFixed(1);
+          const dir = klines[i].close >= klines[i].open ? '大阳线' : '大阴线';
+          const change = klines[i].open > 0 ? ((klines[i].close - klines[i].open) / klines[i].open * 100).toFixed(1) : '0';
+          // 避免和放量重复
+          const alreadyHas = anomalies.some(a => a.time === timeLabel(klines[i]) && a.type === 'volume');
+          if (alreadyHas) {
+            // 合并到放量里
+            const existing = anomalies.find(a => a.time === timeLabel(klines[i]) && a.type === 'volume');
+            if (existing) existing.label = '放量' + dir;
+          } else {
+            anomalies.push({
+              time: timeLabel(klines[i]),
+              type: 'bigbar',
+              label: dir,
+              detail: '实体' + ratio + '倍于均值，' + (change >= 0 ? '涨' : '跌') + change + '%',
+              severity: ratio >= 3 ? 'high' : 'medium'
+            });
+          }
+        }
+      }
+    }
+
+    // 3. 连续同向：连续3根以上
+    let streak = 1;
+    let streakDir = klines[len - 1].close >= klines[len - 1].open ? 'yang' : 'yin';
+    for (let i = len - 2; i >= Math.max(0, len - 8); i--) {
+      const dir = klines[i].close >= klines[i].open ? 'yang' : 'yin';
+      if (dir === streakDir) streak++;
+      else break;
+    }
+    if (streak >= 3) {
+      anomalies.push({
+        time: timeLabel(klines[len - 1]),
+        type: 'streak',
+        label: '连续' + streak + (streakDir === 'yang' ? '阳' : '阴'),
+        detail: streakDir === 'yang' ? '多头持续发力' : '空头持续打压',
+        severity: streak >= 5 ? 'high' : 'medium'
+      });
+    }
+
+    // 4. 跳空缺口
+    for (let i = Math.max(1, len - 5); i < len; i++) {
+      const prev = klines[i - 1];
+      const cur = klines[i];
+      if (cur.open > prev.high) {
+        anomalies.push({
+          time: timeLabel(cur),
+          type: 'gap',
+          label: '跳空高开',
+          detail: '缺口 ' + prev.high.toFixed(0) + '-' + cur.open.toFixed(0),
+          severity: 'high'
+        });
+      } else if (cur.open < prev.low) {
+        anomalies.push({
+          time: timeLabel(cur),
+          type: 'gap',
+          label: '跳空低开',
+          detail: '缺口 ' + cur.open.toFixed(0) + '-' + prev.low.toFixed(0),
+          severity: 'high'
+        });
+      }
+    }
+
+    // 5. 急速拉升/下跌：最近3根累计涨跌幅 > 2%
+    if (len >= 3) {
+      const last3Start = klines[len - 3].open;
+      const last3End = klines[len - 1].close;
+      if (last3Start > 0) {
+        const changeP = ((last3End - last3Start) / last3Start * 100);
+        if (Math.abs(changeP) > 2) {
+          anomalies.push({
+            time: timeLabel(klines[len - 3]) + '~' + timeLabel(klines[len - 1]),
+            type: 'rapid',
+            label: changeP > 0 ? '急速拉升' : '急速下跌',
+            detail: '3根累计' + (changeP > 0 ? '+' : '') + changeP.toFixed(1) + '%',
+            severity: Math.abs(changeP) > 3 ? 'high' : 'medium'
+          });
+        }
+      }
+    }
+
+    // 6. 尾盘异动：最后3根波动 > 之前同数量的2倍
+    if (len >= 10) {
+      const last3Range = klines.slice(-3).reduce((s, k) => s + (k.high - k.low), 0) / 3;
+      const prev7Range = klines.slice(-10, -3).reduce((s, k) => s + (k.high - k.low), 0) / 7;
+      if (prev7Range > 0 && last3Range > prev7Range * 2) {
+        const ratio = (last3Range / prev7Range).toFixed(1);
+        anomalies.push({
+          time: timeLabel(klines[len - 3]) + '~' + timeLabel(klines[len - 1]),
+          type: 'late_move',
+          label: '尾盘异动',
+          detail: '波幅' + ratio + '倍于前段',
+          severity: ratio >= 3 ? 'high' : 'medium'
+        });
+      }
+    }
+
+    // 按时间倒序，去重
+    const seen = new Set();
+    return anomalies.filter(a => {
+      const key = a.time + a.type;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).sort((a, b) => (b.time > a.time ? 1 : -1));
+  },
+
+  // ====== 渲染分段分析HTML ======
+  renderSegmentsHTML(segments) {
+    if (!segments || segments.length === 0) return '';
+
+    let html = '<div class="fa-segments">';
+    html += '<div class="fa-label">📊 分段K线分析</div>';
+
+    segments.forEach((seg, idx) => {
+      const bullClass = seg.bullish > 0 ? 'bullish' : seg.bullish < 0 ? 'bearish' : 'neutral';
+      const bullLabel = seg.bullish > 0 ? '偏多' : seg.bullish < 0 ? '偏空' : '中性';
+      const changeClass = parseFloat(seg.changeP) >= 0 ? 'bullish' : 'bearish';
+      const changeSign = parseFloat(seg.changeP) >= 0 ? '+' : '';
+      const isLast = idx === segments.length - 1;
+      const connector = isLast ? '└' : '├';
+
+      html += '<div class="fa-segment-card">' +
+        '<div class="fa-seg-header">' +
+          '<span class="fa-seg-time">' + connector + ' ' + (seg.timeStart || '') + ' ~ ' + (seg.timeEnd || '') + '</span>' +
+          '<span class="fa-seg-badge fa-' + bullClass + '">' + bullLabel + '</span>' +
+          '<span class="fa-seg-change fa-' + changeClass + '">' + changeSign + seg.changeP + '%</span>' +
+        '</div>' +
+        '<div class="fa-seg-body">' +
+          '<span class="fa-seg-pattern">' + seg.pattern + '</span>' +
+          '<span class="fa-seg-sep">｜</span>' +
+          '<span class="fa-seg-vol">' + seg.volume + '</span>' +
+          '<span class="fa-seg-sep">｜</span>' +
+          '<span class="fa-seg-form">' + seg.lastBar + '</span>' +
+        '</div>' +
+      '</div>';
+    });
+
+    html += '</div>';
+    return html;
+  },
+
+  // ====== 渲染异动提醒HTML ======
+  renderAnomaliesHTML(anomalies) {
+    if (!anomalies || anomalies.length === 0) return '';
+
+    let html = '<div class="fa-anomalies">' +
+      '<div class="fa-anomaly-title">🔥 异动提醒</div>';
+
+    anomalies.forEach((a, idx) => {
+      const isLast = idx === anomalies.length - 1;
+      const connector = isLast ? '└' : '├';
+      const severityClass = a.severity === 'high' ? 'fa-anomaly-high' : 'fa-anomaly-med';
+
+      html += '<div class="fa-anomaly-item ' + severityClass + '">' +
+        '<span class="fa-anomaly-connector">' + connector + '</span>' +
+        '<span class="fa-anomaly-time">' + a.time + '</span> ' +
+        '<span class="fa-anomaly-label">' + a.label + '</span>' +
+        '<span class="fa-anomaly-detail">（' + a.detail + '）</span>' +
+      '</div>';
+    });
+
+    html += '</div>';
+    return html;
+  },
+
   // ====== 渲染分析面板HTML ======
   renderHTML(analysis) {
     if (!analysis) return '';

@@ -479,7 +479,7 @@ const App = {
         // 网格模式下切分组要重新渲染
         if (this.viewMode === 'grid') {
           const codes = this.currentGroup === '__futures__'
-            ? Store.getFutures().map(f => f.sina)
+            ? Store.getFutures().map(f => f.secid)
             : (Store.getStocks(this.currentGroup) || []);
           GridView.render(codes, this.stockData);
         }
@@ -518,7 +518,7 @@ const App = {
       // 品种横向 Tab
       let html = '<div class="futures-tabs">';
       futures.forEach(f => {
-        const d = this.stockData[f.sina];
+        const d = this.stockData[f.secid];
         const cls = d ? (d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '') : '';
         const active = f.code === this.currentFutures ? ' active' : '';
         html += '<div class="futures-tab-item' + active + ' ' + cls + '" data-fcode="' + f.code + '">' +
@@ -688,7 +688,7 @@ const App = {
       }
 
       const codes = this.currentGroup === '__futures__'
-        ? Store.getFutures().map(f => f.sina)
+        ? Store.getFutures().map(f => f.secid)
         : (Store.getStocks(this.currentGroup) || []);
       GridView.render(codes, this.stockData);
     }
@@ -727,6 +727,13 @@ const App = {
       } else {
         // Minute K-lines: 5/15/30/60
         klines = await StockAPI.fetchFuturesMinKline(symbol, parseInt(period));
+      }
+
+      console.log('[Futures] symbol=' + symbol + ' period=' + period + ' klines=' + klines.length);
+
+      if (!klines || klines.length === 0) {
+        const panelEl = document.getElementById('futures-analysis-panel');
+        if (panelEl) panelEl.innerHTML = '<div class="empty-hint">K线数据为空，无法分析</div>';
       }
 
       // Run signal detection on all periods
@@ -776,10 +783,30 @@ const App = {
                 (keyLevel ? '<div class="reversal-alert-level">' + keyLevel + '</div>' : '') +
               '</div>';
             }
+
+            // 分钟K线：分段分析 + 异动检测
+            const isMinuteK = ['5', '15', '30', '60'].includes(String(period));
+            if (isMinuteK) {
+              // 异动检测
+              const anomalies = FuturesAnalysis.detectAnomalies(klines);
+              if (anomalies.length > 0) {
+                panelHTML += FuturesAnalysis.renderAnomaliesHTML(anomalies);
+              }
+              // 分段分析
+              const segments = FuturesAnalysis.analyzeBySegments(klines, 5);
+              if (segments.length > 0) {
+                panelHTML += FuturesAnalysis.renderSegmentsHTML(segments);
+              }
+            }
+
             panelHTML += FuturesAnalysis.renderHTML(analysis);
             panelEl.innerHTML = panelHTML;
           }
-        } catch (e) { console.error('Analysis error:', e); }
+        } catch (e) {
+          console.error('Analysis error:', e);
+          const panelEl = document.getElementById('futures-analysis-panel');
+          if (panelEl) panelEl.innerHTML = '<div class="empty-hint">分析加载失败: ' + (e.message || e) + '</div>';
+        }
       }
     } catch (e) {
       console.error('Futures kline error:', e);
@@ -1291,7 +1318,7 @@ const App = {
     const container = document.getElementById('futures-list');
     container.innerHTML = list.map(f =>
       '<div class="futures-item">' +
-        '<span>' + f.code + ' (' + f.name + ') — ' + f.sina + '</span>' +
+        '<span>' + f.code + ' (' + f.name + ') — ' + f.secid + '</span>' +
         '<span class="futures-remove" data-code="' + f.code + '">×</span>' +
       '</div>'
     ).join('');
@@ -1516,7 +1543,7 @@ const App = {
     const futures = Store.getFutures();
     const sel = futures.find(f => f.code === this.currentFutures);
     if (!sel) { el.innerHTML = ''; return; }
-    const d = this.stockData[sel.sina];
+    const d = this.stockData[sel.secid];
     if (d && d.price > 0) {
       const cls = d.changePercent > 0 ? 'up' : d.changePercent < 0 ? 'down' : '';
       el.innerHTML =

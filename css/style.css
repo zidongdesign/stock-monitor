@@ -1802,3 +1802,123 @@ body.chart-fullscreen #float-fullscreen {
   font-size: 13px;
   color: #d4a04a;
 }
+
+/* 异动提醒 */
+.fa-anomalies {
+  background: rgba(255, 80, 80, 0.08);
+  border: 1px solid rgba(255, 80, 80, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 8px 0;
+}
+.fa-anomaly-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff6b6b;
+  margin-bottom: 6px;
+}
+.fa-anomaly-item {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #c9d1d9;
+}
+.fa-anomaly-connector {
+  color: rgba(255, 107, 107, 0.5);
+  margin-right: 4px;
+}
+.fa-anomaly-time {
+  color: #8b949e;
+  font-family: monospace;
+  font-size: 11px;
+}
+.fa-anomaly-label {
+  color: #ff9f43;
+  font-weight: 600;
+}
+.fa-anomaly-detail {
+  color: #8b949e;
+  font-size: 11px;
+}
+.fa-anomaly-high .fa-anomaly-label {
+  color: #ff6b6b;
+}
+.fa-anomaly-med .fa-anomaly-label {
+  color: #ff9f43;
+}
+
+/* 分段K线分析 */
+.fa-segments {
+  margin: 8px 0;
+}
+.fa-segments > .fa-label {
+  font-size: 13px;
+  color: #e6edf3;
+  margin-bottom: 6px;
+}
+.fa-segment-card {
+  background: rgba(30, 35, 45, 0.6);
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 10px;
+  margin: 4px 0;
+  border-radius: 0 6px 6px 0;
+}
+.fa-segment-card:hover {
+  background: rgba(30, 35, 45, 0.9);
+  border-left-color: rgba(255, 255, 255, 0.3);
+}
+.fa-seg-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.fa-seg-time {
+  font-size: 11px;
+  color: #8b949e;
+  font-family: monospace;
+}
+.fa-seg-badge {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+.fa-seg-badge.fa-bullish {
+  background: rgba(239, 83, 80, 0.15);
+  color: #ef5350;
+}
+.fa-seg-badge.fa-bearish {
+  background: rgba(38, 166, 154, 0.15);
+  color: #26a69a;
+}
+.fa-seg-badge.fa-neutral {
+  background: rgba(139, 148, 158, 0.15);
+  color: #8b949e;
+}
+.fa-seg-change {
+  font-size: 11px;
+  font-weight: 600;
+  font-family: monospace;
+}
+.fa-seg-body {
+  font-size: 11px;
+  color: #8b949e;
+  padding-left: 16px;
+}
+.fa-seg-pattern {
+  letter-spacing: 1px;
+}
+.fa-seg-sep {
+  color: rgba(139, 148, 158, 0.4);
+  margin: 0 2px;
+}
+.fa-seg-vol, .fa-seg-form {
+  color: #8b949e;
+}
+
+@media (max-width: 768px) {
+  .fa-anomalies { padding: 8px 10px; }
+  .fa-anomaly-item { font-size: 11px; }
+  .fa-segment-card { padding: 4px 8px; }
+  .fa-seg-body { font-size: 10px; }
+}
