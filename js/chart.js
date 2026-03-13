@@ -42,11 +42,11 @@ const ChartManager = {
       const prev = ordered[i - 1];
       const t = cur.time;
 
-      // 1) 放量异动：当前成交量 > 前 10 分钟均量 × 3
+      // 1) 放量异动：当前成交量 > 前 10 分钟均量 × 5
       if (i >= 2) {
         const lookback = ordered.slice(Math.max(0, i - 10), i);
         const avgVol = lookback.reduce((s, d) => s + d.volume, 0) / lookback.length;
-        if (avgVol > 0 && cur.volume > avgVol * 3) {
+        if (avgVol > 0 && cur.volume > avgVol * 5) {
           const type = cur.price >= prev.price ? 'buy' : 'sell';
           const prio = 2;
           if (!signalMap[t] || signalMap[t].priority < prio) {
@@ -55,10 +55,10 @@ const ChartManager = {
         }
       }
 
-      // 2) 急拉/急跌：1 分钟涨跌幅 > 0.8%
+      // 2) 急拉/急跌：1 分钟涨跌幅 > 1.2%
       if (prev.price > 0) {
         const chg = (cur.price - prev.price) / prev.price;
-        if (Math.abs(chg) > 0.008) {
+        if (Math.abs(chg) > 0.012) {
           const type = chg > 0 ? 'buy' : 'sell';
           const prio = 3;
           if (!signalMap[t] || signalMap[t].priority < prio) {
@@ -86,7 +86,7 @@ const ChartManager = {
           }
           if (flowDeltas.length > 0) {
             const avgDelta = flowDeltas.reduce((s, d) => s + d, 0) / flowDeltas.length;
-            if (avgDelta !== 0 && Math.abs(delta) > Math.abs(avgDelta) * 3) {
+            if (avgDelta !== 0 && Math.abs(delta) > Math.abs(avgDelta) * 5) {
               const type = delta > 0 ? 'buy' : 'sell';
               const prio = 4;
               if (!signalMap[t] || signalMap[t].priority < prio) {
@@ -98,7 +98,10 @@ const ChartManager = {
       }
     }
 
-    return Object.values(signalMap);
+    // 只保留优先级最高的 5 个信号
+    const allSignals = Object.values(signalMap);
+    allSignals.sort((a, b) => b.priority - a.priority);
+    return allSignals.slice(0, 5);
   },
 
   renderMinute(data, prevClose, fundFlow) {
