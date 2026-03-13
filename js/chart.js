@@ -131,13 +131,11 @@ const ChartManager = {
     prevClose = prevClose || data[0].price;
     const dataMap = {};
     data.forEach(d => {
-      // 取时间的 HH:MM 部分（兼容 "HH:MM" 和 "HH:MM:SS" 格式）
       const t = d.time.length > 5 ? d.time.substring(0, 5) : d.time;
       dataMap[t] = d;
     });
 
-    // 3. 按实际数据顺序计算均价线和 KDJ，再映射到 fullTimes
-    // 均价线：按实际数据顺序累计
+    // 3. 按实际数据顺序计算均价线，再映射到 fullTimes
     const avgMap = {};
     let totalAmt = 0, totalVol = 0;
     data.forEach(d => {
@@ -147,8 +145,7 @@ const ChartManager = {
       avgMap[t] = totalVol > 0 ? +(totalAmt / totalVol).toFixed(2) : d.price;
     });
 
-    // KDJ 已替换为资金流向，保留变量名兼容
-    // 资金流向映射
+    // 资金流向映射（用于成交量颜色）
     const flowMap = {};
     if (fundFlow && fundFlow.length > 0) {
       fundFlow.forEach(f => {
@@ -157,28 +154,54 @@ const ChartManager = {
       });
     }
     const hasFundFlow = fundFlow && fundFlow.length > 0;
-    const mappedMainFlow = fullTimes.map(t => flowMap[t] ? flowMap[t].main : null);
 
-    // 成交量红绿色映射
+    // 成交量颜色：优先用资金流向，fallback 用涨跌
     const volColorMap = {};
     let prevPrice = prevClose;
     data.forEach((d, i) => {
       const t = d.time.length > 5 ? d.time.substring(0, 5) : d.time;
-      if (i === 0) {
-        volColorMap[t] = d.price >= prevClose ? '#ef5350' : '#26a69a';
+      if (hasFundFlow && flowMap[t]) {
+        const mainVal = flowMap[t].main;
+        if (mainVal > 0) {
+          volColorMap[t] = '#ef5350';
+        } else if (mainVal < 0) {
+          volColorMap[t] = '#26a69a';
+        } else {
+          volColorMap[t] = '#8b949e';
+        }
       } else {
-        volColorMap[t] = d.price >= prevPrice ? '#ef5350' : '#26a69a';
+        // fallback: 涨跌颜色
+        if (i === 0) {
+          volColorMap[t] = d.price >= prevClose ? '#ef5350' : '#26a69a';
+        } else {
+          volColorMap[t] = d.price >= prevPrice ? '#ef5350' : '#26a69a';
+        }
       }
       prevPrice = d.price;
     });
 
-    // 4. 映射到完整时间轴
+    // 4. 计算 CCI(14)：按实际数据顺序计算，再映射到 fullTimes
+    const cciPeriod = 14;
+    const cciMap = {};
+    const prices = data.map(d => d.price);
+    for (let i = 0; i < prices.length; i++) {
+      if (i < cciPeriod - 1) continue;
+      const window = prices.slice(i - cciPeriod + 1, i + 1);
+      const sma = window.reduce((s, v) => s + v, 0) / cciPeriod;
+      const md = window.reduce((s, v) => s + Math.abs(v - sma), 0) / cciPeriod;
+      const cci = md === 0 ? 0 : (prices[i] - sma) / (0.015 * md);
+      const t = data[i].time.length > 5 ? data[i].time.substring(0, 5) : data[i].time;
+      cciMap[t] = +cci.toFixed(2);
+    }
+
+    // 5. 映射到完整时间轴
     const mappedPrices = fullTimes.map(t => dataMap[t] ? dataMap[t].price : null);
     const mappedAvgPrices = fullTimes.map(t => avgMap[t] != null ? avgMap[t] : null);
     const mappedVolumes = fullTimes.map(t => dataMap[t] ? dataMap[t].volume : null);
     const mappedVolColors = fullTimes.map(t => volColorMap[t] || 'rgba(0,0,0,0)');
+    const mappedCCI = fullTimes.map(t => cciMap[t] != null ? cciMap[t] : null);
 
-    // 5. 计算 Y 轴范围（只用有效价格）
+    // 6. 计算 Y 轴范围（只用有效价格）
     const validPrices = mappedPrices.filter(p => p != null && p > 0 && isFinite(p));
     if (validPrices.length === 0) return;
     const minP = Math.min(...validPrices);
@@ -209,26 +232,12 @@ const ChartManager = {
       label: { show: false }
     }));
 
-    // 资金流向面积图：用 bar 代替 line 避免 null 填充问题
-    const fundFlowSeries = [];
-    if (hasFundFlow) {
-      fundFlowSeries.push({
-        name: '主力资金', type: 'bar',
-        data: mappedMainFlow.map(v => v != null ? {
-          value: v,
-          itemStyle: { color: v >= 0 ? 'rgba(239,83,80,0.7)' : 'rgba(38,166,154,0.7)' }
-        } : { value: 0, itemStyle: { color: 'transparent' } }),
-        xAxisIndex: 2, yAxisIndex: 2,
-        barMaxWidth: 2
-      });
-    }
-
     const opt = {
       animation: false,
       grid: [
-        { left: 60, right: 20, top: 30, height: '40%' },
-        { left: 60, right: 20, top: '52%', height: '15%' },
-        { left: 60, right: 20, top: '72%', height: '18%' }
+        { left: 60, right: 20, top: 30, height: '55%' },
+        { left: 60, right: 20, top: '65%', height: '15%' },
+        { left: 60, right: 20, top: '83%', height: '15%' }
       ],
       xAxis: [
         { type: 'category', data: fullTimes, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: false },
@@ -238,8 +247,7 @@ const ChartManager = {
       yAxis: [
         { type: 'value', gridIndex: 0, scale: true, min: yMin, max: yMax, splitNumber: 4, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10, formatter: v => v.toFixed(2) } },
         { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } },
-        { type: 'value', gridIndex: 2, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9, formatter: v => Math.abs(v) >= 10000 ? (v / 10000).toFixed(1) + '亿' : v + '万' },
-          name: hasFundFlow ? '主力资金(万)' : '', nameTextStyle: { fontSize: 9, color: '#8b949e' } }
+        { type: 'value', gridIndex: 2, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9 }, name: 'CCI', nameTextStyle: { fontSize: 9, color: '#8b949e' } }
       ],
       tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
       series: [
@@ -264,20 +272,20 @@ const ChartManager = {
           data: mappedVolumes.map((v, i) => ({ value: v, itemStyle: { color: mappedVolColors[i], opacity: 0.6 } })),
           xAxisIndex: 1, yAxisIndex: 1
         },
-        ...fundFlowSeries
+        {
+          name: 'CCI', type: 'line', data: mappedCCI, xAxisIndex: 2, yAxisIndex: 2,
+          connectNulls: false,
+          lineStyle: { color: '#E6A23C', width: 1.5 }, symbol: 'none',
+          markLine: {
+            silent: true, symbol: 'none',
+            lineStyle: { type: 'dashed', color: '#555', width: 1 },
+            data: [{ yAxis: 100 }, { yAxis: -100 }],
+            label: { show: false }
+          }
+        }
       ],
       dataZoom: [{ type: 'inside', xAxisIndex: [0, 1, 2] }]
     };
-
-    // 如果无资金数据，在 grid2 区域显示提示
-    if (!hasFundFlow) {
-      opt.graphic = [{
-        type: 'text',
-        left: 'center',
-        top: '79%',
-        style: { text: '暂无资金数据', fontSize: 13, fill: '#8b949e' }
-      }];
-    }
 
     this.chart.setOption(opt, true);
   },
