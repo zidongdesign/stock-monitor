@@ -66,6 +66,30 @@ const StockAPI = {
       .catch(() => null);
   },
 
+  // ====== 分时资金流向（返回每分钟主力/散户净流入） ======
+  fetchFundFlowMinute(code) {
+    const secid = this._toSecid(code);
+    const url = 'https://push2.eastmoney.com/api/qt/stock/fflow/kline/get?lmt=0&klt=1&secid=' + secid + '&fields1=f1,f2,f3,f7&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63&ut=b2884a393a59ad64002292a3e90d46a5&cb=';
+
+    return fetch(url)
+      .then(r => r.json())
+      .then(json => {
+        const klines = json?.data?.klines;
+        if (!klines || klines.length === 0) return null;
+        // klines 每条格式: "HH:MM,主力净流入,小单净流入,中单净流入,大单净流入,超大单净流入,..."
+        // parts[1] = 累计主力净流入(元), parts[2] = 累计小单净流入(元)
+        return klines.map(line => {
+          const parts = line.split(',');
+          return {
+            time: parts[0].length > 5 ? parts[0].substring(parts[0].length - 5) : parts[0],
+            main: Math.round((parseFloat(parts[1]) || 0) / 10000),     // 万元
+            retail: Math.round((parseFloat(parts[2]) || 0) / 10000)    // 万元（小单≈散户）
+          };
+        });
+      })
+      .catch(() => null);
+  },
+
   // 批量获取资金流向
   fetchFundFlowBatch(codes) {
     if (!codes || codes.length === 0) return Promise.resolve({});

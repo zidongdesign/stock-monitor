@@ -154,6 +154,21 @@ const GridView = {
     const yMin = +(prevClose - maxDiff * 1.2).toFixed(4);
     const yMax = +(prevClose + maxDiff * 1.2).toFixed(4);
 
+    // 异动信号检测（放量 + 急拉急跌，不含资金流向）
+    const signals = this._detectMiniSignals(data, dataMap, fullTimes, prevClose);
+    // 只取最重要的 2 个
+    const topSignals = signals.sort((a, b) => b.priority - a.priority).slice(0, 2);
+    const buyPoints = topSignals.filter(s => s.type === 'buy').map(s => ({
+      coord: [s.time, s.price],
+      symbol: 'triangle', symbolSize: 8, symbolOffset: [0, 6],
+      itemStyle: { color: '#ef5350' }, label: { show: false }
+    }));
+    const sellPoints = topSignals.filter(s => s.type === 'sell').map(s => ({
+      coord: [s.time, s.price],
+      symbol: 'triangle', symbolSize: 8, symbolRotate: 180, symbolOffset: [0, -6],
+      itemStyle: { color: '#26a69a' }, label: { show: false }
+    }));
+
     chart.setOption({
       animation: false,
       grid: { left: 0, right: 0, top: 0, bottom: 0 },
@@ -165,7 +180,8 @@ const GridView = {
           lineStyle: { width: 1, color: '#4e9fff' },
           showSymbol: false,
           connectNulls: false,
-          areaStyle: { color: 'rgba(78,159,255,0.08)' }
+          areaStyle: { color: 'rgba(78,159,255,0.08)' },
+          markPoint: (buyPoints.length + sellPoints.length > 0) ? { data: [...buyPoints, ...sellPoints] } : undefined
         },
         {
           type: 'line', data: avgPrices,
@@ -183,6 +199,48 @@ const GridView = {
         }
       ]
     }, true);
+  },
+
+  // 迷你分时图异动检测（不含资金流向）
+  _detectMiniSignals(data, dataMap, fullTimes, prevClose) {
+    const signals = [];
+    const signalMap = {};
+
+    const ordered = [];
+    fullTimes.forEach(t => {
+      if (dataMap[t]) ordered.push({ time: t, ...dataMap[t] });
+    });
+
+    for (let i = 1; i < ordered.length; i++) {
+      const cur = ordered[i];
+      const prev = ordered[i - 1];
+      const t = cur.time;
+
+      // 放量异动
+      if (i >= 2) {
+        const lookback = ordered.slice(Math.max(0, i - 10), i);
+        const avgVol = lookback.reduce((s, d) => s + d.volume, 0) / lookback.length;
+        if (avgVol > 0 && cur.volume > avgVol * 3) {
+          const type = cur.price >= prev.price ? 'buy' : 'sell';
+          if (!signalMap[t] || signalMap[t].priority < 2) {
+            signalMap[t] = { time: t, type, priority: 2, reason: '放量', price: cur.price };
+          }
+        }
+      }
+
+      // 急拉/急跌
+      if (prev.price > 0) {
+        const chg = (cur.price - prev.price) / prev.price;
+        if (Math.abs(chg) > 0.008) {
+          const type = chg > 0 ? 'buy' : 'sell';
+          if (!signalMap[t] || signalMap[t].priority < 3) {
+            signalMap[t] = { time: t, type, priority: 3, reason: chg > 0 ? '急拉' : '急跌', price: cur.price };
+          }
+        }
+      }
+    }
+
+    return Object.values(signalMap);
   },
 
   renderMiniDaily(container, code, klines) {

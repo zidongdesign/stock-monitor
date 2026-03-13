@@ -20,7 +20,88 @@ const ChartManager = {
   },
 
   // ====== 分时图 ======
-  renderMinute(data, prevClose) {
+  // ====== 异动信号检测 ======
+  _detectMinuteSignals(data, dataMap, fullTimes, prevClose, fundFlow) {
+    const signals = []; // { time, type: 'buy'|'sell', priority, reason }
+    const signalMap = {}; // 去重：每个时间点只保留最重要的
+
+    // 构建 fundFlow 时间映射
+    const flowMap = {};
+    if (fundFlow && fundFlow.length > 0) {
+      fundFlow.forEach(f => { flowMap[f.time] = f; });
+    }
+
+    // 构建数据有序列表
+    const ordered = [];
+    fullTimes.forEach(t => {
+      if (dataMap[t]) ordered.push({ time: t, ...dataMap[t] });
+    });
+
+    for (let i = 1; i < ordered.length; i++) {
+      const cur = ordered[i];
+      const prev = ordered[i - 1];
+      const t = cur.time;
+
+      // 1) 放量异动：当前成交量 > 前 10 分钟均量 × 3
+      if (i >= 2) {
+        const lookback = ordered.slice(Math.max(0, i - 10), i);
+        const avgVol = lookback.reduce((s, d) => s + d.volume, 0) / lookback.length;
+        if (avgVol > 0 && cur.volume > avgVol * 3) {
+          const type = cur.price >= prev.price ? 'buy' : 'sell';
+          const prio = 2;
+          if (!signalMap[t] || signalMap[t].priority < prio) {
+            signalMap[t] = { time: t, type, priority: prio, reason: '放量', price: cur.price };
+          }
+        }
+      }
+
+      // 2) 急拉/急跌：1 分钟涨跌幅 > 0.8%
+      if (prev.price > 0) {
+        const chg = (cur.price - prev.price) / prev.price;
+        if (Math.abs(chg) > 0.008) {
+          const type = chg > 0 ? 'buy' : 'sell';
+          const prio = 3;
+          if (!signalMap[t] || signalMap[t].priority < prio) {
+            signalMap[t] = { time: t, type, priority: prio, reason: chg > 0 ? '急拉' : '急跌', price: cur.price };
+          }
+        }
+      }
+
+      // 3) 主力资金异动
+      if (fundFlow && fundFlow.length > 0 && flowMap[t] && i >= 2) {
+        // 计算当分钟增量（累计值之差）
+        const prevFlowT = ordered[i - 1].time;
+        const curFlow = flowMap[t];
+        const prevFlow = flowMap[prevFlowT];
+        if (curFlow && prevFlow) {
+          const delta = curFlow.main - prevFlow.main;
+          // 前10分钟增量均值
+          const flowDeltas = [];
+          for (let j = Math.max(1, i - 10); j < i; j++) {
+            const ft = ordered[j].time;
+            const ftp = ordered[j - 1].time;
+            if (flowMap[ft] && flowMap[ftp]) {
+              flowDeltas.push(flowMap[ft].main - flowMap[ftp].main);
+            }
+          }
+          if (flowDeltas.length > 0) {
+            const avgDelta = flowDeltas.reduce((s, d) => s + d, 0) / flowDeltas.length;
+            if (avgDelta !== 0 && Math.abs(delta) > Math.abs(avgDelta) * 3) {
+              const type = delta > 0 ? 'buy' : 'sell';
+              const prio = 4;
+              if (!signalMap[t] || signalMap[t].priority < prio) {
+                signalMap[t] = { time: t, type, priority: prio, reason: delta > 0 ? '主力流入' : '主力流出', price: cur.price };
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return Object.values(signalMap);
+  },
+
+  renderMinute(data, prevClose, fundFlow) {
     if (!this.chart) return;
     if (!data || data.length === 0) {
       this.chart.setOption({ title: { text: '暂无分时数据', left: 'center', top: 'center', textStyle: { color: '#8b949e', fontSize: 14 } }, xAxis: [], yAxis: [], series: [] }, true);
@@ -66,27 +147,17 @@ const ChartManager = {
       avgMap[t] = totalVol > 0 ? +(totalAmt / totalVol).toFixed(2) : d.price;
     });
 
-    // KDJ：按实际数据顺序计算
-    const kdjMap = {};
-    const actualPrices = data.map(d => d.price);
-    const n = 9;
-    let prevK = 50, prevD = 50;
-    for (let i = 0; i < actualPrices.length; i++) {
-      const start = Math.max(0, i - n + 1);
-      let high = -Infinity, low = Infinity;
-      for (let j = start; j <= i; j++) {
-        if (actualPrices[j] > high) high = actualPrices[j];
-        if (actualPrices[j] < low) low = actualPrices[j];
-      }
-      const rsv = high === low ? 50 : (actualPrices[i] - low) / (high - low) * 100;
-      const k = 2 / 3 * prevK + 1 / 3 * rsv;
-      const d2 = 2 / 3 * prevD + 1 / 3 * k;
-      const j2 = 3 * k - 2 * d2;
-      const t = data[i].time.length > 5 ? data[i].time.substring(0, 5) : data[i].time;
-      kdjMap[t] = { k: +k.toFixed(2), d: +d2.toFixed(2), j: +j2.toFixed(2) };
-      prevK = k;
-      prevD = d2;
+    // KDJ 已替换为资金流向，保留变量名兼容
+    // 资金流向映射
+    const flowMap = {};
+    if (fundFlow && fundFlow.length > 0) {
+      fundFlow.forEach(f => {
+        const t = f.time.length > 5 ? f.time.substring(0, 5) : f.time;
+        flowMap[t] = f;
+      });
     }
+    const hasFundFlow = fundFlow && fundFlow.length > 0;
+    const mappedMainFlow = fullTimes.map(t => flowMap[t] ? flowMap[t].main : null);
 
     // 成交量红绿色映射
     const volColorMap = {};
@@ -106,9 +177,6 @@ const ChartManager = {
     const mappedAvgPrices = fullTimes.map(t => avgMap[t] != null ? avgMap[t] : null);
     const mappedVolumes = fullTimes.map(t => dataMap[t] ? dataMap[t].volume : 0);
     const mappedVolColors = fullTimes.map(t => volColorMap[t] || 'transparent');
-    const mappedKdjK = fullTimes.map(t => kdjMap[t] ? kdjMap[t].k : null);
-    const mappedKdjD = fullTimes.map(t => kdjMap[t] ? kdjMap[t].d : null);
-    const mappedKdjJ = fullTimes.map(t => kdjMap[t] ? kdjMap[t].j : null);
 
     // 5. 计算 Y 轴范围（只用有效价格）
     const validPrices = mappedPrices.filter(p => p != null && p > 0 && isFinite(p));
@@ -118,6 +186,60 @@ const ChartManager = {
     const maxDiff = Math.max(Math.abs(maxP - prevClose), Math.abs(minP - prevClose), prevClose * 0.001);
     const yMin = +(prevClose - maxDiff * 1.2).toFixed(2);
     const yMax = +(prevClose + maxDiff * 1.2).toFixed(2);
+
+    // 异动信号检测
+    const signals = this._detectMinuteSignals(data, dataMap, fullTimes, prevClose, fundFlow);
+    const buyPoints = signals.filter(s => s.type === 'buy').map(s => ({
+      coord: [s.time, s.price],
+      value: s.reason,
+      symbol: 'triangle',
+      symbolSize: 10,
+      symbolOffset: [0, 8],
+      itemStyle: { color: '#ef5350' },
+      label: { show: true, position: 'bottom', formatter: s.reason, fontSize: 8, color: '#ef5350' }
+    }));
+    const sellPoints = signals.filter(s => s.type === 'sell').map(s => ({
+      coord: [s.time, s.price],
+      value: s.reason,
+      symbol: 'triangle',
+      symbolSize: 10,
+      symbolRotate: 180,
+      symbolOffset: [0, -8],
+      itemStyle: { color: '#26a69a' },
+      label: { show: true, position: 'top', formatter: s.reason, fontSize: 8, color: '#26a69a' }
+    }));
+
+    // 资金流向面积图：正负分色
+    const fundFlowSeries = [];
+    if (hasFundFlow) {
+      // 正值（净流入）
+      fundFlowSeries.push({
+        name: '主力流入', type: 'line', data: mappedMainFlow.map(v => v != null && v >= 0 ? v : null),
+        xAxisIndex: 2, yAxisIndex: 2,
+        connectNulls: false,
+        lineStyle: { width: 1, color: '#ef5350' },
+        areaStyle: { color: 'rgba(239,83,80,0.3)' },
+        symbol: 'none'
+      });
+      // 负值（净流出）
+      fundFlowSeries.push({
+        name: '主力流出', type: 'line', data: mappedMainFlow.map(v => v != null && v < 0 ? v : null),
+        xAxisIndex: 2, yAxisIndex: 2,
+        connectNulls: false,
+        lineStyle: { width: 1, color: '#26a69a' },
+        areaStyle: { color: 'rgba(38,166,154,0.3)' },
+        symbol: 'none'
+      });
+      // 零线完整数据（连续线）
+      fundFlowSeries.push({
+        name: '主力资金', type: 'line', data: mappedMainFlow,
+        xAxisIndex: 2, yAxisIndex: 2,
+        connectNulls: false,
+        lineStyle: { width: 1.5, color: '#b0b0b0' },
+        symbol: 'none',
+        z: 3
+      });
+    }
 
     const opt = {
       animation: false,
@@ -134,7 +256,8 @@ const ChartManager = {
       yAxis: [
         { type: 'value', gridIndex: 0, scale: true, min: yMin, max: yMax, splitNumber: 4, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10, formatter: v => v.toFixed(2) } },
         { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } },
-        { type: 'value', gridIndex: 2, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9 } }
+        { type: 'value', gridIndex: 2, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9, formatter: v => v + '万' },
+          name: hasFundFlow ? '主力资金(万)' : '', nameTextStyle: { fontSize: 9, color: '#8b949e' } }
       ],
       tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
       series: [
@@ -146,7 +269,8 @@ const ChartManager = {
             { offset: 0, color: 'rgba(64,158,255,0.3)' },
             { offset: 1, color: 'rgba(64,158,255,0.05)' }
           ])},
-          symbol: 'none'
+          symbol: 'none',
+          markPoint: { data: [...buyPoints, ...sellPoints] }
         },
         {
           name: '均价', type: 'line', data: mappedAvgPrices, xAxisIndex: 0, yAxisIndex: 0,
@@ -158,24 +282,20 @@ const ChartManager = {
           data: mappedVolumes.map((v, i) => ({ value: v, itemStyle: { color: mappedVolColors[i], opacity: 0.6 } })),
           xAxisIndex: 1, yAxisIndex: 1
         },
-        {
-          name: 'K', type: 'line', data: mappedKdjK, xAxisIndex: 2, yAxisIndex: 2,
-          connectNulls: false,
-          lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none'
-        },
-        {
-          name: 'D', type: 'line', data: mappedKdjD, xAxisIndex: 2, yAxisIndex: 2,
-          connectNulls: false,
-          lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none'
-        },
-        {
-          name: 'J', type: 'line', data: mappedKdjJ, xAxisIndex: 2, yAxisIndex: 2,
-          connectNulls: false,
-          lineStyle: { width: 1, color: '#F56C6C' }, symbol: 'none'
-        }
+        ...fundFlowSeries
       ],
       dataZoom: [{ type: 'inside', xAxisIndex: [0, 1, 2] }]
     };
+
+    // 如果无资金数据，在 grid2 区域显示提示
+    if (!hasFundFlow) {
+      opt.graphic = [{
+        type: 'text',
+        left: 'center',
+        top: '79%',
+        style: { text: '暂无资金数据', fontSize: 13, fill: '#8b949e' }
+      }];
+    }
 
     this.chart.setOption(opt, true);
   },

@@ -939,9 +939,12 @@ const App = {
         if (code.startsWith('nf_')) {
           ChartManager.chart.setOption({ title: { text: '期货暂不支持分时图', left: 'center', top: 'center', textStyle: { color: '#8b949e', fontSize: 14 } }, xAxis: [], yAxis: [], series: [] }, true);
         } else {
-          const data = await StockAPI.fetchMinute(code);
+          const [data, fundFlow] = await Promise.all([
+            StockAPI.fetchMinute(code),
+            StockAPI.fetchFundFlowMinute(code)
+          ]);
           const prevClose = this.stockData[code]?.prevClose;
-          ChartManager.renderMinute(data, prevClose);
+          ChartManager.renderMinute(data, prevClose, fundFlow);
         }
       } else {
         // K线（期货也不支持腾讯K线，显示提示）
