@@ -145,7 +145,7 @@ const ChartManager = {
       avgMap[t] = totalVol > 0 ? +(totalAmt / totalVol).toFixed(2) : d.price;
     });
 
-    // 资金流向映射（用于成交量颜色）
+    // 资金流向映射（用于信号检测）
     const flowMap = {};
     if (fundFlow && fundFlow.length > 0) {
       fundFlow.forEach(f => {
@@ -153,31 +153,29 @@ const ChartManager = {
         flowMap[t] = f;
       });
     }
-    const hasFundFlow = fundFlow && fundFlow.length > 0;
 
-    // 成交量颜色：优先用资金流向，fallback 用涨跌
-    const volColorMap = {};
-    let prevPrice = prevClose;
+    // 4a. 计算 MACD：按实际数据顺序计算，再映射到 fullTimes
+    const emaCalc = (arr, n) => {
+      const k = 2 / (n + 1);
+      const result = [arr[0]];
+      for (let i = 1; i < arr.length; i++) {
+        result.push(arr[i] * k + result[i - 1] * (1 - k));
+      }
+      return result;
+    };
+    const closePrices = data.map(d => d.price);
+    const ema12 = emaCalc(closePrices, 12);
+    const ema26 = emaCalc(closePrices, 26);
+    const difArr = ema12.map((v, i) => v - ema26[i]);
+    const deaArr = emaCalc(difArr, 9);
+    const macdArr = difArr.map((v, i) => (v - deaArr[i]) * 2);
+
+    const difMap = {}, deaMap = {}, macdMap = {};
     data.forEach((d, i) => {
       const t = d.time.length > 5 ? d.time.substring(0, 5) : d.time;
-      if (hasFundFlow && flowMap[t]) {
-        const mainVal = flowMap[t].main;
-        if (mainVal > 0) {
-          volColorMap[t] = '#ef5350';
-        } else if (mainVal < 0) {
-          volColorMap[t] = '#26a69a';
-        } else {
-          volColorMap[t] = '#8b949e';
-        }
-      } else {
-        // fallback: 涨跌颜色
-        if (i === 0) {
-          volColorMap[t] = d.price >= prevClose ? '#ef5350' : '#26a69a';
-        } else {
-          volColorMap[t] = d.price >= prevPrice ? '#ef5350' : '#26a69a';
-        }
-      }
-      prevPrice = d.price;
+      difMap[t] = +difArr[i].toFixed(4);
+      deaMap[t] = +deaArr[i].toFixed(4);
+      macdMap[t] = +macdArr[i].toFixed(4);
     });
 
     // 4. 计算 CCI(14)：按实际数据顺序计算，再映射到 fullTimes
@@ -197,8 +195,9 @@ const ChartManager = {
     // 5. 映射到完整时间轴
     const mappedPrices = fullTimes.map(t => dataMap[t] ? dataMap[t].price : null);
     const mappedAvgPrices = fullTimes.map(t => avgMap[t] != null ? avgMap[t] : null);
-    const mappedVolumes = fullTimes.map(t => dataMap[t] ? dataMap[t].volume : null);
-    const mappedVolColors = fullTimes.map(t => volColorMap[t] || 'rgba(0,0,0,0)');
+    const mappedDIF = fullTimes.map(t => difMap[t] != null ? difMap[t] : '-');
+    const mappedDEA = fullTimes.map(t => deaMap[t] != null ? deaMap[t] : '-');
+    const mappedMACD = fullTimes.map(t => macdMap[t] != null ? macdMap[t] : '-');
     const mappedCCI = fullTimes.map(t => cciMap[t] != null ? cciMap[t] : null);
 
     // 6. 计算 Y 轴范围（只用有效价格）
@@ -246,7 +245,7 @@ const ChartManager = {
       ],
       yAxis: [
         { type: 'value', gridIndex: 0, scale: true, min: yMin, max: yMax, splitNumber: 4, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10, formatter: v => v.toFixed(2) } },
-        { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } },
+        { type: 'value', gridIndex: 1, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9 } },
         { type: 'value', gridIndex: 2, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9 }, name: 'CCI', nameTextStyle: { fontSize: 9, color: '#8b949e' } }
       ],
       tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
@@ -268,9 +267,19 @@ const ChartManager = {
           lineStyle: { color: '#E6A23C', width: 1 }, symbol: 'none'
         },
         {
-          name: '成交量', type: 'bar',
-          data: mappedVolumes.map((v, i) => v != null && v > 0 ? { value: v, itemStyle: { color: mappedVolColors[i], opacity: 0.6 } } : '-'),
-          xAxisIndex: 1, yAxisIndex: 1
+          name: 'DIF', type: 'line', data: mappedDIF, xAxisIndex: 1, yAxisIndex: 1,
+          connectNulls: false,
+          lineStyle: { color: '#E6A23C', width: 1 }, symbol: 'none'
+        },
+        {
+          name: 'DEA', type: 'line', data: mappedDEA, xAxisIndex: 1, yAxisIndex: 1,
+          connectNulls: false,
+          lineStyle: { color: '#409EFF', width: 1 }, symbol: 'none'
+        },
+        {
+          name: 'MACD', type: 'bar',
+          data: mappedMACD.map(v => v === '-' ? '-' : { value: v, itemStyle: { color: v >= 0 ? '#ef5350' : '#26a69a' } }),
+          xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: 2
         },
         {
           name: 'CCI', type: 'line', data: mappedCCI, xAxisIndex: 2, yAxisIndex: 2,
