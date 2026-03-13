@@ -269,7 +269,7 @@ const ChartManager = {
         },
         {
           name: '成交量', type: 'bar',
-          data: mappedVolumes.map((v, i) => ({ value: v, itemStyle: { color: mappedVolColors[i], opacity: 0.6 } })),
+          data: mappedVolumes.map((v, i) => v != null && v > 0 ? { value: v, itemStyle: { color: mappedVolColors[i], opacity: 0.6 } } : '-'),
           xAxisIndex: 1, yAxisIndex: 1
         },
         {
