@@ -736,21 +736,9 @@ const App = {
         if (panelEl) panelEl.innerHTML = '<div class="empty-hint">K线数据为空，无法分析</div>';
       }
 
-      // Run signal detection on all periods
-      const signals = SignalDetector.detectFutures5min(klines);
-
-      // 趋势转折检测
-      let reversalSignal = null;
-      if (typeof FuturesAnalysis !== 'undefined') {
-        try {
-          const dailyKlines = await FuturesAnalysis.fetchDailyWithCache(symbol);
-          reversalSignal = FuturesAnalysis.detectTrendReversal(symbol, klines, dailyKlines);
-        } catch (e) { console.error('Reversal detection error:', e); }
-      }
-
-      // Render using the full-layout chart
+      // Render using the full-layout chart (信号标记移到下方异动面板，图上不再显示)
       const periodLabels = { '5': '5分钟', '15': '15分钟', '30': '30分钟', '60': '60分钟', 'daily': '日K', 'weekly': '周K' };
-      ChartManager.renderFuturesKline('futures-kline-chart', klines, signals, periodLabels[period], reversalSignal);
+      ChartManager.renderFuturesKline('futures-kline-chart', klines, [], periodLabels[period], null);
 
       // Keep reference for cleanup/resize
       const chartEl = document.getElementById('futures-kline-chart');
@@ -766,6 +754,8 @@ const App = {
       if (typeof FuturesAnalysis !== 'undefined') {
         try {
           const analysis = await FuturesAnalysis.analyze(symbol, klines);
+          const dailyKlines = await FuturesAnalysis.fetchDailyWithCache(symbol);
+          const reversalSignal = FuturesAnalysis.detectTrendReversal(symbol, klines, dailyKlines);
           const panelEl = document.getElementById('futures-analysis-panel');
           if (panelEl) {
             let panelHTML = '';
