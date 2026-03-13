@@ -117,19 +117,36 @@ const GridView = {
     this.charts.push(chart);
 
     prevClose = prevClose || data[0].price;
-    const times = data.map(d => d.time);
-    const prices = data.map(d => d.price);
 
-    // 均价线
-    const avgPrices = [];
+    // 生成完整交易时间轴 9:30-11:30 + 13:00-15:00（每分钟）
+    const fullTimes = [];
+    for (let h = 9; h <= 15; h++) {
+      const mStart = (h === 9) ? 30 : 0;
+      const mEnd = 59;
+      for (let m = mStart; m <= mEnd; m++) {
+        const t = (h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m);
+        // 跳过午休 11:31-12:59
+        if (h === 11 && m > 30) continue;
+        if (h === 12) continue;
+        if (h === 15 && m > 0) continue;
+        fullTimes.push(t);
+      }
+    }
+
+    // 把数据映射到完整时间轴
+    const dataMap = {};
     let totalAmt = 0, totalVol = 0;
     data.forEach(d => {
+      dataMap[d.time] = d;
       totalAmt += d.price * d.volume;
       totalVol += d.volume;
-      avgPrices.push(totalVol > 0 ? +(totalAmt / totalVol).toFixed(2) : d.price);
+      dataMap[d.time]._avg = totalVol > 0 ? +(totalAmt / totalVol).toFixed(2) : d.price;
     });
 
-    const validPrices = prices.filter(p => p > 0 && isFinite(p));
+    const prices = fullTimes.map(t => dataMap[t] ? dataMap[t].price : null);
+    const avgPrices = fullTimes.map(t => dataMap[t] ? dataMap[t]._avg : null);
+
+    const validPrices = prices.filter(p => p !== null && p > 0 && isFinite(p));
     if (validPrices.length === 0) return;
     const minP = Math.min(...validPrices);
     const maxP = Math.max(...validPrices);
@@ -140,24 +157,26 @@ const GridView = {
     chart.setOption({
       animation: false,
       grid: { left: 0, right: 0, top: 0, bottom: 0 },
-      xAxis: { type: 'category', show: false, data: times, boundaryGap: false },
+      xAxis: { type: 'category', show: false, data: fullTimes, boundaryGap: false },
       yAxis: { type: 'value', show: false, scale: true, min: yMin, max: yMax },
       series: [
         {
           type: 'line', data: prices,
           lineStyle: { width: 1, color: '#4e9fff' },
           showSymbol: false,
+          connectNulls: false,
           areaStyle: { color: 'rgba(78,159,255,0.08)' }
         },
         {
           type: 'line', data: avgPrices,
           lineStyle: { width: 1, color: '#E6A23C' },
-          showSymbol: false
+          showSymbol: false,
+          connectNulls: false
         },
         {
-          // 昨收基准线
+          // 昨收基准线（全天）
           type: 'line',
-          data: times.map(() => prevClose),
+          data: fullTimes.map(() => prevClose),
           lineStyle: { width: 0.5, color: '#8b949e', type: 'dashed' },
           showSymbol: false,
           silent: true
