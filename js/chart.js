@@ -27,47 +27,91 @@ const ChartManager = {
       return;
     }
 
-    prevClose = prevClose || data[0].price;
-    const times = data.map(d => d.time);
-    const prices = data.map(d => d.price);
-    const volumes = data.map(d => d.volume);
+    // 1. 生成完整 A 股交易时间轴（241 个点）
+    const fullTimes = [];
+    const pad = n => String(n).padStart(2, '0');
+    // 上午 9:30 - 11:30
+    for (let h = 9; h <= 11; h++) {
+      const mStart = (h === 9) ? 30 : 0;
+      const mEnd = (h === 11) ? 30 : 59;
+      for (let m = mStart; m <= mEnd; m++) {
+        fullTimes.push(pad(h) + ':' + pad(m));
+      }
+    }
+    // 下午 13:00 - 15:00
+    for (let h = 13; h <= 15; h++) {
+      const mEnd = (h === 15) ? 0 : 59;
+      for (let m = 0; m <= mEnd; m++) {
+        fullTimes.push(pad(h) + ':' + pad(m));
+      }
+    }
 
-    // 成交量红绿柱（与上一分钟比）
-    const volColors = volumes.map((v, i) => {
-      if (i === 0) return prices[i] >= prevClose ? '#ef5350' : '#26a69a';
-      return prices[i] >= prices[i - 1] ? '#ef5350' : '#26a69a';
+    // 2. 建立数据映射（key 为 "HH:MM"）
+    prevClose = prevClose || data[0].price;
+    const dataMap = {};
+    data.forEach(d => {
+      // 取时间的 HH:MM 部分（兼容 "HH:MM" 和 "HH:MM:SS" 格式）
+      const t = d.time.length > 5 ? d.time.substring(0, 5) : d.time;
+      dataMap[t] = d;
     });
 
-    // 均价线
-    const avgPrices = [];
+    // 3. 按实际数据顺序计算均价线和 KDJ，再映射到 fullTimes
+    // 均价线：按实际数据顺序累计
+    const avgMap = {};
     let totalAmt = 0, totalVol = 0;
     data.forEach(d => {
+      const t = d.time.length > 5 ? d.time.substring(0, 5) : d.time;
       totalAmt += d.price * d.volume;
       totalVol += d.volume;
-      avgPrices.push(totalVol > 0 ? +(totalAmt / totalVol).toFixed(2) : d.price);
+      avgMap[t] = totalVol > 0 ? +(totalAmt / totalVol).toFixed(2) : d.price;
     });
 
-    // 分时KDJ（用滑动窗口9分钟的高低价）
+    // KDJ：按实际数据顺序计算
+    const kdjMap = {};
+    const actualPrices = data.map(d => d.price);
     const n = 9;
-    const kdjData = [];
     let prevK = 50, prevD = 50;
-    for (let i = 0; i < prices.length; i++) {
+    for (let i = 0; i < actualPrices.length; i++) {
       const start = Math.max(0, i - n + 1);
       let high = -Infinity, low = Infinity;
       for (let j = start; j <= i; j++) {
-        if (prices[j] > high) high = prices[j];
-        if (prices[j] < low) low = prices[j];
+        if (actualPrices[j] > high) high = actualPrices[j];
+        if (actualPrices[j] < low) low = actualPrices[j];
       }
-      const rsv = high === low ? 50 : (prices[i] - low) / (high - low) * 100;
+      const rsv = high === low ? 50 : (actualPrices[i] - low) / (high - low) * 100;
       const k = 2 / 3 * prevK + 1 / 3 * rsv;
-      const d = 2 / 3 * prevD + 1 / 3 * k;
-      const j2 = 3 * k - 2 * d;
-      kdjData.push({ k: +k.toFixed(2), d: +d.toFixed(2), j: +j2.toFixed(2) });
+      const d2 = 2 / 3 * prevD + 1 / 3 * k;
+      const j2 = 3 * k - 2 * d2;
+      const t = data[i].time.length > 5 ? data[i].time.substring(0, 5) : data[i].time;
+      kdjMap[t] = { k: +k.toFixed(2), d: +d2.toFixed(2), j: +j2.toFixed(2) };
       prevK = k;
-      prevD = d;
+      prevD = d2;
     }
 
-    const validPrices = prices.filter(p => p > 0 && isFinite(p));
+    // 成交量红绿色映射
+    const volColorMap = {};
+    let prevPrice = prevClose;
+    data.forEach((d, i) => {
+      const t = d.time.length > 5 ? d.time.substring(0, 5) : d.time;
+      if (i === 0) {
+        volColorMap[t] = d.price >= prevClose ? '#ef5350' : '#26a69a';
+      } else {
+        volColorMap[t] = d.price >= prevPrice ? '#ef5350' : '#26a69a';
+      }
+      prevPrice = d.price;
+    });
+
+    // 4. 映射到完整时间轴
+    const mappedPrices = fullTimes.map(t => dataMap[t] ? dataMap[t].price : null);
+    const mappedAvgPrices = fullTimes.map(t => avgMap[t] != null ? avgMap[t] : null);
+    const mappedVolumes = fullTimes.map(t => dataMap[t] ? dataMap[t].volume : 0);
+    const mappedVolColors = fullTimes.map(t => volColorMap[t] || 'transparent');
+    const mappedKdjK = fullTimes.map(t => kdjMap[t] ? kdjMap[t].k : null);
+    const mappedKdjD = fullTimes.map(t => kdjMap[t] ? kdjMap[t].d : null);
+    const mappedKdjJ = fullTimes.map(t => kdjMap[t] ? kdjMap[t].j : null);
+
+    // 5. 计算 Y 轴范围（只用有效价格）
+    const validPrices = mappedPrices.filter(p => p != null && p > 0 && isFinite(p));
     if (validPrices.length === 0) return;
     const minP = Math.min(...validPrices);
     const maxP = Math.max(...validPrices);
@@ -83,9 +127,9 @@ const ChartManager = {
         { left: 60, right: 20, top: '72%', height: '18%' }
       ],
       xAxis: [
-        { type: 'category', data: times, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: false },
-        { type: 'category', data: times, gridIndex: 1, axisLabel: { show: false }, boundaryGap: false },
-        { type: 'category', data: times, gridIndex: 2, axisLabel: { fontSize: 10 }, boundaryGap: false }
+        { type: 'category', data: fullTimes, gridIndex: 0, axisLabel: { fontSize: 10 }, boundaryGap: false },
+        { type: 'category', data: fullTimes, gridIndex: 1, axisLabel: { show: false }, boundaryGap: false },
+        { type: 'category', data: fullTimes, gridIndex: 2, axisLabel: { fontSize: 10 }, boundaryGap: false }
       ],
       yAxis: [
         { type: 'value', gridIndex: 0, scale: true, min: yMin, max: yMax, splitNumber: 4, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10, formatter: v => v.toFixed(2) } },
@@ -95,7 +139,8 @@ const ChartManager = {
       tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
       series: [
         {
-          name: '价格', type: 'line', data: prices, xAxisIndex: 0, yAxisIndex: 0,
+          name: '价格', type: 'line', data: mappedPrices, xAxisIndex: 0, yAxisIndex: 0,
+          connectNulls: false,
           lineStyle: { color: '#409EFF', width: 1.5 },
           areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             { offset: 0, color: 'rgba(64,158,255,0.3)' },
@@ -104,24 +149,28 @@ const ChartManager = {
           symbol: 'none'
         },
         {
-          name: '均价', type: 'line', data: avgPrices, xAxisIndex: 0, yAxisIndex: 0,
+          name: '均价', type: 'line', data: mappedAvgPrices, xAxisIndex: 0, yAxisIndex: 0,
+          connectNulls: false,
           lineStyle: { color: '#E6A23C', width: 1 }, symbol: 'none'
         },
         {
           name: '成交量', type: 'bar',
-          data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i], opacity: 0.6 } })),
+          data: mappedVolumes.map((v, i) => ({ value: v, itemStyle: { color: mappedVolColors[i], opacity: 0.6 } })),
           xAxisIndex: 1, yAxisIndex: 1
         },
         {
-          name: 'K', type: 'line', data: kdjData.map(k => k.k), xAxisIndex: 2, yAxisIndex: 2,
+          name: 'K', type: 'line', data: mappedKdjK, xAxisIndex: 2, yAxisIndex: 2,
+          connectNulls: false,
           lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none'
         },
         {
-          name: 'D', type: 'line', data: kdjData.map(k => k.d), xAxisIndex: 2, yAxisIndex: 2,
+          name: 'D', type: 'line', data: mappedKdjD, xAxisIndex: 2, yAxisIndex: 2,
+          connectNulls: false,
           lineStyle: { width: 1, color: '#409EFF' }, symbol: 'none'
         },
         {
-          name: 'J', type: 'line', data: kdjData.map(k => k.j), xAxisIndex: 2, yAxisIndex: 2,
+          name: 'J', type: 'line', data: mappedKdjJ, xAxisIndex: 2, yAxisIndex: 2,
+          connectNulls: false,
           lineStyle: { width: 1, color: '#F56C6C' }, symbol: 'none'
         }
       ],
