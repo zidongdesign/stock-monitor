@@ -312,7 +312,7 @@ const StockAPI = {
             volume: +p[5],
             openInterest: 0
           };
-        }).filter(k => k.open > 0 && k.close > 0);
+        }).filter(k => k.open > 0 && k.close > 0 && k.close < 1e8 && k.open < 1e8);
       })
       .catch(() => []);
   },
@@ -344,7 +344,7 @@ const StockAPI = {
             volume: +p[5],
             openInterest: 0
           };
-        }).filter(k => k.open > 0 && k.close > 0);
+        }).filter(k => k.open > 0 && k.close > 0 && k.close < 1e8 && k.open < 1e8);
       })
       .catch(() => []);
   },
@@ -371,7 +371,7 @@ const StockAPI = {
             volume: +p[5],
             openInterest: 0
           };
-        }).filter(k => k.open > 0 && k.close > 0);
+        }).filter(k => k.open > 0 && k.close > 0 && k.close < 1e8 && k.open < 1e8);
       })
       .catch(() => []);
   },
