@@ -196,7 +196,7 @@ const ChartManager = {
       symbolSize: 10,
       symbolOffset: [0, 8],
       itemStyle: { color: '#ef5350' },
-      label: { show: true, position: 'bottom', formatter: s.reason, fontSize: 8, color: '#ef5350' }
+      label: { show: false }
     }));
     const sellPoints = signals.filter(s => s.type === 'sell').map(s => ({
       coord: [s.time, s.price],
@@ -206,7 +206,7 @@ const ChartManager = {
       symbolRotate: 180,
       symbolOffset: [0, -8],
       itemStyle: { color: '#26a69a' },
-      label: { show: true, position: 'top', formatter: s.reason, fontSize: 8, color: '#26a69a' }
+      label: { show: false }
     }));
 
     // 资金流向面积图：正负分色
@@ -256,7 +256,7 @@ const ChartManager = {
       yAxis: [
         { type: 'value', gridIndex: 0, scale: true, min: yMin, max: yMax, splitNumber: 4, splitLine: { lineStyle: { color: '#1a2a3a' } }, axisLabel: { fontSize: 10, formatter: v => v.toFixed(2) } },
         { type: 'value', gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } },
-        { type: 'value', gridIndex: 2, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9, formatter: v => v + '万' },
+        { type: 'value', gridIndex: 2, scale: true, splitLine: { show: false }, axisLabel: { fontSize: 9, formatter: v => Math.abs(v) >= 10000 ? (v / 10000).toFixed(1) + '亿' : v + '万' },
           name: hasFundFlow ? '主力资金(万)' : '', nameTextStyle: { fontSize: 9, color: '#8b949e' } }
       ],
       tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
