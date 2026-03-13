@@ -151,19 +151,16 @@ const GridView = {
           type: 'line', data: avgPrices,
           lineStyle: { width: 1, color: '#E6A23C' },
           showSymbol: false
-        }
-      ],
-      graphic: prevClose ? [{
-        type: 'line',
-        shape: {
-          x1: 0,
-          y1: chart.convertToPixel({ yAxisIndex: 0 }, prevClose) || 0,
-          x2: container.clientWidth,
-          y2: chart.convertToPixel({ yAxisIndex: 0 }, prevClose) || 0
         },
-        style: { stroke: '#8b949e', lineDash: [3, 3], lineWidth: 0.5 },
-        silent: true
-      }] : []
+        {
+          // 昨收基准线
+          type: 'line',
+          data: times.map(() => prevClose),
+          lineStyle: { width: 0.5, color: '#8b949e', type: 'dashed' },
+          showSymbol: false,
+          silent: true
+        }
+      ]
     }, true);
   },
 
