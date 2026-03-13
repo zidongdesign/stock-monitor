@@ -98,24 +98,15 @@ const GridView = {
       if (this.mode === 'minute') {
         const data = await StockAPI.fetchMinute(code);
         const prevClose = App.stockData[code]?.prevClose;
-        if (!data || data.length === 0) {
-          chartEl.innerHTML = '<div style="color:#666;font-size:10px;padding:4px">分时: 无数据 (' + code + ')</div>';
-          return;
-        }
-        chartEl.innerHTML = ''; // 清空，准备 echarts
+        if (!data || data.length === 0) return;
         this.renderMiniMinute(chartEl, code, data, prevClose);
       } else {
         const klines = await StockAPI.fetchDailyKline(code, 30);
-        if (!klines || klines.length === 0) {
-          chartEl.innerHTML = '<div style="color:#666;font-size:10px;padding:4px">日K: 无数据 (' + code + ')</div>';
-          return;
-        }
-        chartEl.innerHTML = '';
+        if (!klines || klines.length === 0) return;
         this.renderMiniDaily(chartEl, code, klines);
       }
     } catch (e) {
       console.error('Grid chart error:', code, e);
-      chartEl.innerHTML = '<div style="color:#f55;font-size:10px;padding:4px">错误: ' + e.message + '</div>';
     }
   },
 
