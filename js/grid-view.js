@@ -67,19 +67,10 @@ const GridView = {
       grid.appendChild(item);
     });
 
-    // IntersectionObserver 懒加载
-    this.observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const code = entry.target.dataset.code;
-          this._enqueueLoad(entry.target, code);
-          this.observer.unobserve(entry.target);
-        }
-      });
-    }, { root: grid, rootMargin: '200px' });
-
+    // 直接加载所有迷你图（不用 IntersectionObserver，避免手机上不触发）
     grid.querySelectorAll('.grid-item').forEach(item => {
-      this.observer.observe(item);
+      const code = item.dataset.code;
+      this._enqueueLoad(item, code);
     });
   },
 
