@@ -161,3 +161,395 @@
   输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
 ============================================================
 [3/3] Git push...
+[main 30ecff8] daily: 2026-03-13 收盘分析更新
+ 9 files changed, 834 insertions(+), 1274 deletions(-)
+ create mode 100644 scripts/__pycache__/sector_scan.cpython-314.pyc
+ create mode 100644 scripts/daily_cron.log
+ create mode 100755 scripts/daily_cron.sh
+ create mode 100644 scripts/daily_cron_stderr.log
+ create mode 100644 scripts/daily_cron_stdout.log
+To https://github.com/zidongdesign/stock-monitor.git
+   e85a845..30ecff8  main -> main
+Done.
+===== 2026-03-16 15:35:01 =====
+[1/3] Running daily_analysis.py...
+===== 2026-03-16 15:35:04 =====
+[1/3] Running daily_analysis.py...
+📊 当前池子: 13 只 | 起始日期: 2026-03-12 | 第 5 天
+============================================================
+💰 拉取新浪全市场资金流向...
+  ✅ 获取 1000 条资金数据
+
+📊 评分 13 只自选股...
+  [1/13] sh603158 腾龙股份
+  [2/13] sz002063 远光软件
+  [3/13] sz002157 正邦科技
+  [4/13] sh601669 中国电建
+  [技术] sh601669 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [5/13] sz300129 泰胜风能
+  [技术] sz300129 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [6/13] sz002056 横店东磁
+  [技术] sz002056 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [7/13] sh600096 云天化
+  [技术] sh600096 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [8/13] sz002487 大金重工
+  [技术] sz002487 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [9/13] sh601991 大唐发电
+  [技术] sh601991 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [10/13] sz000792 盐湖股份
+  [技术] sz000792 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [11/13] sh605090 九丰能源
+  [技术] sh605090 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [12/13] sh601111 中国国航
+  [技术] sh601111 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [13/13] sh600029 南方航空
+  [技术] sh600029 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+📊 评分完成。最低: sh601111=22分  最高: sh603158=63分
+
+⏳ 池子运行 5 天 < 10 天，暂不淘汰
+
+🔍 扫描板块，寻找 5 只补入候选...
+============================================================
+[板块扫描] 开始 2026-03-16 15:35:29
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 无线耳机 (gn_wxej) 净流入: 68.46亿 ---
+  成分股: 40 只
+  热门个股: 5 只
+
+--- 板块: 重组概念 (gn_zzgn) 净流入: 52.86亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 黄河三角 (gn_hhsj) 净流入: 33.93亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: ST板块 (gn_stbk) 净流入: 27.68亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 业绩预升 (gn_yjys) 净流入: 25.93亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 白酒概念 (gn_bjgn) 净流入: 24.94亿 ---
+  成分股: 38 只
+  热门个股: 5 只
+
+--- 板块: 业绩预降 (gn_yjyj) 净流入: 24.37亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 华为汽车 (gn_hwqc) 净流入: 23.73亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 锂电池 (gn_ldc) 净流入: 22.84亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 准ST股 (gn_zSTg) 净流入: 22.82亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+  板块扫描返回 10 只候选
+  📊 评分候选: sz300308 中际旭创
+  [技术] sz300308 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh600759 洲际油气
+  [技术] sh600759 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh603986 兆易创新
+  [技术] sh603986 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002594 比亚迪
+  [技术] sz002594 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz000617 中油资本
+  [技术] sz000617 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh600667 太极实业
+  [技术] sh600667 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh600227 赤天化
+  [技术] sh600227 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sh600227 赤天化: 财务D级
+  📊 评分候选: sh600519 贵州茅台
+  [技术] sh600519 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz300661 圣邦股份
+  [技术] sz300661 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002938 鹏鼎控股
+  [技术] sz002938 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+✅ 补入 5 只:
+  ➕ sz300308 中际旭创: 76分 [黄河三角]
+  ➕ sz002594 比亚迪: 76分 [业绩预升]
+  ➕ sh600519 贵州茅台: 76分 [白酒概念]
+  ➕ sz300661 圣邦股份: 64分 [无线耳机]
+  ➕ sz002938 鹏鼎控股: 64分 [无线耳机]
+
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/watchlist.json (v20260316a, 18只)
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/analysis.json
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/history.json
+  ✅ 更新 js/store.js: version=20260316a
+
+============================================================
+📊 汇总:
+  池子: 13 → 18 只
+  淘汰: 0 只
+  补入: 5 只
+  版本: 20260316a
+============================================================
+📊 当前池子: 13 只 | 起始日期: 2026-03-12 | 第 5 天
+============================================================
+💰 拉取新浪全市场资金流向...
+  ✅ 获取 1000 条资金数据
+
+📊 评分 13 只自选股...
+  [1/13] sh603158 腾龙股份
+  [2/13] sz002063 远光软件
+  [3/13] sz002157 正邦科技
+  [4/13] sh601669 中国电建
+  [技术] sh601669 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [5/13] sz300129 泰胜风能
+  [技术] sz300129 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [6/13] sz002056 横店东磁
+  [技术] sz002056 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [7/13] sh600096 云天化
+  [技术] sh600096 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [8/13] sz002487 大金重工
+  [技术] sz002487 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [9/13] sh601991 大唐发电
+  [技术] sh601991 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [10/13] sz000792 盐湖股份
+  [技术] sz000792 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [11/13] sh605090 九丰能源
+  [技术] sh605090 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [12/13] sh601111 中国国航
+  [技术] sh601111 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [13/13] sh600029 南方航空
+  [技术] sh600029 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+📊 评分完成。最低: sh601111=22分  最高: sh603158=63分
+
+⏳ 池子运行 5 天 < 10 天，暂不淘汰
+
+🔍 扫描板块，寻找 5 只补入候选...
+============================================================
+[板块扫描] 开始 2026-03-16 15:35:29
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 无线耳机 (gn_wxej) 净流入: 68.46亿 ---
+  成分股: 40 只
+  热门个股: 5 只
+
+--- 板块: 重组概念 (gn_zzgn) 净流入: 52.86亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 黄河三角 (gn_hhsj) 净流入: 33.93亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: ST板块 (gn_stbk) 净流入: 27.68亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 业绩预升 (gn_yjys) 净流入: 25.93亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 白酒概念 (gn_bjgn) 净流入: 24.94亿 ---
+  成分股: 38 只
+  热门个股: 5 只
+
+--- 板块: 业绩预降 (gn_yjyj) 净流入: 24.37亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 华为汽车 (gn_hwqc) 净流入: 23.73亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 锂电池 (gn_ldc) 净流入: 22.84亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 准ST股 (gn_zSTg) 净流入: 22.82亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+  板块扫描返回 10 只候选
+  📊 评分候选: sz300308 中际旭创
+  [技术] sz300308 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh600759 洲际油气
+  [技术] sh600759 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh603986 兆易创新
+  [技术] sh603986 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002594 比亚迪
+  [技术] sz002594 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz000617 中油资本
+  [技术] sz000617 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh600667 太极实业
+  [技术] sh600667 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh600227 赤天化
+  [技术] sh600227 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sh600227 赤天化: 财务D级
+  📊 评分候选: sh600519 贵州茅台
+  [技术] sh600519 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz300661 圣邦股份
+  [技术] sz300661 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002938 鹏鼎控股
+  [技术] sz002938 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+✅ 补入 5 只:
+  ➕ sz300308 中际旭创: 76分 [黄河三角]
+  ➕ sz002594 比亚迪: 76分 [业绩预升]
+  ➕ sh600519 贵州茅台: 76分 [白酒概念]
+  ➕ sz300661 圣邦股份: 64分 [无线耳机]
+  ➕ sz002938 鹏鼎控股: 64分 [无线耳机]
+
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/watchlist.json (v20260316a, 18只)
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/analysis.json
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/history.json
+  ✅ 更新 js/store.js: version=20260316a
+
+============================================================
+📊 汇总:
+  池子: 13 → 18 只
+  淘汰: 0 只
+  补入: 5 只
+  版本: 20260316a
+============================================================
+[2/3] Running sector_scan.py...
+[2/3] Running sector_scan.py...
+============================================================
+[板块扫描] 开始 2026-03-16 15:36:02
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 无线耳机 (gn_wxej) 净流入: 68.46亿 ---
+  成分股: 40 只
+  热门个股: 5 只
+
+--- 板块: 重组概念 (gn_zzgn) 净流入: 52.86亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 黄河三角 (gn_hhsj) 净流入: 33.93亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: ST板块 (gn_stbk) 净流入: 27.68亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 业绩预升 (gn_yjys) 净流入: 25.93亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 白酒概念 (gn_bjgn) 净流入: 24.94亿 ---
+  成分股: 38 只
+  热门个股: 5 只
+
+--- 板块: 业绩预降 (gn_yjyj) 净流入: 24.37亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 华为汽车 (gn_hwqc) 净流入: 23.73亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 锂电池 (gn_ldc) 净流入: 22.84亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 准ST股 (gn_zSTg) 净流入: 22.82亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+============================================================
+[板块扫描] 开始 2026-03-16 15:36:02
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 无线耳机 (gn_wxej) 净流入: 68.46亿 ---
+  成分股: 40 只
+  热门个股: 5 只
+
+--- 板块: 重组概念 (gn_zzgn) 净流入: 52.86亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 黄河三角 (gn_hhsj) 净流入: 33.93亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: ST板块 (gn_stbk) 净流入: 27.68亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 业绩预升 (gn_yjys) 净流入: 25.93亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 白酒概念 (gn_bjgn) 净流入: 24.94亿 ---
+  成分股: 38 只
+  热门个股: 5 只
+
+--- 板块: 业绩预降 (gn_yjyj) 净流入: 24.37亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 华为汽车 (gn_hwqc) 净流入: 23.73亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 锂电池 (gn_ldc) 净流入: 22.84亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 准ST股 (gn_zSTg) 净流入: 22.82亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+[3/3] Git push...
+[3/3] Git push...

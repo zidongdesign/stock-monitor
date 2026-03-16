@@ -22,9 +22,9 @@ const Store = {
   // ---- 分组管理 ----
   getGroups() {
     return this._get('sm_groups', [
-      { id: 'focus', name: '重点跟踪' },
-      { id: 'watch', name: '观察' },
-      { id: 'ambush', name: '前瞻埋伏' }
+      { id: 'focus', name: '热门' },
+      { id: 'watch', name: '投机' },
+      { id: 'ambush', name: '投资' }
     ]);
   },
 
@@ -34,12 +34,12 @@ const Store = {
   // v20260307b: 33只自选股（戈叔确认）
   _defaultStocks: {
     focus: [
-      'sh603158', 'sz002063', 'sz002157', 'sh601669', 'sz300129', 'sz002056', 'sh600096', 'sz002487', 'sh601991', 'sz000792'
-    // 腾龙股份、远光软件、正邦科技、中国电建、泰胜风能 等10只
+      'sh603158', 'sz002063', 'sz002157', 'sh601669', 'sz300129', 'sz002056', 'sh600096', 'sz002487', 'sh601991', 'sz000792', 'sh605090', 'sh601111', 'sh600029', 'sz300308', 'sz002594', 'sh600519', 'sz300661', 'sz002938'
+    // 腾龙股份、远光软件、正邦科技、中国电建、泰胜风能 等18只
     ]
   },
 
-  _STOCK_VERSION: '20260313a',
+  _STOCK_VERSION: '20260316a',
 
   getStocks(groupId) {
     // 版本检查：如果版本不对，强制用新默认值
