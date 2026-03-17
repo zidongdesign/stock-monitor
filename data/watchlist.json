@@ -1,7 +1,7 @@
 {
-  "version": "20260316a",
+  "version": "20260317a",
   "startDate": "2026-03-12",
-  "dayCount": 5,
+  "dayCount": 6,
   "stocks": [
     {
       "code": "sh603158",
@@ -128,14 +128,49 @@
       "group": "focus",
       "addedDate": "2026-03-16",
       "source": "sector:无线耳机"
+    },
+    {
+      "code": "sh601318",
+      "name": "中国平安",
+      "group": "focus",
+      "addedDate": "2026-03-17",
+      "source": "sector:超大盘"
+    },
+    {
+      "code": "sz300059",
+      "name": "东方财富",
+      "group": "focus",
+      "addedDate": "2026-03-17",
+      "source": "sector:博彩概念"
+    },
+    {
+      "code": "sz002506",
+      "name": "协鑫集成",
+      "group": "focus",
+      "addedDate": "2026-03-17",
+      "source": "sector:HIT电池"
+    },
+    {
+      "code": "sh601988",
+      "name": "中国银行",
+      "group": "focus",
+      "addedDate": "2026-03-17",
+      "source": "sector:含H股"
+    },
+    {
+      "code": "sh601398",
+      "name": "工商银行",
+      "group": "focus",
+      "addedDate": "2026-03-17",
+      "source": "sector:超大盘"
     }
   ],
   "todayAdded": [
-    "sz300308",
-    "sz002594",
-    "sh600519",
-    "sz300661",
-    "sz002938"
+    "sh601318",
+    "sz300059",
+    "sz002506",
+    "sh601988",
+    "sh601398"
   ],
   "todayRemoved": []
 }
