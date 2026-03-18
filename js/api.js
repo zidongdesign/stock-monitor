@@ -314,6 +314,16 @@ const StockAPI = {
     return symbol;
   },
 
+  // IEEE754 float32 解码：东财期货分钟K线白天数据有时返回 float32 整数表示
+  _decodeFloat32(v) {
+    if (v > 1e8) {
+      const buf = new ArrayBuffer(4);
+      new DataView(buf).setUint32(0, v);
+      return parseFloat(new DataView(buf).getFloat32(0).toFixed(2));
+    }
+    return v;
+  },
+
   fetchFuturesMinKline(symbol, type) {
     type = type || 5;
     const secid = this._getFuturesSecid(symbol);
@@ -331,14 +341,14 @@ const StockAPI = {
           return {
             date: p[0],
             time: p[0],
-            open: +p[1],
-            close: +p[2],
-            high: +p[3],
-            low: +p[4],
+            open: this._decodeFloat32(+p[1]),
+            close: this._decodeFloat32(+p[2]),
+            high: this._decodeFloat32(+p[3]),
+            low: this._decodeFloat32(+p[4]),
             volume: +p[5],
             openInterest: 0
           };
-        }).filter(k => k.open > 0 && k.close > 0 && k.close < 1e8 && k.open < 1e8);
+        }).filter(k => k.open > 0 && k.close > 0);
       })
       .catch(() => []);
   },
