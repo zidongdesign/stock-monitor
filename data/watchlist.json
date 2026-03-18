@@ -1,7 +1,7 @@
 {
-  "version": "20260317a",
+  "version": "20260318a",
   "startDate": "2026-03-12",
-  "dayCount": 6,
+  "dayCount": 7,
   "stocks": [
     {
       "code": "sh603158",
@@ -163,14 +163,67 @@
       "group": "focus",
       "addedDate": "2026-03-17",
       "source": "sector:超大盘"
+    },
+    {
+      "code": "sz300007",
+      "name": "汉威科技",
+      "group": "watch",
+      "addedDate": "2026-03-18",
+      "source": "光传感-机器人触觉传感-戈叔关注",
+      "alertBelow": 35.0,
+      "note": "目标买入区间30-35元，对应市值80-100亿"
+    },
+    {
+      "code": "sz300304",
+      "name": "云意电气",
+      "group": "watch",
+      "addedDate": "2026-03-18",
+      "source": "汽车电子+机器人关节-戈叔关注",
+      "alertBelow": 13.2,
+      "note": "13元附近关注，大股东增持区间13-15元，PE28合理"
+    },
+    {
+      "code": "sz300394",
+      "name": "天孚通信",
+      "group": "focus",
+      "addedDate": "2026-03-18",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz002837",
+      "name": "英维克",
+      "group": "focus",
+      "addedDate": "2026-03-18",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sh600602",
+      "name": "云赛智联",
+      "group": "focus",
+      "addedDate": "2026-03-18",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sh600879",
+      "name": "航天电子",
+      "group": "focus",
+      "addedDate": "2026-03-18",
+      "source": "sector:军工航天"
+    },
+    {
+      "code": "sz002156",
+      "name": "通富微电",
+      "group": "focus",
+      "addedDate": "2026-03-18",
+      "source": "sector:业绩预升"
     }
   ],
   "todayAdded": [
-    "sh601318",
-    "sz300059",
-    "sz002506",
-    "sh601988",
-    "sh601398"
+    "sz300394",
+    "sz002837",
+    "sh600602",
+    "sh600879",
+    "sz002156"
   ],
   "todayRemoved": []
 }
