@@ -300,6 +300,7 @@ const ChartManager = {
 
     const times = data.map(k => k.time.replace(/^\d{4}-\d{2}-\d{2}\s*/, '').substring(0, 5));
     const ohlc = data.map(k => [k.open, k.close, k.low, k.high]);
+    const barMax = data.length < 30 ? 4 : data.length < 80 ? 6 : 8;
     const volumes = data.map(k => k.volume);
     const volColors = data.map(k => k.close >= k.open ? '#ef5350' : '#26a69a');
 
@@ -334,7 +335,7 @@ const ChartManager = {
       tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
       series: [
         {
-          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: 8, barMinWidth: 1,
+          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: barMax || 8, barMinWidth: 1,
           itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' },
           markPoint: {
             data: [
@@ -358,7 +359,7 @@ const ChartManager = {
         {
           name: '成交量', type: 'bar',
           data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
-          xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: 8
+          xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: barMax || 8
         }
       ],
       dataZoom: [{ type: 'inside', xAxisIndex: [0, 1] }]
@@ -386,6 +387,9 @@ const ChartManager = {
     const ohlc = klines.map(k => [k.open, k.close, k.low, k.high]);
     const volumes = klines.map(k => k.volume);
     const volColors = klines.map(k => k.close >= k.open ? '#ef5350' : '#26a69a');
+
+    // 根据数据量动态计算K线宽度，数据少时不会太粗
+    const barMax = klines.length < 30 ? 4 : klines.length < 80 ? 6 : 8;
 
     const ma5 = SignalDetector.calcMA(klines, 5);
     const ma10 = SignalDetector.calcMA(klines, 10);
@@ -459,7 +463,7 @@ const ChartManager = {
       series: [
         // K线主图
         {
-          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: 8, barMinWidth: 1,
+          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: barMax || 8, barMinWidth: 1,
           itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' },
           markPoint: {
             data: [
@@ -507,7 +511,7 @@ const ChartManager = {
         {
           name: '成交量', type: 'bar',
           data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
-          xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: 8
+          xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: barMax || 8
         },
         // KDJ
         {
@@ -621,6 +625,7 @@ const ChartManager = {
     const ohlc = klines.map(k => [k.open, k.close, k.low, k.high]);
     const volumes = klines.map(k => k.volume);
     const volColors = klines.map(k => k.close >= k.open ? '#ef5350' : '#26a69a');
+    const barMax = klines.length < 30 ? 4 : klines.length < 80 ? 6 : 8;
 
     const ma5 = SignalDetector.calcMA(klines, 5);
     const ma10 = SignalDetector.calcMA(klines, 10);
@@ -662,7 +667,7 @@ const ChartManager = {
       series: [
         // K线主图
         {
-          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: 8, barMinWidth: 1,
+          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: barMax || 8, barMinWidth: 1,
           itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' }
         },
         { name: 'MA5', type: 'line', data: ma5, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none', smooth: true },
@@ -672,7 +677,7 @@ const ChartManager = {
         {
           name: '成交量', type: 'bar',
           data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
-          xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: 8
+          xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: barMax || 8
         },
         // KDJ
         {
@@ -736,6 +741,7 @@ const ChartManager = {
     const volumes = klines.map(k => k.volume);
     const volColors = klines.map(k => k.close >= k.open ? '#ef5350' : '#26a69a');
 
+    const barMax = klines.length < 30 ? 4 : klines.length < 80 ? 6 : 8;
     const ma5 = SignalDetector.calcMA(klines, 5);
     const ma10 = SignalDetector.calcMA(klines, 10);
     const ma20 = SignalDetector.calcMA(klines, 20);
@@ -760,7 +766,7 @@ const ChartManager = {
 
     const series = [
       {
-        name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: 8, barMinWidth: 1,
+        name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: barMax || 8, barMinWidth: 1,
         itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' },
         markPoint: {
           data: [
@@ -775,7 +781,7 @@ const ChartManager = {
       {
         name: '成交量', type: 'bar',
         data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
-        xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: 8
+        xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: barMax || 8
       }
     ];
 
