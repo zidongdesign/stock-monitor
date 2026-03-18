@@ -334,7 +334,7 @@ const ChartManager = {
       tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
       series: [
         {
-          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
+          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: 8, barMinWidth: 1,
           itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' },
           markPoint: {
             data: [
@@ -358,7 +358,7 @@ const ChartManager = {
         {
           name: '成交量', type: 'bar',
           data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
-          xAxisIndex: 1, yAxisIndex: 1
+          xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: 8
         }
       ],
       dataZoom: [{ type: 'inside', xAxisIndex: [0, 1] }]
@@ -459,7 +459,7 @@ const ChartManager = {
       series: [
         // K线主图
         {
-          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
+          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: 8, barMinWidth: 1,
           itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' },
           markPoint: {
             data: [
@@ -507,7 +507,7 @@ const ChartManager = {
         {
           name: '成交量', type: 'bar',
           data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
-          xAxisIndex: 1, yAxisIndex: 1
+          xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: 8
         },
         // KDJ
         {
@@ -662,7 +662,7 @@ const ChartManager = {
       series: [
         // K线主图
         {
-          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
+          name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: 8, barMinWidth: 1,
           itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' }
         },
         { name: 'MA5', type: 'line', data: ma5, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { width: 1, color: '#E6A23C' }, symbol: 'none', smooth: true },
@@ -672,7 +672,7 @@ const ChartManager = {
         {
           name: '成交量', type: 'bar',
           data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
-          xAxisIndex: 1, yAxisIndex: 1
+          xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: 8
         },
         // KDJ
         {
@@ -760,7 +760,7 @@ const ChartManager = {
 
     const series = [
       {
-        name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0,
+        name: 'K线', type: 'candlestick', data: ohlc, xAxisIndex: 0, yAxisIndex: 0, barMaxWidth: 8, barMinWidth: 1,
         itemStyle: { color: '#ef5350', color0: '#26a69a', borderColor: '#ef5350', borderColor0: '#26a69a' },
         markPoint: {
           data: [
@@ -775,7 +775,7 @@ const ChartManager = {
       {
         name: '成交量', type: 'bar',
         data: volumes.map((v, i) => ({ value: v, itemStyle: { color: volColors[i] } })),
-        xAxisIndex: 1, yAxisIndex: 1
+        xAxisIndex: 1, yAxisIndex: 1, barMaxWidth: 8
       }
     ];
 
