@@ -1421,3 +1421,415 @@ Done.
   输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
 ============================================================
 [3/3] Git push...
+[main 4005749] daily: 2026-03-18 收盘分析更新
+ 2 files changed, 59 insertions(+), 1 deletion(-)
+fatal: could not read Username for 'https://github.com': Device not configured
+Push failed
+Done.
+To https://github.com/zidongdesign/stock-monitor.git
+   0420388..78da16f  main -> main
+Done.
+===== 2026-03-19 15:35:00 =====
+[1/3] Running daily_analysis.py...
+===== 2026-03-19 15:35:04 =====
+[1/3] Running daily_analysis.py...
+📊 当前池子: 30 只 | 起始日期: 2026-03-12 | 第 8 天
+============================================================
+💰 拉取新浪全市场资金流向...
+  ✅ 获取 1000 条资金数据
+
+📊 评分 30 只自选股...
+  [1/30] sh603158 腾龙股份
+  [2/30] sz002063 远光软件
+  [3/30] sz002157 正邦科技
+  [4/30] sh601669 中国电建
+  [5/30] sz300129 泰胜风能
+  [6/30] sz002056 横店东磁
+  [7/30] sh600096 云天化
+  [8/30] sz002487 大金重工
+  [9/30] sh601991 大唐发电
+  [10/30] sz000792 盐湖股份
+  [11/30] sh605090 九丰能源
+  [12/30] sh601111 中国国航
+  [13/30] sh600029 南方航空
+  [14/30] sz300308 中际旭创
+  [15/30] sz002594 比亚迪
+  [16/30] sh600519 贵州茅台
+  [17/30] sz300661 圣邦股份
+  [18/30] sz002938 鹏鼎控股
+  [19/30] sh601318 中国平安
+  [20/30] sz300059 东方财富
+  [21/30] sz002506 协鑫集成
+  [22/30] sh601988 中国银行
+  [23/30] sh601398 工商银行
+  [24/30] sz300007 汉威科技
+  [25/30] sz300304 云意电气
+  [26/30] sz300394 天孚通信
+  [27/30] sz002837 英维克
+  [28/30] sh600602 云赛智联
+  [技术] sh600602 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [29/30] sh600879 航天电子
+  [技术] sh600879 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [30/30] sz002156 通富微电
+  [技术] sz002156 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+📊 评分完成。最低: sh600029=20分  最高: sz002594=83分
+
+⏳ 池子运行 8 天 < 10 天，暂不淘汰
+
+🔍 扫描板块，寻找 5 只补入候选...
+============================================================
+[板块扫描] 开始 2026-03-19 15:36:07
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 小米概念 (gn_xmgn) 净流入: 25.85亿 ---
+  成分股: 39 只
+  热门个股: 4 只
+
+--- 板块: 准ST股 (gn_zSTg) 净流入: 24.18亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 天津自贸 (gn_mtjzm) 净流入: 21.32亿 ---
+  成分股: 9 只
+  热门个股: 1 只
+
+--- 板块: ST板块 (gn_stbk) 净流入: 20.70亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 超大盘 (gn_cdp) 净流入: 14.91亿 ---
+  成分股: 20 只
+  热门个股: 5 只
+
+--- 板块: 苹果概念 (gn_pggn) 净流入: 14.20亿 ---
+  成分股: 36 只
+  热门个股: 5 只
+
+--- 板块: 风电 (gn_fd) 净流入: 10.07亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 光伏概念 (gn_gfgn) 净流入: 8.16亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 黄金概念 (gn_hjgn) 净流入: 7.92亿 ---
+  成分股: 27 只
+  热门个股: 1 只
+
+--- 板块: 碳中和 (gn_tzh) 净流入: 7.21亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+  板块扫描返回 10 只候选
+  📊 评分候选: sh600821 金开新能
+  [技术] sh600821 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002384 东山精密
+  [技术] sz002384 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002432 九安医疗
+  [技术] sz002432 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh601857 中国石油
+  [技术] sh601857 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz000617 中油资本
+  [技术] sz000617 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh600186 莲花控股
+  [技术] sh600186 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz000032 深桑达Ａ
+  [技术] sz000032 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002423 中粮资本
+  [技术] sz002423 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz300317 珈伟新能
+  [技术] sz300317 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sz300317 珈伟新能: 财务D级
+  📊 评分候选: sz000815 美利云
+  [技术] sz000815 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sz000815 美利云: 财务D级
+
+✅ 补入 5 只:
+  ➕ sh600186 莲花控股: 68分 [准ST股]
+  ➕ sz002432 九安医疗: 58分 [小米概念]
+  ➕ sh601857 中国石油: 58分 [超大盘]
+  ➕ sz000617 中油资本: 57分 [准ST股]
+  ➕ sh600821 金开新能: 56分 [天津自贸]
+
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/watchlist.json (v20260319a, 35只)
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/analysis.json
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/history.json
+  ✅ 更新 js/store.js: version=20260319a
+
+============================================================
+📊 汇总:
+  池子: 30 → 35 只
+  淘汰: 0 只
+  补入: 5 只
+  版本: 20260319a
+============================================================
+📊 当前池子: 30 只 | 起始日期: 2026-03-12 | 第 8 天
+============================================================
+💰 拉取新浪全市场资金流向...
+  ✅ 获取 1000 条资金数据
+
+📊 评分 30 只自选股...
+  [1/30] sh603158 腾龙股份
+  [2/30] sz002063 远光软件
+  [3/30] sz002157 正邦科技
+  [4/30] sh601669 中国电建
+  [5/30] sz300129 泰胜风能
+  [6/30] sz002056 横店东磁
+  [7/30] sh600096 云天化
+  [8/30] sz002487 大金重工
+  [9/30] sh601991 大唐发电
+  [10/30] sz000792 盐湖股份
+  [11/30] sh605090 九丰能源
+  [12/30] sh601111 中国国航
+  [13/30] sh600029 南方航空
+  [14/30] sz300308 中际旭创
+  [15/30] sz002594 比亚迪
+  [16/30] sh600519 贵州茅台
+  [17/30] sz300661 圣邦股份
+  [18/30] sz002938 鹏鼎控股
+  [19/30] sh601318 中国平安
+  [20/30] sz300059 东方财富
+  [21/30] sz002506 协鑫集成
+  [22/30] sh601988 中国银行
+  [23/30] sh601398 工商银行
+  [24/30] sz300007 汉威科技
+  [25/30] sz300304 云意电气
+  [26/30] sz300394 天孚通信
+  [27/30] sz002837 英维克
+  [28/30] sh600602 云赛智联
+  [技术] sh600602 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [29/30] sh600879 航天电子
+  [技术] sh600879 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [30/30] sz002156 通富微电
+  [技术] sz002156 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+📊 评分完成。最低: sh600029=20分  最高: sz002594=83分
+
+⏳ 池子运行 8 天 < 10 天，暂不淘汰
+
+🔍 扫描板块，寻找 5 只补入候选...
+============================================================
+[板块扫描] 开始 2026-03-19 15:36:07
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 小米概念 (gn_xmgn) 净流入: 25.85亿 ---
+  成分股: 39 只
+  热门个股: 4 只
+
+--- 板块: 准ST股 (gn_zSTg) 净流入: 24.18亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 天津自贸 (gn_mtjzm) 净流入: 21.32亿 ---
+  成分股: 9 只
+  热门个股: 1 只
+
+--- 板块: ST板块 (gn_stbk) 净流入: 20.70亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 超大盘 (gn_cdp) 净流入: 14.91亿 ---
+  成分股: 20 只
+  热门个股: 5 只
+
+--- 板块: 苹果概念 (gn_pggn) 净流入: 14.20亿 ---
+  成分股: 36 只
+  热门个股: 5 只
+
+--- 板块: 风电 (gn_fd) 净流入: 10.07亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 光伏概念 (gn_gfgn) 净流入: 8.16亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 黄金概念 (gn_hjgn) 净流入: 7.92亿 ---
+  成分股: 27 只
+  热门个股: 1 只
+
+--- 板块: 碳中和 (gn_tzh) 净流入: 7.21亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+  板块扫描返回 10 只候选
+  📊 评分候选: sh600821 金开新能
+  [技术] sh600821 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002384 东山精密
+  [技术] sz002384 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002432 九安医疗
+  [技术] sz002432 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh601857 中国石油
+  [技术] sh601857 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz000617 中油资本
+  [技术] sz000617 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh600186 莲花控股
+  [技术] sh600186 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz000032 深桑达Ａ
+  [技术] sz000032 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002423 中粮资本
+  [技术] sz002423 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz300317 珈伟新能
+  [技术] sz300317 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sz300317 珈伟新能: 财务D级
+  📊 评分候选: sz000815 美利云
+  [技术] sz000815 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sz000815 美利云: 财务D级
+
+✅ 补入 5 只:
+  ➕ sh600186 莲花控股: 68分 [准ST股]
+  ➕ sz002432 九安医疗: 58分 [小米概念]
+  ➕ sh601857 中国石油: 58分 [超大盘]
+  ➕ sz000617 中油资本: 57分 [准ST股]
+  ➕ sh600821 金开新能: 56分 [天津自贸]
+
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/watchlist.json (v20260319a, 35只)
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/analysis.json
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/history.json
+  ✅ 更新 js/store.js: version=20260319a
+
+============================================================
+📊 汇总:
+  池子: 30 → 35 只
+  淘汰: 0 只
+  补入: 5 只
+  版本: 20260319a
+============================================================
+[2/3] Running sector_scan.py...
+[2/3] Running sector_scan.py...
+============================================================
+[板块扫描] 开始 2026-03-19 15:36:42
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 小米概念 (gn_xmgn) 净流入: 25.85亿 ---
+  成分股: 39 只
+  热门个股: 4 只
+
+--- 板块: 准ST股 (gn_zSTg) 净流入: 24.18亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 天津自贸 (gn_mtjzm) 净流入: 21.32亿 ---
+  成分股: 9 只
+  热门个股: 1 只
+
+--- 板块: ST板块 (gn_stbk) 净流入: 20.70亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 超大盘 (gn_cdp) 净流入: 14.91亿 ---
+  成分股: 20 只
+  热门个股: 5 只
+
+--- 板块: 苹果概念 (gn_pggn) 净流入: 14.20亿 ---
+  成分股: 36 只
+  热门个股: 5 只
+
+--- 板块: 风电 (gn_fd) 净流入: 10.07亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 光伏概念 (gn_gfgn) 净流入: 8.16亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 黄金概念 (gn_hjgn) 净流入: 7.92亿 ---
+  成分股: 27 只
+  热门个股: 1 只
+
+--- 板块: 碳中和 (gn_tzh) 净流入: 7.21亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+============================================================
+[板块扫描] 开始 2026-03-19 15:36:41
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 小米概念 (gn_xmgn) 净流入: 25.85亿 ---
+  成分股: 39 只
+  热门个股: 4 只
+
+--- 板块: 准ST股 (gn_zSTg) 净流入: 24.18亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 天津自贸 (gn_mtjzm) 净流入: 21.32亿 ---
+  成分股: 9 只
+  热门个股: 1 只
+
+--- 板块: ST板块 (gn_stbk) 净流入: 20.70亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 超大盘 (gn_cdp) 净流入: 14.91亿 ---
+  成分股: 20 只
+  热门个股: 5 只
+
+--- 板块: 苹果概念 (gn_pggn) 净流入: 14.20亿 ---
+  成分股: 36 只
+  热门个股: 5 只
+
+--- 板块: 风电 (gn_fd) 净流入: 10.07亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 光伏概念 (gn_gfgn) 净流入: 8.16亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 黄金概念 (gn_hjgn) 净流入: 7.92亿 ---
+  成分股: 27 只
+  热门个股: 1 只
+
+--- 板块: 碳中和 (gn_tzh) 净流入: 7.21亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+[3/3] Git push...
+[3/3] Git push...

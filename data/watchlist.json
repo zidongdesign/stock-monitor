@@ -1,7 +1,7 @@
 {
-  "version": "20260318a",
+  "version": "20260319a",
   "startDate": "2026-03-12",
-  "dayCount": 7,
+  "dayCount": 8,
   "stocks": [
     {
       "code": "sh603158",
@@ -216,14 +216,49 @@
       "group": "focus",
       "addedDate": "2026-03-18",
       "source": "sector:业绩预升"
+    },
+    {
+      "code": "sh600186",
+      "name": "莲花控股",
+      "group": "focus",
+      "addedDate": "2026-03-19",
+      "source": "sector:准ST股"
+    },
+    {
+      "code": "sz002432",
+      "name": "九安医疗",
+      "group": "focus",
+      "addedDate": "2026-03-19",
+      "source": "sector:小米概念"
+    },
+    {
+      "code": "sh601857",
+      "name": "中国石油",
+      "group": "focus",
+      "addedDate": "2026-03-19",
+      "source": "sector:超大盘"
+    },
+    {
+      "code": "sz000617",
+      "name": "中油资本",
+      "group": "focus",
+      "addedDate": "2026-03-19",
+      "source": "sector:准ST股"
+    },
+    {
+      "code": "sh600821",
+      "name": "金开新能",
+      "group": "focus",
+      "addedDate": "2026-03-19",
+      "source": "sector:天津自贸"
     }
   ],
   "todayAdded": [
-    "sz300394",
-    "sz002837",
-    "sh600602",
-    "sh600879",
-    "sz002156"
+    "sh600186",
+    "sz002432",
+    "sh601857",
+    "sz000617",
+    "sh600821"
   ],
   "todayRemoved": []
 }
