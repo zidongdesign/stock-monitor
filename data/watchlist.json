@@ -1,7 +1,7 @@
 {
-  "version": "20260319a",
+  "version": "20260320a",
   "startDate": "2026-03-12",
-  "dayCount": 8,
+  "dayCount": 9,
   "stocks": [
     {
       "code": "sh603158",
@@ -251,14 +251,41 @@
       "group": "focus",
       "addedDate": "2026-03-19",
       "source": "sector:天津自贸"
+    },
+    {
+      "code": "sz300827",
+      "name": "上能电气",
+      "group": "focus",
+      "addedDate": "2026-03-20",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sh605117",
+      "name": "德业股份",
+      "group": "focus",
+      "addedDate": "2026-03-20",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz300274",
+      "name": "阳光电源",
+      "group": "focus",
+      "addedDate": "2026-03-20",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz300014",
+      "name": "亿纬锂能",
+      "group": "focus",
+      "addedDate": "2026-03-20",
+      "source": "sector:锂电池"
     }
   ],
   "todayAdded": [
-    "sh600186",
-    "sz002432",
-    "sh601857",
-    "sz000617",
-    "sh600821"
+    "sz300827",
+    "sh605117",
+    "sz300274",
+    "sz300014"
   ],
   "todayRemoved": []
 }
