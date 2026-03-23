@@ -1,7 +1,7 @@
 {
-  "version": "20260320a",
+  "version": "20260323a",
   "startDate": "2026-03-12",
-  "dayCount": 9,
+  "dayCount": 12,
   "stocks": [
     {
       "code": "sh603158",
@@ -81,20 +81,6 @@
       "source": "商业航天发射场配套"
     },
     {
-      "code": "sh601111",
-      "name": "中国国航",
-      "group": "watch",
-      "addedDate": "2026-03-15",
-      "source": "航空股-国际航线弹性"
-    },
-    {
-      "code": "sh600029",
-      "name": "南方航空",
-      "group": "watch",
-      "addedDate": "2026-03-15",
-      "source": "航空股-国际航线弹性"
-    },
-    {
       "code": "sz300308",
       "name": "中际旭创",
       "group": "focus",
@@ -158,22 +144,6 @@
       "source": "sector:含H股"
     },
     {
-      "code": "sh601398",
-      "name": "工商银行",
-      "group": "focus",
-      "addedDate": "2026-03-17",
-      "source": "sector:超大盘"
-    },
-    {
-      "code": "sz300007",
-      "name": "汉威科技",
-      "group": "watch",
-      "addedDate": "2026-03-18",
-      "source": "光传感-机器人触觉传感-戈叔关注",
-      "alertBelow": 35.0,
-      "note": "目标买入区间30-35元，对应市值80-100亿"
-    },
-    {
       "code": "sz300304",
       "name": "云意电气",
       "group": "watch",
@@ -192,13 +162,6 @@
     {
       "code": "sz002837",
       "name": "英维克",
-      "group": "focus",
-      "addedDate": "2026-03-18",
-      "source": "sector:国防军工"
-    },
-    {
-      "code": "sh600602",
-      "name": "云赛智联",
       "group": "focus",
       "addedDate": "2026-03-18",
       "source": "sector:国防军工"
@@ -279,13 +242,47 @@
       "group": "focus",
       "addedDate": "2026-03-20",
       "source": "sector:锂电池"
+    },
+    {
+      "code": "sh600580",
+      "name": "卧龙电驱",
+      "group": "focus",
+      "addedDate": "2026-03-23",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sz002565",
+      "name": "顺灏股份",
+      "group": "focus",
+      "addedDate": "2026-03-23",
+      "source": "sector:业绩预升"
+    },
+    {
+      "code": "sh600143",
+      "name": "金发科技",
+      "group": "focus",
+      "addedDate": "2026-03-23",
+      "source": "sector:苹果概念"
+    },
+    {
+      "code": "sz300432",
+      "name": "富临精工",
+      "group": "focus",
+      "addedDate": "2026-03-23",
+      "source": "sector:锂矿"
     }
   ],
   "todayAdded": [
-    "sz300827",
-    "sh605117",
-    "sz300274",
-    "sz300014"
+    "sh600580",
+    "sz002565",
+    "sh600143",
+    "sz300432"
   ],
-  "todayRemoved": []
+  "todayRemoved": [
+    "sh600029",
+    "sh601111",
+    "sz300007",
+    "sh601398",
+    "sh600602"
+  ]
 }
