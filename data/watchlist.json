@@ -1,7 +1,7 @@
 {
-  "version": "20260323a",
+  "version": "20260324a",
   "startDate": "2026-03-12",
-  "dayCount": 12,
+  "dayCount": 13,
   "stocks": [
     {
       "code": "sh603158",
@@ -13,13 +13,6 @@
     {
       "code": "sz002063",
       "name": "远光软件",
-      "group": "focus",
-      "addedDate": "2026-03-12",
-      "source": "initial"
-    },
-    {
-      "code": "sz002157",
-      "name": "正邦科技",
       "group": "focus",
       "addedDate": "2026-03-12",
       "source": "initial"
@@ -167,13 +160,6 @@
       "source": "sector:国防军工"
     },
     {
-      "code": "sh600879",
-      "name": "航天电子",
-      "group": "focus",
-      "addedDate": "2026-03-18",
-      "source": "sector:军工航天"
-    },
-    {
       "code": "sz002156",
       "name": "通富微电",
       "group": "focus",
@@ -186,13 +172,6 @@
       "group": "focus",
       "addedDate": "2026-03-19",
       "source": "sector:准ST股"
-    },
-    {
-      "code": "sz002432",
-      "name": "九安医疗",
-      "group": "focus",
-      "addedDate": "2026-03-19",
-      "source": "sector:小米概念"
     },
     {
       "code": "sh601857",
@@ -237,13 +216,6 @@
       "source": "sector:光伏"
     },
     {
-      "code": "sz300014",
-      "name": "亿纬锂能",
-      "group": "focus",
-      "addedDate": "2026-03-20",
-      "source": "sector:锂电池"
-    },
-    {
       "code": "sh600580",
       "name": "卧龙电驱",
       "group": "focus",
@@ -258,31 +230,60 @@
       "source": "sector:业绩预升"
     },
     {
-      "code": "sh600143",
-      "name": "金发科技",
-      "group": "focus",
-      "addedDate": "2026-03-23",
-      "source": "sector:苹果概念"
-    },
-    {
       "code": "sz300432",
       "name": "富临精工",
       "group": "focus",
       "addedDate": "2026-03-23",
       "source": "sector:锂矿"
+    },
+    {
+      "code": "sh603259",
+      "name": "药明康德",
+      "group": "focus",
+      "addedDate": "2026-03-24",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz002498",
+      "name": "汉缆股份",
+      "group": "focus",
+      "addedDate": "2026-03-24",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sz000035",
+      "name": "中国天楹",
+      "group": "focus",
+      "addedDate": "2026-03-24",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sz000601",
+      "name": "韶能股份",
+      "group": "focus",
+      "addedDate": "2026-03-24",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sh601016",
+      "name": "节能风电",
+      "group": "focus",
+      "addedDate": "2026-03-24",
+      "source": "sector:风电"
     }
   ],
   "todayAdded": [
-    "sh600580",
-    "sz002565",
-    "sh600143",
-    "sz300432"
+    "sh603259",
+    "sz002498",
+    "sz000035",
+    "sz000601",
+    "sh601016"
   ],
   "todayRemoved": [
-    "sh600029",
-    "sh601111",
-    "sz300007",
-    "sh601398",
-    "sh600602"
+    "sz300014",
+    "sh600879",
+    "sh600143",
+    "sz002432",
+    "sz002157"
   ]
 }
