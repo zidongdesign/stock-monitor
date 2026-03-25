@@ -1,7 +1,7 @@
 {
-  "version": "20260324a",
+  "version": "20260325a",
   "startDate": "2026-03-12",
-  "dayCount": 13,
+  "dayCount": 14,
   "stocks": [
     {
       "code": "sh603158",
@@ -11,22 +11,8 @@
       "source": "initial"
     },
     {
-      "code": "sz002063",
-      "name": "远光软件",
-      "group": "focus",
-      "addedDate": "2026-03-12",
-      "source": "initial"
-    },
-    {
       "code": "sh601669",
       "name": "中国电建",
-      "group": "focus",
-      "addedDate": "2026-03-12",
-      "source": "initial"
-    },
-    {
-      "code": "sz300129",
-      "name": "泰胜风能",
       "group": "focus",
       "addedDate": "2026-03-12",
       "source": "initial"
@@ -181,20 +167,6 @@
       "source": "sector:超大盘"
     },
     {
-      "code": "sz000617",
-      "name": "中油资本",
-      "group": "focus",
-      "addedDate": "2026-03-19",
-      "source": "sector:准ST股"
-    },
-    {
-      "code": "sh600821",
-      "name": "金开新能",
-      "group": "focus",
-      "addedDate": "2026-03-19",
-      "source": "sector:天津自贸"
-    },
-    {
       "code": "sz300827",
       "name": "上能电气",
       "group": "focus",
@@ -221,13 +193,6 @@
       "group": "focus",
       "addedDate": "2026-03-23",
       "source": "sector:锂电池"
-    },
-    {
-      "code": "sz002565",
-      "name": "顺灏股份",
-      "group": "focus",
-      "addedDate": "2026-03-23",
-      "source": "sector:业绩预升"
     },
     {
       "code": "sz300432",
@@ -270,20 +235,55 @@
       "group": "focus",
       "addedDate": "2026-03-24",
       "source": "sector:风电"
+    },
+    {
+      "code": "sz002475",
+      "name": "立讯精密",
+      "group": "focus",
+      "addedDate": "2026-03-25",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz002371",
+      "name": "北方华创",
+      "group": "focus",
+      "addedDate": "2026-03-25",
+      "source": "sector:本月解禁"
+    },
+    {
+      "code": "sh600309",
+      "name": "万华化学",
+      "group": "focus",
+      "addedDate": "2026-03-25",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000690",
+      "name": "宝新能源",
+      "group": "focus",
+      "addedDate": "2026-03-25",
+      "source": "sector:参股金融"
+    },
+    {
+      "code": "sh600726",
+      "name": "华电能源",
+      "group": "focus",
+      "addedDate": "2026-03-25",
+      "source": "sector:参股金融"
     }
   ],
   "todayAdded": [
-    "sh603259",
-    "sz002498",
-    "sz000035",
-    "sz000601",
-    "sh601016"
+    "sz002475",
+    "sz002371",
+    "sh600309",
+    "sz000690",
+    "sh600726"
   ],
   "todayRemoved": [
-    "sz300014",
-    "sh600879",
-    "sh600143",
-    "sz002432",
-    "sz002157"
+    "sz002063",
+    "sz002565",
+    "sz000617",
+    "sh600821",
+    "sz300129"
   ]
 }
