@@ -1,18 +1,11 @@
 {
-  "version": "20260325a",
+  "version": "20260326a",
   "startDate": "2026-03-12",
-  "dayCount": 14,
+  "dayCount": 15,
   "stocks": [
     {
       "code": "sh603158",
       "name": "腾龙股份",
-      "group": "focus",
-      "addedDate": "2026-03-12",
-      "source": "initial"
-    },
-    {
-      "code": "sh601669",
-      "name": "中国电建",
       "group": "focus",
       "addedDate": "2026-03-12",
       "source": "initial"
@@ -109,13 +102,6 @@
       "source": "sector:博彩概念"
     },
     {
-      "code": "sz002506",
-      "name": "协鑫集成",
-      "group": "focus",
-      "addedDate": "2026-03-17",
-      "source": "sector:HIT电池"
-    },
-    {
       "code": "sh601988",
       "name": "中国银行",
       "group": "focus",
@@ -144,13 +130,6 @@
       "group": "focus",
       "addedDate": "2026-03-18",
       "source": "sector:国防军工"
-    },
-    {
-      "code": "sz002156",
-      "name": "通富微电",
-      "group": "focus",
-      "addedDate": "2026-03-18",
-      "source": "sector:业绩预升"
     },
     {
       "code": "sh600186",
@@ -188,13 +167,6 @@
       "source": "sector:光伏"
     },
     {
-      "code": "sh600580",
-      "name": "卧龙电驱",
-      "group": "focus",
-      "addedDate": "2026-03-23",
-      "source": "sector:锂电池"
-    },
-    {
       "code": "sz300432",
       "name": "富临精工",
       "group": "focus",
@@ -214,13 +186,6 @@
       "group": "focus",
       "addedDate": "2026-03-24",
       "source": "sector:风电"
-    },
-    {
-      "code": "sz000035",
-      "name": "中国天楹",
-      "group": "focus",
-      "addedDate": "2026-03-24",
-      "source": "sector:重组概念"
     },
     {
       "code": "sz000601",
@@ -270,20 +235,39 @@
       "group": "focus",
       "addedDate": "2026-03-25",
       "source": "sector:参股金融"
+    },
+    {
+      "code": "sz002192",
+      "name": "融捷股份",
+      "group": "focus",
+      "addedDate": "2026-03-26",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sh603601",
+      "name": "再升科技",
+      "group": "focus",
+      "addedDate": "2026-03-26",
+      "source": "sector:大飞机"
+    },
+    {
+      "code": "sz002738",
+      "name": "中矿资源",
+      "group": "focus",
+      "addedDate": "2026-03-26",
+      "source": "sector:锂矿"
     }
   ],
   "todayAdded": [
-    "sz002475",
-    "sz002371",
-    "sh600309",
-    "sz000690",
-    "sh600726"
+    "sz002192",
+    "sh603601",
+    "sz002738"
   ],
   "todayRemoved": [
-    "sz002063",
-    "sz002565",
-    "sz000617",
-    "sh600821",
-    "sz300129"
+    "sz000035",
+    "sz002156",
+    "sh601669",
+    "sz002506",
+    "sh600580"
   ]
 }
