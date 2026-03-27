@@ -1,7 +1,7 @@
 {
-  "version": "20260326a",
+  "version": "20260327a",
   "startDate": "2026-03-12",
-  "dayCount": 15,
+  "dayCount": 16,
   "stocks": [
     {
       "code": "sh603158",
@@ -167,13 +167,6 @@
       "source": "sector:光伏"
     },
     {
-      "code": "sz300432",
-      "name": "富临精工",
-      "group": "focus",
-      "addedDate": "2026-03-23",
-      "source": "sector:锂矿"
-    },
-    {
       "code": "sh603259",
       "name": "药明康德",
       "group": "focus",
@@ -183,20 +176,6 @@
     {
       "code": "sz002498",
       "name": "汉缆股份",
-      "group": "focus",
-      "addedDate": "2026-03-24",
-      "source": "sector:风电"
-    },
-    {
-      "code": "sz000601",
-      "name": "韶能股份",
-      "group": "focus",
-      "addedDate": "2026-03-24",
-      "source": "sector:光伏"
-    },
-    {
-      "code": "sh601016",
-      "name": "节能风电",
       "group": "focus",
       "addedDate": "2026-03-24",
       "source": "sector:风电"
@@ -223,13 +202,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz000690",
-      "name": "宝新能源",
-      "group": "focus",
-      "addedDate": "2026-03-25",
-      "source": "sector:参股金融"
-    },
-    {
       "code": "sh600726",
       "name": "华电能源",
       "group": "focus",
@@ -244,30 +216,60 @@
       "source": "sector:锂矿"
     },
     {
-      "code": "sh603601",
-      "name": "再升科技",
-      "group": "focus",
-      "addedDate": "2026-03-26",
-      "source": "sector:大飞机"
-    },
-    {
       "code": "sz002738",
       "name": "中矿资源",
       "group": "focus",
       "addedDate": "2026-03-26",
       "source": "sector:锂矿"
+    },
+    {
+      "code": "sh600988",
+      "name": "赤峰黄金",
+      "group": "focus",
+      "addedDate": "2026-03-27",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sz300054",
+      "name": "鼎龙股份",
+      "group": "focus",
+      "addedDate": "2026-03-27",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sh600276",
+      "name": "恒瑞医药",
+      "group": "focus",
+      "addedDate": "2026-03-27",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz000988",
+      "name": "华工科技",
+      "group": "focus",
+      "addedDate": "2026-03-27",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sz002310",
+      "name": "东方新能",
+      "group": "focus",
+      "addedDate": "2026-03-27",
+      "source": "sector:股权激励"
     }
   ],
   "todayAdded": [
-    "sz002192",
-    "sh603601",
-    "sz002738"
+    "sh600988",
+    "sz300054",
+    "sh600276",
+    "sz000988",
+    "sz002310"
   ],
   "todayRemoved": [
-    "sz000035",
-    "sz002156",
-    "sh601669",
-    "sz002506",
-    "sh600580"
+    "sz000690",
+    "sh601016",
+    "sz300432",
+    "sz000601",
+    "sh603601"
   ]
 }
