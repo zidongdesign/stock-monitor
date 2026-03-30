@@ -1,15 +1,8 @@
 {
-  "version": "20260327a",
+  "version": "20260330a",
   "startDate": "2026-03-12",
-  "dayCount": 16,
+  "dayCount": 19,
   "stocks": [
-    {
-      "code": "sh603158",
-      "name": "腾龙股份",
-      "group": "focus",
-      "addedDate": "2026-03-12",
-      "source": "initial"
-    },
     {
       "code": "sz002056",
       "name": "横店东磁",
@@ -37,13 +30,6 @@
       "group": "focus",
       "addedDate": "2026-03-13",
       "source": "sector:风电"
-    },
-    {
-      "code": "sz000792",
-      "name": "盐湖股份",
-      "group": "focus",
-      "addedDate": "2026-03-13",
-      "source": "sector:保险重仓"
     },
     {
       "code": "sh605090",
@@ -188,20 +174,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz000690",
-      "name": "宝新能源",
-      "group": "focus",
-      "addedDate": "2026-03-25",
-      "source": "sector:参股金融"
-    },
-    {
-      "code": "sh600726",
-      "name": "华电能源",
-      "group": "focus",
-      "addedDate": "2026-03-25",
-      "source": "sector:参股金融"
-    },
-    {
       "code": "sz002192",
       "name": "融捷股份",
       "group": "focus",
@@ -214,13 +186,6 @@
       "group": "focus",
       "addedDate": "2026-03-26",
       "source": "sector:大飞机"
-    },
-    {
-      "code": "sz002738",
-      "name": "中矿资源",
-      "group": "focus",
-      "addedDate": "2026-03-26",
-      "source": "sector:锂矿"
     },
     {
       "code": "sh600988",
@@ -256,20 +221,55 @@
       "group": "focus",
       "addedDate": "2026-03-27",
       "source": "sector:锂矿"
+    },
+    {
+      "code": "sh601600",
+      "name": "中国铝业",
+      "group": "focus",
+      "addedDate": "2026-03-30",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600602",
+      "name": "云赛智联",
+      "group": "focus",
+      "addedDate": "2026-03-30",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sh600598",
+      "name": "北大荒",
+      "group": "focus",
+      "addedDate": "2026-03-30",
+      "source": "sector:参股金融"
+    },
+    {
+      "code": "sh600487",
+      "name": "亨通光电",
+      "group": "focus",
+      "addedDate": "2026-03-30",
+      "source": "sector:参股金融"
+    },
+    {
+      "code": "sz300548",
+      "name": "长芯博创",
+      "group": "focus",
+      "addedDate": "2026-03-30",
+      "source": "sector:专精特新"
     }
   ],
   "todayAdded": [
-    "sh600988",
-    "sz002310",
-    "sh600276",
-    "sz300054",
-    "sz000155"
+    "sh601600",
+    "sh600602",
+    "sh600598",
+    "sh600487",
+    "sz300548"
   ],
   "todayRemoved": [
-    "sz300827",
-    "sh601016",
-    "sz300432",
-    "sz000601",
-    "sz002498"
+    "sh600726",
+    "sz000690",
+    "sz002738",
+    "sz000792",
+    "sh603158"
   ]
 }
