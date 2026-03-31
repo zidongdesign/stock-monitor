@@ -1,7 +1,7 @@
 {
-  "version": "20260330a",
+  "version": "20260331a",
   "startDate": "2026-03-12",
-  "dayCount": 19,
+  "dayCount": 20,
   "stocks": [
     {
       "code": "sz002056",
@@ -9,13 +9,6 @@
       "group": "focus",
       "addedDate": "2026-03-13",
       "source": "sector:光伏概念"
-    },
-    {
-      "code": "sh600096",
-      "name": "云天化",
-      "group": "focus",
-      "addedDate": "2026-03-13",
-      "source": "sector:锂电池"
     },
     {
       "code": "sz002487",
@@ -58,13 +51,6 @@
       "group": "focus",
       "addedDate": "2026-03-16",
       "source": "sector:白酒概念"
-    },
-    {
-      "code": "sz300661",
-      "name": "圣邦股份",
-      "group": "focus",
-      "addedDate": "2026-03-16",
-      "source": "sector:无线耳机"
     },
     {
       "code": "sz002938",
@@ -195,32 +181,11 @@
       "source": "sector:重组概念"
     },
     {
-      "code": "sz002310",
-      "name": "东方新能",
-      "group": "focus",
-      "addedDate": "2026-03-27",
-      "source": "sector:股权激励"
-    },
-    {
       "code": "sh600276",
       "name": "恒瑞医药",
       "group": "focus",
       "addedDate": "2026-03-27",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sz300054",
-      "name": "鼎龙股份",
-      "group": "focus",
-      "addedDate": "2026-03-27",
-      "source": "sector:股权激励"
-    },
-    {
-      "code": "sz000155",
-      "name": "川能动力",
-      "group": "focus",
-      "addedDate": "2026-03-27",
-      "source": "sector:锂矿"
     },
     {
       "code": "sh601600",
@@ -256,20 +221,55 @@
       "group": "focus",
       "addedDate": "2026-03-30",
       "source": "sector:专精特新"
+    },
+    {
+      "code": "sz002821",
+      "name": "凯莱英",
+      "group": "focus",
+      "addedDate": "2026-03-31",
+      "source": "sector:CRO概念"
+    },
+    {
+      "code": "sz300759",
+      "name": "康龙化成",
+      "group": "focus",
+      "addedDate": "2026-03-31",
+      "source": "sector:CRO概念"
+    },
+    {
+      "code": "sz002361",
+      "name": "神剑股份",
+      "group": "focus",
+      "addedDate": "2026-03-31",
+      "source": "sector:军工航天"
+    },
+    {
+      "code": "sh600158",
+      "name": "中体产业",
+      "group": "focus",
+      "addedDate": "2026-03-31",
+      "source": "sector:赛马概念"
+    },
+    {
+      "code": "sh603127",
+      "name": "昭衍新药",
+      "group": "focus",
+      "addedDate": "2026-03-31",
+      "source": "sector:CRO概念"
     }
   ],
   "todayAdded": [
-    "sh601600",
-    "sh600602",
-    "sh600598",
-    "sh600487",
-    "sz300548"
+    "sz002821",
+    "sz300759",
+    "sz002361",
+    "sh600158",
+    "sh603127"
   ],
   "todayRemoved": [
-    "sh600726",
-    "sz000690",
-    "sz002738",
-    "sz000792",
-    "sh603158"
+    "sz000155",
+    "sz002310",
+    "sh600096",
+    "sz300661",
+    "sz300054"
   ]
 }
