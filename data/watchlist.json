@@ -1,7 +1,7 @@
 {
-  "version": "20260331a",
+  "version": "20260401a",
   "startDate": "2026-03-12",
-  "dayCount": 20,
+  "dayCount": 21,
   "stocks": [
     {
       "code": "sz002056",
@@ -9,13 +9,6 @@
       "group": "focus",
       "addedDate": "2026-03-13",
       "source": "sector:光伏概念"
-    },
-    {
-      "code": "sz002487",
-      "name": "大金重工",
-      "group": "focus",
-      "addedDate": "2026-03-13",
-      "source": "sector:风电"
     },
     {
       "code": "sh601991",
@@ -74,13 +67,6 @@
       "source": "sector:博彩概念"
     },
     {
-      "code": "sh601988",
-      "name": "中国银行",
-      "group": "focus",
-      "addedDate": "2026-03-17",
-      "source": "sector:含H股"
-    },
-    {
       "code": "sz300304",
       "name": "云意电气",
       "group": "watch",
@@ -109,13 +95,6 @@
       "group": "focus",
       "addedDate": "2026-03-19",
       "source": "sector:准ST股"
-    },
-    {
-      "code": "sh601857",
-      "name": "中国石油",
-      "group": "focus",
-      "addedDate": "2026-03-19",
-      "source": "sector:超大盘"
     },
     {
       "code": "sh605117",
@@ -160,13 +139,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz002192",
-      "name": "融捷股份",
-      "group": "focus",
-      "addedDate": "2026-03-26",
-      "source": "sector:锂矿"
-    },
-    {
       "code": "sh603601",
       "name": "再升科技",
       "group": "focus",
@@ -200,13 +172,6 @@
       "group": "focus",
       "addedDate": "2026-03-30",
       "source": "sector:国防军工"
-    },
-    {
-      "code": "sh600598",
-      "name": "北大荒",
-      "group": "focus",
-      "addedDate": "2026-03-30",
-      "source": "sector:参股金融"
     },
     {
       "code": "sh600487",
@@ -256,20 +221,31 @@
       "group": "focus",
       "addedDate": "2026-03-31",
       "source": "sector:CRO概念"
+    },
+    {
+      "code": "sz002580",
+      "name": "圣阳股份",
+      "group": "focus",
+      "addedDate": "2026-04-01",
+      "source": "sector:黄河三角"
+    },
+    {
+      "code": "sh600010",
+      "name": "包钢股份",
+      "group": "focus",
+      "addedDate": "2026-04-01",
+      "source": "sector:融资融券"
     }
   ],
   "todayAdded": [
-    "sz002821",
-    "sz300759",
-    "sz002361",
-    "sh600158",
-    "sh603127"
+    "sz002580",
+    "sh600010"
   ],
   "todayRemoved": [
-    "sz000155",
-    "sz002310",
-    "sh600096",
-    "sz300661",
-    "sz300054"
+    "sh601857",
+    "sz002192",
+    "sh600598",
+    "sh601988",
+    "sz002487"
   ]
 }
