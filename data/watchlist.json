@@ -1,7 +1,7 @@
 {
-  "version": "20260401a",
+  "version": "20260402a",
   "startDate": "2026-03-12",
-  "dayCount": 21,
+  "dayCount": 22,
   "stocks": [
     {
       "code": "sz002056",
@@ -139,13 +139,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sh603601",
-      "name": "再升科技",
-      "group": "focus",
-      "addedDate": "2026-03-26",
-      "source": "sector:大飞机"
-    },
-    {
       "code": "sh600988",
       "name": "赤峰黄金",
       "group": "focus",
@@ -165,13 +158,6 @@
       "group": "focus",
       "addedDate": "2026-03-30",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sh600602",
-      "name": "云赛智联",
-      "group": "focus",
-      "addedDate": "2026-03-30",
-      "source": "sector:国防军工"
     },
     {
       "code": "sh600487",
@@ -216,36 +202,45 @@
       "source": "sector:赛马概念"
     },
     {
-      "code": "sh603127",
-      "name": "昭衍新药",
+      "code": "sz000788",
+      "name": "北大医药",
       "group": "focus",
-      "addedDate": "2026-03-31",
-      "source": "sector:CRO概念"
+      "addedDate": "2026-04-02",
+      "source": "sector:金融参股"
     },
     {
-      "code": "sz002580",
-      "name": "圣阳股份",
+      "code": "sh600339",
+      "name": "中油工程",
       "group": "focus",
-      "addedDate": "2026-04-01",
-      "source": "sector:黄河三角"
+      "addedDate": "2026-04-02",
+      "source": "sector:油气改革"
     },
     {
-      "code": "sh600010",
-      "name": "包钢股份",
+      "code": "sz000155",
+      "name": "川能动力",
       "group": "focus",
-      "addedDate": "2026-04-01",
-      "source": "sector:融资融券"
+      "addedDate": "2026-04-02",
+      "source": "sector:金融参股"
+    },
+    {
+      "code": "sz002460",
+      "name": "赣锋锂业",
+      "group": "focus",
+      "addedDate": "2026-04-02",
+      "source": "sector:锂矿"
     }
   ],
   "todayAdded": [
-    "sz002580",
-    "sh600010"
+    "sz000788",
+    "sh600339",
+    "sz000155",
+    "sz002460"
   ],
   "todayRemoved": [
-    "sh601857",
-    "sz002192",
-    "sh600598",
-    "sh601988",
-    "sz002487"
+    "sh600602",
+    "sz002580",
+    "sh600010",
+    "sh603127",
+    "sh603601"
   ]
 }

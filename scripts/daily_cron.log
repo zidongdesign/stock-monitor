@@ -4843,3 +4843,246 @@ Done.
 [3/3] Git push...
 [main ffdf70f] daily: 2026-04-01 收盘分析更新
  6 files changed, 1429 insertions(+), 1162 deletions(-)
+[main 02727c3] daily: 2026-04-01 收盘分析更新
+ 1 file changed, 3 insertions(+)
+fatal: could not read Username for 'https://github.com': Device not configured
+Push failed
+Done.
+To https://github.com/zidongdesign/stock-monitor.git
+   b05ae08..ffdf70f  main -> main
+Done.
+===== 2026-04-02 15:35:33 =====
+[1/3] Running daily_analysis.py...
+📊 当前池子: 33 只 | 起始日期: 2026-03-12 | 第 22 天
+============================================================
+💰 拉取新浪全市场资金流向...
+  ✅ 获取 1000 条资金数据
+
+📊 评分 33 只自选股...
+  [1/33] sz002056 横店东磁
+  [2/33] sh601991 大唐发电
+  [3/33] sh605090 九丰能源
+  [4/33] sz300308 中际旭创
+  [5/33] sz002594 比亚迪
+  [技术] sz002594 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [6/33] sh600519 贵州茅台
+  [技术] sh600519 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [7/33] sz002938 鹏鼎控股
+  [技术] sz002938 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [8/33] sh601318 中国平安
+  [技术] sh601318 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [9/33] sz300059 东方财富
+  [技术] sz300059 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [10/33] sz300304 云意电气
+  [技术] sz300304 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [11/33] sz300394 天孚通信
+  [技术] sz300394 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [12/33] sz002837 英维克
+  [技术] sz002837 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [13/33] sh600186 莲花控股
+  [技术] sh600186 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [14/33] sh605117 德业股份
+  [技术] sh605117 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [15/33] sz300274 阳光电源
+  [技术] sz300274 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [16/33] sh603259 药明康德
+  [技术] sh603259 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [17/33] sz002475 立讯精密
+  [技术] sz002475 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [18/33] sz002371 北方华创
+  [技术] sz002371 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [19/33] sh600309 万华化学
+  [技术] sh600309 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [20/33] sh603601 再升科技
+  [21/33] sh600988 赤峰黄金
+  [技术] sh600988 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [22/33] sh600276 恒瑞医药
+  [技术] sh600276 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [23/33] sh601600 中国铝业
+  [技术] sh601600 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [24/33] sh600602 云赛智联
+  [技术] sh600602 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [25/33] sh600487 亨通光电
+  [技术] sh600487 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [26/33] sz300548 长芯博创
+  [技术] sz300548 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [27/33] sz002821 凯莱英
+  [技术] sz002821 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [28/33] sz300759 康龙化成
+  [技术] sz300759 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [29/33] sz002361 神剑股份
+  [技术] sz002361 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [30/33] sh600158 中体产业
+  [技术] sh600158 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [31/33] sh603127 昭衍新药
+  [技术] sh603127 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [32/33] sz002580 圣阳股份
+  [技术] sz002580 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [33/33] sh600010 包钢股份
+  [技术] sh600010 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+📊 评分完成。最低: sh600602=35分  最高: sh600988=70分
+
+🗑️ 淘汰 5 只（池子已运行 22 天 >= 10）:
+  ❌ sh600602 云赛智联: 35分
+  ❌ sz002580 圣阳股份: 36分
+  ❌ sh600010 包钢股份: 36分
+  ❌ sh603127 昭衍新药: 37分
+  ❌ sh603601 再升科技: 43分
+
+🔍 扫描板块，寻找 5 只补入候选...
+============================================================
+[板块扫描] 开始 2026-04-02 15:44:03
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 航运概念 (gn_hygn) 净流入: 28.62亿 ---
+  成分股: 0 只
+  热门个股: 0 只
+
+--- 板块: 金融参股 (gn_jrcg) 净流入: 27.19亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 锂矿 (gn_lk) 净流入: 23.40亿 ---
+  成分股: 44 只
+  热门个股: 5 只
+
+--- 板块: 油气改革 (gn_yqgg) 净流入: 20.80亿 ---
+  成分股: 28 只
+  热门个股: 5 只
+
+--- 板块: 盐湖提锂 (gn_yhtl) 净流入: 18.97亿 ---
+  成分股: 23 只
+  热门个股: 5 只
+
+--- 板块: HIT电池 (gn_HITdc) 净流入: 18.24亿 ---
+  成分股: 31 只
+  热门个股: 4 只
+
+--- 板块: HJT电池 (gn_HJTdc) 净流入: 18.24亿 ---
+  成分股: 0 只
+  热门个股: 0 只
+
+--- 板块: 抗癌 (gn_ka) 净流入: 18.12亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 3D打印 (gn_3Ddy) 净流入: 17.77亿 ---
+  成分股: 39 只
+  热门个股: 4 只
+
+--- 板块: 超导概念 (gn_cdgn) 净流入: 16.80亿 ---
+  成分股: 17 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+  板块扫描返回 10 只候选
+  📊 评分候选: sz002460 赣锋锂业
+  [技术] sz002460 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002309 中利集团
+  [技术] sz002309 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sz002309 中利集团: 财务D级
+  📊 评分候选: sz000720 新能泰山
+  [技术] sz000720 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sz000720 新能泰山: 财务D级
+  📊 评分候选: sz000788 北大医药
+  [技术] sz000788 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz000155 川能动力
+  [技术] sz000155 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002471 中超控股
+  [技术] sz002471 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sz002471 中超控股: 财务D级
+  📊 评分候选: sz000762 西藏矿业
+  [技术] sz000762 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sz000762 西藏矿业: 财务D级
+  📊 评分候选: sh600339 中油工程
+  [技术] sh600339 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002176 江特电机
+  [技术] sz002176 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sz002176 江特电机: 财务D级
+
+✅ 补入 4 只:
+  ➕ sz000788 北大医药: 58分 [金融参股]
+  ➕ sh600339 中油工程: 58分 [油气改革]
+  ➕ sz000155 川能动力: 57分 [金融参股]
+  ➕ sz002460 赣锋锂业: 48分 [锂矿]
+
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/watchlist.json (v20260402a, 32只)
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/analysis.json
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/history.json
+  ✅ 更新 js/store.js: version=20260402a
+
+============================================================
+📊 汇总:
+  池子: 33 → 32 只
+  淘汰: 5 只
+  补入: 4 只
+  版本: 20260402a
+============================================================
+[2/3] Running sector_scan.py...
+============================================================
+[板块扫描] 开始 2026-04-02 16:01:15
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 航运概念 (gn_hygn) 净流入: 28.62亿 ---
+  成分股: 0 只
+  热门个股: 0 只
+
+--- 板块: 金融参股 (gn_jrcg) 净流入: 27.19亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 锂矿 (gn_lk) 净流入: 23.40亿 ---
+  成分股: 44 只
+  热门个股: 5 只
+
+--- 板块: 油气改革 (gn_yqgg) 净流入: 20.80亿 ---
+  成分股: 28 只
+  热门个股: 5 只
+
+--- 板块: 盐湖提锂 (gn_yhtl) 净流入: 18.97亿 ---
+  成分股: 23 只
+  热门个股: 5 只
+
+--- 板块: HIT电池 (gn_HITdc) 净流入: 18.24亿 ---
+  成分股: 31 只
+  热门个股: 4 只
+
+--- 板块: HJT电池 (gn_HJTdc) 净流入: 18.24亿 ---
+  成分股: 0 只
+  热门个股: 0 只
+
+--- 板块: 抗癌 (gn_ka) 净流入: 18.12亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 3D打印 (gn_3Ddy) 净流入: 17.77亿 ---
+  成分股: 39 只
+  热门个股: 4 只
+
+--- 板块: 超导概念 (gn_cdgn) 净流入: 16.80亿 ---
+  成分股: 17 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+[3/3] Git push...
