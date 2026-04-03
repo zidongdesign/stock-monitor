@@ -1,7 +1,7 @@
 {
-  "version": "20260402a",
+  "version": "20260403a",
   "startDate": "2026-03-12",
-  "dayCount": 22,
+  "dayCount": 23,
   "stocks": [
     {
       "code": "sz002056",
@@ -30,13 +30,6 @@
       "group": "focus",
       "addedDate": "2026-03-16",
       "source": "sector:黄河三角"
-    },
-    {
-      "code": "sz002594",
-      "name": "比亚迪",
-      "group": "focus",
-      "addedDate": "2026-03-16",
-      "source": "sector:业绩预升"
     },
     {
       "code": "sh600519",
@@ -195,20 +188,6 @@
       "source": "sector:军工航天"
     },
     {
-      "code": "sh600158",
-      "name": "中体产业",
-      "group": "focus",
-      "addedDate": "2026-03-31",
-      "source": "sector:赛马概念"
-    },
-    {
-      "code": "sz000788",
-      "name": "北大医药",
-      "group": "focus",
-      "addedDate": "2026-04-02",
-      "source": "sector:金融参股"
-    },
-    {
       "code": "sh600339",
       "name": "中油工程",
       "group": "focus",
@@ -216,31 +195,53 @@
       "source": "sector:油气改革"
     },
     {
-      "code": "sz000155",
-      "name": "川能动力",
+      "code": "sz002222",
+      "name": "福晶科技",
       "group": "focus",
-      "addedDate": "2026-04-02",
-      "source": "sector:金融参股"
+      "addedDate": "2026-04-03",
+      "source": "sector:3D打印"
     },
     {
-      "code": "sz002460",
-      "name": "赣锋锂业",
+      "code": "sz000988",
+      "name": "华工科技",
       "group": "focus",
-      "addedDate": "2026-04-02",
-      "source": "sector:锂矿"
+      "addedDate": "2026-04-03",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz000938",
+      "name": "紫光股份",
+      "group": "focus",
+      "addedDate": "2026-04-03",
+      "source": "sector:3D打印"
+    },
+    {
+      "code": "sz002281",
+      "name": "光迅科技",
+      "group": "focus",
+      "addedDate": "2026-04-03",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz002364",
+      "name": "中恒电气",
+      "group": "focus",
+      "addedDate": "2026-04-03",
+      "source": "sector:5G概念"
     }
   ],
   "todayAdded": [
-    "sz000788",
-    "sh600339",
-    "sz000155",
-    "sz002460"
+    "sz002222",
+    "sz000988",
+    "sz000938",
+    "sz002281",
+    "sz002364"
   ],
   "todayRemoved": [
-    "sh600602",
-    "sz002580",
-    "sh600010",
-    "sh603127",
-    "sh603601"
+    "sh600158",
+    "sz000155",
+    "sz000788",
+    "sz002460",
+    "sz002594"
   ]
 }
