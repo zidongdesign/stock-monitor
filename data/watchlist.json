@@ -1,43 +1,8 @@
 {
-  "version": "20260406a",
+  "version": "20260407a",
   "startDate": "2026-03-12",
-  "dayCount": 26,
+  "dayCount": 27,
   "stocks": [
-    {
-      "code": "sz002056",
-      "name": "横店东磁",
-      "group": "focus",
-      "addedDate": "2026-03-13",
-      "source": "sector:光伏概念"
-    },
-    {
-      "code": "sh601991",
-      "name": "大唐发电",
-      "group": "focus",
-      "addedDate": "2026-03-13",
-      "source": "sector:风电"
-    },
-    {
-      "code": "sh605090",
-      "name": "九丰能源",
-      "group": "watch",
-      "addedDate": "2026-03-14",
-      "source": "商业航天发射场配套"
-    },
-    {
-      "code": "sz300308",
-      "name": "中际旭创",
-      "group": "focus",
-      "addedDate": "2026-03-16",
-      "source": "sector:黄河三角"
-    },
-    {
-      "code": "sh600519",
-      "name": "贵州茅台",
-      "group": "focus",
-      "addedDate": "2026-03-16",
-      "source": "sector:白酒概念"
-    },
     {
       "code": "sz300304",
       "name": "云意电气",
@@ -202,14 +167,12 @@
       "source": "sector:5G概念"
     }
   ],
-  "todayAdded": [
-    "sh600522"
-  ],
+  "todayAdded": [],
   "todayRemoved": [
-    "sh601318",
-    "sh600276",
-    "sz002361",
-    "sz300059",
-    "sz002938"
+    "sz002056",
+    "sh601991",
+    "sh605090",
+    "sz300308",
+    "sh600519"
   ]
 }

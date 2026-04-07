@@ -5788,3 +5788,293 @@ Done.
   输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
 ============================================================
 [3/3] Git push...
+[main 655551a] daily: 2026-04-06 收盘分析更新
+ 6 files changed, 428 insertions(+), 396 deletions(-)
+To https://github.com/zidongdesign/stock-monitor.git
+   acae30b..655551a  main -> main
+Done.
+===== 2026-04-07 15:39:03 =====
+[1/3] Running daily_analysis.py...
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+        (self._dns_host, self.port),
+    ...<2 lines>...
+        socket_options=self.socket_options,
+    )
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 983, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+                       ~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='vip.stock.finance.sina.com.cn', port=443): Max retries exceeded with url: /quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_bk?page=1&num=20&sort=netamount&asc=0&fenlei=1 (Caused by NameResolutionError("HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/chenzidong/chenpitang/project/stock-monitor-web/scripts/sector_scan.py", line 333, in run_sector_scan
+    raw_sectors = fetch_sector_ranking(top_n=10)
+  File "/Users/chenzidong/chenpitang/project/stock-monitor-web/scripts/sector_scan.py", line 77, in fetch_sector_ranking
+    resp = requests.get(url, headers=HEADERS, timeout=15)
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='vip.stock.finance.sina.com.cn', port=443): Max retries exceeded with url: /quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_bk?page=1&num=20&sort=netamount&asc=0&fenlei=1 (Caused by NameResolutionError("HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+📊 当前池子: 28 只 | 起始日期: 2026-03-12 | 第 27 天
+============================================================
+💰 拉取新浪全市场资金流向...
+  ⚠️ 新浪资金排名(流入)失败: HTTPSConnectionPool(host='vip.stock.finance.sina.com.cn', port=443): Max retries exceeded with url: /quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_ssggzj?page=1&num=500&sort=netamount&asc=0&bankuai=&shession=f (Caused by NameResolutionError("HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  ⚠️ 新浪资金排名(流出)失败: HTTPSConnectionPool(host='vip.stock.finance.sina.com.cn', port=443): Max retries exceeded with url: /quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_ssggzj?page=1&num=500&sort=netamount&asc=1&bankuai=&shession=f (Caused by NameResolutionError("HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  ✅ 获取 0 条资金数据
+
+📊 评分 28 只自选股...
+  [1/28] sz002056 横店东磁
+  [财务] sz002056 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/002056/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz002056 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.002056&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [2/28] sh601991 大唐发电
+  [财务] sh601991 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/601991/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh601991 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.601991&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [3/28] sh605090 九丰能源
+  [财务] sh605090 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/605090/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh605090 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.605090&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [4/28] sz300308 中际旭创
+  [财务] sz300308 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/300308/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz300308 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.300308&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [5/28] sh600519 贵州茅台
+  [财务] sh600519 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/600519/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh600519 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600519&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [6/28] sz300304 云意电气
+  [财务] sz300304 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/300304/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz300304 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.300304&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [7/28] sz300394 天孚通信
+  [财务] sz300394 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/300394/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz300394 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.300394&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [8/28] sz002837 英维克
+  [财务] sz002837 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/002837/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz002837 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.002837&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [9/28] sh600186 莲花控股
+  [财务] sh600186 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/600186/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh600186 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600186&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [10/28] sh605117 德业股份
+  [财务] sh605117 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/605117/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh605117 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.605117&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [11/28] sz300274 阳光电源
+  [财务] sz300274 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/300274/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz300274 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.300274&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [12/28] sh603259 药明康德
+  [财务] sh603259 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/603259/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh603259 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.603259&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [13/28] sz002475 立讯精密
+  [财务] sz002475 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/002475/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz002475 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.002475&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [14/28] sz002371 北方华创
+  [财务] sz002371 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/002371/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz002371 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.002371&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [15/28] sh600309 万华化学
+  [财务] sh600309 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/600309/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh600309 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600309&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [16/28] sh600988 赤峰黄金
+  [财务] sh600988 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/600988/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh600988 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600988&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [17/28] sh601600 中国铝业
+  [财务] sh601600 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/601600/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh601600 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.601600&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [18/28] sh600487 亨通光电
+  [财务] sh600487 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/600487/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh600487 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600487&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [19/28] sz300548 长芯博创
+  [财务] sz300548 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/300548/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz300548 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.300548&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [20/28] sz002821 凯莱英
+  [财务] sz002821 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/002821/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz002821 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.002821&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [21/28] sz300759 康龙化成
+  [财务] sz300759 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/300759/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz300759 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.300759&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [22/28] sh600339 中油工程
+  [财务] sh600339 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/600339/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh600339 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600339&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [23/28] sz002222 福晶科技
+  [财务] sz002222 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/002222/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz002222 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.002222&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [24/28] sz000988 华工科技
+  [财务] sz000988 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/000988/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz000988 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.000988&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [25/28] sz000938 紫光股份
+  [财务] sz000938 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/000938/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz000938 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.000938&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [26/28] sz002281 光迅科技
+  [财务] sz002281 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/002281/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz002281 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.002281&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [27/28] sz002364 中恒电气
+  [财务] sz002364 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/002364/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sz002364 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.002364&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+  [28/28] sh600522 中天科技
+  [财务] sh600522 拉取失败: HTTPSConnectionPool(host='basic.10jqka.com.cn', port=443): Max retries exceeded with url: /new/600522/finance.html (Caused by NameResolutionError("HTTPSConnection(host='basic.10jqka.com.cn', port=443): Failed to resolve 'basic.10jqka.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  [技术] sh600522 K线拉取失败: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=1.600522&beg=20250919&end=20260407 (Caused by NameResolutionError("HTTPSConnection(host='push2his.eastmoney.com', port=443): Failed to resolve 'push2his.eastmoney.com' ([Errno 8] nodename nor servname provided, or not known)"))
+
+📊 评分完成。最低: sz002056=38分  最高: sh600522=38分
+
+🗑️ 淘汰 5 只（池子已运行 27 天 >= 10）:
+  ❌ sz002056 横店东磁: 38分
+  ❌ sh601991 大唐发电: 38分
+  ❌ sh605090 九丰能源: 38分
+  ❌ sz300308 中际旭创: 38分
+  ❌ sh600519 贵州茅台: 38分
+
+🔍 扫描板块，寻找 5 只补入候选...
+============================================================
+[板块扫描] 开始 2026-04-07 16:44:33
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块扫描] 拉取板块排名失败: HTTPSConnectionPool(host='vip.stock.finance.sina.com.cn', port=443): Max retries exceeded with url: /quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_bk?page=1&num=20&sort=netamount&asc=0&fenlei=1 (Caused by NameResolutionError("HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+  板块扫描返回 0 只候选
+
+✅ 补入 0 只:
+
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/watchlist.json (v20260407a, 23只)
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/analysis.json
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/history.json
+  ✅ 更新 js/store.js: version=20260407a
+
+============================================================
+📊 汇总:
+  池子: 28 → 23 只
+  淘汰: 5 只
+  补入: 0 只
+  版本: 20260407a
+============================================================
+[2/3] Running sector_scan.py...
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+        (self._dns_host, self.port),
+    ...<2 lines>...
+        socket_options=self.socket_options,
+    )
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 983, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+                       ~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/opt/homebrew/lib/python3.14/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='vip.stock.finance.sina.com.cn', port=443): Max retries exceeded with url: /quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_bk?page=1&num=20&sort=netamount&asc=0&fenlei=1 (Caused by NameResolutionError("HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/chenzidong/chenpitang/project/stock-monitor-web/scripts/sector_scan.py", line 333, in run_sector_scan
+    raw_sectors = fetch_sector_ranking(top_n=10)
+  File "/Users/chenzidong/chenpitang/project/stock-monitor-web/scripts/sector_scan.py", line 77, in fetch_sector_ranking
+    resp = requests.get(url, headers=HEADERS, timeout=15)
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/homebrew/lib/python3.14/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='vip.stock.finance.sina.com.cn', port=443): Max retries exceeded with url: /quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_bk?page=1&num=20&sort=netamount&asc=0&fenlei=1 (Caused by NameResolutionError("HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+============================================================
+[板块扫描] 开始 2026-04-07 16:44:34
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块扫描] 拉取板块排名失败: HTTPSConnectionPool(host='vip.stock.finance.sina.com.cn', port=443): Max retries exceeded with url: /quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_bk?page=1&num=20&sort=netamount&asc=0&fenlei=1 (Caused by NameResolutionError("HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
+[3/3] Git push...
