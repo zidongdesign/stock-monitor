@@ -6078,3 +6078,206 @@ requests.exceptions.ConnectionError: HTTPSConnectionPool(host='vip.stock.finance
 [板块排名] 拉取新浪板块资金排名...
 [板块扫描] 拉取板块排名失败: HTTPSConnectionPool(host='vip.stock.finance.sina.com.cn', port=443): Max retries exceeded with url: /quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_bk?page=1&num=20&sort=netamount&asc=0&fenlei=1 (Caused by NameResolutionError("HTTPSConnection(host='vip.stock.finance.sina.com.cn', port=443): Failed to resolve 'vip.stock.finance.sina.com.cn' ([Errno 8] nodename nor servname provided, or not known)"))
 [3/3] Git push...
+[main eeded26] daily: 2026-04-07 收盘分析更新
+ 5 files changed, 695 insertions(+), 819 deletions(-)
+fatal: unable to access 'https://github.com/zidongdesign/stock-monitor.git/': Could not resolve host: github.com
+Push failed
+Done.
+===== 2026-04-08 15:48:26 =====
+[1/3] Running daily_analysis.py...
+📊 当前池子: 23 只 | 起始日期: 2026-03-12 | 第 28 天
+============================================================
+💰 拉取新浪全市场资金流向...
+  ✅ 获取 1000 条资金数据
+
+📊 评分 23 只自选股...
+  [1/23] sz300304 云意电气
+  [2/23] sz300394 天孚通信
+  [3/23] sz002837 英维克
+  [4/23] sh600186 莲花控股
+  [5/23] sh605117 德业股份
+  [6/23] sz300274 阳光电源
+  [7/23] sh603259 药明康德
+  [8/23] sz002475 立讯精密
+  [9/23] sz002371 北方华创
+  [10/23] sh600309 万华化学
+  [11/23] sh600988 赤峰黄金
+  [12/23] sh601600 中国铝业
+  [13/23] sh600487 亨通光电
+  [14/23] sz300548 长芯博创
+  [15/23] sz002821 凯莱英
+  [16/23] sz300759 康龙化成
+  [17/23] sh600339 中油工程
+  [18/23] sz002222 福晶科技
+  [19/23] sz000988 华工科技
+  [20/23] sz000938 紫光股份
+  [21/23] sz002281 光迅科技
+  [技术] sz002281 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [22/23] sz002364 中恒电气
+  [技术] sz002364 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [23/23] sh600522 中天科技
+  [技术] sh600522 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+📊 评分完成。最低: sh600522=37分  最高: sh600988=90分
+
+🗑️ 淘汰 5 只（池子已运行 28 天 >= 10）:
+  ❌ sh600522 中天科技: 37分
+  ❌ sz002364 中恒电气: 38分
+  ❌ sz002821 凯莱英: 44分
+  ❌ sz002281 光迅科技: 47分
+  ❌ sh600339 中油工程: 48分
+
+🔍 扫描板块，寻找 5 只补入候选...
+============================================================
+[板块扫描] 开始 2026-04-08 16:05:52
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 股权激励 (gn_gqjl) 净流入: 319.04亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 融资融券 (gn_rzrq) 净流入: 317.41亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 专精特新 (gn_zjtx) 净流入: 201.47亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 业绩预升 (gn_yjys) 净流入: 201.40亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 光伏 (gn_gf) 净流入: 199.89亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 重组概念 (gn_zzgn) 净流入: 190.12亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 光伏概念 (gn_gfgn) 净流入: 181.09亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 国防军工 (gn_gfjg) 净流入: 167.97亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 军工航天 (gn_jght) 净流入: 146.93亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 参股金融 (gn_cgjr) 净流入: 138.24亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+  板块扫描返回 10 只候选
+  📊 评分候选: sh601899 紫金矿业
+  [技术] sh601899 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz300058 蓝色光标
+  [技术] sz300058 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  ⛔ sz300058 蓝色光标: 财务D级
+  📊 评分候选: sz300017 网宿科技
+  [技术] sz300017 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002273 水晶光电
+  [技术] sz002273 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz300751 迈为股份
+  [技术] sz300751 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sh600875 东方电气
+  [技术] sh600875 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002008 大族激光
+  [技术] sz002008 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz002155 湖南黄金
+  [技术] sz002155 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz300136 信维通信
+  [技术] sz300136 K线拉取失败: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  📊 评分候选: sz300059 东方财富
+
+✅ 补入 5 只:
+  ➕ sh601899 紫金矿业: 76分 [融资融券]
+  ➕ sz300059 东方财富: 71分 [参股金融]
+  ➕ sz002273 水晶光电: 66分 [股权激励]
+  ➕ sz002008 大族激光: 65分 [融资融券]
+  ➕ sz002155 湖南黄金: 65分 [融资融券]
+
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/watchlist.json (v20260408a, 23只)
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/analysis.json
+✅ 写入 /Users/chenzidong/chenpitang/project/stock-monitor-web/data/history.json
+  ✅ 更新 js/store.js: version=20260408a
+
+============================================================
+📊 汇总:
+  池子: 23 → 23 只
+  淘汰: 5 只
+  补入: 5 只
+  版本: 20260408a
+============================================================
+[2/3] Running sector_scan.py...
+============================================================
+[板块扫描] 开始 2026-04-08 16:22:51
+============================================================
+[板块排名] 拉取新浪板块资金排名...
+[板块排名] 获取到 20 个板块
+
+[资金排名] 拉取全市场个股资金排名...
+  [资金排名] 流入 TOP500: 500 条
+  [资金排名] 流出 TOP500: 500 条
+[资金排名] 共获取 1000 只个股资金数据
+
+--- 板块: 股权激励 (gn_gqjl) 净流入: 319.04亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 融资融券 (gn_rzrq) 净流入: 317.41亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 专精特新 (gn_zjtx) 净流入: 201.47亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 业绩预升 (gn_yjys) 净流入: 201.40亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 光伏 (gn_gf) 净流入: 199.89亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 重组概念 (gn_zzgn) 净流入: 190.12亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 光伏概念 (gn_gfgn) 净流入: 181.09亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 国防军工 (gn_gfjg) 净流入: 167.97亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 军工航天 (gn_jght) 净流入: 146.93亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+--- 板块: 参股金融 (gn_cgjr) 净流入: 138.24亿 ---
+  成分股: 50 只
+  热门个股: 5 只
+
+============================================================
+[板块扫描] 完成！板块: 10  推荐: 10
+  输出: /Users/chenzidong/chenpitang/project/stock-monitor-web/data/sectors.json
+============================================================
+[3/3] Git push...
