@@ -1,7 +1,7 @@
 {
-  "version": "20260408a",
+  "version": "20260409a",
   "startDate": "2026-03-12",
-  "dayCount": 28,
+  "dayCount": 29,
   "stocks": [
     {
       "code": "sz300304",
@@ -25,13 +25,6 @@
       "group": "focus",
       "addedDate": "2026-03-18",
       "source": "sector:国防军工"
-    },
-    {
-      "code": "sh600186",
-      "name": "莲花控股",
-      "group": "focus",
-      "addedDate": "2026-03-19",
-      "source": "sector:准ST股"
     },
     {
       "code": "sh605117",
@@ -104,20 +97,6 @@
       "source": "sector:专精特新"
     },
     {
-      "code": "sz300759",
-      "name": "康龙化成",
-      "group": "focus",
-      "addedDate": "2026-03-31",
-      "source": "sector:CRO概念"
-    },
-    {
-      "code": "sz002222",
-      "name": "福晶科技",
-      "group": "focus",
-      "addedDate": "2026-04-03",
-      "source": "sector:3D打印"
-    },
-    {
       "code": "sz000988",
       "name": "华工科技",
       "group": "focus",
@@ -139,13 +118,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz300059",
-      "name": "东方财富",
-      "group": "focus",
-      "addedDate": "2026-04-08",
-      "source": "sector:参股金融"
-    },
-    {
       "code": "sz002273",
       "name": "水晶光电",
       "group": "focus",
@@ -160,25 +132,45 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz002155",
-      "name": "湖南黄金",
+      "code": "sz002384",
+      "name": "东山精密",
       "group": "focus",
-      "addedDate": "2026-04-08",
-      "source": "sector:融资融券"
+      "addedDate": "2026-04-09",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sh600345",
+      "name": "长江通信",
+      "group": "focus",
+      "addedDate": "2026-04-09",
+      "source": "sector:宽带提速"
+    },
+    {
+      "code": "sz002281",
+      "name": "光迅科技",
+      "group": "focus",
+      "addedDate": "2026-04-09",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sh600105",
+      "name": "永鼎股份",
+      "group": "focus",
+      "addedDate": "2026-04-09",
+      "source": "sector:5G概念"
     }
   ],
   "todayAdded": [
-    "sh601899",
-    "sz300059",
-    "sz002273",
-    "sz002008",
-    "sz002155"
+    "sz002384",
+    "sh600345",
+    "sz002281",
+    "sh600105"
   ],
   "todayRemoved": [
-    "sh600522",
-    "sz002364",
-    "sz002821",
-    "sz002281",
-    "sh600339"
+    "sz300059",
+    "sz002155",
+    "sz002222",
+    "sh600186",
+    "sz300759"
   ]
 }
