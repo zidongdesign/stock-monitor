@@ -1,7 +1,7 @@
 {
-  "version": "20260409a",
+  "version": "20260410a",
   "startDate": "2026-03-12",
-  "dayCount": 29,
+  "dayCount": 30,
   "stocks": [
     {
       "code": "sz300304",
@@ -83,32 +83,11 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sh600487",
-      "name": "亨通光电",
-      "group": "focus",
-      "addedDate": "2026-03-30",
-      "source": "sector:参股金融"
-    },
-    {
       "code": "sz300548",
       "name": "长芯博创",
       "group": "focus",
       "addedDate": "2026-03-30",
       "source": "sector:专精特新"
-    },
-    {
-      "code": "sz000988",
-      "name": "华工科技",
-      "group": "focus",
-      "addedDate": "2026-04-03",
-      "source": "sector:华为概念"
-    },
-    {
-      "code": "sz000938",
-      "name": "紫光股份",
-      "group": "focus",
-      "addedDate": "2026-04-03",
-      "source": "sector:3D打印"
     },
     {
       "code": "sh601899",
@@ -125,13 +104,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz002008",
-      "name": "大族激光",
-      "group": "focus",
-      "addedDate": "2026-04-08",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz002384",
       "name": "东山精密",
       "group": "focus",
@@ -146,31 +118,60 @@
       "source": "sector:宽带提速"
     },
     {
-      "code": "sz002281",
-      "name": "光迅科技",
-      "group": "focus",
-      "addedDate": "2026-04-09",
-      "source": "sector:华为概念"
-    },
-    {
       "code": "sh600105",
       "name": "永鼎股份",
       "group": "focus",
       "addedDate": "2026-04-09",
       "source": "sector:5G概念"
+    },
+    {
+      "code": "sz300750",
+      "name": "宁德时代",
+      "group": "focus",
+      "addedDate": "2026-04-10",
+      "source": "sector:固态电池"
+    },
+    {
+      "code": "sz000559",
+      "name": "万向钱潮",
+      "group": "focus",
+      "addedDate": "2026-04-10",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sz300014",
+      "name": "亿纬锂能",
+      "group": "focus",
+      "addedDate": "2026-04-10",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sz002074",
+      "name": "国轩高科",
+      "group": "focus",
+      "addedDate": "2026-04-10",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sh600482",
+      "name": "中国动力",
+      "group": "focus",
+      "addedDate": "2026-04-10",
+      "source": "sector:锂电池"
     }
   ],
   "todayAdded": [
-    "sz002384",
-    "sh600345",
-    "sz002281",
-    "sh600105"
+    "sz300750",
+    "sz000559",
+    "sz300014",
+    "sz002074",
+    "sh600482"
   ],
   "todayRemoved": [
-    "sz300059",
-    "sz002155",
-    "sz002222",
-    "sh600186",
-    "sz300759"
+    "sz002281",
+    "sz000938",
+    "sh600487",
+    "sz002008",
+    "sz000988"
   ]
 }
