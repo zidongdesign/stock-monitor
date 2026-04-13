@@ -1,17 +1,8 @@
 {
-  "version": "20260410a",
+  "version": "20260413a",
   "startDate": "2026-03-12",
-  "dayCount": 30,
+  "dayCount": 33,
   "stocks": [
-    {
-      "code": "sz300304",
-      "name": "云意电气",
-      "group": "watch",
-      "addedDate": "2026-03-18",
-      "source": "汽车电子+机器人关节-戈叔关注",
-      "alertBelow": 13.2,
-      "note": "13元附近关注，大股东增持区间13-15元，PE28合理"
-    },
     {
       "code": "sz300394",
       "name": "天孚通信",
@@ -104,27 +95,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz002384",
-      "name": "东山精密",
-      "group": "focus",
-      "addedDate": "2026-04-09",
-      "source": "sector:华为概念"
-    },
-    {
-      "code": "sh600345",
-      "name": "长江通信",
-      "group": "focus",
-      "addedDate": "2026-04-09",
-      "source": "sector:宽带提速"
-    },
-    {
-      "code": "sh600105",
-      "name": "永鼎股份",
-      "group": "focus",
-      "addedDate": "2026-04-09",
-      "source": "sector:5G概念"
-    },
-    {
       "code": "sz300750",
       "name": "宁德时代",
       "group": "focus",
@@ -134,13 +104,6 @@
     {
       "code": "sz000559",
       "name": "万向钱潮",
-      "group": "focus",
-      "addedDate": "2026-04-10",
-      "source": "sector:特斯拉"
-    },
-    {
-      "code": "sz300014",
-      "name": "亿纬锂能",
       "group": "focus",
       "addedDate": "2026-04-10",
       "source": "sector:特斯拉"
@@ -158,20 +121,55 @@
       "group": "focus",
       "addedDate": "2026-04-10",
       "source": "sector:锂电池"
+    },
+    {
+      "code": "sh600760",
+      "name": "中航沈飞",
+      "group": "focus",
+      "addedDate": "2026-04-13",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz002580",
+      "name": "圣阳股份",
+      "group": "focus",
+      "addedDate": "2026-04-13",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sh603019",
+      "name": "中科曙光",
+      "group": "focus",
+      "addedDate": "2026-04-13",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz300166",
+      "name": "东方国信",
+      "group": "focus",
+      "addedDate": "2026-04-13",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz300395",
+      "name": "菲利华",
+      "group": "focus",
+      "addedDate": "2026-04-13",
+      "source": "sector:国防军工"
     }
   ],
   "todayAdded": [
-    "sz300750",
-    "sz000559",
-    "sz300014",
-    "sz002074",
-    "sh600482"
+    "sh600760",
+    "sz002580",
+    "sh603019",
+    "sz300166",
+    "sz300395"
   ],
   "todayRemoved": [
-    "sz002281",
-    "sz000938",
-    "sh600487",
-    "sz002008",
-    "sz000988"
+    "sh600105",
+    "sh600345",
+    "sz300304",
+    "sz002384",
+    "sz300014"
   ]
 }
