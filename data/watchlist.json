@@ -1,7 +1,7 @@
 {
-  "version": "20260413a",
+  "version": "20260414a",
   "startDate": "2026-03-12",
-  "dayCount": 33,
+  "dayCount": 34,
   "stocks": [
     {
       "code": "sz300394",
@@ -109,20 +109,6 @@
       "source": "sector:特斯拉"
     },
     {
-      "code": "sz002074",
-      "name": "国轩高科",
-      "group": "focus",
-      "addedDate": "2026-04-10",
-      "source": "sector:锂电池"
-    },
-    {
-      "code": "sh600482",
-      "name": "中国动力",
-      "group": "focus",
-      "addedDate": "2026-04-10",
-      "source": "sector:锂电池"
-    },
-    {
       "code": "sh600760",
       "name": "中航沈飞",
       "group": "focus",
@@ -137,39 +123,45 @@
       "source": "sector:光伏"
     },
     {
-      "code": "sh603019",
-      "name": "中科曙光",
+      "code": "sz001896",
+      "name": "豫能控股",
       "group": "focus",
-      "addedDate": "2026-04-13",
+      "addedDate": "2026-04-14",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sz002428",
+      "name": "云南锗业",
+      "group": "focus",
+      "addedDate": "2026-04-14",
       "source": "sector:国防军工"
     },
     {
-      "code": "sz300166",
-      "name": "东方国信",
+      "code": "sh600879",
+      "name": "航天电子",
       "group": "focus",
-      "addedDate": "2026-04-13",
-      "source": "sector:股权激励"
+      "addedDate": "2026-04-14",
+      "source": "sector:国防军工"
     },
     {
-      "code": "sz300395",
-      "name": "菲利华",
+      "code": "sh603986",
+      "name": "兆易创新",
       "group": "focus",
-      "addedDate": "2026-04-13",
-      "source": "sector:国防军工"
+      "addedDate": "2026-04-14",
+      "source": "sector:无线耳机"
     }
   ],
   "todayAdded": [
-    "sh600760",
-    "sz002580",
-    "sh603019",
-    "sz300166",
-    "sz300395"
+    "sz001896",
+    "sz002428",
+    "sh600879",
+    "sh603986"
   ],
   "todayRemoved": [
-    "sh600105",
-    "sh600345",
-    "sz300304",
-    "sz002384",
-    "sz300014"
+    "sh603019",
+    "sh600482",
+    "sz300166",
+    "sz300395",
+    "sz002074"
   ]
 }
