@@ -1,7 +1,7 @@
 {
-  "version": "20260414a",
+  "version": "20260415a",
   "startDate": "2026-03-12",
-  "dayCount": 34,
+  "dayCount": 35,
   "stocks": [
     {
       "code": "sz300394",
@@ -102,20 +102,6 @@
       "source": "sector:固态电池"
     },
     {
-      "code": "sz000559",
-      "name": "万向钱潮",
-      "group": "focus",
-      "addedDate": "2026-04-10",
-      "source": "sector:特斯拉"
-    },
-    {
-      "code": "sh600760",
-      "name": "中航沈飞",
-      "group": "focus",
-      "addedDate": "2026-04-13",
-      "source": "sector:国防军工"
-    },
-    {
       "code": "sz002580",
       "name": "圣阳股份",
       "group": "focus",
@@ -130,38 +116,53 @@
       "source": "sector:重组概念"
     },
     {
-      "code": "sz002428",
-      "name": "云南锗业",
+      "code": "sh600186",
+      "name": "莲花控股",
       "group": "focus",
-      "addedDate": "2026-04-14",
-      "source": "sector:国防军工"
+      "addedDate": "2026-04-15",
+      "source": "sector:准ST股"
     },
     {
-      "code": "sh600879",
-      "name": "航天电子",
+      "code": "sh600707",
+      "name": "彩虹股份",
       "group": "focus",
-      "addedDate": "2026-04-14",
-      "source": "sector:国防军工"
+      "addedDate": "2026-04-15",
+      "source": "sector:准ST股"
     },
     {
-      "code": "sh603986",
-      "name": "兆易创新",
+      "code": "sh600664",
+      "name": "哈药股份",
       "group": "focus",
-      "addedDate": "2026-04-14",
-      "source": "sector:无线耳机"
+      "addedDate": "2026-04-15",
+      "source": "sector:抗癌"
+    },
+    {
+      "code": "sh600572",
+      "name": "康恩贝",
+      "group": "focus",
+      "addedDate": "2026-04-15",
+      "source": "sector:抗癌"
+    },
+    {
+      "code": "sz002498",
+      "name": "汉缆股份",
+      "group": "focus",
+      "addedDate": "2026-04-15",
+      "source": "sector:超导概念"
     }
   ],
   "todayAdded": [
-    "sz001896",
-    "sz002428",
-    "sh600879",
-    "sh603986"
+    "sh600186",
+    "sh600707",
+    "sh600664",
+    "sh600572",
+    "sz002498"
   ],
   "todayRemoved": [
-    "sh603019",
-    "sh600482",
-    "sz300166",
-    "sz300395",
-    "sz002074"
+    "sh603986",
+    "sz002428",
+    "sh600760",
+    "sz000559",
+    "sh600879"
   ]
 }
