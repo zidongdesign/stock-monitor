@@ -1,7 +1,7 @@
 {
-  "version": "20260415a",
+  "version": "20260416a",
   "startDate": "2026-03-12",
-  "dayCount": 35,
+  "dayCount": 36,
   "stocks": [
     {
       "code": "sz300394",
@@ -53,13 +53,6 @@
       "source": "sector:本月解禁"
     },
     {
-      "code": "sh600309",
-      "name": "万华化学",
-      "group": "focus",
-      "addedDate": "2026-03-25",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sh600988",
       "name": "赤峰黄金",
       "group": "focus",
@@ -102,13 +95,6 @@
       "source": "sector:固态电池"
     },
     {
-      "code": "sz002580",
-      "name": "圣阳股份",
-      "group": "focus",
-      "addedDate": "2026-04-13",
-      "source": "sector:光伏"
-    },
-    {
       "code": "sz001896",
       "name": "豫能控股",
       "group": "focus",
@@ -123,13 +109,6 @@
       "source": "sector:准ST股"
     },
     {
-      "code": "sh600707",
-      "name": "彩虹股份",
-      "group": "focus",
-      "addedDate": "2026-04-15",
-      "source": "sector:准ST股"
-    },
-    {
       "code": "sh600664",
       "name": "哈药股份",
       "group": "focus",
@@ -137,32 +116,53 @@
       "source": "sector:抗癌"
     },
     {
-      "code": "sh600572",
-      "name": "康恩贝",
+      "code": "sh600549",
+      "name": "厦门钨业",
       "group": "focus",
-      "addedDate": "2026-04-15",
-      "source": "sector:抗癌"
+      "addedDate": "2026-04-16",
+      "source": "sector:锂电池"
     },
     {
-      "code": "sz002498",
-      "name": "汉缆股份",
+      "code": "sz002594",
+      "name": "比亚迪",
       "group": "focus",
-      "addedDate": "2026-04-15",
-      "source": "sector:超导概念"
+      "addedDate": "2026-04-16",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sh603799",
+      "name": "华友钴业",
+      "group": "focus",
+      "addedDate": "2026-04-16",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sz300604",
+      "name": "长川科技",
+      "group": "focus",
+      "addedDate": "2026-04-16",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz002491",
+      "name": "通鼎互联",
+      "group": "focus",
+      "addedDate": "2026-04-16",
+      "source": "sector:锂电池"
     }
   ],
   "todayAdded": [
-    "sh600186",
-    "sh600707",
-    "sh600664",
-    "sh600572",
-    "sz002498"
+    "sh600549",
+    "sz002594",
+    "sh603799",
+    "sz300604",
+    "sz002491"
   ],
   "todayRemoved": [
-    "sh603986",
-    "sz002428",
-    "sh600760",
-    "sz000559",
-    "sh600879"
+    "sh600707",
+    "sh600309",
+    "sz002580",
+    "sh600572",
+    "sz002498"
   ]
 }
