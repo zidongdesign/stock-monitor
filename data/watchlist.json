@@ -1,7 +1,7 @@
 {
-  "version": "20260416a",
+  "version": "20260417a",
   "startDate": "2026-03-12",
-  "dayCount": 36,
+  "dayCount": 37,
   "stocks": [
     {
       "code": "sz300394",
@@ -81,13 +81,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz002273",
-      "name": "水晶光电",
-      "group": "focus",
-      "addedDate": "2026-04-08",
-      "source": "sector:股权激励"
-    },
-    {
       "code": "sz300750",
       "name": "宁德时代",
       "group": "focus",
@@ -109,22 +102,8 @@
       "source": "sector:准ST股"
     },
     {
-      "code": "sh600664",
-      "name": "哈药股份",
-      "group": "focus",
-      "addedDate": "2026-04-15",
-      "source": "sector:抗癌"
-    },
-    {
       "code": "sh600549",
       "name": "厦门钨业",
-      "group": "focus",
-      "addedDate": "2026-04-16",
-      "source": "sector:锂电池"
-    },
-    {
-      "code": "sz002594",
-      "name": "比亚迪",
       "group": "focus",
       "addedDate": "2026-04-16",
       "source": "sector:锂电池"
@@ -137,32 +116,53 @@
       "source": "sector:锂矿"
     },
     {
-      "code": "sz300604",
-      "name": "长川科技",
+      "code": "sz300308",
+      "name": "中际旭创",
       "group": "focus",
-      "addedDate": "2026-04-16",
-      "source": "sector:专精特新"
+      "addedDate": "2026-04-17",
+      "source": "sector:黄河三角"
     },
     {
-      "code": "sz002491",
-      "name": "通鼎互联",
+      "code": "sz300456",
+      "name": "赛微电子",
       "group": "focus",
-      "addedDate": "2026-04-16",
-      "source": "sector:锂电池"
+      "addedDate": "2026-04-17",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz000988",
+      "name": "华工科技",
+      "group": "focus",
+      "addedDate": "2026-04-17",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz002580",
+      "name": "圣阳股份",
+      "group": "focus",
+      "addedDate": "2026-04-17",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz002428",
+      "name": "云南锗业",
+      "group": "focus",
+      "addedDate": "2026-04-17",
+      "source": "sector:光伏概念"
     }
   ],
   "todayAdded": [
-    "sh600549",
-    "sz002594",
-    "sh603799",
-    "sz300604",
-    "sz002491"
+    "sz300308",
+    "sz300456",
+    "sz000988",
+    "sz002580",
+    "sz002428"
   ],
   "todayRemoved": [
-    "sh600707",
-    "sh600309",
-    "sz002580",
-    "sh600572",
-    "sz002498"
+    "sz002491",
+    "sh600664",
+    "sz002594",
+    "sz300604",
+    "sz002273"
   ]
 }
