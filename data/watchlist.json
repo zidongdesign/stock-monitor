@@ -1,7 +1,7 @@
 {
-  "version": "20260417a",
+  "version": "20260420a",
   "startDate": "2026-03-12",
-  "dayCount": 37,
+  "dayCount": 40,
   "stocks": [
     {
       "code": "sz300394",
@@ -32,13 +32,6 @@
       "source": "sector:光伏"
     },
     {
-      "code": "sh603259",
-      "name": "药明康德",
-      "group": "focus",
-      "addedDate": "2026-03-24",
-      "source": "sector:创新药"
-    },
-    {
       "code": "sz002475",
       "name": "立讯精密",
       "group": "focus",
@@ -65,13 +58,6 @@
       "group": "focus",
       "addedDate": "2026-03-30",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sz300548",
-      "name": "长芯博创",
-      "group": "focus",
-      "addedDate": "2026-03-30",
-      "source": "sector:专精特新"
     },
     {
       "code": "sh601899",
@@ -102,20 +88,6 @@
       "source": "sector:准ST股"
     },
     {
-      "code": "sh600549",
-      "name": "厦门钨业",
-      "group": "focus",
-      "addedDate": "2026-04-16",
-      "source": "sector:锂电池"
-    },
-    {
-      "code": "sh603799",
-      "name": "华友钴业",
-      "group": "focus",
-      "addedDate": "2026-04-16",
-      "source": "sector:锂矿"
-    },
-    {
       "code": "sz300308",
       "name": "中际旭创",
       "group": "focus",
@@ -125,13 +97,6 @@
     {
       "code": "sz300456",
       "name": "赛微电子",
-      "group": "focus",
-      "addedDate": "2026-04-17",
-      "source": "sector:华为概念"
-    },
-    {
-      "code": "sz000988",
-      "name": "华工科技",
       "group": "focus",
       "addedDate": "2026-04-17",
       "source": "sector:华为概念"
@@ -149,20 +114,55 @@
       "group": "focus",
       "addedDate": "2026-04-17",
       "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz000977",
+      "name": "浪潮信息",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sh600118",
+      "name": "中国卫星",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz002361",
+      "name": "神剑股份",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz000725",
+      "name": "京东方Ａ",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600150",
+      "name": "中国船舶",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "sector:军民融合"
     }
   ],
   "todayAdded": [
-    "sz300308",
-    "sz300456",
-    "sz000988",
-    "sz002580",
-    "sz002428"
+    "sz000977",
+    "sh600118",
+    "sz002361",
+    "sz000725",
+    "sh600150"
   ],
   "todayRemoved": [
-    "sz002491",
-    "sh600664",
-    "sz002594",
-    "sz300604",
-    "sz002273"
+    "sh600549",
+    "sz000988",
+    "sz300548",
+    "sh603799",
+    "sh603259"
   ]
 }
