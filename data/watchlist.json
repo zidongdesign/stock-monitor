@@ -1,7 +1,7 @@
 {
-  "version": "20260420a",
+  "version": "20260421a",
   "startDate": "2026-03-12",
-  "dayCount": 40,
+  "dayCount": 41,
   "stocks": [
     {
       "code": "sz300394",
@@ -39,13 +39,6 @@
       "source": "sector:华为概念"
     },
     {
-      "code": "sz002371",
-      "name": "北方华创",
-      "group": "focus",
-      "addedDate": "2026-03-25",
-      "source": "sector:本月解禁"
-    },
-    {
       "code": "sh600988",
       "name": "赤峰黄金",
       "group": "focus",
@@ -74,13 +67,6 @@
       "source": "sector:固态电池"
     },
     {
-      "code": "sz001896",
-      "name": "豫能控股",
-      "group": "focus",
-      "addedDate": "2026-04-14",
-      "source": "sector:重组概念"
-    },
-    {
       "code": "sh600186",
       "name": "莲花控股",
       "group": "focus",
@@ -102,25 +88,11 @@
       "source": "sector:华为概念"
     },
     {
-      "code": "sz002580",
-      "name": "圣阳股份",
-      "group": "focus",
-      "addedDate": "2026-04-17",
-      "source": "sector:光伏概念"
-    },
-    {
       "code": "sz002428",
       "name": "云南锗业",
       "group": "focus",
       "addedDate": "2026-04-17",
       "source": "sector:光伏概念"
-    },
-    {
-      "code": "sz000977",
-      "name": "浪潮信息",
-      "group": "focus",
-      "addedDate": "2026-04-20",
-      "source": "sector:国防军工"
     },
     {
       "code": "sh600118",
@@ -137,32 +109,60 @@
       "source": "sector:国防军工"
     },
     {
-      "code": "sz000725",
-      "name": "京东方Ａ",
-      "group": "focus",
-      "addedDate": "2026-04-20",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sh600150",
       "name": "中国船舶",
       "group": "focus",
       "addedDate": "2026-04-20",
       "source": "sector:军民融合"
+    },
+    {
+      "code": "sz300014",
+      "name": "亿纬锂能",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sz300450",
+      "name": "先导智能",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "sector:固态电池"
+    },
+    {
+      "code": "sh600699",
+      "name": "均胜电子",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sz002466",
+      "name": "天齐锂业",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sz002709",
+      "name": "天赐材料",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "sector:锂电池"
     }
   ],
   "todayAdded": [
-    "sz000977",
-    "sh600118",
-    "sz002361",
-    "sz000725",
-    "sh600150"
+    "sz300014",
+    "sz300450",
+    "sh600699",
+    "sz002466",
+    "sz002709"
   ],
   "todayRemoved": [
-    "sh600549",
-    "sz000988",
-    "sz300548",
-    "sh603799",
-    "sh603259"
+    "sz002580",
+    "sz000725",
+    "sz001896",
+    "sz000977",
+    "sz002371"
   ]
 }
