@@ -47,10 +47,10 @@ STOCK_GROUPS = {
     ],
 }
 
-POOL_MAX = 50          # 池子上限
+POOL_MAX = 100         # 池子上限（戈叔要求100只后再淘汰）
 ELIMINATE_COUNT = 5    # 每次淘汰数量
 ADD_COUNT = 5          # 每次补入数量
-MATURE_DAYS = 10       # 池子运行天数 >= 此值才触发淘汰
+MATURE_DAYS = 999      # 暂停自动淘汰，等池子满100只再开启（原值10）
 
 # 静态股票名称映射（可被 watchlist.json 覆盖）
 STOCK_NAMES = {
@@ -76,6 +76,58 @@ def code_to_pure(code: str) -> str:
 def code_to_market(code: str) -> str:
     """sz301265 -> sz"""
     return code[:2]
+
+
+def fetch_kline_tencent(symbol: str, days: int = 200) -> pd.DataFrame | None:
+    """用腾讯财经接口拉取日K线（替代东方财富，避免代理拦截）。
+    symbol: sh600519 / sz002594 格式
+    返回 DataFrame，列名与 akshare 一致：日期/开盘/收盘/最高/最低/成交量
+    """
+    market = code_to_market(symbol)
+    pure = code_to_pure(symbol)
+    tc_symbol = f"{market}{pure}"  # e.g. sh600519
+
+    end_d = datetime.now().strftime("%Y-%m-%d")
+    start_d = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
+    url = (f"https://web.ifzq.gtimg.cn/appstock/app/fqkline/get"
+           f"?_var=kline_dayqfq&param={tc_symbol},day,{start_d},{end_d},{days},qfq")
+    try:
+        resp = requests.get(url, timeout=15)
+        # Response is JSONP: kline_dayqfq={...}
+        text = resp.text
+        json_start = text.find("{")
+        if json_start < 0:
+            return None
+        import json as _json
+        data = _json.loads(text[json_start:])
+        klines = data.get("data", {}).get(tc_symbol, {})
+        # Try qfqday first, then day
+        rows = klines.get("qfqday") or klines.get("day")
+        if not rows:
+            return None
+
+        records = []
+        for row in rows:
+            # row: [date, open, close, high, low, volume, ...]
+            if len(row) < 6:
+                continue
+            records.append({
+                "日期": row[0],
+                "开盘": float(row[1]),
+                "收盘": float(row[2]),
+                "最高": float(row[3]),
+                "最低": float(row[4]),
+                "成交量": float(row[5]) if row[5] else 0,
+            })
+        if not records:
+            return None
+        df = pd.DataFrame(records)
+        df["日期"] = pd.to_datetime(df["日期"])
+        df = df.sort_values("日期").reset_index(drop=True)
+        return df
+    except Exception as e:
+        print(f"  [技术] {symbol} 腾讯K线拉取失败: {e}")
+        return None
 
 
 # ============================================================
@@ -208,23 +260,12 @@ def compute_kdj(df: pd.DataFrame, n: int = 9, m1: int = 3, m2: int = 3) -> pd.Da
 
 
 def analyze_technical(symbol: str) -> dict:
-    pure = code_to_pure(symbol)
     result = {
         "trend": "unknown", "aboveMa20": None,
         "kdjSignal": "unknown", "support": None, "resistance": None,
     }
 
-    end_date = datetime.now().strftime("%Y%m%d")
-    start_date = (datetime.now() - timedelta(days=200)).strftime("%Y%m%d")
-
-    try:
-        df = ak.stock_zh_a_hist(
-            symbol=pure, period="daily",
-            start_date=start_date, end_date=end_date, adjust="qfq"
-        )
-    except Exception as e:
-        print(f"  [技术] {symbol} K线拉取失败: {e}")
-        return result
+    df = fetch_kline_tencent(symbol, days=200)
 
     if df is None or len(df) < 20:
         return result
@@ -271,17 +312,10 @@ def analyze_technical(symbol: str) -> dict:
 
 def get_recent_5d_gain(symbol: str) -> float | None:
     """获取近 5 日累计涨幅（%）"""
-    pure = code_to_pure(symbol)
-    end_date = datetime.now().strftime("%Y%m%d")
-    start_date = (datetime.now() - timedelta(days=15)).strftime("%Y%m%d")
     try:
-        df = ak.stock_zh_a_hist(
-            symbol=pure, period="daily",
-            start_date=start_date, end_date=end_date, adjust="qfq"
-        )
+        df = fetch_kline_tencent(symbol, days=15)
         if df is None or len(df) < 2:
             return None
-        df = df.sort_values("日期").reset_index(drop=True)
         recent = df.tail(5)
         if len(recent) < 2:
             return None
