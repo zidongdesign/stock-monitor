@@ -1,5 +1,5 @@
 {
-  "version": "20260423a",
+  "version": "20260423b",
   "startDate": "2026-03-12",
   "dayCount": 43,
   "stocks": [
@@ -289,14 +289,49 @@
       "group": "focus",
       "addedDate": "2026-04-23",
       "source": "sector:华为概念"
+    },
+    {
+      "code": "sh601890",
+      "name": "亚星锚链",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:海工装备"
+    },
+    {
+      "code": "sz000537",
+      "name": "绿发电力",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh601857",
+      "name": "中国石油",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:央企50"
+    },
+    {
+      "code": "sh600875",
+      "name": "东方电气",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:央企50"
+    },
+    {
+      "code": "sh600118",
+      "name": "中国卫星",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:央企50"
     }
   ],
   "todayAdded": [
-    "sz300548",
-    "sh600415",
-    "sz002273",
-    "sz000938",
-    "sz300136"
+    "sh601890",
+    "sz000537",
+    "sh601857",
+    "sh600875",
+    "sh600118"
   ],
   "todayRemoved": []
 }
