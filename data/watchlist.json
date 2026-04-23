@@ -1,7 +1,7 @@
 {
-  "version": "20260422b",
+  "version": "20260423a",
   "startDate": "2026-03-12",
-  "dayCount": 42,
+  "dayCount": 43,
   "stocks": [
     {
       "code": "sz002056",
@@ -254,20 +254,49 @@
       "group": "focus",
       "addedDate": "2026-04-20",
       "source": "戈叔研究:医疗器械+脑机+创新药"
+    },
+    {
+      "code": "sz300548",
+      "name": "长芯博创",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sh600415",
+      "name": "小商品城",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:金融参股"
+    },
+    {
+      "code": "sz002273",
+      "name": "水晶光电",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz000938",
+      "name": "紫光股份",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:分拆上市"
+    },
+    {
+      "code": "sz300136",
+      "name": "信维通信",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:华为概念"
     }
   ],
   "todayAdded": [
-    "sz000049",
-    "sz002384",
-    "sz300035",
-    "sh600487",
-    "sh600522"
+    "sz300548",
+    "sh600415",
+    "sz002273",
+    "sz000938",
+    "sz300136"
   ],
-  "todayRemoved": [
-    "sh600664",
-    "sz300322",
-    "sh601288",
-    "sz300827",
-    "sh603158"
-  ]
+  "todayRemoved": []
 }
