@@ -605,7 +605,14 @@ const App = {
         container.innerHTML = '<div class="empty-hint">暂无股票，点击＋添加</div>';
         return;
       }
-      container.innerHTML = codes.map(code => {
+      // 按评分从高到低排序
+      const analysisStocks = this._analysisData?.stocks || {};
+      const sortedCodes = [...codes].sort((a, b) => {
+        const scoreA = (analysisStocks[a]?.score) || 0;
+        const scoreB = (analysisStocks[b]?.score) || 0;
+        return scoreB - scoreA;
+      });
+      container.innerHTML = sortedCodes.map(code => {
         const d = this.stockData[code];
         const isActive = this.currentStock === code;
         const signals = d ? SignalDetector.detectRealtime(d, settings) : [];
