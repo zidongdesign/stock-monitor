@@ -1,7 +1,7 @@
 {
-  "version": "20260423b",
+  "version": "20260424a",
   "startDate": "2026-03-12",
-  "dayCount": 43,
+  "dayCount": 44,
   "stocks": [
     {
       "code": "sz002056",
@@ -324,14 +324,41 @@
       "group": "focus",
       "addedDate": "2026-04-23",
       "source": "sector:央企50"
+    },
+    {
+      "code": "sz002490",
+      "name": "山东墨龙",
+      "group": "focus",
+      "addedDate": "2026-04-24",
+      "source": "sector:海工装备"
+    },
+    {
+      "code": "sh600694",
+      "name": "大商股份",
+      "group": "focus",
+      "addedDate": "2026-04-24",
+      "source": "sector:内贸规划"
+    },
+    {
+      "code": "sh601600",
+      "name": "中国铝业",
+      "group": "focus",
+      "addedDate": "2026-04-24",
+      "source": "sector:央企50"
+    },
+    {
+      "code": "sh600770",
+      "name": "综艺股份",
+      "group": "focus",
+      "addedDate": "2026-04-24",
+      "source": "sector:整体上市"
     }
   ],
   "todayAdded": [
-    "sh601890",
-    "sz000537",
-    "sh601857",
-    "sh600875",
-    "sh600118"
+    "sz002490",
+    "sh600694",
+    "sh601600",
+    "sh600770"
   ],
   "todayRemoved": []
 }
