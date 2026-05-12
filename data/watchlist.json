@@ -1,7 +1,7 @@
 {
-  "version": "20260424a",
+  "version": "20260512a",
   "startDate": "2026-03-12",
-  "dayCount": 44,
+  "dayCount": 62,
   "stocks": [
     {
       "code": "sz002056",
@@ -352,13 +352,293 @@
       "group": "focus",
       "addedDate": "2026-04-24",
       "source": "sector:整体上市"
+    },
+    {
+      "code": "sh600338",
+      "name": "西藏珠峰",
+      "group": "focus",
+      "addedDate": "2026-04-27",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sz000546",
+      "name": "金圆股份",
+      "group": "focus",
+      "addedDate": "2026-04-27",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sz000988",
+      "name": "华工科技",
+      "group": "focus",
+      "addedDate": "2026-04-27",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sz002407",
+      "name": "多氟多",
+      "group": "focus",
+      "addedDate": "2026-04-27",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sz002484",
+      "name": "江海股份",
+      "group": "focus",
+      "addedDate": "2026-04-27",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sh603259",
+      "name": "药明康德",
+      "group": "focus",
+      "addedDate": "2026-04-28",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz300759",
+      "name": "康龙化成",
+      "group": "focus",
+      "addedDate": "2026-04-28",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz002821",
+      "name": "凯莱英",
+      "group": "focus",
+      "addedDate": "2026-04-28",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz300751",
+      "name": "迈为股份",
+      "group": "focus",
+      "addedDate": "2026-04-28",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sh600276",
+      "name": "恒瑞医药",
+      "group": "focus",
+      "addedDate": "2026-04-28",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sh601318",
+      "name": "中国平安",
+      "group": "focus",
+      "addedDate": "2026-04-29",
+      "source": "sector:超大盘"
+    },
+    {
+      "code": "sh600744",
+      "name": "华银电力",
+      "group": "focus",
+      "addedDate": "2026-04-29",
+      "source": "sector:风能"
+    },
+    {
+      "code": "sz000425",
+      "name": "徐工机械",
+      "group": "focus",
+      "addedDate": "2026-04-29",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz300763",
+      "name": "锦浪科技",
+      "group": "focus",
+      "addedDate": "2026-04-29",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sh600879",
+      "name": "航天电子",
+      "group": "focus",
+      "addedDate": "2026-04-29",
+      "source": "sector:央企50"
+    },
+    {
+      "code": "sz000792",
+      "name": "盐湖股份",
+      "group": "focus",
+      "addedDate": "2026-04-30",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz002756",
+      "name": "永兴材料",
+      "group": "focus",
+      "addedDate": "2026-04-30",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sh600111",
+      "name": "北方稀土",
+      "group": "focus",
+      "addedDate": "2026-04-30",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000338",
+      "name": "潍柴动力",
+      "group": "focus",
+      "addedDate": "2026-04-30",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz300054",
+      "name": "鼎龙股份",
+      "group": "focus",
+      "addedDate": "2026-04-30",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz002050",
+      "name": "三花智控",
+      "group": "focus",
+      "addedDate": "2026-05-04",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz002371",
+      "name": "北方华创",
+      "group": "focus",
+      "addedDate": "2026-05-04",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz002156",
+      "name": "通富微电",
+      "group": "focus",
+      "addedDate": "2026-05-04",
+      "source": "sector:触摸屏"
+    },
+    {
+      "code": "sz002342",
+      "name": "巨力索具",
+      "group": "focus",
+      "addedDate": "2026-05-04",
+      "source": "sector:军民融合"
+    },
+    {
+      "code": "sz002281",
+      "name": "光迅科技",
+      "group": "focus",
+      "addedDate": "2026-05-06",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz002475",
+      "name": "立讯精密",
+      "group": "focus",
+      "addedDate": "2026-05-06",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz300395",
+      "name": "菲利华",
+      "group": "focus",
+      "addedDate": "2026-05-06",
+      "source": "sector:军工航天"
+    },
+    {
+      "code": "sz002261",
+      "name": "拓维信息",
+      "group": "focus",
+      "addedDate": "2026-05-06",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sh600301",
+      "name": "华锡有色",
+      "group": "focus",
+      "addedDate": "2026-05-07",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000967",
+      "name": "盈峰环境",
+      "group": "focus",
+      "addedDate": "2026-05-07",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sz002436",
+      "name": "兴森科技",
+      "group": "focus",
+      "addedDate": "2026-05-07",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sh600221",
+      "name": "海航控股",
+      "group": "focus",
+      "addedDate": "2026-05-07",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz002297",
+      "name": "博云新材",
+      "group": "focus",
+      "addedDate": "2026-05-07",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sh601208",
+      "name": "东材科技",
+      "group": "focus",
+      "addedDate": "2026-05-08",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz002757",
+      "name": "南兴股份",
+      "group": "focus",
+      "addedDate": "2026-05-08",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sh601868",
+      "name": "中国能建",
+      "group": "focus",
+      "addedDate": "2026-05-08",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh601899",
+      "name": "紫金矿业",
+      "group": "focus",
+      "addedDate": "2026-05-12",
+      "source": "sector:黄金概念"
+    },
+    {
+      "code": "sz000811",
+      "name": "冰轮环境",
+      "group": "focus",
+      "addedDate": "2026-05-12",
+      "source": "sector:黄河三角"
+    },
+    {
+      "code": "sz300905",
+      "name": "宝丽迪",
+      "group": "focus",
+      "addedDate": "2026-05-12",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz300139",
+      "name": "晓程科技",
+      "group": "focus",
+      "addedDate": "2026-05-12",
+      "source": "sector:光伏概念"
     }
   ],
   "todayAdded": [
-    "sz002490",
-    "sh600694",
-    "sh601600",
-    "sh600770"
+    "sh601899",
+    "sz000811",
+    "sz300905",
+    "sz300139"
   ],
   "todayRemoved": []
 }
