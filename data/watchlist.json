@@ -1,7 +1,7 @@
 {
-  "version": "20260512a",
+  "version": "20260513a",
   "startDate": "2026-03-12",
-  "dayCount": 62,
+  "dayCount": 63,
   "stocks": [
     {
       "code": "sz002056",
@@ -632,13 +632,49 @@
       "group": "focus",
       "addedDate": "2026-05-12",
       "source": "sector:光伏概念"
+    },
+    {
+      "code": "sh603993",
+      "name": "洛阳钼业",
+      "group": "focus",
+      "addedDate": "2026-05-13",
+      "source": "sector:稀缺资源"
+    },
+    {
+      "code": "sz002560",
+      "name": "通达股份",
+      "group": "focus",
+      "addedDate": "2026-05-13",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz002897",
+      "name": "意华股份",
+      "group": "focus",
+      "addedDate": "2026-05-13",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz301196",
+      "name": "唯科科技",
+      "group": "focus",
+      "addedDate": "2026-05-13",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sh600488",
+      "name": "津药药业",
+      "group": "focus",
+      "addedDate": "2026-05-13",
+      "source": "sector:参股金融"
     }
   ],
   "todayAdded": [
-    "sh601899",
-    "sz000811",
-    "sz300905",
-    "sz300139"
+    "sh603993",
+    "sz002560",
+    "sz002897",
+    "sz301196",
+    "sh600488"
   ],
   "todayRemoved": []
 }
