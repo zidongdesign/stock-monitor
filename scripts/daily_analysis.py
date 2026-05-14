@@ -50,7 +50,7 @@ STOCK_GROUPS = {
 POOL_MAX = 100         # 池子上限（戈叔要求100只后再淘汰）
 ELIMINATE_COUNT = 5    # 每次淘汰数量
 ADD_COUNT = 5          # 每次补入数量
-MATURE_DAYS = 999      # 暂停自动淘汰，等池子满100只再开启（原值10）
+MATURE_DAYS = 10       # 池子运行>=10天后开启自动淘汰（池子已满100只）
 
 # 静态股票名称映射（可被 watchlist.json 覆盖）
 STOCK_NAMES = {
@@ -263,6 +263,7 @@ def analyze_technical(symbol: str) -> dict:
     result = {
         "trend": "unknown", "aboveMa20": None,
         "kdjSignal": "unknown", "support": None, "resistance": None,
+        "price": None,
     }
 
     df = fetch_kline_tencent(symbol, days=200)
@@ -281,6 +282,7 @@ def analyze_technical(symbol: str) -> dict:
     ma10 = float(last["MA10"])
     ma20 = float(last["MA20"])
 
+    result["price"] = price
     result["aboveMa20"] = price > ma20
 
     if price > ma5 > ma10 > ma20:
@@ -789,6 +791,12 @@ def main():
                 print(f"  ⛔ {code} {name}: 财务D级")
                 continue
 
+            # 股价超过200元不进池
+            cand_price = data["technical"].get("price")
+            if cand_price is not None and cand_price > 200:
+                print(f"  ⛔ {code} {name}: 股价{cand_price:.2f}元>200元")
+                continue
+
             # 近 5 日涨幅 > 30%
             gain_5d = get_recent_5d_gain(code)
             time.sleep(0.5)
@@ -881,6 +889,15 @@ def main():
     # ---- 更新 store.js ----
     update_store_js(current_pool, new_version)
 
+    # ---- 得分排行 ----
+    all_scored = []
+    for s in current_pool:
+        code = s["code"]
+        if code in stocks_data:
+            all_scored.append((code, s.get("name", STOCK_NAMES.get(code, code)), stocks_data[code]["score"]))
+    all_scored.sort(key=lambda x: -x[2])
+    top5 = all_scored[:5]
+
     # ---- 汇总 ----
     print(f"\n{'=' * 60}")
     print(f"📊 汇总:")
@@ -889,6 +906,29 @@ def main():
     print(f"  补入: {len(today_added)} 只")
     print(f"  版本: {new_version}")
     print(f"{'=' * 60}")
+
+    # ---- 输出结构化报告（供 cron delivery 使用）----
+    print(f"\n===REPORT_START===")
+    print(f"📊 自选股池日报 {today}")
+    print(f"")
+    print(f"池子：{len(current_pool)}/{POOL_MAX}只")
+    if today_added:
+        add_str = "  ".join(f"{a['name']}({a['score']}分)" for a in today_added)
+        print(f"\n✅ 补入({len(today_added)}只)：{add_str}")
+    print(f"\n🏆 得分前5：")
+    for i, (code, name, score) in enumerate(top5, 1):
+        sd = stocks_data.get(code, {})
+        action = sd.get('action', '')
+        tags = sd.get('tags', [])
+        tag_str = ' '.join(tags[:3]) if tags else ''
+        print(f"  {i}. {name}  {score}分  {tag_str}")
+    print(f"\n❌ 淘汰({len(today_removed)}只)：")
+    if today_removed:
+        for i, r in enumerate(today_removed, 1):
+            print(f"  {i}. {r['name']}  {r['score']}分  {r['reason']}")
+    else:
+        print(f"  （今日未触发淘汰）")
+    print(f"===REPORT_END===")
 
 
 if __name__ == "__main__":
