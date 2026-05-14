@@ -567,12 +567,12 @@ const QUESTIONS = [
   },
   {
     category: '曲式结构',
-    audio: `${WIKI}/4/47/Wolfgang_Amadeus_Mozart_-_Symphony_40_g-moll_-_3._Menuetto%2C_Allegretto-Trio.ogg`,
-    audioHint: '请注意音乐的段落结构变化',
-    question: '莫扎特《第40交响曲》第三乐章（小步舞曲-三声中部-小步舞曲）属于什么曲式结构？',
-    options: ['二部曲式（AB）', '三部曲式（ABA）', '回旋曲式（ABACA）', '变奏曲式'],
+    audio: `${WIKI}/d/d8/988-aria.lehman1.ogg`,
+    audioHint: '请注意这段音乐的段落结构',
+    question: '巴赫《哥德堡变奏曲》的“咏叹调”主题呈现后，接下来的音乐采用了什么发展手法？',
+    options: ['回旋曲式', '变奏曲式', '奏鸣曲式', '自由曲式'],
     answer: 1,
-    explanation: '小步舞曲乐章采用复三部曲式（ABA结构）：小步舞曲A段→三声中部B段→小步舞曲A段再现。ABA是最常见的三部曲式，中间段落形成对比后回到开头主题，给人首尾呼应的完整感。'
+    explanation: '《哥德堡变奏曲 BWV 988》是变奏曲式的典范之作。先呈现一个“咏叹调”主题，然后基于该主题的和声进行的变化和发展展开30个变奏。变奏曲式的核心是：主题不变→在此基础上做旋律、节奏、织体等变化。'
   },
   {
     category: '音乐历史',
@@ -643,7 +643,6 @@ function renderQuiz() {
     container.appendChild(card);
 
     const audio = new Audio();
-    audio.crossOrigin = 'anonymous';
     audio.preload = 'metadata';
     // Try mp3 transcoded version first (Safari compatible), fallback to original
     const oggUrl = q.audio;
