@@ -645,7 +645,11 @@ function renderQuiz() {
     const audio = new Audio();
     audio.crossOrigin = 'anonymous';
     audio.preload = 'metadata';
-    audio.src = q.audio;
+    // Try mp3 transcoded version first (Safari compatible), fallback to original ogg
+    const oggUrl = q.audio;
+    const mp3Url = oggUrl.replace('/commons/', '/commons/transcoded/') + '/' + oggUrl.split('/').pop() + '.mp3';
+    let triedMp3 = false;
+    audio.src = mp3Url;
     audio.addEventListener('loadedmetadata', () => {
       document.getElementById(`audioTime${i}`).textContent = `0:00 / ${formatTime(audio.duration)}`;
       loadedCount++;
@@ -658,6 +662,11 @@ function renderQuiz() {
       playingId = null;
     });
     audio.addEventListener('error', () => {
+      if (!triedMp3) {
+        triedMp3 = true;
+        audio.src = oggUrl; // fallback to original ogg
+        return;
+      }
       document.getElementById(`audioTime${i}`).textContent = '⚠ 音频加载失败,请检查网络';
       document.getElementById(`audioTime${i}`).style.color = '#E67E22';
       loadedCount++;
