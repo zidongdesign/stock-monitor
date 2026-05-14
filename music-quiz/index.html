@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>音乐常识听辨测试</title>
+<style>
+  :root {
+    --primary: #C0392B;
+    --primary-light: #E74C3C;
+    --bg: #FFF8F0;
+    --card: #FFFFFF;
+    --text: #2C3E50;
+    --text-light: #7F8C8D;
+    --correct: #27AE60;
+    --wrong: #E74C3C;
+    --border: #E8E0D8;
+    --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  .header {
+    background: linear-gradient(135deg, var(--primary) 0%, #922B21 100%);
+    color: white;
+    text-align: center;
+    padding: 40px 20px 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '♫ ♪ ♩ ♬';
+    position: absolute;
+    font-size: 120px;
+    opacity: 0.06;
+    top: -10px;
+    right: -20px;
+    letter-spacing: 20px;
+    pointer-events: none;
+  }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .header p { font-size: 15px; opacity: 0.85; }
+
+  .progress-bar {
+    background: var(--card);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: #EDE7E0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-text { font-size: 14px; color: var(--text-light); white-space: nowrap; min-width: 60px; text-align: right; }
+
+  .container { max-width: 680px; margin: 0 auto; padding: 20px; }
+
+  .question-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: transform 0.2s;
+  }
+  .question-card.answered { opacity: 0.95; }
+  .question-card.correct-card { border-color: var(--correct); }
+  .question-card.wrong-card { border-color: var(--wrong); }
+
+  .q-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    background: var(--primary);
+    color: white;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .q-tag {
+    font-size: 12px;
+    background: #FDF2F0;
+    color: var(--primary);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .q-text { font-size: 17px; font-weight: 600; line-height: 1.6; margin-bottom: 18px; }
+
+  .audio-box {
+    background: linear-gradient(135deg, #2C3E50, #34495E);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .audio-box::before {
+    content: '♪';
+    position: absolute;
+    right: 16px;
+    font-size: 48px;
+    opacity: 0.08;
+  }
+  .play-btn {
+    width: 44px; height: 44px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .play-btn:hover { transform: scale(1.08); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .play-btn:active { transform: scale(0.95); }
+  .play-btn svg { width: 20px; height: 20px; fill: var(--primary); }
+  .audio-info { flex: 1; }
+  .audio-label { font-size: 13px; opacity: 0.7; margin-bottom: 2px; }
+  .audio-title { font-size: 15px; font-weight: 500; }
+  .audio-time { font-size: 13px; opacity: 0.6; margin-top: 2px; }
+  .audio-progress-wrap {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+  .audio-progress-bar {
+    height: 100%;
+    background: rgba(255,255,255,0.7);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s;
+    font-size: 15px;
+    line-height: 1.5;
+    user-select: none;
+  }
+  .option:hover:not(.disabled) { border-color: var(--primary); background: #FDF2F0; }
+  .option.disabled { cursor: default; }
+  .option .letter {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #F5F0EC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text-light);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .option.selected { border-color: var(--primary); background: #FDF2F0; }
+  .option.selected .letter { background: var(--primary); color: white; }
+  .option.correct { border-color: var(--correct); background: #EAFAF1; }
+  .option.correct .letter { background: var(--correct); color: white; }
+  .option.wrong { border-color: var(--wrong); background: #FDEDEC; }
+  .option.wrong .letter { background: var(--wrong); color: white; }
+
+  .explanation {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: #F8F4F0;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-light);
+    display: none;
+    border-left: 3px solid var(--primary);
+  }
+  .explanation.show { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+
+  .result-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 40px 24px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: none;
+  }
+  .result-card.show { display: block; animation: fadeIn 0.4s ease; }
+  .result-emoji { font-size: 64px; margin-bottom: 16px; }
+  .result-score { font-size: 48px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+  .result-label { font-size: 16px; color: var(--text-light); margin-bottom: 24px; }
+  .result-detail { font-size: 14px; color: var(--text-light); margin-bottom: 24px; line-height: 1.8; }
+  .result-grade { font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+
+  .btn-restart {
+    background: linear-gradient(135deg, var(--primary), #922B21);
+    color: white;
+    border: none;
+    padding: 14px 36px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 12px rgba(192,57,43,0.3);
+  }
+  .btn-restart:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(192,57,43,0.4); }
+
+  .source-note {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #BDC3C7;
+    line-height: 1.6;
+  }
+  .source-note a { color: #95A5A6; }
+
+  .loading-hint {
+    background: #EBF5FB;
+    border: 1px solid #AED6F1;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #2E86C1;
+    text-align: center;
+    display: none;
+  }
+  .loading-hint.show { display: block; }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 16px 22px; }
+    .header h1 { font-size: 22px; }
+    .container { padding: 14px; }
+    .question-card { padding: 20px 16px; }
+    .q-text { font-size: 15px; }
+    .option { padding: 12px 14px; font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎵 音乐常识听辨测试</h1>
+  <p>共 30 题 · 涵盖十大板块 · 先听后答</p>
+</div>
+
+<div class="progress-bar">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-text" id="progressText">0 / 30</div>
+</div>
+
+<div class="container">
+  <div class="loading-hint" id="loadingHint">
+    ⏳ 音频正在加载中,首次打开可能需要几秒钟......
+  </div>
+  <div id="quizContainer"></div>
+  <div class="result-card" id="resultCard">
+    <div class="result-emoji" id="resultEmoji"></div>
+    <div class="result-score" id="resultScore"></div>
+    <div class="result-label">答对题数 / 总题数</div>
+    <div class="result-grade" id="resultGrade"></div>
+    <div class="result-detail" id="resultDetail"></div>
+    <button class="btn-restart" onclick="restart()">🔄 重新测试</button>
+  </div>
+</div>
+
+<div class="source-note">
+  音频素材来自 <a href="https://commons.wikimedia.org" target="_blank">Wikimedia Commons</a>(公有领域 / CC 协议)<br>
+  仅供教学练习使用
+</div>
+
+<script>
+const WIKI = 'https://upload.wikimedia.org/wikipedia/commons';
+
+const QUESTIONS = [
+  {
+    category: '音色',
+    audio: `${WIKI}/7/7d/Oboe_Concerto_in_C_K.314_271k_I._Allegro_%28Mozart%29_European_Archive.ogg`,
+    audioHint: '莫扎特 · 管弦乐作品片段',
+    question: '请听这段音乐,独奏乐器属于管弦乐队中的哪个乐器组?',
+    options: ['弓弦乐器组', '木管乐器组', '铜管乐器组', '打击乐器组'],
+    answer: 1,
+    explanation: '独奏乐器是双簧管(Oboe),属于木管乐器组。双簧管音色明亮、略带鼻音,是管弦乐队的"定音"乐器(乐队以双簧管 A 音来校音)。这首是莫扎特《C大调双簧管协奏曲 K.314》第一乐章。木管组还包括长笛、单簧管、大管等。'
+  },
+  {
+    category: '音色',
+    audio: `${WIKI}/5/51/Pipa_-_sound.ogg`,
+    audioHint: '中国传统乐器音色',
+    question: '请听这段音乐,演奏的中国传统乐器是:',
+    options: ['古筝', '二胡', '琵琶', '竹笛'],
+    answer: 2,
+    explanation: '这是琵琶的音色。琵琶是中国传统弹拨乐器,有"民乐之王"之称。音色清脆明亮,既能表现武曲的激烈(如《十面埋伏》),也能表现文曲的细腻(如《春江花月夜》)。演奏技法丰富,有弹、挑、轮、扫等。'
+  },
+  {
+    category: '音色',
+    audio: `${WIKI}/3/30/%E6%B1%9F%E6%B2%B3%E6%B0%B4.ogg`,
+    audioHint: '中国传统器乐曲',
+    question: '请听这段音乐,主奏乐器属于哪一类?',
+    options: ['弹拨乐器', '弓弦乐器', '吹管乐器', '打击乐器'],
+    answer: 1,
+    explanation: '这是二胡演奏的《江河水》,二胡属于弓弦乐器(拉弦乐器)。《江河水》原为东北民间乐曲,经二胡演奏家闵惠芬改编后广为流传,以凄婉哀怨的旋律著称。二胡用弓毛摩擦两根弦发声,音色接近人声,表现力极强。'
+  },
+  {
+    category: '风格流派',
+    audio: `${WIKI}/d/d8/988-aria.lehman1.ogg`,
+    audioHint: '键盘乐作品',
+    question: '请听这段键盘乐作品,它属于哪个音乐时期的风格?',
+    options: ['巴洛克时期', '古典主义时期', '浪漫主义时期', '印象主义时期'],
+    answer: 0,
+    explanation: '这是巴赫《哥德堡变奏曲 BWV 988》的"咏叹调"主题,属于巴洛克时期(约1600-1750)。巴洛克音乐的典型特征:装饰音丰富、复调织体、持续低音、节奏均匀稳定。巴赫是巴洛克晚期最重要的作曲家,被誉为"音乐之父"。'
+  },
+  {
+    category: '风格流派',
+    audio: `${WIKI}/b/be/Clair_de_lune_%28Claude_Debussy%29_Suite_bergamasque.ogg`,
+    audioHint: '钢琴独奏作品',
+    question: '请听这段钢琴曲,它属于什么音乐风格?',
+    options: ['古典主义', '浪漫主义', '印象主义', '表现主义'],
+    answer: 2,
+    explanation: '这是德彪西的《月光》(Clair de lune),选自《贝加马斯克组曲》,是印象主义音乐的代表作。印象主义音乐(约1890-1920)注重色彩和氛围的营造,和声朦胧飘逸、旋律片段化、力求"声音的光影"效果。代表人物:德彪西、拉威尔。'
+  },
+  {
+    category: '戏曲',
+    audio: `${WIKI}/3/39/Hsi-pi_Tso_fang_Tsao_%281931%29.ogg`,
+    audioHint: '中国传统戏曲唱段(1931年录音)',
+    question: '请听这段戏曲唱段,它属于什么剧种?',
+    options: ['京剧', '越剧', '豫剧', '川剧'],
+    answer: 0,
+    explanation: '这是一段京剧"西皮"唱腔的历史录音。京剧以"西皮"和"二黄"两种声腔为主--西皮明快激越,二黄沉稳凝重。京剧是中国"国粹",伴奏以京胡为主,唱腔高亢有力。四大行当:生、旦、净、丑。'
+  },
+  {
+    category: '戏曲',
+    audio: `${WIKI}/8/8e/Kun-ch%27%C3%BC_P%27i-p%27a-chi_%281931%29.ogg`,
+    audioHint: '中国传统戏曲唱段(1931年录音)',
+    question: '请听这段戏曲唱段,与上一题的京剧相比,这段唱腔更加婉转细腻、字少腔多,它属于什么剧种?',
+    options: ['京剧', '昆曲', '黄梅戏', '评剧'],
+    answer: 1,
+    explanation: '这是昆曲《琵琶记》的历史录音。昆曲被誉为"百戏之祖",是中国最古老的戏曲剧种之一(2001年列入联合国非遗)。特点:唱腔婉转细腻、"字少腔多"(一个字拖很长的腔)、伴奏以曲笛为主。与京剧的高亢激越形成鲜明对比。'
+  },
+  {
+    category: '民歌',
+    audio: `${WIKI}/1/18/Baima_Diao.ogg`,
+    audioHint: '中国民歌旋律',
+    question: '请听这段旋律,它源自中国哪个地区的民歌传统?(提示:这首曲调后来被改编为一首家喻户晓的歌曲)',
+    options: ['江苏水乡', '陕北高原', '云南山区', '东北平原'],
+    answer: 1,
+    explanation: '这是陕北民歌《白马调》(又名《骑白马》)的旋律,属于陕北"信天游"。1943年,农民歌手李有源以这首曲调填词创作了《东方红》,从此传遍全国。信天游是陕北地区最具代表性的山歌体裁,旋律高亢辽阔,节奏自由舒展。'
+  },
+  {
+    category: '体裁',
+    audio: `${WIKI}/f/ff/Vivaldi_-_Four_Seasons_1_Spring_mvt_1_Allegro_-_John_Harrison_violin.oga`,
+    audioHint: '维瓦尔第 · 管弦乐作品',
+    question: '请听这段音乐,有一件独奏乐器与管弦乐队交替演奏。这种体裁叫做:',
+    options: ['交响曲', '协奏曲', '室内乐', '交响诗'],
+    answer: 1,
+    explanation: '这是维瓦尔第《四季》之"春"第一乐章,是一首小提琴协奏曲。协奏曲(Concerto)的核心特征:独奏乐器与管弦乐队的"竞奏"与"协奏",独奏段落展示高超技巧。协奏曲通常为三个乐章:快-慢-快。与交响曲不同,交响曲没有固定的独奏乐器。'
+  },
+  {
+    category: '术语',
+    audio: `${WIKI}/5/55/Vivaldi_-_Four_Seasons_2_Summer_mvt_2_Adagio_-_John_Harrison_violin.oga`,
+    audioHint: '维瓦尔第 · 管弦乐作品',
+    question: '请仔细感受这段音乐的速度,它对应的速度术语是:',
+    options: ['Allegro(快板)', 'Andante(行板)', 'Adagio(柔板)', 'Presto(急板)'],
+    answer: 2,
+    explanation: '这是维瓦尔第《四季》之“夏”第二乐章，速度标记为 Adagio（柔板）。常见速度术语从慢到快：Largo（广板）→ Adagio（柔板，每分钟约56-68拍）→ Andante（行板）→ Moderato（中板）→ Allegro（快板）→ Vivace（活泼的快板）→ Presto（急板）。'
+  },
+  {
+    category: '音色',
+    audio: `${WIKI}/b/be/Toccata_et_Fugue_BWV565.ogg`,
+    audioHint: '请听这段音乐的主奏乐器',
+    question: '这段音乐中演奏的主要乐器是什么？',
+    options: ['钢琴', '管风琴', '手风琴', '电子琴'],
+    answer: 1,
+    explanation: '这是巴赫《d小调托卡塔与赋格》BWV565，由管风琴演奏。管风琴音色庄严浑厚，泛音丰富，具有教堂般的共鸣效果，与钢琴的击弦发声有本质区别。管风琴是巴洛克时期最重要的键盘乐器之一。'
+  },
+  {
+    category: '音色',
+    audio: `${WIKI}/4/43/JOHN_MICHEL_CELLO-J_S_BACH_CELLO_SUITE_1_in_G_Prelude.ogg`,
+    audioHint: '请辨别这段独奏乐器的音色',
+    question: '这段巴赫无伴奏组曲中的独奏乐器是什么？',
+    options: ['小提琴', '中提琴', '大提琴', '低音提琴'],
+    answer: 2,
+    explanation: '这是巴赫《G大调第一无伴奏大提琴组曲》前奏曲。大提琴音域比小提琴低两个八度，音色温暖深沉而富有歌唱性。与小提琴的明亮高亢不同，大提琴的中低音区浑厚醇美，常被比喻为最接近人声的乐器。'
+  },
+  {
+    category: '风格流派',
+    audio: `${WIKI}/6/68/Mozart_K525_Serenade_in_G_Major_1_-_Allegro.ogg`,
+    audioHint: '请判断这段音乐的风格时期',
+    question: '这段音乐属于哪个音乐风格时期？',
+    options: ['巴洛克时期', '古典主义时期', '浪漫主义时期', '印象主义时期'],
+    answer: 1,
+    explanation: '这是莫扎特《G大调弦乐小夜曲》K.525第一乐章。古典主义时期音乐的特点是结构均衡对称、旋律优美清晰、织体简洁明朗，追求形式的完美和理性之美。莫扎特是古典主义时期最具代表性的作曲家之一。'
+  },
+  {
+    category: '风格流派',
+    audio: `${WIKI}/5/5c/Frederic_Chopin_-_Nocturne_Eb_major_Opus_9,_number_2.ogg`,
+    audioHint: '请判断这段钢琴曲的风格时期',
+    question: '这段钢琴曲属于哪个音乐风格时期？',
+    options: ['古典主义时期', '浪漫主义时期', '印象主义时期', '现代主义时期'],
+    answer: 1,
+    explanation: '这是肖邦《降E大调夜曲》Op.9 No.2。浪漫主义时期音乐强调个人情感的表达，旋律富有歌唱性和抒情性，和声色彩丰富。肖邦的夜曲以诗意的旋律和细腻的情感表达著称，是浪漫主义钢琴音乐的典范。'
+  },
+  {
+    category: '风格流派',
+    audio: `${WIKI}/6/62/OriginalDixielandJassBand-JazzMeBlues.ogg`,
+    audioHint: '请判断这段音乐的风格流派',
+    question: '这段音乐属于哪种音乐风格？',
+    options: ['古典音乐', '爵士乐', '摇滚乐', '乡村音乐'],
+    answer: 1,
+    explanation: '这是Original Dixieland Jass Band演奏的早期爵士乐。爵士乐的特征包括切分节奏（Swing）、即兴演奏、蓝调音阶的运用，以及铜管乐器和单簧管等乐器的特色音色。迪克西兰爵士是爵士乐最早的风格之一。'
+  },
+  {
+    category: '中国器乐',
+    audio: `${WIKI}/6/60/Guqin-Yangguan_Sandie.ogg`,
+    audioHint: '请听这段中国传统器乐演奏',
+    question: '这段演奏使用的是哪种中国传统乐器？',
+    options: ['古琴', '古筝', '琵琶', '二胡'],
+    answer: 0,
+    explanation: '这是古琴曲《阳关三叠》。古琴音色古朴淡雅、含蓄深远，具有独特的“散、按、泛”三种音色。与古筝的清脆明亮不同，古琴声音更为低沉内敛，是中国最古老的弹拨乐器之一，被列入联合国非物质文化遗产。'
+  },
+  {
+    category: '中国器乐',
+    audio: `${WIKI}/a/a5/DiZi_Chinese_Flute_Sample.ogg`,
+    audioHint: '请辨别这段中国传统乐器的音色',
+    question: '这段演奏使用的是哪种中国传统乐器？',
+    options: ['箫', '笛子', '唢呐', '笙'],
+    answer: 1,
+    explanation: '这是竹笛（笛子）的音色示范。笛子音色清脆明亮、穿透力强，其特有的“笛膜”振动产生独特的明亮共鸣。与箫的幽静柔和不同，笛子更为嚠亮活泼。笛子是中国民族管弦乐队中重要的旋律乐器。'
+  },
+  {
+    category: '民歌',
+    audio: `${WIKI}/5/52/Guqin-Zuiyu_Changwan.ogg`,
+    audioHint: '请听这段古琴演奏的传统曲目',
+    question: '这段古琴曲《醉渔唱晚》反映了中国传统音乐的哪个特点？',
+    options: ['使用十二平均律', '运用五声调式', '采用复调织体', '使用功能和声'],
+    answer: 1,
+    explanation: '《醉渔唱晚》是一首著名古琴曲，使用中国传统五声调式（宫商角征羽）。中国传统音乐以五声调式为基础，不同于西方的大小调体系。五声音阶去掉了半音关系，形成了中国音乐独特的韵味。'
+  },
+  {
+    category: '民歌',
+    audio: `${WIKI}/3/3c/01_-_Vivaldi_Spring_mvt_1_Allegro_-_John_Harrison_violin.ogg`,
+    audioHint: '请听这段弦乐演奏',
+    question: '维瓦尔第《四季》中的“春”第一乐章主要通过哪种方式表现“春天”的意境？',
+    options: ['使用人声演唱', '模仿鸟鸣等自然音响', '加入打击乐器', '使用电子音效'],
+    answer: 1,
+    explanation: '维瓦尔第《四季·春》第一乐章通过小提琴的颤音和快速音型模仿鸟鸣、潺潺流水等春天景象。这是标题音乐（Program Music）的早期范例，作曲家通过音乐语言描绘自然场景，属于巴洛克时期的重要创作手法。'
+  },
+  {
+    category: '术语',
+    audio: `${WIKI}/b/b1/11_-_Vivaldi_Winter_mvt_2_Largo_-_John_Harrison_violin.ogg`,
+    audioHint: '请听这段缓慢的弦乐旋律',
+    question: '这段维瓦尔第《四季·冬》第二乐章的速度术语是什么？',
+    options: ['Allegro（快板）', 'Andante（行板）', 'Largo（广板）', 'Presto（急板）'],
+    answer: 2,
+    explanation: '这是维瓦尔第《四季·冬》第二乐章，标记为Largo（广板）。Largo是最慢的速度术语之一，表示宽广、庄严的慢速。在该乐章中，小提琴奏出温暖如歌的旋律，描绘冬日壁炉前的宁静时光。'
+  },
+  {
+    category: '体裁',
+    audio: `${WIKI}/5/5b/Ludwig_van_Beethoven_-_Symphonie_5_c-moll_-_1._Allegro_con_brio.ogg`,
+    audioHint: '请判断这段音乐的体裁',
+    question: '这段音乐属于哪种音乐体裁？',
+    options: ['协奏曲', '交响曲', '奏鸣曲', '室内乐'],
+    answer: 1,
+    explanation: '这是贝多芬《c小调第五交响曲》（命运）第一乐章。交响曲是由管弦乐队演奏的大型多乐章套曲，通常包含四个乐章。与协奏曲（有独奏乐器）和奏鸣曲（独奏或少数乐器）不同，交响曲展现了乐队的全部音响效果。'
+  },
+  {
+    category: '体裁',
+    audio: `${WIKI}/c/ce/Handel_-_messiah_-_44_hallelujah.ogg`,
+    audioHint: '请判断这段音乐的体裁',
+    question: '亨德尔《弥赛亚》中的“哈利路亚”合唱属于哪种体裁？',
+    options: ['歌剧', '清唱剧', '艺术歌曲', '交响曲'],
+    answer: 1,
+    explanation: '《弥赛亚》是亨德尔最著名的清唱剧（Oratorio）。清唱剧与歌剧的区别在于：清唱剧通常取材宗教题材，没有布景、服装和动作表演，以合唱为主体。“哈利路亚”合唱是清唱剧中最广为人知的段落之一。'
+  },
+  {
+    category: '体裁',
+    audio: `${WIKI}/0/08/Mozart_-_Magic_Flute_Overture.ogg`,
+    audioHint: '请判断这段音乐来自什么类型的作品',
+    question: '莫扎特《魔笛》序曲属于哪种音乐体裁的组成部分？',
+    options: ['交响曲', '协奏曲', '歌剧', '芭蕾舞剧'],
+    answer: 2,
+    explanation: '《魔笛》是莫扎特创作的歌剧（Opera），序曲是歌剧开幕前由管弦乐队演奏的器乐段落。歌剧是融合音乐、戏剧、文学、舞蹈等多种艺术形式的综合舞台艺术，包含咏叹调、宣叙调、合唱、序曲等部分。'
+  },
+  {
+    category: '术语',
+    audio: `${WIKI}/d/d0/Moonlight_Sonata.ogg`,
+    audioHint: '请注意这段音乐的力度和速度特征',
+    question: '贝多芬《月光奏鸣曲》第一乐章的力度标记是什么？',
+    options: ['forte（强）', 'fortissimo（很强）', 'pianissimo（很弱）', 'mezzo forte（中强）'],
+    answer: 2,
+    explanation: '贝多芬《月光奏鸣曲》第一乐章标记为pp（pianissimo，很弱），要求全曲在极轻柔的力度下演奏。这种弱奏营造出月夜般静谧朦胧的氛围。力度术语从弱到强依次为：pp-p-mp-mf-f-ff。'
+  },
+  {
+    category: '术语',
+    audio: `${WIKI}/d/d4/Beethoven_Moonlight_3rd_movement.ogg`,
+    audioHint: '请注意与第一乐章对比，感受力度和速度变化',
+    question: '与第一乐章相比，贝多芬《月光奏鸣曲》第三乐章的速度和力度发生了怎样的变化？',
+    options: ['更慢更弱', '更快更强', '速度不变力度加强', '更慢更强'],
+    answer: 1,
+    explanation: '《月光奏鸣曲》第三乐章标记为Presto agitato（急板，激动地），力度为ff（很强），与第一乐章的Adagio sostenuto/pp形成强烈对比。这种乐章间的速度力度对比是奏鸣曲套曲结构的重要表现手段。'
+  },
+  {
+    category: '节拍节奏',
+    audio: `${WIKI}/b/bb/Tchaikovsky_Swan_Lake_Op.20_No.2.Waltz.ogg`,
+    audioHint: '请听这段音乐的节拍律动',
+    question: '柴可夫斯基《天鹅湖》圆舞曲是几拍子的？',
+    options: ['二拍子', '三拍子', '四拍子', '六拍子'],
+    answer: 1,
+    explanation: '圆舞曲（Waltz）是三拍子舞曲，具有“强-弱-弱”的节拍特征。听感上有明显的旋转流动感，第一拍重音突出。三拍子是圆舞曲的标志性特征，与进行曲的二拍子、大多数流行歌曲的四拍子形成鲜明区别。'
+  },
+  {
+    category: '节拍节奏',
+    audio: `${WIKI}/c/c3/Bolero-Maurice_Ravel-1930.ogg`,
+    audioHint: '请注意小军鼓持续不变的节奏型',
+    question: '拉威尔《波莱罗》最突出的节奏特点是什么？',
+    options: ['节奏不断变化', '固定节奏型贯穿全曲', '自由节拍', '频繁变换拍号'],
+    answer: 1,
+    explanation: '拉威尔《波莱罗》最显著的特征是小军鼓自始至终重复同一个固定节奏型（Ostinato），全曲约15分钟内节奏从未改变。作品通过不断叠加不同乐器来实现音色和力度的渐变，是管弦乐配器法的经典教材。'
+  },
+  {
+    category: '曲式结构',
+    audio: `${WIKI}/9/99/Wolfgang_Amadeus_Mozart_-_Symphony_40_g-moll_-_3._Menuetto,_Allegretto-Trio.ogg`,
+    audioHint: '请注意音乐的段落结构变化',
+    question: '莫扎特《第40交响曲》第三乐章（小步舞曲-三声中部-小步舞曲）属于什么曲式结构？',
+    options: ['二部曲式（AB）', '三部曲式（ABA）', '回旋曲式（ABACA）', '变奏曲式'],
+    answer: 1,
+    explanation: '小步舞曲乐章采用复三部曲式（ABA结构）：小步舞曲A段→三声中部B段→小步舞曲A段再现。ABA是最常见的三部曲式，中间段落形成对比后回到开头主题，给人首尾呼应的完整感。'
+  },
+  {
+    category: '音乐历史',
+    audio: `${WIKI}/0/0f/Claude_Debussy_-_Premi%C3%A8re_Arabesque_-_Patrizia_Prati.ogg`,
+    audioHint: '请感受这段钢琴曲的和声色彩',
+    question: '德彪西《第一阿拉伯风格曲》代表了哪位作曲家开创的音乐流派？',
+    options: ['贝多芬的古典主义', '肖邦的浪漫主义', '德彪西的印象主义', '勋伯格的表现主义'],
+    answer: 2,
+    explanation: '德彪西是印象主义音乐的开创者。印象主义音乐受法国印象派绘画影响，追求朦胧的色彩和瞬间的感觉印象，大量运用全音阶、平行和弦、模糊的调性，营造出如水彩画般梦幻飘渺的音响效果。'
+  },
+  {
+    category: '音乐历史',
+    audio: `${WIKI}/2/25/Johann_Sebastian_Bach_-_Sonata_for_Violin_and_Cembalo_in_C_minor_-_Siciliana.ogg`,
+    audioHint: '请注意这段音乐中的乐器组合和织体特征',
+    question: '这段巴赫的小提琴与古钢琴奏鸣曲属于哪个音乐历史时期？',
+    options: ['文艺复兴时期', '巴洛克时期', '古典主义时期', '浪漫主义时期'],
+    answer: 1,
+    explanation: '巴赫是巴洛克时期（约1600-1750）最伟大的作曲家之一。巴洛克音乐的特征包括：通奏低音（数字低音）、复调织体、装饰音丰富、使用羽管键琴等古键盘乐器。这首作品的小提琴配羽管键琴正是巴洛克室内乐的典型编制。'
+  }
+];
+
+let answered = 0;
+let score = 0;
+let audioElements = {};
+let playingId = null;
+let loadedCount = 0;
+
+function renderQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  const hint = document.getElementById('loadingHint');
+  hint.classList.add('show');
+  loadedCount = 0;
+
+  QUESTIONS.forEach((q, i) => {
+    const letters = ['A','B','C','D'];
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = `q${i}`;
+    card.innerHTML = `
+      <div class="q-header">
+        <div class="q-num">${i+1}</div>
+        <div class="q-tag">${q.category}</div>
+      </div>
+      <div class="q-text">${q.question}</div>
+      <div class="audio-box">
+        <button class="play-btn" onclick="togglePlay(${i})" id="playBtn${i}">
+          <svg viewBox="0 0 24 24" id="playIcon${i}"><polygon points="8,5 19,12 8,19"/></svg>
+        </button>
+        <div class="audio-info">
+          <div class="audio-label">${q.audioHint}</div>
+          <div class="audio-time" id="audioTime${i}">加载中...</div>
+          <div class="audio-progress-wrap" onclick="seekAudio(event, ${i})">
+            <div class="audio-progress-bar" id="audioBar${i}"></div>
+          </div>
+        </div>
+      </div>
+      <div class="options">
+        ${q.options.map((opt, j) => `
+          <div class="option" id="opt${i}_${j}" onclick="selectOption(${i},${j})">
+            <div class="letter">${letters[j]}</div>
+            <div>${opt}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="explanation" id="exp${i}">${q.explanation}</div>
+    `;
+    container.appendChild(card);
+
+    const audio = new Audio();
+    audio.crossOrigin = 'anonymous';
+    audio.preload = 'metadata';
+    audio.src = q.audio;
+    audio.addEventListener('loadedmetadata', () => {
+      document.getElementById(`audioTime${i}`).textContent = `0:00 / ${formatTime(audio.duration)}`;
+      loadedCount++;
+      if (loadedCount >= QUESTIONS.length) hint.classList.remove('show');
+    });
+    audio.addEventListener('timeupdate', () => updateTime(i));
+    audio.addEventListener('ended', () => {
+      document.getElementById(`playIcon${i}`).innerHTML = '<polygon points="8,5 19,12 8,19"/>';
+      document.getElementById(`audioBar${i}`).style.width = '0%';
+      playingId = null;
+    });
+    audio.addEventListener('error', () => {
+      document.getElementById(`audioTime${i}`).textContent = '⚠ 音频加载失败,请检查网络';
+      document.getElementById(`audioTime${i}`).style.color = '#E67E22';
+      loadedCount++;
+      if (loadedCount >= QUESTIONS.length) hint.classList.remove('show');
+    });
+    audioElements[i] = audio;
+  });
+
+  // Fallback: hide loading hint after 8s
+  setTimeout(() => hint.classList.remove('show'), 8000);
+}
+
+function togglePlay(idx) {
+  const audio = audioElements[idx];
+  if (!audio) return;
+
+  if (playingId !== null && playingId !== idx) {
+    audioElements[playingId].pause();
+    document.getElementById(`playIcon${playingId}`).innerHTML = '<polygon points="8,5 19,12 8,19"/>';
+  }
+
+  if (audio.paused) {
+    audio.play().catch(() => {
+      document.getElementById(`audioTime${idx}`).textContent = '⚠ 无法播放';
+      document.getElementById(`audioTime${idx}`).style.color = '#E67E22';
+    });
+    document.getElementById(`playIcon${idx}`).innerHTML = '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
+    playingId = idx;
+  } else {
+    audio.pause();
+    document.getElementById(`playIcon${idx}`).innerHTML = '<polygon points="8,5 19,12 8,19"/>';
+    playingId = null;
+  }
+}
+
+function seekAudio(e, idx) {
+  const audio = audioElements[idx];
+  if (!audio || !audio.duration) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  audio.currentTime = pct * audio.duration;
+}
+
+function updateTime(idx) {
+  const audio = audioElements[idx];
+  const cur = formatTime(audio.currentTime);
+  const dur = formatTime(audio.duration);
+  document.getElementById(`audioTime${idx}`).textContent = `${cur} / ${dur}`;
+  document.getElementById(`audioTime${idx}`).style.color = '';
+  const pct = (audio.currentTime / audio.duration) * 100;
+  document.getElementById(`audioBar${idx}`).style.width = pct + '%';
+}
+
+function formatTime(s) {
+  if (isNaN(s)) return '0:00';
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2,'0')}`;
+}
+
+function selectOption(qIdx, optIdx) {
+  const card = document.getElementById(`q${qIdx}`);
+  if (card.classList.contains('answered')) return;
+
+  card.classList.add('answered');
+  const q = QUESTIONS[qIdx];
+  const isCorrect = optIdx === q.answer;
+
+  const selected = document.getElementById(`opt${qIdx}_${optIdx}`);
+  selected.classList.add(isCorrect ? 'correct' : 'wrong');
+
+  if (!isCorrect) {
+    document.getElementById(`opt${qIdx}_${q.answer}`).classList.add('correct');
+    card.classList.add('wrong-card');
+  } else {
+    card.classList.add('correct-card');
+    score++;
+  }
+
+  q.options.forEach((_, j) => {
+    document.getElementById(`opt${qIdx}_${j}`).classList.add('disabled');
+  });
+
+  document.getElementById(`exp${qIdx}`).classList.add('show');
+
+  answered++;
+  updateProgress();
+
+  if (answered === QUESTIONS.length) {
+    setTimeout(showResult, 600);
+  }
+}
+
+function updateProgress() {
+  const pct = (answered / QUESTIONS.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${answered} / ${QUESTIONS.length}`;
+}
+
+function showResult() {
+  const card = document.getElementById('resultCard');
+  card.classList.add('show');
+  document.getElementById('resultScore').textContent = `${score} / ${QUESTIONS.length}`;
+
+  let emoji, grade;
+  if (score === 30) { emoji = '🏆'; grade = '满分!音乐达人!'; }
+  else if (score >= 24) { emoji = '🌟'; grade = '优秀!基础扎实'; }
+  else if (score >= 18) { emoji = '👍'; grade = '良好!继续加油'; }
+  else if (score >= 12) { emoji = '💪'; grade = '及格!多听多练'; }
+  else { emoji = '📚'; grade = '加油!回去复习一下'; }
+
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultGrade').textContent = grade;
+
+  const cats = {};
+  QUESTIONS.forEach((q, i) => {
+    if (!cats[q.category]) cats[q.category] = { total: 0, correct: 0 };
+    cats[q.category].total++;
+    const c = document.getElementById(`q${i}`);
+    if (c.classList.contains('correct-card')) cats[q.category].correct++;
+  });
+  let detail = '';
+  for (const [cat, data] of Object.entries(cats)) {
+    const icon = data.correct === data.total ? '✅' : (data.correct > 0 ? '🔶' : '❌');
+    detail += `${icon} ${cat}:${data.correct}/${data.total} `;
+  }
+  document.getElementById('resultDetail').textContent = detail;
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function restart() {
+  answered = 0;
+  score = 0;
+  Object.values(audioElements).forEach(a => { a.pause(); a.currentTime = 0; });
+  playingId = null;
+  document.getElementById('resultCard').classList.remove('show');
+  updateProgress();
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
