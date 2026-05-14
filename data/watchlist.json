@@ -1,7 +1,7 @@
 {
-  "version": "20260513a",
+  "version": "20260514a",
   "startDate": "2026-03-12",
-  "dayCount": 63,
+  "dayCount": 64,
   "stocks": [
     {
       "code": "sz002056",
@@ -667,14 +667,49 @@
       "group": "focus",
       "addedDate": "2026-05-13",
       "source": "sector:参股金融"
+    },
+    {
+      "code": "sz001309",
+      "name": "德明利",
+      "group": "focus",
+      "addedDate": "2026-05-14",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sh603063",
+      "name": "XD禾望电",
+      "group": "focus",
+      "addedDate": "2026-05-14",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh600183",
+      "name": "生益科技",
+      "group": "focus",
+      "addedDate": "2026-05-14",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sh603290",
+      "name": "斯达半导",
+      "group": "focus",
+      "addedDate": "2026-05-14",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz300316",
+      "name": "晶盛机电",
+      "group": "focus",
+      "addedDate": "2026-05-14",
+      "source": "sector:光伏"
     }
   ],
   "todayAdded": [
-    "sh603993",
-    "sz002560",
-    "sz002897",
-    "sz301196",
-    "sh600488"
+    "sz001309",
+    "sh603063",
+    "sh600183",
+    "sh603290",
+    "sz300316"
   ],
   "todayRemoved": []
 }
