@@ -1,0 +1,659 @@
+{
+  "version": "20260514a",
+  "startDate": "2026-03-12",
+  "dayCount": 64,
+  "stocks": [
+    {
+      "code": "sz002056",
+      "name": "横店东磁",
+      "group": "focus",
+      "addedDate": "2026-03-13",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz002487",
+      "name": "大金重工",
+      "group": "focus",
+      "addedDate": "2026-03-13",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh601991",
+      "name": "大唐发电",
+      "group": "focus",
+      "addedDate": "2026-03-13",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh605090",
+      "name": "九丰能源",
+      "group": "watch",
+      "addedDate": "2026-03-14",
+      "source": "商业航天发射场配套"
+    },
+    {
+      "code": "sz300661",
+      "name": "圣邦股份",
+      "group": "focus",
+      "addedDate": "2026-03-16",
+      "source": "sector:无线耳机"
+    },
+    {
+      "code": "sz002938",
+      "name": "鹏鼎控股",
+      "group": "focus",
+      "addedDate": "2026-03-16",
+      "source": "sector:无线耳机"
+    },
+    {
+      "code": "sz002837",
+      "name": "英维克",
+      "group": "focus",
+      "addedDate": "2026-03-18",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sh600186",
+      "name": "莲花控股",
+      "group": "focus",
+      "addedDate": "2026-03-19",
+      "source": "sector:准ST股"
+    },
+    {
+      "code": "sh605117",
+      "name": "德业股份",
+      "group": "focus",
+      "addedDate": "2026-03-20",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz300274",
+      "name": "阳光电源",
+      "group": "focus",
+      "addedDate": "2026-03-20",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz001896",
+      "name": "豫能控股",
+      "group": "focus",
+      "addedDate": "2026-04-14",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sz002466",
+      "name": "天齐锂业",
+      "group": "focus",
+      "addedDate": "2026-04-17",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sz002217",
+      "name": "合力泰",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "sector:黄河三角"
+    },
+    {
+      "code": "sz002428",
+      "name": "云南锗业",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sh600590",
+      "name": "泰豪科技",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz000977",
+      "name": "浪潮信息",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz002008",
+      "name": "大族激光",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz300342",
+      "name": "天银机电",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sh600150",
+      "name": "中国船舶",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz002414",
+      "name": "高德红外",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz002506",
+      "name": "协鑫集成",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz300589",
+      "name": "江龙船艇",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "sector:军民融合"
+    },
+    {
+      "code": "sz000049",
+      "name": "德赛电池",
+      "group": "focus",
+      "addedDate": "2026-04-22",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sz300035",
+      "name": "中科电气",
+      "group": "focus",
+      "addedDate": "2026-04-22",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sh600487",
+      "name": "亨通光电",
+      "group": "focus",
+      "addedDate": "2026-04-22",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh600522",
+      "name": "中天科技",
+      "group": "focus",
+      "addedDate": "2026-04-22",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sh600558",
+      "name": "大西洋",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "戈叔研究:焊材龙头+社保基金"
+    },
+    {
+      "code": "sz300304",
+      "name": "云意电气",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "戈叔研究:汽车电子+社保基金"
+    },
+    {
+      "code": "sh600010",
+      "name": "包钢股份",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "戈叔研究:稀土事件驱动"
+    },
+    {
+      "code": "sh601669",
+      "name": "中国电建",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "戈叔研究:基建新能源+海外订单"
+    },
+    {
+      "code": "sh601226",
+      "name": "华电科工",
+      "group": "focus",
+      "addedDate": "2026-04-21",
+      "source": "戈叔研究:专业EPC+高增速"
+    },
+    {
+      "code": "sz002758",
+      "name": "浙农股份",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "戈叔研究:农资流通龙头"
+    },
+    {
+      "code": "sz300003",
+      "name": "乐普医疗",
+      "group": "focus",
+      "addedDate": "2026-04-20",
+      "source": "戈叔研究:医疗器械+脑机+创新药"
+    },
+    {
+      "code": "sh600415",
+      "name": "小商品城",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:金融参股"
+    },
+    {
+      "code": "sz002273",
+      "name": "水晶光电",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz000938",
+      "name": "紫光股份",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:分拆上市"
+    },
+    {
+      "code": "sz300136",
+      "name": "信维通信",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sh601890",
+      "name": "亚星锚链",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:海工装备"
+    },
+    {
+      "code": "sz000537",
+      "name": "绿发电力",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh601857",
+      "name": "中国石油",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:央企50"
+    },
+    {
+      "code": "sh600875",
+      "name": "东方电气",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:央企50"
+    },
+    {
+      "code": "sh600118",
+      "name": "中国卫星",
+      "group": "focus",
+      "addedDate": "2026-04-23",
+      "source": "sector:央企50"
+    },
+    {
+      "code": "sz002490",
+      "name": "山东墨龙",
+      "group": "focus",
+      "addedDate": "2026-04-24",
+      "source": "sector:海工装备"
+    },
+    {
+      "code": "sh600694",
+      "name": "大商股份",
+      "group": "focus",
+      "addedDate": "2026-04-24",
+      "source": "sector:内贸规划"
+    },
+    {
+      "code": "sh601600",
+      "name": "中国铝业",
+      "group": "focus",
+      "addedDate": "2026-04-24",
+      "source": "sector:央企50"
+    },
+    {
+      "code": "sh600770",
+      "name": "综艺股份",
+      "group": "focus",
+      "addedDate": "2026-04-24",
+      "source": "sector:整体上市"
+    },
+    {
+      "code": "sh600338",
+      "name": "西藏珠峰",
+      "group": "focus",
+      "addedDate": "2026-04-27",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sz000546",
+      "name": "金圆股份",
+      "group": "focus",
+      "addedDate": "2026-04-27",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sz000988",
+      "name": "华工科技",
+      "group": "focus",
+      "addedDate": "2026-04-27",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sz002407",
+      "name": "多氟多",
+      "group": "focus",
+      "addedDate": "2026-04-27",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sz002484",
+      "name": "江海股份",
+      "group": "focus",
+      "addedDate": "2026-04-27",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sh603259",
+      "name": "药明康德",
+      "group": "focus",
+      "addedDate": "2026-04-28",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz300759",
+      "name": "康龙化成",
+      "group": "focus",
+      "addedDate": "2026-04-28",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz002821",
+      "name": "凯莱英",
+      "group": "focus",
+      "addedDate": "2026-04-28",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sh600276",
+      "name": "恒瑞医药",
+      "group": "focus",
+      "addedDate": "2026-04-28",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sh601318",
+      "name": "中国平安",
+      "group": "focus",
+      "addedDate": "2026-04-29",
+      "source": "sector:超大盘"
+    },
+    {
+      "code": "sh600744",
+      "name": "华银电力",
+      "group": "focus",
+      "addedDate": "2026-04-29",
+      "source": "sector:风能"
+    },
+    {
+      "code": "sz000425",
+      "name": "徐工机械",
+      "group": "focus",
+      "addedDate": "2026-04-29",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz300763",
+      "name": "锦浪科技",
+      "group": "focus",
+      "addedDate": "2026-04-29",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sh600879",
+      "name": "航天电子",
+      "group": "focus",
+      "addedDate": "2026-04-29",
+      "source": "sector:央企50"
+    },
+    {
+      "code": "sz000792",
+      "name": "盐湖股份",
+      "group": "focus",
+      "addedDate": "2026-04-30",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz002756",
+      "name": "永兴材料",
+      "group": "focus",
+      "addedDate": "2026-04-30",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sh600111",
+      "name": "北方稀土",
+      "group": "focus",
+      "addedDate": "2026-04-30",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000338",
+      "name": "潍柴动力",
+      "group": "focus",
+      "addedDate": "2026-04-30",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz300054",
+      "name": "鼎龙股份",
+      "group": "focus",
+      "addedDate": "2026-04-30",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz002050",
+      "name": "三花智控",
+      "group": "focus",
+      "addedDate": "2026-05-04",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz002156",
+      "name": "通富微电",
+      "group": "focus",
+      "addedDate": "2026-05-04",
+      "source": "sector:触摸屏"
+    },
+    {
+      "code": "sz002342",
+      "name": "巨力索具",
+      "group": "focus",
+      "addedDate": "2026-05-04",
+      "source": "sector:军民融合"
+    },
+    {
+      "code": "sz002475",
+      "name": "立讯精密",
+      "group": "focus",
+      "addedDate": "2026-05-06",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz300395",
+      "name": "菲利华",
+      "group": "focus",
+      "addedDate": "2026-05-06",
+      "source": "sector:军工航天"
+    },
+    {
+      "code": "sz002261",
+      "name": "拓维信息",
+      "group": "focus",
+      "addedDate": "2026-05-06",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sh600301",
+      "name": "华锡有色",
+      "group": "focus",
+      "addedDate": "2026-05-07",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000967",
+      "name": "盈峰环境",
+      "group": "focus",
+      "addedDate": "2026-05-07",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sz002436",
+      "name": "兴森科技",
+      "group": "focus",
+      "addedDate": "2026-05-07",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sh600221",
+      "name": "海航控股",
+      "group": "focus",
+      "addedDate": "2026-05-07",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz002297",
+      "name": "博云新材",
+      "group": "focus",
+      "addedDate": "2026-05-07",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sh601208",
+      "name": "东材科技",
+      "group": "focus",
+      "addedDate": "2026-05-08",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sz002757",
+      "name": "南兴股份",
+      "group": "focus",
+      "addedDate": "2026-05-08",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sh601868",
+      "name": "中国能建",
+      "group": "focus",
+      "addedDate": "2026-05-08",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh601899",
+      "name": "紫金矿业",
+      "group": "focus",
+      "addedDate": "2026-05-12",
+      "source": "sector:黄金概念"
+    },
+    {
+      "code": "sz000811",
+      "name": "冰轮环境",
+      "group": "focus",
+      "addedDate": "2026-05-12",
+      "source": "sector:黄河三角"
+    },
+    {
+      "code": "sz300905",
+      "name": "宝丽迪",
+      "group": "focus",
+      "addedDate": "2026-05-12",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz300139",
+      "name": "晓程科技",
+      "group": "focus",
+      "addedDate": "2026-05-12",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sh603993",
+      "name": "洛阳钼业",
+      "group": "focus",
+      "addedDate": "2026-05-13",
+      "source": "sector:稀缺资源"
+    },
+    {
+      "code": "sz002560",
+      "name": "通达股份",
+      "group": "focus",
+      "addedDate": "2026-05-13",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz002897",
+      "name": "意华股份",
+      "group": "focus",
+      "addedDate": "2026-05-13",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz301196",
+      "name": "唯科科技",
+      "group": "focus",
+      "addedDate": "2026-05-13",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sh600488",
+      "name": "津药药业",
+      "group": "focus",
+      "addedDate": "2026-05-13",
+      "source": "sector:参股金融"
+    },
+    {
+      "code": "sh603063",
+      "name": "XD禾望电",
+      "group": "focus",
+      "addedDate": "2026-05-14",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh600183",
+      "name": "生益科技",
+      "group": "focus",
+      "addedDate": "2026-05-14",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sh603290",
+      "name": "斯达半导",
+      "group": "focus",
+      "addedDate": "2026-05-14",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz300316",
+      "name": "晶盛机电",
+      "group": "focus",
+      "addedDate": "2026-05-14",
+      "source": "sector:光伏"
+    }
+  ],
+  "todayAdded": [
+    "sz001309",
+    "sh603063",
+    "sh600183",
+    "sh603290",
+    "sz300316"
+  ],
+  "todayRemoved": []
+}

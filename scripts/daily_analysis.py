@@ -47,7 +47,7 @@ STOCK_GROUPS = {
     ],
 }
 
-POOL_MAX = 100         # 池子上限（戈叔要求100只后再淘汰）
+POOL_MAX = 80          # 池子上限（戈叔要求保持80只）
 ELIMINATE_COUNT = 5    # 每次淘汰数量
 ADD_COUNT = 5          # 每次补入数量
 MATURE_DAYS = 10       # 池子运行>=10天后开启自动淘汰（池子已满100只）
