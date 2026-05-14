@@ -645,26 +645,40 @@ function renderQuiz() {
     const audio = new Audio();
     audio.crossOrigin = 'anonymous';
     audio.preload = 'metadata';
-    // Try mp3 transcoded version first (Safari compatible), fallback to original ogg
+    // Try mp3 transcoded version first (Safari compatible), fallback to original
     const oggUrl = q.audio;
-    const mp3Url = oggUrl.replace('/commons/', '/commons/transcoded/') + '/' + oggUrl.split('/').pop() + '.mp3';
-    let triedMp3 = false;
+    const filename = oggUrl.split('/').pop();
+    const mp3Url = oggUrl.replace('/commons/', '/commons/transcoded/') + '/' + filename + '.mp3';
+    let fallbackStage = 0; // 0=mp3, 1=ogg direct, 2=give up
     audio.src = mp3Url;
+    // Limit playback to 30 seconds
     audio.addEventListener('loadedmetadata', () => {
-      document.getElementById(`audioTime${i}`).textContent = `0:00 / ${formatTime(audio.duration)}`;
+      const displayDur = Math.min(audio.duration, 30);
+      document.getElementById(`audioTime${i}`).textContent = `0:00 / ${formatTime(displayDur)}`;
       loadedCount++;
       if (loadedCount >= QUESTIONS.length) hint.classList.remove('show');
     });
-    audio.addEventListener('timeupdate', () => updateTime(i));
+    audio.addEventListener('timeupdate', () => {
+      // Stop at 30 seconds
+      if (audio.currentTime >= 30) {
+        audio.pause();
+        audio.currentTime = 0;
+        document.getElementById(`playIcon${i}`).innerHTML = '<polygon points="8,5 19,12 8,19"/>';
+        document.getElementById(`audioBar${i}`).style.width = '0%';
+        if (playingId === i) playingId = null;
+        return;
+      }
+      updateTime(i);
+    });
     audio.addEventListener('ended', () => {
       document.getElementById(`playIcon${i}`).innerHTML = '<polygon points="8,5 19,12 8,19"/>';
       document.getElementById(`audioBar${i}`).style.width = '0%';
       playingId = null;
     });
     audio.addEventListener('error', () => {
-      if (!triedMp3) {
-        triedMp3 = true;
-        audio.src = oggUrl; // fallback to original ogg
+      fallbackStage++;
+      if (fallbackStage === 1) {
+        audio.src = oggUrl; // fallback to original ogg/oga
         return;
       }
       document.getElementById(`audioTime${i}`).textContent = '⚠ 音频加载失败,请检查网络';
@@ -712,12 +726,13 @@ function seekAudio(e, idx) {
 
 function updateTime(idx) {
   const audio = audioElements[idx];
-  const cur = formatTime(audio.currentTime);
-  const dur = formatTime(audio.duration);
+  const maxDur = Math.min(audio.duration, 30);
+  const cur = formatTime(Math.min(audio.currentTime, 30));
+  const dur = formatTime(maxDur);
   document.getElementById(`audioTime${idx}`).textContent = `${cur} / ${dur}`;
   document.getElementById(`audioTime${idx}`).style.color = '';
-  const pct = (audio.currentTime / audio.duration) * 100;
-  document.getElementById(`audioBar${idx}`).style.width = pct + '%';
+  const pct = (audio.currentTime / maxDur) * 100;
+  document.getElementById(`audioBar${idx}`).style.width = Math.min(pct, 100) + '%';
 }
 
 function formatTime(s) {
