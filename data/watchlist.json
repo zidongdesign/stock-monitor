@@ -1,7 +1,7 @@
 {
-  "version": "20260514a",
+  "version": "20260515a",
   "startDate": "2026-03-12",
-  "dayCount": 64,
+  "dayCount": 65,
   "stocks": [
     {
       "code": "sh600744",
@@ -9,13 +9,6 @@
       "group": "focus",
       "addedDate": "2026-04-29",
       "source": "sector:风能"
-    },
-    {
-      "code": "sh600010",
-      "name": "包钢股份",
-      "group": "focus",
-      "addedDate": "2026-04-20",
-      "source": "戈叔研究:稀土事件驱动"
     },
     {
       "code": "sz002490",
@@ -137,20 +130,6 @@
       "source": "sector:重组概念"
     },
     {
-      "code": "sz300589",
-      "name": "江龙船艇",
-      "group": "focus",
-      "addedDate": "2026-04-21",
-      "source": "sector:军民融合"
-    },
-    {
-      "code": "sh600875",
-      "name": "东方电气",
-      "group": "focus",
-      "addedDate": "2026-04-23",
-      "source": "sector:央企50"
-    },
-    {
       "code": "sh600488",
       "name": "津药药业",
       "group": "focus",
@@ -163,13 +142,6 @@
       "group": "focus",
       "addedDate": "2026-04-20",
       "source": "sector:光伏概念"
-    },
-    {
-      "code": "sh600590",
-      "name": "泰豪科技",
-      "group": "focus",
-      "addedDate": "2026-04-20",
-      "source": "sector:国防军工"
     },
     {
       "code": "sh601226",
@@ -254,13 +226,6 @@
       "group": "focus",
       "addedDate": "2026-05-07",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sh601208",
-      "name": "东材科技",
-      "group": "focus",
-      "addedDate": "2026-05-08",
-      "source": "sector:光伏概念"
     },
     {
       "code": "sh601868",
@@ -562,14 +527,55 @@
       "group": "focus",
       "addedDate": "2026-04-30",
       "source": "sector:股权激励"
+    },
+    {
+      "code": "sz002165",
+      "name": "红 宝 丽",
+      "group": "focus",
+      "addedDate": "2026-05-15",
+      "source": "sector:聚氨酯"
+    },
+    {
+      "code": "sz002409",
+      "name": "雅克科技",
+      "group": "focus",
+      "addedDate": "2026-05-15",
+      "source": "sector:聚氨酯"
+    },
+    {
+      "code": "sz300263",
+      "name": "隆华科技",
+      "group": "focus",
+      "addedDate": "2026-05-15",
+      "source": "sector:钙钛矿"
+    },
+    {
+      "code": "sz002079",
+      "name": "苏州固锝",
+      "group": "focus",
+      "addedDate": "2026-05-15",
+      "source": "sector:HIT电池"
+    },
+    {
+      "code": "sz300252",
+      "name": "金信诺",
+      "group": "focus",
+      "addedDate": "2026-05-15",
+      "source": "sector:钙钛矿"
     }
   ],
   "todayAdded": [
-    "sz001309",
-    "sh603063",
-    "sh600183",
-    "sh603290",
-    "sz300316"
+    "sz002165",
+    "sz002409",
+    "sz300263",
+    "sz002079",
+    "sz300252"
   ],
-  "todayRemoved": []
+  "todayRemoved": [
+    "sz300589",
+    "sh600875",
+    "sh600590",
+    "sh600010",
+    "sh601208"
+  ]
 }
