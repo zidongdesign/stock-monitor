@@ -1,7 +1,7 @@
 {
-  "version": "20260515a",
+  "version": "20260518a",
   "startDate": "2026-03-12",
-  "dayCount": 65,
+  "dayCount": 68,
   "stocks": [
     {
       "code": "sh600744",
@@ -23,13 +23,6 @@
       "group": "focus",
       "addedDate": "2026-04-24",
       "source": "sector:内贸规划"
-    },
-    {
-      "code": "sh600522",
-      "name": "中天科技",
-      "group": "focus",
-      "addedDate": "2026-04-22",
-      "source": "sector:锂电池"
     },
     {
       "code": "sz002758",
@@ -88,13 +81,6 @@
       "source": "sector:海工装备"
     },
     {
-      "code": "sh600118",
-      "name": "中国卫星",
-      "group": "focus",
-      "addedDate": "2026-04-23",
-      "source": "sector:央企50"
-    },
-    {
       "code": "sh600770",
       "name": "综艺股份",
       "group": "focus",
@@ -116,13 +102,6 @@
       "source": "sector:央企50"
     },
     {
-      "code": "sz000967",
-      "name": "盈峰环境",
-      "group": "focus",
-      "addedDate": "2026-05-07",
-      "source": "sector:重组概念"
-    },
-    {
       "code": "sz001896",
       "name": "豫能控股",
       "group": "focus",
@@ -130,25 +109,11 @@
       "source": "sector:重组概念"
     },
     {
-      "code": "sh600488",
-      "name": "津药药业",
-      "group": "focus",
-      "addedDate": "2026-05-13",
-      "source": "sector:参股金融"
-    },
-    {
       "code": "sz002428",
       "name": "云南锗业",
       "group": "focus",
       "addedDate": "2026-04-20",
       "source": "sector:光伏概念"
-    },
-    {
-      "code": "sh601226",
-      "name": "华电科工",
-      "group": "focus",
-      "addedDate": "2026-04-21",
-      "source": "戈叔研究:专业EPC+高增速"
     },
     {
       "code": "sz300905",
@@ -562,20 +527,55 @@
       "group": "focus",
       "addedDate": "2026-05-15",
       "source": "sector:钙钛矿"
+    },
+    {
+      "code": "sz002380",
+      "name": "科远智慧",
+      "group": "focus",
+      "addedDate": "2026-05-18",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz002281",
+      "name": "光迅科技",
+      "group": "focus",
+      "addedDate": "2026-05-18",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz300283",
+      "name": "温州宏丰",
+      "group": "focus",
+      "addedDate": "2026-05-18",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz300496",
+      "name": "中科创达",
+      "group": "focus",
+      "addedDate": "2026-05-18",
+      "source": "sector:华为海思"
+    },
+    {
+      "code": "sz300065",
+      "name": "海兰信",
+      "group": "focus",
+      "addedDate": "2026-05-18",
+      "source": "sector:专精特新"
     }
   ],
   "todayAdded": [
-    "sz002165",
-    "sz002409",
-    "sz300263",
-    "sz002079",
-    "sz300252"
+    "sz002380",
+    "sz002281",
+    "sz300283",
+    "sz300496",
+    "sz300065"
   ],
   "todayRemoved": [
-    "sz300589",
-    "sh600875",
-    "sh600590",
-    "sh600010",
-    "sh601208"
+    "sh600118",
+    "sz000967",
+    "sh600488",
+    "sh601226",
+    "sh600522"
   ]
 }
