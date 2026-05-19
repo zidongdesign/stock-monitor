@@ -1,28 +1,14 @@
 {
-  "version": "20260518a",
+  "version": "20260519a",
   "startDate": "2026-03-12",
-  "dayCount": 68,
+  "dayCount": 69,
   "stocks": [
-    {
-      "code": "sh600744",
-      "name": "华银电力",
-      "group": "focus",
-      "addedDate": "2026-04-29",
-      "source": "sector:风能"
-    },
     {
       "code": "sz002490",
       "name": "山东墨龙",
       "group": "focus",
       "addedDate": "2026-04-24",
       "source": "sector:海工装备"
-    },
-    {
-      "code": "sh600694",
-      "name": "大商股份",
-      "group": "focus",
-      "addedDate": "2026-04-24",
-      "source": "sector:内贸规划"
     },
     {
       "code": "sz002758",
@@ -60,25 +46,11 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz000792",
-      "name": "盐湖股份",
-      "group": "focus",
-      "addedDate": "2026-04-30",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sh600487",
       "name": "亨通光电",
       "group": "focus",
       "addedDate": "2026-04-22",
       "source": "sector:风电"
-    },
-    {
-      "code": "sh601890",
-      "name": "亚星锚链",
-      "group": "focus",
-      "addedDate": "2026-04-23",
-      "source": "sector:海工装备"
     },
     {
       "code": "sh600770",
@@ -522,13 +494,6 @@
       "source": "sector:HIT电池"
     },
     {
-      "code": "sz300252",
-      "name": "金信诺",
-      "group": "focus",
-      "addedDate": "2026-05-15",
-      "source": "sector:钙钛矿"
-    },
-    {
       "code": "sz002380",
       "name": "科远智慧",
       "group": "focus",
@@ -562,20 +527,39 @@
       "group": "focus",
       "addedDate": "2026-05-18",
       "source": "sector:专精特新"
+    },
+    {
+      "code": "sz300221",
+      "name": "银禧科技",
+      "group": "focus",
+      "addedDate": "2026-05-19",
+      "source": "sector:业绩预降"
+    },
+    {
+      "code": "sz002552",
+      "name": "宝鼎科技",
+      "group": "focus",
+      "addedDate": "2026-05-19",
+      "source": "sector:业绩预降"
+    },
+    {
+      "code": "sz002195",
+      "name": "岩山科技",
+      "group": "focus",
+      "addedDate": "2026-05-19",
+      "source": "sector:股权激励"
     }
   ],
   "todayAdded": [
-    "sz002380",
-    "sz002281",
-    "sz300283",
-    "sz300496",
-    "sz300065"
+    "sz300221",
+    "sz002552",
+    "sz002195"
   ],
   "todayRemoved": [
-    "sh600118",
-    "sz000967",
-    "sh600488",
-    "sh601226",
-    "sh600522"
+    "sh600744",
+    "sh601890",
+    "sz000792",
+    "sz300252",
+    "sh600694"
   ]
 }
