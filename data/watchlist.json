@@ -1,15 +1,8 @@
 {
-  "version": "20260519a",
+  "version": "20260520a",
   "startDate": "2026-03-12",
-  "dayCount": 69,
+  "dayCount": 70,
   "stocks": [
-    {
-      "code": "sz002490",
-      "name": "山东墨龙",
-      "group": "focus",
-      "addedDate": "2026-04-24",
-      "source": "sector:海工装备"
-    },
     {
       "code": "sz002758",
       "name": "浙农股份",
@@ -37,13 +30,6 @@
       "group": "focus",
       "addedDate": "2026-04-28",
       "source": "sector:创新药"
-    },
-    {
-      "code": "sh600111",
-      "name": "北方稀土",
-      "group": "focus",
-      "addedDate": "2026-04-30",
-      "source": "sector:融资融券"
     },
     {
       "code": "sh600487",
@@ -172,24 +158,10 @@
       "source": "sector:风电"
     },
     {
-      "code": "sz002560",
-      "name": "通达股份",
-      "group": "focus",
-      "addedDate": "2026-05-13",
-      "source": "sector:专精特新"
-    },
-    {
       "code": "sz301196",
       "name": "唯科科技",
       "group": "focus",
       "addedDate": "2026-05-13",
-      "source": "sector:专精特新"
-    },
-    {
-      "code": "sh603290",
-      "name": "斯达半导",
-      "group": "focus",
-      "addedDate": "2026-05-14",
       "source": "sector:专精特新"
     },
     {
@@ -219,13 +191,6 @@
       "group": "focus",
       "addedDate": "2026-04-20",
       "source": "sector:光伏概念"
-    },
-    {
-      "code": "sh600150",
-      "name": "中国船舶",
-      "group": "focus",
-      "addedDate": "2026-04-21",
-      "source": "sector:国防军工"
     },
     {
       "code": "sz300763",
@@ -548,18 +513,47 @@
       "group": "focus",
       "addedDate": "2026-05-19",
       "source": "sector:股权激励"
+    },
+    {
+      "code": "sh600863",
+      "name": "华能蒙电",
+      "group": "focus",
+      "addedDate": "2026-05-20",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sz000636",
+      "name": "风华高科",
+      "group": "focus",
+      "addedDate": "2026-05-20",
+      "source": "sector:触摸屏"
+    },
+    {
+      "code": "sh600021",
+      "name": "上海电力",
+      "group": "focus",
+      "addedDate": "2026-05-20",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sh600584",
+      "name": "长电科技",
+      "group": "focus",
+      "addedDate": "2026-05-20",
+      "source": "sector:触摸屏"
     }
   ],
   "todayAdded": [
-    "sz300221",
-    "sz002552",
-    "sz002195"
+    "sh600863",
+    "sz000636",
+    "sh600021",
+    "sh600584"
   ],
   "todayRemoved": [
-    "sh600744",
-    "sh601890",
-    "sz000792",
-    "sz300252",
-    "sh600694"
+    "sz002490",
+    "sh600111",
+    "sz002560",
+    "sh600150",
+    "sh603290"
   ]
 }
