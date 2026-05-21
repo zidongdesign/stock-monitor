@@ -1,15 +1,8 @@
 {
-  "version": "20260520a",
+  "version": "20260521a",
   "startDate": "2026-03-12",
-  "dayCount": 70,
+  "dayCount": 71,
   "stocks": [
-    {
-      "code": "sz002758",
-      "name": "浙农股份",
-      "group": "focus",
-      "addedDate": "2026-04-20",
-      "source": "戈叔研究:农资流通龙头"
-    },
     {
       "code": "sz300136",
       "name": "信维通信",
@@ -58,13 +51,6 @@
       "group": "focus",
       "addedDate": "2026-04-29",
       "source": "sector:央企50"
-    },
-    {
-      "code": "sz001896",
-      "name": "豫能控股",
-      "group": "focus",
-      "addedDate": "2026-04-14",
-      "source": "sector:重组概念"
     },
     {
       "code": "sz002428",
@@ -128,20 +114,6 @@
       "group": "focus",
       "addedDate": "2026-04-28",
       "source": "sector:创新药"
-    },
-    {
-      "code": "sh601669",
-      "name": "中国电建",
-      "group": "focus",
-      "addedDate": "2026-04-21",
-      "source": "戈叔研究:基建新能源+海外订单"
-    },
-    {
-      "code": "sz000537",
-      "name": "绿发电力",
-      "group": "focus",
-      "addedDate": "2026-04-23",
-      "source": "sector:风电"
     },
     {
       "code": "sz002436",
@@ -508,13 +480,6 @@
       "source": "sector:业绩预降"
     },
     {
-      "code": "sz002195",
-      "name": "岩山科技",
-      "group": "focus",
-      "addedDate": "2026-05-19",
-      "source": "sector:股权激励"
-    },
-    {
       "code": "sh600863",
       "name": "华能蒙电",
       "group": "focus",
@@ -541,19 +506,39 @@
       "group": "focus",
       "addedDate": "2026-05-20",
       "source": "sector:触摸屏"
+    },
+    {
+      "code": "sz000962",
+      "name": "东方钽业",
+      "group": "focus",
+      "addedDate": "2026-05-21",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sh603501",
+      "name": "豪威集团",
+      "group": "focus",
+      "addedDate": "2026-05-21",
+      "source": "sector:无线耳机"
+    },
+    {
+      "code": "sz300303",
+      "name": "聚飞光电",
+      "group": "focus",
+      "addedDate": "2026-05-21",
+      "source": "sector:绿色照明"
     }
   ],
   "todayAdded": [
-    "sh600863",
-    "sz000636",
-    "sh600021",
-    "sh600584"
+    "sz000962",
+    "sh603501",
+    "sz300303"
   ],
   "todayRemoved": [
-    "sz002490",
-    "sh600111",
-    "sz002560",
-    "sh600150",
-    "sh603290"
+    "sz002195",
+    "sh601669",
+    "sz000537",
+    "sz002758",
+    "sz001896"
   ]
 }
