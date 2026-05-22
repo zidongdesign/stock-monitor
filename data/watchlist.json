@@ -1,7 +1,7 @@
 {
-  "version": "20260521a",
+  "version": "20260522a",
   "startDate": "2026-03-12",
-  "dayCount": 71,
+  "dayCount": 72,
   "stocks": [
     {
       "code": "sz300136",
@@ -25,13 +25,6 @@
       "source": "sector:创新药"
     },
     {
-      "code": "sh600487",
-      "name": "亨通光电",
-      "group": "focus",
-      "addedDate": "2026-04-22",
-      "source": "sector:风电"
-    },
-    {
       "code": "sh600770",
       "name": "综艺股份",
       "group": "focus",
@@ -44,13 +37,6 @@
       "group": "focus",
       "addedDate": "2026-04-27",
       "source": "sector:锂电池"
-    },
-    {
-      "code": "sh600879",
-      "name": "航天电子",
-      "group": "focus",
-      "addedDate": "2026-04-29",
-      "source": "sector:央企50"
     },
     {
       "code": "sz002428",
@@ -79,13 +65,6 @@
       "group": "focus",
       "addedDate": "2026-04-27",
       "source": "sector:锂矿"
-    },
-    {
-      "code": "sh601318",
-      "name": "中国平安",
-      "group": "focus",
-      "addedDate": "2026-04-29",
-      "source": "sector:超大盘"
     },
     {
       "code": "sz300139",
@@ -284,13 +263,6 @@
       "source": "sector:风电"
     },
     {
-      "code": "sz000977",
-      "name": "浪潮信息",
-      "group": "focus",
-      "addedDate": "2026-04-20",
-      "source": "sector:国防军工"
-    },
-    {
       "code": "sz000938",
       "name": "紫光股份",
       "group": "focus",
@@ -459,13 +431,6 @@
       "source": "sector:华为海思"
     },
     {
-      "code": "sz300065",
-      "name": "海兰信",
-      "group": "focus",
-      "addedDate": "2026-05-18",
-      "source": "sector:专精特新"
-    },
-    {
       "code": "sz300221",
       "name": "银禧科技",
       "group": "focus",
@@ -527,18 +492,39 @@
       "group": "focus",
       "addedDate": "2026-05-21",
       "source": "sector:绿色照明"
+    },
+    {
+      "code": "sz300811",
+      "name": "铂科新材",
+      "group": "focus",
+      "addedDate": "2026-05-22",
+      "source": "sector:华为汽车"
+    },
+    {
+      "code": "sz002920",
+      "name": "德赛西威",
+      "group": "focus",
+      "addedDate": "2026-05-22",
+      "source": "sector:华为汽车"
+    },
+    {
+      "code": "sz002885",
+      "name": "京泉华",
+      "group": "focus",
+      "addedDate": "2026-05-22",
+      "source": "sector:华为汽车"
     }
   ],
   "todayAdded": [
-    "sz000962",
-    "sh603501",
-    "sz300303"
+    "sz300811",
+    "sz002920",
+    "sz002885"
   ],
   "todayRemoved": [
-    "sz002195",
-    "sh601669",
-    "sz000537",
-    "sz002758",
-    "sz001896"
+    "sz300065",
+    "sh600487",
+    "sh600879",
+    "sz000977",
+    "sh601318"
   ]
 }
