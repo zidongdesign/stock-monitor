@@ -1,7 +1,7 @@
 {
-  "version": "20260522a",
+  "version": "20260525a",
   "startDate": "2026-03-12",
-  "dayCount": 72,
+  "dayCount": 75,
   "stocks": [
     {
       "code": "sz300136",
@@ -44,13 +44,6 @@
       "group": "focus",
       "addedDate": "2026-04-20",
       "source": "sector:光伏概念"
-    },
-    {
-      "code": "sz300905",
-      "name": "宝丽迪",
-      "group": "focus",
-      "addedDate": "2026-05-12",
-      "source": "sector:专精特新"
     },
     {
       "code": "sz002487",
@@ -102,13 +95,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sh601868",
-      "name": "中国能建",
-      "group": "focus",
-      "addedDate": "2026-05-08",
-      "source": "sector:风电"
-    },
-    {
       "code": "sz301196",
       "name": "唯科科技",
       "group": "focus",
@@ -135,13 +121,6 @@
       "group": "watch",
       "addedDate": "2026-03-14",
       "source": "商业航天发射场配套"
-    },
-    {
-      "code": "sz002008",
-      "name": "大族激光",
-      "group": "focus",
-      "addedDate": "2026-04-20",
-      "source": "sector:光伏概念"
     },
     {
       "code": "sz300763",
@@ -375,13 +354,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz002165",
-      "name": "红 宝 丽",
-      "group": "focus",
-      "addedDate": "2026-05-15",
-      "source": "sector:聚氨酯"
-    },
-    {
       "code": "sz002409",
       "name": "雅克科技",
       "group": "focus",
@@ -487,13 +459,6 @@
       "source": "sector:无线耳机"
     },
     {
-      "code": "sz300303",
-      "name": "聚飞光电",
-      "group": "focus",
-      "addedDate": "2026-05-21",
-      "source": "sector:绿色照明"
-    },
-    {
       "code": "sz300811",
       "name": "铂科新材",
       "group": "focus",
@@ -513,18 +478,55 @@
       "group": "focus",
       "addedDate": "2026-05-22",
       "source": "sector:华为汽车"
+    },
+    {
+      "code": "sz000733",
+      "name": "振华科技",
+      "group": "focus",
+      "addedDate": "2026-05-25",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sh603267",
+      "name": "鸿远电子",
+      "group": "focus",
+      "addedDate": "2026-05-25",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz300576",
+      "name": "容大感光",
+      "group": "focus",
+      "addedDate": "2026-05-25",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz002594",
+      "name": "比亚迪",
+      "group": "focus",
+      "addedDate": "2026-05-25",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz000060",
+      "name": "中金岭南",
+      "group": "focus",
+      "addedDate": "2026-05-25",
+      "source": "sector:融资融券"
     }
   ],
   "todayAdded": [
-    "sz300811",
-    "sz002920",
-    "sz002885"
+    "sz000733",
+    "sh603267",
+    "sz300576",
+    "sz002594",
+    "sz000060"
   ],
   "todayRemoved": [
-    "sz300065",
-    "sh600487",
-    "sh600879",
-    "sz000977",
-    "sh601318"
+    "sh601868",
+    "sz300303",
+    "sz002165",
+    "sz300905",
+    "sz002008"
   ]
 }
