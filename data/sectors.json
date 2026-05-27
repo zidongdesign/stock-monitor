@@ -1,521 +1,492 @@
 {
-  "updated": "2026-05-26T09:32:54.658923+08:00",
+  "updated": "2026-05-27T09:32:51.090031+08:00",
   "sectors": [
     {
-      "name": "华为海思",
-      "netAmount": 9269804273.63,
-      "avgChange": 5.17,
+      "name": "融资融券",
+      "netAmount": 15495527011.59,
+      "avgChange": 0.5,
       "leader": {
-        "code": "sz300602",
-        "name": "飞荣达",
-        "change": 3.2
+        "code": "sh601600",
+        "name": "中国铝业",
+        "change": 2.48
       },
       "hotStocks": [
         {
-          "code": "sz002156",
-          "name": "通富微电",
-          "change": 7.08,
-          "netAmount": 3548049131.46,
-          "reason": "强势拉升+净流入35.5亿"
+          "code": "sz000725",
+          "name": "京东方Ａ",
+          "change": 1.04,
+          "netAmount": 397933494.68,
+          "reason": "净流入4.0亿"
         },
         {
-          "code": "sz002185",
-          "name": "华天科技",
-          "change": 10.02,
-          "netAmount": 2251027663.48,
-          "reason": "涨停+净流入22.5亿"
+          "code": "sz000100",
+          "name": "TCL科技",
+          "change": 3.01,
+          "netAmount": 128245348.6,
+          "reason": "显著上涨+净流入1.3亿"
         },
         {
-          "code": "sh600584",
-          "name": "长电科技",
-          "change": 9.58,
-          "netAmount": 1557331036.02,
-          "reason": "强势拉升+净流入15.6亿"
+          "code": "sz002202",
+          "name": "金风科技",
+          "change": 1.63,
+          "netAmount": 39964178.0,
+          "reason": "净流入399642万"
         },
         {
-          "code": "sz002436",
-          "name": "兴森科技",
-          "change": 0.55,
-          "netAmount": 653685136.49,
-          "reason": "净流入6.5亿"
+          "code": "sz000012",
+          "name": "南 玻Ａ",
+          "change": 0.67,
+          "netAmount": 17166699.45,
+          "reason": "净流入171667万"
         },
         {
-          "code": "sz300602",
-          "name": "飞荣达",
-          "change": 3.2,
-          "netAmount": 536411407.57,
-          "reason": "显著上涨+净流入5.4亿"
+          "code": "sh600999",
+          "name": "招商证券",
+          "change": 0.95,
+          "netAmount": 10541160.0,
+          "reason": "净流入105412万"
         }
       ]
     },
     {
       "name": "触摸屏",
-      "netAmount": 9267302177.29,
-      "avgChange": 5.45,
+      "netAmount": 8591484397.34,
+      "avgChange": 3.21,
       "leader": {
-        "code": "sz002056",
-        "name": "横店东磁",
-        "change": 5.62
+        "code": "sz002388",
+        "name": "新亚制程",
+        "change": 7.14
       },
       "hotStocks": [
         {
-          "code": "sz002156",
-          "name": "通富微电",
-          "change": 6.76,
-          "netAmount": 3548049131.46,
-          "reason": "显著上涨+净流入35.5亿"
+          "code": "sz000012",
+          "name": "南 玻Ａ",
+          "change": 0.67,
+          "netAmount": 17166699.45,
+          "reason": "净流入171667万"
+        },
+        {
+          "code": "sz300088",
+          "name": "长信科技",
+          "change": 4.09,
+          "netAmount": 5123934.0,
+          "reason": "显著上涨+资金净流入"
+        },
+        {
+          "code": "sz002388",
+          "name": "新亚制程",
+          "change": 7.14,
+          "netAmount": 0,
+          "reason": "强势拉升"
         },
         {
           "code": "sz002185",
           "name": "华天科技",
-          "change": 10.02,
-          "netAmount": 2251027663.48,
-          "reason": "涨停+净流入22.5亿"
+          "change": 6.05,
+          "netAmount": 0,
+          "reason": "显著上涨"
         },
         {
-          "code": "sh600584",
-          "name": "长电科技",
-          "change": 9.58,
-          "netAmount": 1557331036.02,
-          "reason": "强势拉升+净流入15.6亿"
-        },
-        {
-          "code": "sz002056",
-          "name": "横店东磁",
-          "change": 5.62,
-          "netAmount": 855448569.17,
-          "reason": "显著上涨+净流入8.6亿"
-        },
-        {
-          "code": "sz002456",
-          "name": "欧菲光",
-          "change": 0.76,
-          "netAmount": 290772663.6,
-          "reason": "净流入2.9亿"
-        }
-      ]
-    },
-    {
-      "name": "华为概念",
-      "netAmount": 8671319129.39,
-      "avgChange": 3.98,
-      "leader": {
-        "code": "sz300735",
-        "name": "光弘科技",
-        "change": 4.76
-      },
-      "hotStocks": [
-        {
-          "code": "sz000988",
-          "name": "华工科技",
-          "change": 1.13,
-          "netAmount": 3595518353.66,
-          "reason": "净流入36.0亿"
-        },
-        {
-          "code": "sz002938",
-          "name": "鹏鼎控股",
-          "change": 1.5,
-          "netAmount": 2204407180.96,
-          "reason": "净流入22.0亿"
-        },
-        {
-          "code": "sz000021",
-          "name": "深科技",
-          "change": 2.48,
-          "netAmount": 1181699156.54,
-          "reason": "净流入11.8亿"
-        },
-        {
-          "code": "sz002897",
-          "name": "意华股份",
-          "change": 10.0,
-          "netAmount": 930233115.88,
-          "reason": "涨停+净流入9.3亿"
-        },
-        {
-          "code": "sz300602",
-          "name": "飞荣达",
-          "change": 3.2,
-          "netAmount": 536411407.57,
-          "reason": "显著上涨+净流入5.4亿"
-        }
-      ]
-    },
-    {
-      "name": "无线耳机",
-      "netAmount": 7852506859.2,
-      "avgChange": 3.99,
-      "leader": {
-        "code": "sz300184",
-        "name": "力源信息",
-        "change": -3.52
-      },
-      "hotStocks": [
-        {
-          "code": "sz002156",
-          "name": "通富微电",
-          "change": 6.76,
-          "netAmount": 3548049131.46,
-          "reason": "显著上涨+净流入35.5亿"
-        },
-        {
-          "code": "sz002938",
-          "name": "鹏鼎控股",
-          "change": 1.49,
-          "netAmount": 2204407180.96,
-          "reason": "净流入22.0亿"
-        },
-        {
-          "code": "sh603986",
-          "name": "XD兆易创",
-          "change": 0.1,
-          "netAmount": 2104614180.69,
-          "reason": "净流入21.0亿"
-        },
-        {
-          "code": "sz002947",
-          "name": "恒铭达",
-          "change": 4.54,
-          "netAmount": 658875051.06,
-          "reason": "显著上涨+净流入6.6亿"
-        },
-        {
-          "code": "sz300115",
-          "name": "长盈精密",
-          "change": 6.28,
+          "code": "sh600563",
+          "name": "法拉电子",
+          "change": 5.89,
           "netAmount": 0,
           "reason": "显著上涨"
         }
       ]
     },
     {
-      "name": "业绩预升",
-      "netAmount": 7810551203.05,
-      "avgChange": 0.98,
+      "name": "含B股",
+      "netAmount": 6789970360.7,
+      "avgChange": 0.96,
       "leader": {
-        "code": "sz002421",
-        "name": "达实智能",
-        "change": 1.04
+        "code": "sh600726",
+        "name": "华电能源",
+        "change": 8.8
       },
       "hotStocks": [
         {
-          "code": "sz002156",
-          "name": "通富微电",
-          "change": 6.76,
-          "netAmount": 3548049131.46,
-          "reason": "显著上涨+净流入35.5亿"
-        },
-        {
-          "code": "sz002421",
-          "name": "达实智能",
+          "code": "sz000725",
+          "name": "京东方Ａ",
           "change": 1.04,
-          "netAmount": 1354733518.72,
-          "reason": "净流入13.5亿"
-        },
-        {
-          "code": "sh600578",
-          "name": "京能电力",
-          "change": 5.64,
-          "netAmount": 1165857051.98,
-          "reason": "显著上涨+净流入11.7亿"
-        },
-        {
-          "code": "sz002056",
-          "name": "横店东磁",
-          "change": 5.62,
-          "netAmount": 855448569.17,
-          "reason": "显著上涨+净流入8.6亿"
-        },
-        {
-          "code": "sz000100",
-          "name": "TCL科技",
-          "change": 0.9,
-          "netAmount": 564250873.32,
-          "reason": "净流入5.6亿"
-        }
-      ]
-    },
-    {
-      "name": "特斯拉",
-      "netAmount": 6588048915.02,
-      "avgChange": 1.44,
-      "leader": {
-        "code": "sz002056",
-        "name": "横店东磁",
-        "change": 5.62
-      },
-      "hotStocks": [
-        {
-          "code": "sz000988",
-          "name": "华工科技",
-          "change": 1.13,
-          "netAmount": 3595518353.66,
-          "reason": "净流入36.0亿"
-        },
-        {
-          "code": "sz002156",
-          "name": "通富微电",
-          "change": 6.76,
-          "netAmount": 3548049131.46,
-          "reason": "显著上涨+净流入35.5亿"
-        },
-        {
-          "code": "sz002056",
-          "name": "横店东磁",
-          "change": 5.62,
-          "netAmount": 855448569.17,
-          "reason": "显著上涨+净流入8.6亿"
-        },
-        {
-          "code": "sh600114",
-          "name": "东睦股份",
-          "change": 1.07,
-          "netAmount": 58977832.39,
-          "reason": "净流入589778万"
-        }
-      ]
-    },
-    {
-      "name": "电子支付",
-      "netAmount": 6127422257.27,
-      "avgChange": 4.53,
-      "leader": {
-        "code": "sh600584",
-        "name": "长电科技",
-        "change": 8.87
-      },
-      "hotStocks": [
-        {
-          "code": "sz002156",
-          "name": "通富微电",
-          "change": 7.05,
-          "netAmount": 3548049131.46,
-          "reason": "强势拉升+净流入35.5亿"
-        },
-        {
-          "code": "sh600584",
-          "name": "长电科技",
-          "change": 8.87,
-          "netAmount": 1557331036.02,
-          "reason": "强势拉升+净流入15.6亿"
-        },
-        {
-          "code": "sz300297",
-          "name": "蓝盾退",
-          "change": 4.54,
-          "netAmount": 0,
-          "reason": "显著上涨"
-        },
-        {
-          "code": "sz300188",
-          "name": "国投智能",
-          "change": 3.06,
-          "netAmount": 0,
-          "reason": "显著上涨"
-        }
-      ]
-    },
-    {
-      "name": "高校背景",
-      "netAmount": 5781188647.01,
-      "avgChange": 4.48,
-      "leader": {
-        "code": "sz002297",
-        "name": "博云新材",
-        "change": -9.99
-      },
-      "hotStocks": [
-        {
-          "code": "sz000988",
-          "name": "华工科技",
-          "change": 1.08,
-          "netAmount": 3595518353.66,
-          "reason": "净流入36.0亿"
-        },
-        {
-          "code": "sz002030",
-          "name": "达安基因",
-          "change": 0.73,
-          "netAmount": 399903064.04,
+          "netAmount": 397933494.68,
           "reason": "净流入4.0亿"
-        },
-        {
-          "code": "sh600730",
-          "name": "*ST高科",
-          "change": 5.01,
-          "netAmount": 105191554.84,
-          "reason": "显著上涨+净流入1.1亿"
-        },
-        {
-          "code": "sh600857",
-          "name": "宁波中百",
-          "change": 3.43,
-          "netAmount": 0,
-          "reason": "显著上涨"
-        }
-      ]
-    },
-    {
-      "name": "金融参股",
-      "netAmount": 5680291677.29,
-      "avgChange": 0.8,
-      "leader": {
-        "code": "sh600395",
-        "name": "盘江股份",
-        "change": 0
-      },
-      "hotStocks": [
-        {
-          "code": "sz000988",
-          "name": "华工科技",
-          "change": 1.08,
-          "netAmount": 3595518353.66,
-          "reason": "净流入36.0亿"
-        },
-        {
-          "code": "sz000021",
-          "name": "深科技",
-          "change": 2.48,
-          "netAmount": 1181699156.54,
-          "reason": "净流入11.8亿"
-        },
-        {
-          "code": "sz000564",
-          "name": "供销大集",
-          "change": 0.56,
-          "netAmount": 839140537.36,
-          "reason": "净流入8.4亿"
         },
         {
           "code": "sh600726",
           "name": "华电能源",
-          "change": 7.8,
-          "netAmount": 469511150.84,
-          "reason": "强势拉升+净流入4.7亿"
+          "change": 8.8,
+          "netAmount": 63216071.0,
+          "reason": "强势拉升+净流入632161万"
         },
         {
-          "code": "sz000510",
-          "name": "新金路",
-          "change": 2.19,
-          "netAmount": 446748836.15,
-          "reason": "净流入4.5亿"
+          "code": "sz000012",
+          "name": "南 玻Ａ",
+          "change": 0.67,
+          "netAmount": 17166699.45,
+          "reason": "净流入171667万"
+        },
+        {
+          "code": "sz000056",
+          "name": "*ST皇庭",
+          "change": 4.32,
+          "netAmount": 0,
+          "reason": "显著上涨"
         }
       ]
     },
     {
-      "name": "分拆上市",
-      "netAmount": 5039388996.09,
-      "avgChange": 1.46,
+      "name": "土地流转",
+      "netAmount": 6431882762.01,
+      "avgChange": 0.02,
       "leader": {
-        "code": "sz000988",
-        "name": "华工科技",
-        "change": 1.08
+        "code": "sz002185",
+        "name": "华天科技",
+        "change": 5.95
       },
       "hotStocks": [
         {
-          "code": "sz000988",
-          "name": "华工科技",
-          "change": 1.08,
-          "netAmount": 3595518353.66,
-          "reason": "净流入36.0亿"
+          "code": "sz002185",
+          "name": "华天科技",
+          "change": 5.95,
+          "netAmount": 0,
+          "reason": "显著上涨"
         },
         {
-          "code": "sz000021",
-          "name": "深科技",
-          "change": 2.48,
-          "netAmount": 1181699156.54,
-          "reason": "净流入11.8亿"
+          "code": "sz000620",
+          "name": "盈新发展",
+          "change": 3.81,
+          "netAmount": 0,
+          "reason": "显著上涨"
         },
         {
-          "code": "sh600900",
-          "name": "长江电力",
-          "change": 0.15,
-          "netAmount": 247805712.22,
-          "reason": "净流入2.5亿"
+          "code": "sh601118",
+          "name": "海南橡胶",
+          "change": 3.7,
+          "netAmount": 0,
+          "reason": "显著上涨"
+        }
+      ]
+    },
+    {
+      "name": "参股金融",
+      "netAmount": 6176171391.96,
+      "avgChange": 0.14,
+      "leader": {
+        "code": "sh600635",
+        "name": "大众公用",
+        "change": 0
+      },
+      "hotStocks": [
+        {
+          "code": "sz000100",
+          "name": "TCL科技",
+          "change": 3.23,
+          "netAmount": 128245348.6,
+          "reason": "显著上涨+净流入1.3亿"
+        },
+        {
+          "code": "sh600726",
+          "name": "华电能源",
+          "change": 8.54,
+          "netAmount": 63216071.0,
+          "reason": "强势拉升+净流入632161万"
+        },
+        {
+          "code": "sz002012",
+          "name": "凯恩股份",
+          "change": 3.31,
+          "netAmount": 40876179.0,
+          "reason": "显著上涨+净流入408762万"
+        },
+        {
+          "code": "sh600888",
+          "name": "新疆众和",
+          "change": 1.77,
+          "netAmount": 16611660.0,
+          "reason": "净流入166117万"
+        },
+        {
+          "code": "sz000510",
+          "name": "新金路",
+          "change": 4.43,
+          "netAmount": 14935874.0,
+          "reason": "显著上涨+净流入149359万"
+        }
+      ]
+    },
+    {
+      "name": "陕甘宁",
+      "netAmount": 6097689036.29,
+      "avgChange": 0.26,
+      "leader": {
+        "code": "sz002185",
+        "name": "华天科技",
+        "change": 5.95
+      },
+      "hotStocks": [
+        {
+          "code": "sz002149",
+          "name": "西部材料",
+          "change": 1.92,
+          "netAmount": 30954893.64,
+          "reason": "净流入309549万"
+        },
+        {
+          "code": "sz002185",
+          "name": "华天科技",
+          "change": 5.95,
+          "netAmount": 0,
+          "reason": "显著上涨"
+        },
+        {
+          "code": "sh600707",
+          "name": "彩虹股份",
+          "change": 3.2,
+          "netAmount": 0,
+          "reason": "显著上涨"
+        },
+        {
+          "code": "sz000962",
+          "name": "东方钽业",
+          "change": 3.1,
+          "netAmount": 0,
+          "reason": "显著上涨"
+        },
+        {
+          "code": "sh601958",
+          "name": "金钼股份",
+          "change": 3.01,
+          "netAmount": 0,
+          "reason": "显著上涨"
+        }
+      ]
+    },
+    {
+      "name": "华为海思",
+      "netAmount": 5280930366.22,
+      "avgChange": -0.36,
+      "leader": {
+        "code": "sz002185",
+        "name": "华天科技",
+        "change": 5.95
+      },
+      "hotStocks": [
+        {
+          "code": "sz002371",
+          "name": "北方华创",
+          "change": 1.81,
+          "netAmount": 88903801.0,
+          "reason": "净流入889038万"
+        },
+        {
+          "code": "sz300602",
+          "name": "飞荣达",
+          "change": 2.01,
+          "netAmount": 37071219.0,
+          "reason": "净流入370712万"
+        },
+        {
+          "code": "sh688170",
+          "name": "德龙激光",
+          "change": 5.14,
+          "netAmount": 16953498.64,
+          "reason": "显著上涨+净流入169535万"
+        },
+        {
+          "code": "sz300726",
+          "name": "宏达电子",
+          "change": 4.46,
+          "netAmount": 14606140.0,
+          "reason": "显著上涨+净流入146061万"
+        },
+        {
+          "code": "sz300184",
+          "name": "力源信息",
+          "change": 1.78,
+          "netAmount": 4868359.0,
+          "reason": "资金净流入"
+        }
+      ]
+    },
+    {
+      "name": "超大盘",
+      "netAmount": 5065094784.18,
+      "avgChange": 0.93,
+      "leader": {
+        "code": "sh601600",
+        "name": "中国铝业",
+        "change": 2.48
+      },
+      "hotStocks": []
+    },
+    {
+      "name": "稀缺资源",
+      "netAmount": 4678995214.63,
+      "avgChange": 2.4,
+      "leader": {
+        "code": "sh600367",
+        "name": "红星发展",
+        "change": 10.01
+      },
+      "hotStocks": [
+        {
+          "code": "sz002192",
+          "name": "融捷股份",
+          "change": 0.66,
+          "netAmount": 22959594.4,
+          "reason": "净流入229596万"
+        },
+        {
+          "code": "sh600367",
+          "name": "红星发展",
+          "change": 10.01,
+          "netAmount": 0,
+          "reason": "涨停"
+        },
+        {
+          "code": "sh600265",
+          "name": "*ST景谷",
+          "change": 5.02,
+          "netAmount": 0,
+          "reason": "显著上涨"
+        },
+        {
+          "code": "sz000962",
+          "name": "东方钽业",
+          "change": 3.05,
+          "netAmount": 0,
+          "reason": "显著上涨"
+        }
+      ]
+    },
+    {
+      "name": "锂矿",
+      "netAmount": 3854086047.73,
+      "avgChange": 2.01,
+      "leader": {
+        "code": "sh600367",
+        "name": "红星发展",
+        "change": 10.01
+      },
+      "hotStocks": [
+        {
+          "code": "sz300014",
+          "name": "亿纬锂能",
+          "change": 2.45,
+          "netAmount": 29869608.0,
+          "reason": "净流入298696万"
+        },
+        {
+          "code": "sz002192",
+          "name": "融捷股份",
+          "change": 0.66,
+          "netAmount": 22959594.4,
+          "reason": "净流入229596万"
+        },
+        {
+          "code": "sz002466",
+          "name": "天齐锂业",
+          "change": 0.68,
+          "netAmount": 20174212.58,
+          "reason": "净流入201742万"
+        },
+        {
+          "code": "sz002895",
+          "name": "川恒股份",
+          "change": 4.27,
+          "netAmount": 12177914.0,
+          "reason": "显著上涨+净流入121779万"
+        },
+        {
+          "code": "sz002497",
+          "name": "雅化集团",
+          "change": 1.82,
+          "netAmount": 7791827.0,
+          "reason": "资金净流入"
         }
       ]
     }
   ],
   "recommend": [
     {
-      "code": "sz002056",
-      "name": "横店东磁",
+      "code": "sz000100",
+      "name": "TCL科技",
+      "sector": "融资融券",
+      "score": 95,
+      "reason": "[融资融券]显著上涨+净流入1.3亿",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sz000725",
+      "name": "京东方Ａ",
+      "sector": "融资融券",
+      "score": 88,
+      "reason": "[融资融券]净流入4.0亿",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sz300088",
+      "name": "长信科技",
       "sector": "触摸屏",
-      "score": 99,
-      "reason": "[触摸屏]显著上涨+净流入8.6亿",
+      "score": 78,
+      "reason": "[触摸屏]显著上涨+资金净流入",
       "suggestGroup": "watch"
     },
     {
-      "code": "sz002947",
-      "name": "恒铭达",
-      "sector": "无线耳机",
-      "score": 99,
-      "reason": "[无线耳机]显著上涨+净流入6.6亿",
+      "code": "sh600726",
+      "name": "华电能源",
+      "sector": "含B股",
+      "score": 73,
+      "reason": "[含B股]强势拉升+净流入632161万",
       "suggestGroup": "watch"
     },
     {
-      "code": "sz300602",
-      "name": "飞荣达",
-      "sector": "华为海思",
-      "score": 99,
-      "reason": "[华为海思]显著上涨+净流入5.4亿",
+      "code": "sz002202",
+      "name": "金风科技",
+      "sector": "融资融券",
+      "score": 73,
+      "reason": "[融资融券]净流入399642万",
       "suggestGroup": "watch"
     },
     {
       "code": "sz002185",
       "name": "华天科技",
+      "sector": "触摸屏",
+      "score": 73,
+      "reason": "[触摸屏]显著上涨",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sh600563",
+      "name": "法拉电子",
+      "sector": "触摸屏",
+      "score": 73,
+      "reason": "[触摸屏]显著上涨",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sz002012",
+      "name": "凯恩股份",
+      "sector": "参股金融",
+      "score": 72,
+      "reason": "[参股金融]显著上涨+净流入408762万",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sz000056",
+      "name": "*ST皇庭",
+      "sector": "含B股",
+      "score": 71,
+      "reason": "[含B股]显著上涨",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sz002371",
+      "name": "北方华创",
       "sector": "华为海思",
-      "score": 98,
-      "reason": "[华为海思]涨停+净流入22.5亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sh600578",
-      "name": "京能电力",
-      "sector": "业绩预升",
-      "score": 97,
-      "reason": "[业绩预升]显著上涨+净流入11.7亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sz002156",
-      "name": "通富微电",
-      "sector": "华为海思",
-      "score": 95,
-      "reason": "[华为海思]强势拉升+净流入35.5亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sh600584",
-      "name": "长电科技",
-      "sector": "华为海思",
-      "score": 95,
-      "reason": "[华为海思]强势拉升+净流入15.6亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sz000988",
-      "name": "华工科技",
-      "sector": "华为概念",
-      "score": 94,
-      "reason": "[华为概念]净流入36.0亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sz002938",
-      "name": "鹏鼎控股",
-      "sector": "华为概念",
-      "score": 94,
-      "reason": "[华为概念]净流入22.0亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sz000021",
-      "name": "深科技",
-      "sector": "华为概念",
-      "score": 94,
-      "reason": "[华为概念]净流入11.8亿",
+      "score": 70,
+      "reason": "[华为海思]净流入889038万",
       "suggestGroup": "watch"
     }
   ]

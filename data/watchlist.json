@@ -1,7 +1,7 @@
 {
-  "version": "20260526a",
+  "version": "20260527a",
   "startDate": "2026-03-12",
-  "dayCount": 76,
+  "dayCount": 77,
   "stocks": [
     {
       "code": "sz300136",
@@ -11,25 +11,11 @@
       "source": "sector:华为概念"
     },
     {
-      "code": "sh601857",
-      "name": "中国石油",
-      "group": "focus",
-      "addedDate": "2026-04-23",
-      "source": "sector:央企50"
-    },
-    {
       "code": "sz300759",
       "name": "康龙化成",
       "group": "focus",
       "addedDate": "2026-04-28",
       "source": "sector:创新药"
-    },
-    {
-      "code": "sz002428",
-      "name": "云南锗业",
-      "group": "focus",
-      "addedDate": "2026-04-20",
-      "source": "sector:光伏概念"
     },
     {
       "code": "sz002487",
@@ -44,13 +30,6 @@
       "group": "focus",
       "addedDate": "2026-05-12",
       "source": "sector:光伏概念"
-    },
-    {
-      "code": "sh600558",
-      "name": "大西洋",
-      "group": "focus",
-      "addedDate": "2026-04-20",
-      "source": "戈叔研究:焊材龙头+社保基金"
     },
     {
       "code": "sh603259",
@@ -347,20 +326,6 @@
       "source": "sector:HIT电池"
     },
     {
-      "code": "sz002281",
-      "name": "光迅科技",
-      "group": "focus",
-      "addedDate": "2026-05-18",
-      "source": "sector:股权激励"
-    },
-    {
-      "code": "sz300283",
-      "name": "温州宏丰",
-      "group": "focus",
-      "addedDate": "2026-05-18",
-      "source": "sector:专精特新"
-    },
-    {
       "code": "sz300496",
       "name": "中科创达",
       "group": "focus",
@@ -513,20 +478,55 @@
       "group": "focus",
       "addedDate": "2026-05-26",
       "source": "sector:华为概念"
+    },
+    {
+      "code": "sz000100",
+      "name": "TCL科技",
+      "group": "focus",
+      "addedDate": "2026-05-27",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz002012",
+      "name": "凯恩股份",
+      "group": "focus",
+      "addedDate": "2026-05-27",
+      "source": "sector:参股金融"
+    },
+    {
+      "code": "sh600726",
+      "name": "华电能源",
+      "group": "focus",
+      "addedDate": "2026-05-27",
+      "source": "sector:含B股"
+    },
+    {
+      "code": "sz300088",
+      "name": "长信科技",
+      "group": "focus",
+      "addedDate": "2026-05-27",
+      "source": "sector:触摸屏"
+    },
+    {
+      "code": "sz002202",
+      "name": "金风科技",
+      "group": "focus",
+      "addedDate": "2026-05-27",
+      "source": "sector:融资融券"
     }
   ],
   "todayAdded": [
-    "sz002947",
-    "sh600578",
-    "sz002185",
-    "sz300602",
-    "sz000021"
+    "sz000100",
+    "sz002012",
+    "sh600726",
+    "sz300088",
+    "sz002202"
   ],
   "todayRemoved": [
-    "sz002217",
-    "sh600770",
-    "sz002407",
-    "sh600338",
-    "sz002380"
+    "sh600558",
+    "sz300283",
+    "sz002428",
+    "sz002281",
+    "sh601857"
   ]
 }
