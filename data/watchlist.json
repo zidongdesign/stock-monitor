@@ -1,7 +1,7 @@
 {
-  "version": "20260527a",
+  "version": "20260528a",
   "startDate": "2026-03-12",
-  "dayCount": 77,
+  "dayCount": 78,
   "stocks": [
     {
       "code": "sz300136",
@@ -23,13 +23,6 @@
       "group": "focus",
       "addedDate": "2026-03-13",
       "source": "sector:风电"
-    },
-    {
-      "code": "sz300139",
-      "name": "晓程科技",
-      "group": "focus",
-      "addedDate": "2026-05-12",
-      "source": "sector:光伏概念"
     },
     {
       "code": "sh603259",
@@ -65,13 +58,6 @@
       "group": "focus",
       "addedDate": "2026-05-07",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sh605090",
-      "name": "九丰能源",
-      "group": "watch",
-      "addedDate": "2026-03-14",
-      "source": "商业航天发射场配套"
     },
     {
       "code": "sz300763",
@@ -142,13 +128,6 @@
       "group": "focus",
       "addedDate": "2026-04-27",
       "source": "sector:特斯拉"
-    },
-    {
-      "code": "sz000425",
-      "name": "徐工机械",
-      "group": "focus",
-      "addedDate": "2026-04-29",
-      "source": "sector:融资融券"
     },
     {
       "code": "sz300661",
@@ -261,13 +240,6 @@
       "group": "focus",
       "addedDate": "2026-04-20",
       "source": "戈叔研究:汽车电子+社保基金"
-    },
-    {
-      "code": "sz002414",
-      "name": "高德红外",
-      "group": "focus",
-      "addedDate": "2026-04-21",
-      "source": "sector:国防军工"
     },
     {
       "code": "sh605117",
@@ -508,25 +480,37 @@
       "source": "sector:触摸屏"
     },
     {
-      "code": "sz002202",
-      "name": "金风科技",
+      "code": "sz000791",
+      "name": "甘肃能源",
       "group": "focus",
-      "addedDate": "2026-05-27",
-      "source": "sector:融资融券"
+      "addedDate": "2026-05-28",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz002008",
+      "name": "大族激光",
+      "group": "focus",
+      "addedDate": "2026-05-28",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sh600063",
+      "name": "皖维高新",
+      "group": "focus",
+      "addedDate": "2026-05-28",
+      "source": "sector:光伏"
     }
   ],
   "todayAdded": [
-    "sz000100",
-    "sz002012",
-    "sh600726",
-    "sz300088",
-    "sz002202"
+    "sz000791",
+    "sz002008",
+    "sh600063"
   ],
   "todayRemoved": [
-    "sh600558",
-    "sz300283",
-    "sz002428",
-    "sz002281",
-    "sh601857"
+    "sz002202",
+    "sh605090",
+    "sz300139",
+    "sz000425",
+    "sz002414"
   ]
 }
