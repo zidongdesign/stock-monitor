@@ -1,15 +1,8 @@
 {
-  "version": "20260528a",
+  "version": "20260529a",
   "startDate": "2026-03-12",
-  "dayCount": 78,
+  "dayCount": 79,
   "stocks": [
-    {
-      "code": "sz300136",
-      "name": "信维通信",
-      "group": "focus",
-      "addedDate": "2026-04-23",
-      "source": "sector:华为概念"
-    },
     {
       "code": "sz300759",
       "name": "康龙化成",
@@ -23,13 +16,6 @@
       "group": "focus",
       "addedDate": "2026-03-13",
       "source": "sector:风电"
-    },
-    {
-      "code": "sh603259",
-      "name": "药明康德",
-      "group": "focus",
-      "addedDate": "2026-04-28",
-      "source": "sector:创新药"
     },
     {
       "code": "sz002436",
@@ -72,20 +58,6 @@
       "group": "focus",
       "addedDate": "2026-05-04",
       "source": "sector:触摸屏"
-    },
-    {
-      "code": "sz002297",
-      "name": "博云新材",
-      "group": "focus",
-      "addedDate": "2026-05-07",
-      "source": "sector:重组概念"
-    },
-    {
-      "code": "sz002757",
-      "name": "南兴股份",
-      "group": "focus",
-      "addedDate": "2026-05-08",
-      "source": "sector:专精特新"
     },
     {
       "code": "sz000811",
@@ -298,13 +270,6 @@
       "source": "sector:HIT电池"
     },
     {
-      "code": "sz300496",
-      "name": "中科创达",
-      "group": "focus",
-      "addedDate": "2026-05-18",
-      "source": "sector:华为海思"
-    },
-    {
       "code": "sz300221",
       "name": "银禧科技",
       "group": "focus",
@@ -499,18 +464,31 @@
       "group": "focus",
       "addedDate": "2026-05-28",
       "source": "sector:光伏"
+    },
+    {
+      "code": "sh600030",
+      "name": "中信证券",
+      "group": "focus",
+      "addedDate": "2026-05-29",
+      "source": "sector:股期概念"
+    },
+    {
+      "code": "sz002527",
+      "name": "新时达",
+      "group": "focus",
+      "addedDate": "2026-05-29",
+      "source": "sector:机器人概念"
     }
   ],
   "todayAdded": [
-    "sz000791",
-    "sz002008",
-    "sh600063"
+    "sh600030",
+    "sz002527"
   ],
   "todayRemoved": [
-    "sz002202",
-    "sh605090",
-    "sz300139",
-    "sz000425",
-    "sz002414"
+    "sz300136",
+    "sh603259",
+    "sz002297",
+    "sz002757",
+    "sz300496"
   ]
 }
