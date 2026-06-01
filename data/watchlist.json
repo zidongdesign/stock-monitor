@@ -1,7 +1,7 @@
 {
-  "version": "20260529a",
+  "version": "20260601a",
   "startDate": "2026-03-12",
-  "dayCount": 79,
+  "dayCount": 82,
   "stocks": [
     {
       "code": "sz300759",
@@ -256,20 +256,6 @@
       "source": "sector:聚氨酯"
     },
     {
-      "code": "sz300263",
-      "name": "隆华科技",
-      "group": "focus",
-      "addedDate": "2026-05-15",
-      "source": "sector:钙钛矿"
-    },
-    {
-      "code": "sz002079",
-      "name": "苏州固锝",
-      "group": "focus",
-      "addedDate": "2026-05-15",
-      "source": "sector:HIT电池"
-    },
-    {
       "code": "sz300221",
       "name": "银禧科技",
       "group": "focus",
@@ -310,13 +296,6 @@
       "group": "focus",
       "addedDate": "2026-05-20",
       "source": "sector:触摸屏"
-    },
-    {
-      "code": "sz000962",
-      "name": "东方钽业",
-      "group": "focus",
-      "addedDate": "2026-05-21",
-      "source": "sector:锂电池"
     },
     {
       "code": "sh603501",
@@ -403,13 +382,6 @@
       "source": "sector:华为海思"
     },
     {
-      "code": "sz300602",
-      "name": "飞荣达",
-      "group": "focus",
-      "addedDate": "2026-05-26",
-      "source": "sector:华为海思"
-    },
-    {
       "code": "sz000021",
       "name": "深科技",
       "group": "focus",
@@ -436,13 +408,6 @@
       "group": "focus",
       "addedDate": "2026-05-27",
       "source": "sector:含B股"
-    },
-    {
-      "code": "sz300088",
-      "name": "长信科技",
-      "group": "focus",
-      "addedDate": "2026-05-27",
-      "source": "sector:触摸屏"
     },
     {
       "code": "sz000791",
@@ -478,17 +443,47 @@
       "group": "focus",
       "addedDate": "2026-05-29",
       "source": "sector:机器人概念"
+    },
+    {
+      "code": "sh600857",
+      "name": "XD宁波中",
+      "group": "focus",
+      "addedDate": "2026-06-01",
+      "source": "sector:参股金融"
+    },
+    {
+      "code": "sh600795",
+      "name": "国电电力",
+      "group": "focus",
+      "addedDate": "2026-06-01",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600276",
+      "name": "恒瑞医药",
+      "group": "focus",
+      "addedDate": "2026-06-01",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600549",
+      "name": "厦门钨业",
+      "group": "focus",
+      "addedDate": "2026-06-01",
+      "source": "sector:融资融券"
     }
   ],
   "todayAdded": [
-    "sh600030",
-    "sz002527"
+    "sh600857",
+    "sh600795",
+    "sh600276",
+    "sh600549"
   ],
   "todayRemoved": [
-    "sz300136",
-    "sh603259",
-    "sz002297",
-    "sz002757",
-    "sz300496"
+    "sz000962",
+    "sz300088",
+    "sz300263",
+    "sz300602",
+    "sz002079"
   ]
 }
