@@ -1,7 +1,7 @@
 {
-  "version": "20260601a",
+  "version": "20260602a",
   "startDate": "2026-03-12",
-  "dayCount": 82,
+  "dayCount": 83,
   "stocks": [
     {
       "code": "sz300759",
@@ -11,25 +11,11 @@
       "source": "sector:创新药"
     },
     {
-      "code": "sz002487",
-      "name": "大金重工",
-      "group": "focus",
-      "addedDate": "2026-03-13",
-      "source": "sector:风电"
-    },
-    {
       "code": "sz002436",
       "name": "兴森科技",
       "group": "focus",
       "addedDate": "2026-05-07",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sz301196",
-      "name": "唯科科技",
-      "group": "focus",
-      "addedDate": "2026-05-13",
-      "source": "sector:专精特新"
     },
     {
       "code": "sz300316",
@@ -142,13 +128,6 @@
       "group": "focus",
       "addedDate": "2026-03-13",
       "source": "sector:风电"
-    },
-    {
-      "code": "sz000938",
-      "name": "紫光股份",
-      "group": "focus",
-      "addedDate": "2026-04-23",
-      "source": "sector:分拆上市"
     },
     {
       "code": "sh601600",
@@ -340,13 +319,6 @@
       "source": "sector:专精特新"
     },
     {
-      "code": "sz300576",
-      "name": "容大感光",
-      "group": "focus",
-      "addedDate": "2026-05-25",
-      "source": "sector:专精特新"
-    },
-    {
       "code": "sz002594",
       "name": "比亚迪",
       "group": "focus",
@@ -373,13 +345,6 @@
       "group": "focus",
       "addedDate": "2026-05-26",
       "source": "sector:业绩预升"
-    },
-    {
-      "code": "sz002185",
-      "name": "华天科技",
-      "group": "focus",
-      "addedDate": "2026-05-26",
-      "source": "sector:华为海思"
     },
     {
       "code": "sz000021",
@@ -471,19 +436,55 @@
       "group": "focus",
       "addedDate": "2026-06-01",
       "source": "sector:融资融券"
+    },
+    {
+      "code": "sz300319",
+      "name": "麦捷科技",
+      "group": "focus",
+      "addedDate": "2026-06-02",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sz300124",
+      "name": "汇川技术",
+      "group": "focus",
+      "addedDate": "2026-06-02",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz000960",
+      "name": "锡业股份",
+      "group": "focus",
+      "addedDate": "2026-06-02",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000737",
+      "name": "北方铜业",
+      "group": "focus",
+      "addedDate": "2026-06-02",
+      "source": "sector:参股金融"
+    },
+    {
+      "code": "sh600487",
+      "name": "亨通光电",
+      "group": "focus",
+      "addedDate": "2026-06-02",
+      "source": "sector:参股金融"
     }
   ],
   "todayAdded": [
-    "sh600857",
-    "sh600795",
-    "sh600276",
-    "sh600549"
+    "sz300319",
+    "sz300124",
+    "sz000960",
+    "sz000737",
+    "sh600487"
   ],
   "todayRemoved": [
-    "sz000962",
-    "sz300088",
-    "sz300263",
-    "sz300602",
-    "sz002079"
+    "sz000938",
+    "sz300576",
+    "sz002487",
+    "sz301196",
+    "sz002185"
   ]
 }
