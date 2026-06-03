@@ -848,7 +848,8 @@ const keyInput = document.getElementById('api-key');
 const keyBtn = document.getElementById('key-btn');
 const keyPopup = document.getElementById('key-popup');
 
-const savedKey = localStorage.getItem('or_api_key') || '';
+const hashKey = new URLSearchParams(location.hash.slice(1)).get('key');
+const savedKey = localStorage.getItem('or_api_key') || hashKey || '';
 if (savedKey) { keyInput.value = savedKey; keyBtn.classList.add('has-key'); }
 keyBtn.style.display = 'none';
 
