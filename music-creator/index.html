@@ -791,9 +791,10 @@ function toggleRec(id) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            model: 'openai/whisper-1',
+            model: 'openai/whisper-large-v3-turbo',
             input_audio: { data: b64, format: 'webm' },
-            language: 'zh'
+            language: 'zh',
+            prompt: '以下是普通话语音内容，请准确识别每个字。'
           })
         });
         if (!resp.ok) {
