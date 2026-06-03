@@ -1,28 +1,14 @@
 {
-  "version": "20260602a",
+  "version": "20260603a",
   "startDate": "2026-03-12",
-  "dayCount": 83,
+  "dayCount": 84,
   "stocks": [
-    {
-      "code": "sz300759",
-      "name": "康龙化成",
-      "group": "focus",
-      "addedDate": "2026-04-28",
-      "source": "sector:创新药"
-    },
     {
       "code": "sz002436",
       "name": "兴森科技",
       "group": "focus",
       "addedDate": "2026-05-07",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sz300316",
-      "name": "晶盛机电",
-      "group": "focus",
-      "addedDate": "2026-05-14",
-      "source": "sector:光伏"
     },
     {
       "code": "sh600221",
@@ -44,13 +30,6 @@
       "group": "focus",
       "addedDate": "2026-05-04",
       "source": "sector:触摸屏"
-    },
-    {
-      "code": "sz000811",
-      "name": "冰轮环境",
-      "group": "focus",
-      "addedDate": "2026-05-12",
-      "source": "sector:黄河三角"
     },
     {
       "code": "sz002897",
@@ -298,13 +277,6 @@
       "source": "sector:华为汽车"
     },
     {
-      "code": "sz002885",
-      "name": "京泉华",
-      "group": "focus",
-      "addedDate": "2026-05-22",
-      "source": "sector:华为汽车"
-    },
-    {
       "code": "sz000733",
       "name": "振华科技",
       "group": "focus",
@@ -424,13 +396,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sh600276",
-      "name": "恒瑞医药",
-      "group": "focus",
-      "addedDate": "2026-06-01",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sh600549",
       "name": "厦门钨业",
       "group": "focus",
@@ -471,20 +436,55 @@
       "group": "focus",
       "addedDate": "2026-06-02",
       "source": "sector:参股金融"
+    },
+    {
+      "code": "sz001896",
+      "name": "豫能控股",
+      "group": "focus",
+      "addedDate": "2026-06-03",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh600522",
+      "name": "中天科技",
+      "group": "focus",
+      "addedDate": "2026-06-03",
+      "source": "sector:5G概念"
+    },
+    {
+      "code": "sz002428",
+      "name": "云南锗业",
+      "group": "focus",
+      "addedDate": "2026-06-03",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz000063",
+      "name": "中兴通讯",
+      "group": "focus",
+      "addedDate": "2026-06-03",
+      "source": "sector:5G概念"
+    },
+    {
+      "code": "sz002179",
+      "name": "中航光电",
+      "group": "focus",
+      "addedDate": "2026-06-03",
+      "source": "sector:华为概念"
     }
   ],
   "todayAdded": [
-    "sz300319",
-    "sz300124",
-    "sz000960",
-    "sz000737",
-    "sh600487"
+    "sz001896",
+    "sh600522",
+    "sz002428",
+    "sz000063",
+    "sz002179"
   ],
   "todayRemoved": [
-    "sz000938",
-    "sz300576",
-    "sz002487",
-    "sz301196",
-    "sz002185"
+    "sh600276",
+    "sz300759",
+    "sz002885",
+    "sz300316",
+    "sz000811"
   ]
 }
