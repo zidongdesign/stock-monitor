@@ -753,20 +753,63 @@ function updatePromptHint(groupId) {
 
 // Recording: MediaRecorder -> WAV -> OpenAI Whisper (direct, needs VPN)
 const recorders = {};
-const WHISPER_KEY = new URLSearchParams(location.hash.slice(1)).get('wk') || '';  // pass via #wk=sk-...
+const WHISPER_KEY = new URLSearchParams(location.hash.slice(1)).get('wk') || '';
 
 function toggleRec(id) {
   const btn = document.getElementById('rec-' + id);
   if (recorders[id]) {
-    // Stop recording and send to Whisper
-    const { mediaRec, chunks } = recorders[id];
-    mediaRec.stop();
+    recorders[id].stop();
+    recorders[id] = null;
     btn.classList.remove('recording');
     btn.innerHTML = '&#x1f399;&#xfe0f; 语音输入';
-    recorders[id] = null;
     return;
   }
-  // Use MediaRecorder + Whisper API (works in file:// and https://)
+  // Prefer Web Speech API (works on HTTPS with Edge/Chrome, no VPN needed)
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SR && location.protocol === 'https:') {
+    const rec = new SR();
+    rec.lang = 'zh-CN';
+    rec.continuous = true;
+    rec.interimResults = true;
+    const ta = document.getElementById('lyrics-' + id);
+    let finalSoFar = ta.value;
+    rec.onresult = (e) => {
+      let interim = '';
+      let final = finalSoFar;
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) {
+          final += e.results[i][0].transcript;
+        } else {
+          interim += e.results[i][0].transcript;
+        }
+      }
+      finalSoFar = final;
+      ta.value = final + (interim ? '[识别中：' + interim + ']' : '');
+    };
+    rec.onerror = (e) => {
+      ta.value = finalSoFar;
+      btn.classList.remove('recording');
+      btn.innerHTML = '&#x1f399;&#xfe0f; 语音输入';
+      recorders[id] = null;
+      if (e.error === 'not-allowed') alert('请允许使用麦克风');
+      else if (e.error === 'network') alert('语音识别网络错误，请检查网络');
+    };
+    rec.onend = () => {
+      ta.value = finalSoFar;
+      if (recorders[id]) { try { rec.start(); } catch(e) {} }
+      else { btn.classList.remove('recording'); btn.innerHTML = '&#x1f399;&#xfe0f; 语音输入'; }
+    };
+    rec.start();
+    recorders[id] = rec;
+    btn.classList.add('recording');
+    btn.innerHTML = '&#x23f9; 停止录音';
+    return;
+  }
+  // Fallback: MediaRecorder + Whisper API (needs VPN for api.openai.com)
+  if (!WHISPER_KEY) {
+    alert('本地打开无法使用语音输入，请用 Edge 打开网页版：https://zidongdesign.github.io/stock-monitor/music-creator/');
+    return;
+  }
   navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
     const mediaRec = new MediaRecorder(stream, { mimeType: 'audio/webm' });
     const chunks = [];
@@ -792,7 +835,7 @@ function toggleRec(id) {
         const text = await resp.text();
         ta.value = ta.value ? ta.value + text.trim() : text.trim();
       } catch(err) {
-        alert('语音识别失败：' + err.message + '（需要能访问 api.openai.com）');
+        alert('语音识别失败：' + err.message + '\n建议用 Edge 打开网页版：https://zidongdesign.github.io/stock-monitor/music-creator/');
       }
       btn.innerHTML = '&#x1f399;&#xfe0f; 语音输入';
     };
