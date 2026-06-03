@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>初心之声 · AI音乐创作</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #faf6f0;
+    --bg2: #ffffff;
+    --bg3: #f5f0e8;
+    --red: #c0392b;
+    --red-deep: #a03020;
+    --red-light: #e74c3c;
+    --gold: #b8860b;
+    --gold-light: #d4a017;
+    --text: #2c1810;
+    --text-dim: #8c7a6e;
+    --border: rgba(192,57,43,0.15);
+    --border-bright: rgba(192,57,43,0.4);
+    --radius: 12px;
+    --green: #2d8c3c;
+    --shadow: 0 2px 12px rgba(44,24,16,0.08);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* 传统纹样背景 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(192,57,43,0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(184,134,11,0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 36px 20px 60px;
+  }
+
+  /* 顶部装饰横线 */
+  .top-deco {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .top-deco .line {
+    height: 1px;
+    width: 60px;
+    background: linear-gradient(90deg, transparent, var(--red), transparent);
+  }
+  .top-deco .diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--red);
+    transform: rotate(45deg);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .logo-mark {
+    font-size: 12px;
+    color: var(--red);
+    letter-spacing: 0.3em;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(26px, 5vw, 38px);
+    font-weight: 700;
+    color: var(--red-deep);
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  /* 四宫格 */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  .group-card {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+    transition: all 0.25s;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  /* 卡片顶部红色条 */
+  .group-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--gold-light), var(--red));
+  }
+  .group-card:focus-within {
+    border-color: var(--border-bright);
+    box-shadow: 0 4px 20px rgba(192,57,43,0.1);
+  }
+  .group-card.done {
+    border-color: var(--green);
+  }
+  .group-card.done::before {
+    background: linear-gradient(90deg, var(--green), #4caf50, var(--green));
+  }
+
+  .group-header {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--red-deep);
+    margin-bottom: 14px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .group-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--red);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* 创作引导标签 */
+  .guide-panel {
+    margin-bottom: 10px;
+  }
+  .guide-title {
+    font-size: 12px;
+    color: var(--red-deep);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .guide-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .guide-tag {
+    padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .guide-tag:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .guide-tag.active {
+    background: rgba(192,57,43,0.08);
+    border-color: var(--red);
+    color: var(--red-deep);
+    font-weight: 500;
+  }
+
+  .group-card textarea {
+    width: 100%;
+    flex: 1;
+    min-height: 110px;
+    background: var(--bg3);
+    border: 1px solid rgba(140,122,110,0.15);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 12px 14px;
+    outline: none;
+    resize: none;
+    line-height: 1.8;
+    transition: border-color 0.2s;
+  }
+  .group-card textarea:focus {
+    border-color: var(--red);
+  }
+  .group-card textarea::placeholder {
+    color: var(--text-dim);
+    opacity: 0.6;
+  }
+
+  .rec-btn {
+    margin-top: 6px; width: 100%; padding: 10px;
+    background: var(--bg3); border: 1.5px dashed var(--border);
+    border-radius: 8px; color: var(--text-dim); font-size: 13px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .rec-btn:hover { border-color: var(--red); color: var(--red); }
+  .rec-btn.recording {
+    background: rgba(192,57,43,0.08); border-color: var(--red);
+    color: var(--red); animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+  .gen-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--red-deep), var(--red));
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(192,57,43,0.2);
+  }
+  .gen-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(192,57,43,0.3);
+  }
+  .gen-btn:active:not(:disabled) { transform: translateY(0); }
+  .gen-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* 状态 */
+  .group-status {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-dim);
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-status.visible { display: flex; }
+
+  .mini-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(192,57,43,0.2);
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .progress-mini {
+    flex: 1;
+    height: 3px;
+    background: rgba(140,122,110,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-mini-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), var(--gold-light));
+    border-radius: 2px;
+    transition: width 0.3s;
+    width: 0%;
+  }
+
+  /* 播放器 */
+  .group-player {
+    margin-top: 10px;
+    display: none;
+  }
+  .group-player.visible { display: block; }
+
+  .group-player audio {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+  }
+
+  .dl-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--red);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+  }
+  .dl-link:hover { opacity: 1; }
+
+  /* 错误 */
+  .group-error {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--red-light);
+    display: none;
+  }
+  .group-error.visible { display: block; }
+
+  /* 歌词展示 */
+  .group-lyrics {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--bg3);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.8;
+    white-space: pre-wrap;
+    max-height: 130px;
+    overflow-y: auto;
+    display: none;
+  }
+  .group-lyrics.visible { display: block; }
+  .group-lyrics-title {
+    font-size: 12px;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  /* key 设置 */
+  .key-setup {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 10;
+  }
+  .key-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    color: var(--red);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    box-shadow: var(--shadow);
+  }
+  .key-btn:hover { border-color: var(--red); }
+  .key-btn.has-key { border-color: var(--green); color: var(--green); }
+
+  .key-popup {
+    position: absolute;
+    bottom: 48px;
+    right: 0;
+    background: var(--bg2);
+    border: 1.5px solid var(--border-bright);
+    border-radius: 10px;
+    padding: 16px;
+    width: 300px;
+    display: none;
+    box-shadow: 0 8px 32px rgba(44,24,16,0.15);
+  }
+  .key-popup.visible { display: block; }
+  .key-popup label {
+    font-size: 12px;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .key-popup input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid rgba(140,122,110,0.2);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 13px;
+    padding: 8px 10px;
+    outline: none;
+    font-family: monospace;
+  }
+  .key-popup input:focus { border-color: var(--red); }
+  .key-popup .key-hint {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 4px;
+    opacity: 0.6;
+  }
+
+  /* 投票区域 */
+  .vote-section {
+    position: relative; z-index: 1;
+    margin: 40px auto 0;
+    max-width: 900px;
+    padding: 28px 24px 40px;
+    background: var(--bg2);
+    border: 2px solid var(--border-bright);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+  }
+  .vote-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--red-deep);
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .vote-subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+  .criteria-box {
+    background: var(--bg3);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .criteria-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+  .criteria-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .criteria-table th {
+    background: var(--red);
+    color: #fff;
+    padding: 6px 10px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .criteria-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid rgba(140,122,110,0.1);
+    color: var(--text);
+  }
+  .criteria-table tr:last-child td { border-bottom: none; }
+  .vote-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .vote-group {
+    background: var(--bg3);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    transition: border-color 0.2s;
+  }
+  .vote-group.winner {
+    border-color: var(--gold);
+    background: rgba(184,134,11,0.05);
+  }
+  .vg-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .vg-name {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--red-deep);
+    font-family: 'Noto Serif SC', serif;
+  }
+  .vg-count {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--red);
+  }
+  .vote-input {
+    width: 100%;
+    padding: 8px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--red);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    outline: none;
+    text-align: center;
+    margin-top: 8px;
+  }
+  .vote-input:focus { border-bottom-color: var(--red); }
+  .vote-hint { font-size: 10px; color: var(--text-dim); text-align: center; margin-top: 4px; }
+  .vote-total {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .vote-winner {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    min-height: 28px;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 36px;
+    font-size: 11px;
+    color: var(--text-dim);
+    opacity: 0.5;
+  }
+
+  /* 底部装饰 */
+  .bottom-deco {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .bottom-deco span {
+    width: 4px;
+    height: 4px;
+    background: var(--red);
+    opacity: 0.3;
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="top-deco">
+      <div class="line"></div>
+      <div class="diamond"></div>
+      <div class="line"></div>
+    </div>
+    <div class="logo-mark">AI 音乐共创课堂</div>
+    <h1>初心之声</h1>
+    <p class="subtitle">四个小组 · 四首原创歌曲</p>
+  </header>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    Powered by Google Lyria 3 Pro
+    <div class="bottom-deco">
+      <span></span><span></span><span></span>
+    </div>
+  </footer>
+
+  <!-- 投票面板 -->
+  <div class="vote-section">
+    <div class="vote-title">🏆 好音乐投票环节</div>
+    <div class="vote-subtitle">每位同学最多投 <strong>2票</strong>，获票最高的一组获得加分奖励！</div>
+
+    <div class="criteria-box">
+      <div class="criteria-title">✨ 好音乐量化评分标准</div>
+      <table class="criteria-table">
+        <thead>
+          <tr>
+            <th>维度</th>
+            <th>具体判断</th>
+            <th>分值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>🎵 旋律流畅性</td><td>旋律连贯流畅，没有明显的奇怪感</td><td>★☆☆ / ★★☆ / ★★★</td></tr>
+          <tr><td>🥁 情感吐气</td><td>能感受到该有的情绪，不平淡也不奇怪</td><td>★☆☆ / ★★☆ / ★★★</td></tr>
+          <tr><td>🎨 风格统一性</td><td>所选风格、乐器、情感相匹配，整体调和</td><td>★☆☆ / ★★☆ / ★★★</td></tr>
+          <tr><td>📝 歌词画面感</td><td>歌词有具体画面，不空泛抽象</td><td>★☆☆ / ★★☆ / ★★★</td></tr>
+          <tr><td>🌈 整体印象</td><td>听完有多想再听一遍的冲动</td><td>★☆☆ / ★★☆ / ★★★</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="vote-board">
+      <div class="vote-group" id="vg-1">
+        <div class="vg-header">
+          <span class="vg-name">第一组</span>
+          <span class="vg-count" id="vc-1">0票</span>
+        </div>
+        <input type="number" class="vote-input" id="vi-1" min="0" max="66" value="0" onchange="setVote(1, this.value)" placeholder="0">
+        <div class="vote-hint">输入该组获得的票数</div>
+      </div>
+      <div class="vote-group" id="vg-2">
+        <div class="vg-header">
+          <span class="vg-name">第二组</span>
+          <span class="vg-count" id="vc-2">0票</span>
+        </div>
+        <input type="number" class="vote-input" id="vi-2" min="0" max="66" value="0" onchange="setVote(2, this.value)" placeholder="0">
+        <div class="vote-hint">输入该组获得的票数</div>
+      </div>
+      <div class="vote-group" id="vg-3">
+        <div class="vg-header">
+          <span class="vg-name">第三组</span>
+          <span class="vg-count" id="vc-3">0票</span>
+        </div>
+        <input type="number" class="vote-input" id="vi-3" min="0" max="66" value="0" onchange="setVote(3, this.value)" placeholder="0">
+        <div class="vote-hint">输入该组获得的票数</div>
+      </div>
+      <div class="vote-group" id="vg-4">
+        <div class="vg-header">
+          <span class="vg-name">第四组</span>
+          <span class="vg-count" id="vc-4">0票</span>
+        </div>
+        <input type="number" class="vote-input" id="vi-4" min="0" max="66" value="0" onchange="setVote(4, this.value)" placeholder="0">
+        <div class="vote-hint">输入该组获得的票数</div>
+      </div>
+    </div>
+
+    <div class="vote-total" id="vote-total">总投票数：0 / 66（每位同学最多2票）</div>
+    <div class="vote-winner" id="vote-winner"></div>
+  </div>
+</div>
+
+<div class="key-setup">
+  <button class="key-btn" id="key-btn" onclick="toggleKeyPopup()" title="设置 API Key">🔑</button>
+  <div class="key-popup" id="key-popup">
+    <label>OpenRouter API Key</label>
+    <input type="password" id="api-key" placeholder="sk-or-v1-..." spellcheck="false">
+    <div class="key-hint">仅存储在本地浏览器</div>
+  </div>
+</div>
+
+<script>
+const GROUP_NAMES = ['第一组', '第二组', '第三组', '第四组'];
+
+const GUIDES = [
+  { cat: '🎵 音乐风格', max: 2, tags: ['民谣', '流行', '古典', '说唱', '摇滚', '爵士', '电子', 'R&B', '戏曲风', '布鲁斯', '雷鬼', '世界音乐'] },
+  { cat: '🎸 参与乐器', max: 6, tags: ['钢琴', '民谣吉他', '电吉他', '古筝', '二胡', '小提琴', '大提琴', '中提琴', '低音提琴', '竖琴', '长笛', '单簧管', '双簧管', '小号', '圆号', '长号', '萨克斯', '架子鼓', '定音鼓', '木琴', '马林巴', '手风琴', '唢呐', '箫', '琵琶', '扬琴', '竖笛', '笙', '尤克里里', '班卓琴', '贝斯', '电音蛌蚪', '合成器', '电贝斯', 'DJ转盘'] },
+  { cat: '🎤 演唱方式', max: 1, tags: ['独唱', '四声部混声合唱', '对唱', '说唱'] },
+  { cat: '🎭 情感基调', max: 2, tags: ['温暖抒情', '激昂振奋', '忧伤深沉', '欢快活泼', '神秘梦幻', '庄严古朴', '浪漫甘甜'] },
+  { cat: '⚡ 节奏速度', max: 1, tags: ['慢板(60-80bpm)', '中板(100-120bpm)', '快板(140+bpm)', '自由节拍'] }];
+
+const PLACEHOLDER = `在这里写下你们的创作内容…\n\n可以是歌词、音乐描述、或两者结合\n点击上方标签获取灵感 ↑`;
+
+const grid = document.getElementById('grid');
+GROUP_NAMES.forEach((name, i) => {
+  const id = i + 1;
+  grid.innerHTML += `
+    <div class="group-card" id="card-${id}">
+      <div class="group-header">
+        <span class="group-num">${id}</span>
+        ${name}
+      </div>
+      <div class="guide-panel" id="guide-${id}"></div>
+      <textarea id="lyrics-${id}" placeholder="${PLACEHOLDER}"></textarea>
+      <button class="rec-btn" id="rec-${id}" onclick="toggleRec(${id})">&#x1f399;&#xfe0f; 语音输入</button>
+      <button class="gen-btn" id="btn-${id}" onclick="generate(${id})">♪ 生成音乐</button>
+      <div class="group-status" id="status-${id}">
+        <div class="mini-spinner" id="spinner-${id}"></div>
+        <span id="status-text-${id}">生成中…</span>
+        <div class="progress-mini"><div class="progress-mini-bar" id="pbar-${id}"></div></div>
+      </div>
+      <div class="group-error" id="error-${id}"></div>
+      <div class="group-player" id="player-${id}">
+        <audio id="audio-${id}" controls></audio>
+        <a class="dl-link" id="dl-${id}" href="#" download="music.mp3">↓ 下载 MP3</a>
+        <div class="group-lyrics" id="lyrics-display-${id}">
+          <div class="group-lyrics-title">♪ 生成歌词</div>
+          <div id="lyrics-text-${id}"></div>
+        </div>
+      </div>
+    </div>`;
+});
+
+// Render guide tags for each group
+GROUP_NAMES.forEach((_, i) => {
+  const id = i + 1;
+  const panel = document.getElementById(`guide-${id}`);
+  let html = '';
+  GUIDES.forEach((g, gi) => {
+    html += `<div class="guide-title">${g.cat}<span style="font-size:11px;color:var(--text-dim);font-weight:normal;margin-left:6px;">最多${g.max}个</span></div><div class="guide-tags">`;
+    g.tags.forEach(tag => {
+      html += `<span class="guide-tag" data-group="${id}" data-cat="${gi}" onclick="toggleTag(this,'${id}')">${tag}</span>`;
+    });
+    html += '</div>';
+  });
+  panel.innerHTML = html;
+});
+
+function toggleTag(el, groupId) {
+  const catIdx = parseInt(el.dataset.cat);
+  const maxAllowed = GUIDES[catIdx].max;
+  const panel = document.getElementById(`guide-${groupId}`);
+  const catTags = panel.querySelectorAll(`.guide-tag[data-cat="${catIdx}"]`);
+  const activeCatCount = Array.from(catTags).filter(t => t.classList.contains('active')).length;
+  if (!el.classList.contains('active') && activeCatCount >= maxAllowed) {
+    el.style.opacity = '0.3';
+    setTimeout(() => el.style.opacity = '', 300);
+    return;
+  }
+  el.classList.toggle('active');
+  updatePromptHint(groupId);
+}
+
+function updatePromptHint(groupId) {
+  const panel = document.getElementById(`guide-${groupId}`);
+  const active = panel.querySelectorAll('.guide-tag.active');
+  if (active.length > 0) {
+    const ta = document.getElementById(`lyrics-${groupId}`);
+    // Only update placeholder hint, don't overwrite user text
+    const hints = Array.from(active).map(t => t.textContent);
+    ta.placeholder = `\u5df2\u9009: ${hints.join(', ')}\n\n\u5728\u8fd9\u91cc\u5199\u6b4c\u8bcd\u6216\u63cf\u8ff0\u4f60\u60f3\u8981\u7684\u97f3\u4e50\u2026`;
+  }
+}
+
+
+// Recording: MediaRecorder -> WAV -> OpenAI Whisper (direct, needs VPN)
+const recorders = {};
+const WHISPER_KEY = '';  // Set via UI or env
+
+function toggleRec(id) {
+  const btn = document.getElementById('rec-' + id);
+  if (recorders[id]) {
+    recorders[id].stop();
+    recorders[id] = null;
+    btn.classList.remove('recording');
+    btn.innerHTML = '&#x1f399;&#xfe0f; 语音输入';
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    alert('此浏览器不支持语音识别（请用Chrome或Edge）');
+    return;
+  }
+  const rec = new SR();
+  rec.lang = 'zh-CN';
+  rec.continuous = true;
+  rec.interimResults = true;
+  const ta = document.getElementById('lyrics-' + id);
+  let finalSoFar = ta.value;
+  rec.onresult = (e) => {
+    let interim = '';
+    let final = finalSoFar;
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) {
+        final += e.results[i][0].transcript;
+      } else {
+        interim += e.results[i][0].transcript;
+      }
+    }
+    finalSoFar = final;
+    ta.value = final + (interim ? '[识别中：' + interim + ']' : '');
+  };
+  rec.onerror = (e) => {
+    // Clean up interim markers
+    ta.value = finalSoFar;
+    btn.classList.remove('recording');
+    btn.innerHTML = '&#x1f399;&#xfe0f; 语音输入';
+    recorders[id] = null;
+    if (e.error === 'not-allowed') {
+      alert('请允许使用麦克风');
+    } else if (e.error === 'network') {
+      alert('语音识别需要网络，请检查网络连接');
+    }
+  };
+  rec.onend = () => {
+    ta.value = finalSoFar;
+    if (recorders[id]) {
+      try { rec.start(); } catch(e) {}
+    } else {
+      btn.classList.remove('recording');
+      btn.innerHTML = '&#x1f399;&#xfe0f; 语音输入';
+    }
+  };
+  rec.start();
+  recorders[id] = rec;
+  btn.classList.add('recording');
+  btn.innerHTML = '&#x23f9; 停止录音';
+}
+
+
+function startWebSpeech(id) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert('\u8bed\u97f3\u8bc6\u522b\u4e0d\u53ef\u7528'); return; }
+  const btn = document.getElementById('rec-' + id);
+  const rec = new SR();
+  rec.lang = 'zh-CN';
+  rec.continuous = true;
+  rec.interimResults = false;
+  const ta = document.getElementById('lyrics-' + id);
+  rec.onresult = (e) => {
+    let text = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) text += e.results[i][0].transcript;
+    }
+    if (text) ta.value = ta.value ? ta.value + text : text;
+  };
+  rec.onerror = () => { btn.classList.remove('recording'); btn.innerHTML = '&#x1f399;&#xfe0f; \u8bed\u97f3\u8f93\u5165'; recorders[id] = null; };
+  rec.onend = () => {
+    if (recorders[id]) rec.start();
+    else { btn.classList.remove('recording'); btn.innerHTML = '&#x1f399;&#xfe0f; \u8bed\u97f3\u8f93\u5165'; }
+  };
+  rec.start();
+  recorders[id] = rec;
+  btn.classList.add('recording');
+  btn.innerHTML = '&#x23f9; \u505c\u6b62\u5f55\u97f3';
+}
+
+// Key
+const keyInput = document.getElementById('api-key');
+const keyBtn = document.getElementById('key-btn');
+const keyPopup = document.getElementById('key-popup');
+
+const savedKey = localStorage.getItem('or_api_key') || '';
+if (savedKey) { keyInput.value = savedKey; keyBtn.classList.add('has-key'); }
+keyBtn.style.display = 'none';
+
+keyInput.addEventListener('input', () => {
+  const v = keyInput.value.trim();
+  if (v) { localStorage.setItem('or_api_key', v); keyBtn.classList.add('has-key'); }
+  else { localStorage.removeItem('or_api_key'); keyBtn.classList.remove('has-key'); }
+});
+
+function toggleKeyPopup() { keyPopup.classList.toggle('visible'); }
+document.addEventListener('click', e => {
+  if (!e.target.closest('.key-setup')) keyPopup.classList.remove('visible');
+});
+
+// Generate
+const audioUrls = {};
+
+async function generate(id) {
+  const apiKey = (keyInput.value || localStorage.getItem('or_api_key') || '').trim();
+  if (!apiKey) { showError(id, '请先点击右下角 🔑 设置 API Key'); toggleKeyPopup(); return; }
+
+  let lyrics = document.getElementById(`lyrics-${id}`).value.trim();
+
+  // Collect selected guide tags
+  const panel = document.getElementById(`guide-${id}`);
+  const activeTags = Array.from(panel.querySelectorAll('.guide-tag.active')).map(t => t.textContent);
+  const hasPureMusic = activeTags.some(t => t.includes('\u7eaf\u97f3\u4e50'));
+  if (!lyrics) {
+    lyrics = hasPureMusic ? 'instrumental, no vocals' : 'Write uplifting Chinese lyrics about youth, dreams, positive energy. Sing in Chinese.';
+  }
+
+  const styleHint = activeTags.length > 0 ? activeTags.join(', ') : 'emotional Chinese pop ballad, piano and strings, warm and heartfelt';
+  setProgress(id, 0, '翻译中…');
+  // Translate Chinese to English for better Lyria compatibility
+  let engLyrics = lyrics;
+  if (/[\u4e00-\u9fff]/.test(lyrics)) {
+    try {
+      const tr = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + (WHISPER_KEY || localStorage.getItem('openai_key') || ''),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [{
+            role: 'user',
+            content: `Translate the following Chinese song lyrics/music description to English. Keep the poetic feel. Output ONLY the translation, nothing else:\n\n${lyrics}`
+          }]
+        })
+      });
+      if (tr.ok) {
+        const td = await tr.json();
+        engLyrics = td.choices?.[0]?.message?.content || lyrics;
+      } else {
+        showError(id, '\u7ffb\u8bd1\u5931\u8d25 (HTTP ' + tr.status + ')\uff0c\u8bf7\u68c0\u67e5VPN\u662f\u5426\u5f00\u542f');
+        btn.disabled = false;
+        return;
+      }
+    } catch (e) {
+      showError(id, '\u7ffb\u8bd1\u5931\u8d25\uff0c\u8bf7\u68c0\u67e5VPN\u662f\u5426\u5f00\u542f\uff1a' + e.message);
+      btn.disabled = false;
+      return;
+    }
+  }
+  const prompt = `${styleHint}, sing in Chinese, warm and heartfelt.\n\nLyrics/Description: ${engLyrics}`;
+
+  const btn = document.getElementById(`btn-${id}`);
+  const statusEl = document.getElementById(`status-${id}`);
+  const playerEl = document.getElementById(`player-${id}`);
+  const errorEl = document.getElementById(`error-${id}`);
+
+  btn.disabled = true;
+  statusEl.classList.add('visible');
+  playerEl.classList.remove('visible');
+  errorEl.classList.remove('visible');
+  document.getElementById(`card-${id}`).classList.remove('done');
+  document.getElementById(`spinner-${id}`).style.display = '';
+  setProgress(id, 0, '正在连接…');
+
+  try {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': window.location.origin,
+        'X-Title': 'Music Creator',
+      },
+      body: JSON.stringify({
+        model: 'google/lyria-3-pro-preview',
+        stream: true,
+        modalities: ['audio'],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      let msg = `HTTP ${response.status}`;
+      try { msg = JSON.parse(errText)?.error?.message || msg; } catch {}
+      throw new Error(msg);
+    }
+
+    setProgress(id, 10, 'AI 正在创作…');
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let audioChunks = [];
+    let lyricsText = '';
+    let buffer = '';
+    let chunkCount = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop();
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed.startsWith('data: ')) continue;
+        const data = trimmed.slice(6);
+        if (data === '[DONE]') continue;
+        try {
+          const parsed = JSON.parse(data);
+          const audioData = parsed?.choices?.[0]?.delta?.audio?.data;
+          const contentData = parsed?.choices?.[0]?.delta?.content;
+          if (contentData && typeof contentData === 'string') lyricsText += contentData;
+          if (audioData) {
+            audioChunks.push(audioData);
+            chunkCount++;
+            setProgress(id, Math.min(10 + chunkCount * 2, 90), `接收中… (${chunkCount})`);
+          }
+        } catch {}
+      }
+    }
+
+    // Process remaining buffer - critical for large audio chunks (5MB+) that may not end with \n
+    if (buffer.trim().startsWith('data: ')) {
+      const remainData = buffer.trim().slice(6);
+      if (remainData !== '[DONE]') {
+        try {
+          const parsed = JSON.parse(remainData);
+          const audioData = parsed?.choices?.[0]?.delta?.audio?.data;
+          const contentData = parsed?.choices?.[0]?.delta?.content;
+          if (audioData) { audioChunks.push(audioData); chunkCount++; }
+          if (contentData) lyricsText += contentData;
+        } catch {}
+      }
+    }
+
+    if (audioChunks.length === 0) throw new Error('未收到音频数据');
+
+    setProgress(id, 95, '处理中…');
+
+    const fullBase64 = audioChunks.join('');
+    const binary = atob(fullBase64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const blob = new Blob([bytes], { type: 'audio/mpeg' });
+
+    if (audioUrls[id]) URL.revokeObjectURL(audioUrls[id]);
+    audioUrls[id] = URL.createObjectURL(blob);
+
+    document.getElementById(`audio-${id}`).src = audioUrls[id];
+    const dl = document.getElementById(`dl-${id}`);
+    dl.href = audioUrls[id];
+    dl.download = `${GROUP_NAMES[id-1]}_初心之声.mp3`;
+
+    setProgress(id, 100, '✓ 完成');
+    document.getElementById(`spinner-${id}`).style.display = 'none';
+    document.getElementById(`status-text-${id}`).textContent = '✓ 生成完成';
+    playerEl.classList.add('visible');
+
+    // Show lyrics
+    if (lyricsText.trim()) {
+      const lines = lyricsText.split('\n');
+      const clean = lines.filter(l => {
+        const t = l.trim();
+        return t && !t.match(/^(mosic|bpm|duration_secs|good_crop):/i) && !t.match(/^\[\[/);
+      }).join('\n').replace(/\[\d+\.\d+:\]/g, '').replace(/\[:\]/g, '').trim();
+      if (clean) {
+        document.getElementById(`lyrics-text-${id}`).textContent = clean;
+        document.getElementById(`lyrics-display-${id}`).classList.add('visible');
+      }
+    }
+    document.getElementById(`card-${id}`).classList.add('done');
+
+  } catch (err) {
+    showError(id, err.message || '生成失败');
+    document.getElementById(`spinner-${id}`).style.display = 'none';
+    document.getElementById(`status-text-${id}`).textContent = '失败';
+  }
+  btn.disabled = false;
+}
+
+function setProgress(id, pct, hint) {
+  document.getElementById(`pbar-${id}`).style.width = pct + '%';
+  document.getElementById(`status-text-${id}`).textContent = hint;
+}
+
+function showError(id, msg) {
+  const el = document.getElementById(`error-${id}`);
+  el.textContent = '⚠ ' + msg;
+  el.classList.add('visible');
+}
+
+// Vote system
+const votes = {1: 0, 2: 0, 3: 0, 4: 0};
+const MAX_TOTAL = 66; // 33同学 x 2票
+
+function setVote(groupId, val) {
+  const v = Math.max(0, parseInt(val) || 0);
+  votes[groupId] = v;
+  document.getElementById('vi-' + groupId).value = v;
+  updateVoteDisplay();
+}
+
+function updateVoteDisplay() {
+  const total = Object.values(votes).reduce((a, b) => a + b, 0);
+  const max = Math.max(...Object.values(votes));
+  
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('vc-' + i).textContent = votes[i] + '票';
+    document.getElementById('vi-' + i).value = votes[i];
+    const vg = document.getElementById('vg-' + i);
+    vg.classList.toggle('winner', votes[i] === max && max > 0);
+  }
+  
+  document.getElementById('vote-total').textContent =
+    '总投票数：' + total + ' / ' + MAX_TOTAL + '（每位同学最多2票）';
+  document.getElementById('vote-total').style.color = '';
+  
+  const winnerEl = document.getElementById('vote-winner');
+  if (max > 0) {
+    const winners = [1,2,3,4].filter(i => votes[i] === max);
+    if (winners.length === 1) {
+      winnerEl.textContent = '🏆 当前领先：第' + winners[0] + '组（' + max + '票）';
+    } else {
+      winnerEl.textContent = '🤝 暂时平票：第' + winners.join('、') + '组（各' + max + '票）';
+    }
+  } else {
+    winnerEl.textContent = '';
+  }
+}
+</script>
+</body>
+</html>
