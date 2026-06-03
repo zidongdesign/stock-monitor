@@ -753,66 +753,56 @@ function updatePromptHint(groupId) {
 
 // Recording: MediaRecorder -> WAV -> OpenAI Whisper (direct, needs VPN)
 const recorders = {};
-const WHISPER_KEY = '';  // Set via UI or env
+const WHISPER_KEY = new URLSearchParams(location.hash.slice(1)).get('wk') || '';  // pass via #wk=sk-...
 
 function toggleRec(id) {
   const btn = document.getElementById('rec-' + id);
   if (recorders[id]) {
-    recorders[id].stop();
-    recorders[id] = null;
+    // Stop recording and send to Whisper
+    const { mediaRec, chunks } = recorders[id];
+    mediaRec.stop();
     btn.classList.remove('recording');
     btn.innerHTML = '&#x1f399;&#xfe0f; 语音输入';
+    recorders[id] = null;
     return;
   }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    alert('此浏览器不支持语音识别（请用Chrome或Edge）');
-    return;
-  }
-  const rec = new SR();
-  rec.lang = 'zh-CN';
-  rec.continuous = true;
-  rec.interimResults = true;
-  const ta = document.getElementById('lyrics-' + id);
-  let finalSoFar = ta.value;
-  rec.onresult = (e) => {
-    let interim = '';
-    let final = finalSoFar;
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      if (e.results[i].isFinal) {
-        final += e.results[i][0].transcript;
-      } else {
-        interim += e.results[i][0].transcript;
+  // Use MediaRecorder + Whisper API (works in file:// and https://)
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    const mediaRec = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+    const chunks = [];
+    mediaRec.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+    mediaRec.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      if (chunks.length === 0) return;
+      const blob = new Blob(chunks, { type: 'audio/webm' });
+      const ta = document.getElementById('lyrics-' + id);
+      btn.innerHTML = '⏳ 识别中...';
+      try {
+        const formData = new FormData();
+        formData.append('file', blob, 'recording.webm');
+        formData.append('model', 'whisper-1');
+        formData.append('language', 'zh');
+        formData.append('response_format', 'text');
+        const resp = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + WHISPER_KEY },
+          body: formData
+        });
+        if (!resp.ok) throw new Error('Whisper API ' + resp.status);
+        const text = await resp.text();
+        ta.value = ta.value ? ta.value + text.trim() : text.trim();
+      } catch(err) {
+        alert('语音识别失败：' + err.message + '（需要能访问 api.openai.com）');
       }
-    }
-    finalSoFar = final;
-    ta.value = final + (interim ? '[识别中：' + interim + ']' : '');
-  };
-  rec.onerror = (e) => {
-    // Clean up interim markers
-    ta.value = finalSoFar;
-    btn.classList.remove('recording');
-    btn.innerHTML = '&#x1f399;&#xfe0f; 语音输入';
-    recorders[id] = null;
-    if (e.error === 'not-allowed') {
-      alert('请允许使用麦克风');
-    } else if (e.error === 'network') {
-      alert('语音识别需要网络，请检查网络连接');
-    }
-  };
-  rec.onend = () => {
-    ta.value = finalSoFar;
-    if (recorders[id]) {
-      try { rec.start(); } catch(e) {}
-    } else {
-      btn.classList.remove('recording');
       btn.innerHTML = '&#x1f399;&#xfe0f; 语音输入';
-    }
-  };
-  rec.start();
-  recorders[id] = rec;
-  btn.classList.add('recording');
-  btn.innerHTML = '&#x23f9; 停止录音';
+    };
+    mediaRec.start();
+    recorders[id] = { mediaRec, chunks };
+    btn.classList.add('recording');
+    btn.innerHTML = '&#x23f9; 停止录音';
+  }).catch(err => {
+    alert('请允许使用麦克风');
+  });
 }
 
 
@@ -890,7 +880,7 @@ async function generate(id) {
       const tr = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer ' + (WHISPER_KEY || localStorage.getItem('openai_key') || ''),
+          'Authorization': 'Bearer ' + (WHISPER_KEY || ''),
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
