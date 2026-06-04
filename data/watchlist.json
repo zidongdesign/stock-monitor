@@ -1,7 +1,7 @@
 {
-  "version": "20260603a",
+  "version": "20260604a",
   "startDate": "2026-03-12",
-  "dayCount": 84,
+  "dayCount": 85,
   "stocks": [
     {
       "code": "sz002436",
@@ -16,13 +16,6 @@
       "group": "focus",
       "addedDate": "2026-05-07",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sz300763",
-      "name": "锦浪科技",
-      "group": "focus",
-      "addedDate": "2026-04-29",
-      "source": "sector:光伏概念"
     },
     {
       "code": "sz002156",
@@ -53,13 +46,6 @@
       "source": "sector:稀缺资源"
     },
     {
-      "code": "sz002273",
-      "name": "水晶光电",
-      "group": "focus",
-      "addedDate": "2026-04-23",
-      "source": "sector:光伏概念"
-    },
-    {
       "code": "sz000988",
       "name": "华工科技",
       "group": "focus",
@@ -86,13 +72,6 @@
       "group": "focus",
       "addedDate": "2026-04-23",
       "source": "sector:金融参股"
-    },
-    {
-      "code": "sz300395",
-      "name": "菲利华",
-      "group": "focus",
-      "addedDate": "2026-05-06",
-      "source": "sector:军工航天"
     },
     {
       "code": "sh600301",
@@ -291,13 +270,6 @@
       "source": "sector:专精特新"
     },
     {
-      "code": "sz002594",
-      "name": "比亚迪",
-      "group": "focus",
-      "addedDate": "2026-05-25",
-      "source": "sector:光伏"
-    },
-    {
       "code": "sz000060",
       "name": "中金岭南",
       "group": "focus",
@@ -349,13 +321,6 @@
     {
       "code": "sz000791",
       "name": "甘肃能源",
-      "group": "focus",
-      "addedDate": "2026-05-28",
-      "source": "sector:光伏"
-    },
-    {
-      "code": "sz002008",
-      "name": "大族激光",
       "group": "focus",
       "addedDate": "2026-05-28",
       "source": "sector:光伏"
@@ -471,20 +436,39 @@
       "group": "focus",
       "addedDate": "2026-06-03",
       "source": "sector:华为概念"
+    },
+    {
+      "code": "sz002608",
+      "name": "江苏国信",
+      "group": "focus",
+      "addedDate": "2026-06-04",
+      "source": "sector:业绩预升"
+    },
+    {
+      "code": "sz002579",
+      "name": "中京电子",
+      "group": "focus",
+      "addedDate": "2026-06-04",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sh600482",
+      "name": "中国动力",
+      "group": "focus",
+      "addedDate": "2026-06-04",
+      "source": "sector:光伏"
     }
   ],
   "todayAdded": [
-    "sz001896",
-    "sh600522",
-    "sz002428",
-    "sz000063",
-    "sz002179"
+    "sz002608",
+    "sz002579",
+    "sh600482"
   ],
   "todayRemoved": [
-    "sh600276",
-    "sz300759",
-    "sz002885",
-    "sz300316",
-    "sz000811"
+    "sz300763",
+    "sz002273",
+    "sz300395",
+    "sz002594",
+    "sz002008"
   ]
 }
