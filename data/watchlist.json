@@ -1,7 +1,7 @@
 {
-  "version": "20260604a",
+  "version": "20260605a",
   "startDate": "2026-03-12",
-  "dayCount": 85,
+  "dayCount": 86,
   "stocks": [
     {
       "code": "sz002436",
@@ -270,13 +270,6 @@
       "source": "sector:专精特新"
     },
     {
-      "code": "sz000060",
-      "name": "中金岭南",
-      "group": "focus",
-      "addedDate": "2026-05-25",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz002947",
       "name": "恒铭达",
       "group": "focus",
@@ -333,25 +326,11 @@
       "source": "sector:光伏"
     },
     {
-      "code": "sh600030",
-      "name": "中信证券",
-      "group": "focus",
-      "addedDate": "2026-05-29",
-      "source": "sector:股期概念"
-    },
-    {
       "code": "sz002527",
       "name": "新时达",
       "group": "focus",
       "addedDate": "2026-05-29",
       "source": "sector:机器人概念"
-    },
-    {
-      "code": "sh600857",
-      "name": "XD宁波中",
-      "group": "focus",
-      "addedDate": "2026-06-01",
-      "source": "sector:参股金融"
     },
     {
       "code": "sh600795",
@@ -389,13 +368,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz000737",
-      "name": "北方铜业",
-      "group": "focus",
-      "addedDate": "2026-06-02",
-      "source": "sector:参股金融"
-    },
-    {
       "code": "sh600487",
       "name": "亨通光电",
       "group": "focus",
@@ -415,13 +387,6 @@
       "group": "focus",
       "addedDate": "2026-06-03",
       "source": "sector:5G概念"
-    },
-    {
-      "code": "sz002428",
-      "name": "云南锗业",
-      "group": "focus",
-      "addedDate": "2026-06-03",
-      "source": "sector:光伏"
     },
     {
       "code": "sz000063",
@@ -457,18 +422,39 @@
       "group": "focus",
       "addedDate": "2026-06-04",
       "source": "sector:光伏"
+    },
+    {
+      "code": "sh600378",
+      "name": "昊华科技",
+      "group": "focus",
+      "addedDate": "2026-06-05",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sh603516",
+      "name": "淳中科技",
+      "group": "focus",
+      "addedDate": "2026-06-05",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz000725",
+      "name": "京东方Ａ",
+      "group": "focus",
+      "addedDate": "2026-06-05",
+      "source": "sector:含B股"
     }
   ],
   "todayAdded": [
-    "sz002608",
-    "sz002579",
-    "sh600482"
+    "sh600378",
+    "sh603516",
+    "sz000725"
   ],
   "todayRemoved": [
-    "sz300763",
-    "sz002273",
-    "sz300395",
-    "sz002594",
-    "sz002008"
+    "sh600857",
+    "sz000060",
+    "sz002428",
+    "sh600030",
+    "sz000737"
   ]
 }
