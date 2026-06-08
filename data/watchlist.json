@@ -1,7 +1,7 @@
 {
-  "version": "20260605a",
+  "version": "20260608a",
   "startDate": "2026-03-12",
-  "dayCount": 86,
+  "dayCount": 89,
   "stocks": [
     {
       "code": "sz002436",
@@ -228,20 +228,6 @@
       "source": "sector:光伏"
     },
     {
-      "code": "sh600584",
-      "name": "长电科技",
-      "group": "focus",
-      "addedDate": "2026-05-20",
-      "source": "sector:触摸屏"
-    },
-    {
-      "code": "sh603501",
-      "name": "豪威集团",
-      "group": "focus",
-      "addedDate": "2026-05-21",
-      "source": "sector:无线耳机"
-    },
-    {
       "code": "sz300811",
       "name": "铂科新材",
       "group": "focus",
@@ -261,13 +247,6 @@
       "group": "focus",
       "addedDate": "2026-05-25",
       "source": "sector:国防军工"
-    },
-    {
-      "code": "sh603267",
-      "name": "鸿远电子",
-      "group": "focus",
-      "addedDate": "2026-05-25",
-      "source": "sector:专精特新"
     },
     {
       "code": "sz002947",
@@ -303,13 +282,6 @@
       "group": "focus",
       "addedDate": "2026-05-27",
       "source": "sector:参股金融"
-    },
-    {
-      "code": "sh600726",
-      "name": "华电能源",
-      "group": "focus",
-      "addedDate": "2026-05-27",
-      "source": "sector:含B股"
     },
     {
       "code": "sz000791",
@@ -359,13 +331,6 @@
       "group": "focus",
       "addedDate": "2026-06-02",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sz000960",
-      "name": "锡业股份",
-      "group": "focus",
-      "addedDate": "2026-06-02",
-      "source": "sector:融资融券"
     },
     {
       "code": "sh600487",
@@ -443,18 +408,55 @@
       "group": "focus",
       "addedDate": "2026-06-05",
       "source": "sector:含B股"
+    },
+    {
+      "code": "sz002457",
+      "name": "青龙管业",
+      "group": "focus",
+      "addedDate": "2026-06-08",
+      "source": "sector:水利建设"
+    },
+    {
+      "code": "sz002460",
+      "name": "赣锋锂业",
+      "group": "focus",
+      "addedDate": "2026-06-08",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sz000970",
+      "name": "中科三环",
+      "group": "focus",
+      "addedDate": "2026-06-08",
+      "source": "sector:特斯拉"
+    },
+    {
+      "code": "sh600721",
+      "name": "百花医药",
+      "group": "focus",
+      "addedDate": "2026-06-08",
+      "source": "sector:ST板块"
+    },
+    {
+      "code": "sz002466",
+      "name": "天齐锂业",
+      "group": "focus",
+      "addedDate": "2026-06-08",
+      "source": "sector:特斯拉"
     }
   ],
   "todayAdded": [
-    "sh600378",
-    "sh603516",
-    "sz000725"
+    "sz002457",
+    "sz002460",
+    "sz000970",
+    "sh600721",
+    "sz002466"
   ],
   "todayRemoved": [
-    "sh600857",
-    "sz000060",
-    "sz002428",
-    "sh600030",
-    "sz000737"
+    "sh603501",
+    "sh603267",
+    "sh600726",
+    "sz000960",
+    "sh600584"
   ]
 }
