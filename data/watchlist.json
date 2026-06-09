@@ -1,7 +1,7 @@
 {
-  "version": "20260608a",
+  "version": "20260609a",
   "startDate": "2026-03-12",
-  "dayCount": 89,
+  "dayCount": 90,
   "stocks": [
     {
       "code": "sz002436",
@@ -214,13 +214,6 @@
       "source": "sector:风电"
     },
     {
-      "code": "sz000636",
-      "name": "风华高科",
-      "group": "focus",
-      "addedDate": "2026-05-20",
-      "source": "sector:触摸屏"
-    },
-    {
       "code": "sh600021",
       "name": "上海电力",
       "group": "focus",
@@ -275,13 +268,6 @@
       "group": "focus",
       "addedDate": "2026-05-27",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sz002012",
-      "name": "凯恩股份",
-      "group": "focus",
-      "addedDate": "2026-05-27",
-      "source": "sector:参股金融"
     },
     {
       "code": "sz000791",
@@ -347,13 +333,6 @@
       "source": "sector:风电"
     },
     {
-      "code": "sh600522",
-      "name": "中天科技",
-      "group": "focus",
-      "addedDate": "2026-06-03",
-      "source": "sector:5G概念"
-    },
-    {
       "code": "sz000063",
       "name": "中兴通讯",
       "group": "focus",
@@ -380,13 +359,6 @@
       "group": "focus",
       "addedDate": "2026-06-04",
       "source": "sector:华为概念"
-    },
-    {
-      "code": "sh600482",
-      "name": "中国动力",
-      "group": "focus",
-      "addedDate": "2026-06-04",
-      "source": "sector:光伏"
     },
     {
       "code": "sh600378",
@@ -424,13 +396,6 @@
       "source": "sector:特斯拉"
     },
     {
-      "code": "sz000970",
-      "name": "中科三环",
-      "group": "focus",
-      "addedDate": "2026-06-08",
-      "source": "sector:特斯拉"
-    },
-    {
       "code": "sh600721",
       "name": "百花医药",
       "group": "focus",
@@ -443,20 +408,47 @@
       "group": "focus",
       "addedDate": "2026-06-08",
       "source": "sector:特斯拉"
+    },
+    {
+      "code": "sz002080",
+      "name": "中材科技",
+      "group": "focus",
+      "addedDate": "2026-06-09",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh600255",
+      "name": "鑫科材料",
+      "group": "focus",
+      "addedDate": "2026-06-09",
+      "source": "sector:超导概念"
+    },
+    {
+      "code": "sh600522",
+      "name": "中天科技",
+      "group": "focus",
+      "addedDate": "2026-06-09",
+      "source": "sector:海工装备"
+    },
+    {
+      "code": "sz000970",
+      "name": "中科三环",
+      "group": "focus",
+      "addedDate": "2026-06-09",
+      "source": "sector:风电"
     }
   ],
   "todayAdded": [
-    "sz002457",
-    "sz002460",
-    "sz000970",
-    "sh600721",
-    "sz002466"
+    "sz002080",
+    "sh600255",
+    "sh600522",
+    "sz000970"
   ],
   "todayRemoved": [
-    "sh603501",
-    "sh603267",
-    "sh600726",
-    "sz000960",
-    "sh600584"
+    "sh600482",
+    "sz000636",
+    "sh600522",
+    "sz000970",
+    "sz002012"
   ]
 }
