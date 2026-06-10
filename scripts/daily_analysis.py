@@ -714,6 +714,11 @@ def main():
     today_removed = []
     history = load_history()
 
+    # 入池 3 天内的股票不参与淘汰（保护期）
+    protect_deadline = (datetime.strptime(today, "%Y-%m-%d") - timedelta(days=3)).strftime("%Y-%m-%d")
+    protected_codes = {s["code"] for s in pool_stocks if s.get("addedDate", "") > protect_deadline}
+    scored_pool = [(code, score) for code, score in scored_pool if code not in protected_codes]
+
     if day_count >= MATURE_DAYS:
         eliminate_count = min(ELIMINATE_COUNT, len(scored_pool))
         to_remove = scored_pool[:eliminate_count]

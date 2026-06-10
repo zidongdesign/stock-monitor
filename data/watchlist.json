@@ -1,7 +1,7 @@
 {
-  "version": "20260609a",
+  "version": "20260610a",
   "startDate": "2026-03-12",
-  "dayCount": 90,
+  "dayCount": 91,
   "stocks": [
     {
       "code": "sz002436",
@@ -16,13 +16,6 @@
       "group": "focus",
       "addedDate": "2026-05-07",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sz002156",
-      "name": "通富微电",
-      "group": "focus",
-      "addedDate": "2026-05-04",
-      "source": "sector:触摸屏"
     },
     {
       "code": "sz002897",
@@ -93,20 +86,6 @@
       "group": "focus",
       "addedDate": "2026-04-24",
       "source": "sector:央企50"
-    },
-    {
-      "code": "sz000338",
-      "name": "潍柴动力",
-      "group": "focus",
-      "addedDate": "2026-04-30",
-      "source": "sector:融资融券"
-    },
-    {
-      "code": "sh603063",
-      "name": "XD禾望电",
-      "group": "focus",
-      "addedDate": "2026-05-14",
-      "source": "sector:风电"
     },
     {
       "code": "sh600186",
@@ -207,13 +186,6 @@
       "source": "sector:业绩预降"
     },
     {
-      "code": "sh600863",
-      "name": "华能蒙电",
-      "group": "focus",
-      "addedDate": "2026-05-20",
-      "source": "sector:风电"
-    },
-    {
       "code": "sh600021",
       "name": "上海电力",
       "group": "focus",
@@ -282,13 +254,6 @@
       "group": "focus",
       "addedDate": "2026-05-28",
       "source": "sector:光伏"
-    },
-    {
-      "code": "sz002527",
-      "name": "新时达",
-      "group": "focus",
-      "addedDate": "2026-05-29",
-      "source": "sector:机器人概念"
     },
     {
       "code": "sh600795",
@@ -436,19 +401,47 @@
       "group": "focus",
       "addedDate": "2026-06-09",
       "source": "sector:风电"
+    },
+    {
+      "code": "sh601208",
+      "name": "东材科技",
+      "group": "focus",
+      "addedDate": "2026-06-10",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz002669",
+      "name": "康达新材",
+      "group": "focus",
+      "addedDate": "2026-06-10",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sh600596",
+      "name": "新安股份",
+      "group": "focus",
+      "addedDate": "2026-06-10",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz300395",
+      "name": "菲利华",
+      "group": "focus",
+      "addedDate": "2026-06-10",
+      "source": "sector:国防军工"
     }
   ],
   "todayAdded": [
-    "sz002080",
-    "sh600255",
-    "sh600522",
-    "sz000970"
+    "sh601208",
+    "sz002669",
+    "sh600596",
+    "sz300395"
   ],
   "todayRemoved": [
-    "sh600482",
-    "sz000636",
-    "sh600522",
-    "sz000970",
-    "sz002012"
+    "sz000338",
+    "sh603063",
+    "sz002527",
+    "sh600863",
+    "sz002156"
   ]
 }
