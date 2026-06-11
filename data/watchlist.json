@@ -1,7 +1,7 @@
 {
-  "version": "20260610a",
+  "version": "20260611b",
   "startDate": "2026-03-12",
-  "dayCount": 91,
+  "dayCount": 92,
   "stocks": [
     {
       "code": "sz002436",
@@ -9,13 +9,6 @@
       "group": "focus",
       "addedDate": "2026-05-07",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sh600221",
-      "name": "海航控股",
-      "group": "focus",
-      "addedDate": "2026-05-07",
-      "source": "sector:融资融券"
     },
     {
       "code": "sz002897",
@@ -44,13 +37,6 @@
       "group": "focus",
       "addedDate": "2026-04-27",
       "source": "sector:特斯拉"
-    },
-    {
-      "code": "sz300661",
-      "name": "圣邦股份",
-      "group": "focus",
-      "addedDate": "2026-03-16",
-      "source": "sector:无线耳机"
     },
     {
       "code": "sz002938",
@@ -207,13 +193,6 @@
       "source": "sector:华为汽车"
     },
     {
-      "code": "sz000733",
-      "name": "振华科技",
-      "group": "focus",
-      "addedDate": "2026-05-25",
-      "source": "sector:国防军工"
-    },
-    {
       "code": "sz002947",
       "name": "恒铭达",
       "group": "focus",
@@ -233,13 +212,6 @@
       "group": "focus",
       "addedDate": "2026-05-26",
       "source": "sector:华为概念"
-    },
-    {
-      "code": "sz000100",
-      "name": "TCL科技",
-      "group": "focus",
-      "addedDate": "2026-05-27",
-      "source": "sector:融资融券"
     },
     {
       "code": "sz000791",
@@ -277,20 +249,6 @@
       "source": "sector:重组概念"
     },
     {
-      "code": "sz300124",
-      "name": "汇川技术",
-      "group": "focus",
-      "addedDate": "2026-06-02",
-      "source": "sector:股权激励"
-    },
-    {
-      "code": "sh600487",
-      "name": "亨通光电",
-      "group": "focus",
-      "addedDate": "2026-06-02",
-      "source": "sector:参股金融"
-    },
-    {
       "code": "sz001896",
       "name": "豫能控股",
       "group": "focus",
@@ -303,13 +261,6 @@
       "group": "focus",
       "addedDate": "2026-06-03",
       "source": "sector:5G概念"
-    },
-    {
-      "code": "sz002179",
-      "name": "中航光电",
-      "group": "focus",
-      "addedDate": "2026-06-03",
-      "source": "sector:华为概念"
     },
     {
       "code": "sz002608",
@@ -345,27 +296,6 @@
       "group": "focus",
       "addedDate": "2026-06-05",
       "source": "sector:含B股"
-    },
-    {
-      "code": "sz002457",
-      "name": "青龙管业",
-      "group": "focus",
-      "addedDate": "2026-06-08",
-      "source": "sector:水利建设"
-    },
-    {
-      "code": "sz002460",
-      "name": "赣锋锂业",
-      "group": "focus",
-      "addedDate": "2026-06-08",
-      "source": "sector:特斯拉"
-    },
-    {
-      "code": "sh600721",
-      "name": "百花医药",
-      "group": "focus",
-      "addedDate": "2026-06-08",
-      "source": "sector:ST板块"
     },
     {
       "code": "sz002466",
@@ -429,19 +359,66 @@
       "group": "focus",
       "addedDate": "2026-06-10",
       "source": "sector:国防军工"
+    },
+    {
+      "code": "sz000776",
+      "name": "广发证券",
+      "group": "focus",
+      "addedDate": "2026-06-11",
+      "source": "sector:含H股"
+    },
+    {
+      "code": "sz000688",
+      "name": "国城矿业",
+      "group": "focus",
+      "addedDate": "2026-06-11",
+      "source": "sector:成渝特区"
+    },
+    {
+      "code": "sh600498",
+      "name": "烽火通信",
+      "group": "focus",
+      "addedDate": "2026-06-11",
+      "source": "sector:保险重仓"
+    },
+    {
+      "code": "sh601336",
+      "name": "新华保险",
+      "group": "focus",
+      "addedDate": "2026-06-11",
+      "source": "sector:含H股"
+    },
+    {
+      "code": "sz002165",
+      "name": "红 宝 丽",
+      "group": "focus",
+      "addedDate": "2026-06-11",
+      "source": "sector:聚氨酯"
+    },
+    {
+      "code": "sh600505",
+      "name": "西昌电力",
+      "group": "focus",
+      "addedDate": "2026-06-11",
+      "source": "sector:成渝特区"
+    },
+    {
+      "code": "sh600096",
+      "name": "云天化",
+      "group": "focus",
+      "addedDate": "2026-06-11",
+      "source": "sector:聚氨酯"
     }
   ],
   "todayAdded": [
-    "sh601208",
-    "sz002669",
-    "sh600596",
-    "sz300395"
+    "sh600505",
+    "sh600096"
   ],
   "todayRemoved": [
-    "sz000338",
-    "sh603063",
-    "sz002527",
-    "sh600863",
-    "sz002156"
+    "sh600221",
+    "sz002179",
+    "sz000733",
+    "sh600721",
+    "sh600487"
   ]
 }
