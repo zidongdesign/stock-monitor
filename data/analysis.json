@@ -1,9 +1,9 @@
 {
-  "updated": "2026-06-11T09:35:20+08:00",
+  "updated": "2026-06-12T09:32:24+08:00",
   "stocks": {
     "sz002436": {
       "name": "兴森科技",
-      "score": 63,
+      "score": 51,
       "financial": {
         "roe": 2.6,
         "roeTrend": "down",
@@ -17,65 +17,28 @@
       },
       "technical": {
         "trend": "sideways",
-        "aboveMa20": true,
+        "aboveMa20": false,
         "kdjSignal": "bearish",
         "support": 30.97,
         "resistance": 42.6,
-        "price": 37.28
+        "price": 36.75
       },
       "fundFlow": {
-        "mainNet5d": 5051.0,
-        "r0Net": 5051.0,
-        "netRatio": 0.356747,
+        "mainNet5d": 23616.0,
+        "r0Net": 26252.0,
+        "netRatio": 0.0515142,
         "trend": "in"
       },
       "action": "hold",
       "tags": [
+        "破位MA20",
         "主力流入"
       ],
       "reason": "ROE=2.6%，主力净流入"
     },
-    "sh600221": {
-      "name": "海航控股",
-      "score": 38,
-      "financial": {
-        "roe": 51.67,
-        "roeTrend": "down",
-        "netProfitGrowth3y": [
-          101.54,
-          -396.35,
-          314.89
-        ],
-        "cashFlowPositive": true,
-        "grade": "B"
-      },
-      "technical": {
-        "trend": "down",
-        "aboveMa20": false,
-        "kdjSignal": "bullish",
-        "support": 1.42,
-        "resistance": 1.58,
-        "price": 1.46
-      },
-      "fundFlow": {
-        "mainNet5d": -1125.0,
-        "r0Net": -698.0,
-        "netRatio": -0.64303,
-        "trend": "out"
-      },
-      "action": "reduce",
-      "tags": [
-        "ROE健康",
-        "现金流正",
-        "均线空头",
-        "破位MA20",
-        "主力流出"
-      ],
-      "reason": "财务良好，ROE=51.67%，下降趋势，主力流出"
-    },
     "sz002897": {
       "name": "意华股份",
-      "score": 51,
+      "score": 55,
       "financial": {
         "roe": 12.2,
         "roeTrend": "down",
@@ -93,24 +56,24 @@
         "kdjSignal": "bearish",
         "support": 64.7,
         "resistance": 99.47,
-        "price": 84.8
+        "price": 80.14
       },
       "fundFlow": {
-        "mainNet5d": -2469.0,
-        "r0Net": -2277.0,
-        "netRatio": -0.158139,
-        "trend": "out"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
       "action": "hold",
       "tags": [
         "现金流正",
-        "主力流出"
+        "资金平淡"
       ],
-      "reason": "财务良好，ROE=12.2%，主力流出"
+      "reason": "财务良好，ROE=12.2%，资金不活跃"
     },
     "sh600183": {
       "name": "生益科技",
-      "score": 63,
+      "score": 76,
       "financial": {
         "roe": 21.25,
         "roeTrend": "up",
@@ -128,26 +91,26 @@
         "kdjSignal": "bullish",
         "support": 86.85,
         "resistance": 154.5,
-        "price": 146.9
+        "price": 149.73
       },
       "fundFlow": {
-        "mainNet5d": -23414.0,
-        "r0Net": -23414.0,
-        "netRatio": -0.226246,
-        "trend": "out"
+        "mainNet5d": 22641.0,
+        "r0Net": 13846.0,
+        "netRatio": 0.0182869,
+        "trend": "in"
       },
-      "action": "hold",
+      "action": "buy",
       "tags": [
         "ROE健康",
         "现金流正",
         "均线多头",
-        "主力流出"
+        "主力流入"
       ],
-      "reason": "财务良好，ROE=21.25%，上升趋势，主力流出"
+      "reason": "财务良好，ROE=21.25%，上升趋势，主力净流入"
     },
     "sh603993": {
       "name": "洛阳钼业",
-      "score": 73,
+      "score": 79,
       "financial": {
         "roe": 26.61,
         "roeTrend": "up",
@@ -160,17 +123,17 @@
         "grade": "A"
       },
       "technical": {
-        "trend": "down",
+        "trend": "sideways",
         "aboveMa20": false,
-        "kdjSignal": "bearish",
+        "kdjSignal": "golden_cross",
         "support": 16.18,
-        "resistance": 20.74,
-        "price": 16.79
+        "resistance": 20.17,
+        "price": 17.37
       },
       "fundFlow": {
-        "mainNet5d": 3656.0,
-        "r0Net": 3656.0,
-        "netRatio": 0.305519,
+        "mainNet5d": 37732.0,
+        "r0Net": 42077.0,
+        "netRatio": 0.0828324,
         "trend": "in"
       },
       "action": "hold",
@@ -178,15 +141,15 @@
         "ROE健康",
         "现金流正",
         "利润连增",
-        "均线空头",
+        "KDJ金叉",
         "破位MA20",
         "主力流入"
       ],
-      "reason": "财务优秀，ROE=26.61%，下降趋势，主力净流入"
+      "reason": "财务优秀，ROE=26.61%，主力净流入"
     },
     "sz000988": {
       "name": "华工科技",
-      "score": 69,
+      "score": 60,
       "financial": {
         "roe": 13.97,
         "roeTrend": "up",
@@ -201,22 +164,21 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": false,
-        "kdjSignal": "death_cross",
-        "support": 130.26,
-        "resistance": 175.8,
-        "price": 149.0
+        "kdjSignal": "bearish",
+        "support": 130.01,
+        "resistance": 175.55,
+        "price": 150.252
       },
       "fundFlow": {
-        "mainNet5d": 16360.0,
-        "r0Net": 16360.0,
-        "netRatio": 0.769599,
+        "mainNet5d": 4955.0,
+        "r0Net": 8614.0,
+        "netRatio": 0.00679681,
         "trend": "in"
       },
       "action": "hold",
       "tags": [
         "现金流正",
         "利润连增",
-        "KDJ死叉",
         "破位MA20",
         "主力流入"
       ],
@@ -224,7 +186,7 @@
     },
     "sz002938": {
       "name": "鹏鼎控股",
-      "score": 70,
+      "score": 55,
       "financial": {
         "roe": 11.42,
         "roeTrend": "down",
@@ -239,28 +201,27 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
-        "support": 81.51,
-        "resistance": 122.97,
-        "price": 111.06
+        "kdjSignal": "bearish",
+        "support": 80.51,
+        "resistance": 121.97,
+        "price": 105.5
       },
       "fundFlow": {
-        "mainNet5d": 4128.0,
-        "r0Net": 4128.0,
-        "netRatio": 0.325079,
-        "trend": "in"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
       "action": "hold",
       "tags": [
         "现金流正",
-        "KDJ死叉",
-        "主力流入"
+        "资金平淡"
       ],
-      "reason": "财务良好，ROE=11.42%，主力净流入"
+      "reason": "财务良好，ROE=11.42%，资金不活跃"
     },
     "sh600415": {
       "name": "小商品城",
-      "score": 51,
+      "score": 64,
       "financial": {
         "roe": 17.53,
         "roeTrend": "up",
@@ -275,16 +236,16 @@
       "technical": {
         "trend": "down",
         "aboveMa20": false,
-        "kdjSignal": "death_cross",
-        "support": 10.86,
+        "kdjSignal": "bearish",
+        "support": 10.81,
         "resistance": 14.36,
-        "price": 11.07
+        "price": 11.02
       },
       "fundFlow": {
-        "mainNet5d": 0,
-        "r0Net": 0,
-        "netRatio": 0,
-        "trend": "neutral"
+        "mainNet5d": 5285.0,
+        "r0Net": 1812.0,
+        "netRatio": 0.089423,
+        "trend": "in"
       },
       "action": "hold",
       "tags": [
@@ -292,15 +253,14 @@
         "现金流正",
         "利润连增",
         "均线空头",
-        "KDJ死叉",
         "破位MA20",
-        "资金平淡"
+        "主力流入"
       ],
-      "reason": "财务优秀，ROE=17.53%，下降趋势，资金不活跃"
+      "reason": "财务优秀，ROE=17.53%，下降趋势，主力净流入"
     },
     "sh600301": {
       "name": "华锡有色",
-      "score": 63,
+      "score": 65,
       "financial": {
         "roe": 18.19,
         "roeTrend": "up",
@@ -314,31 +274,31 @@
       },
       "technical": {
         "trend": "sideways",
-        "aboveMa20": false,
-        "kdjSignal": "bearish",
+        "aboveMa20": true,
+        "kdjSignal": "golden_cross",
         "support": 51.11,
         "resistance": 69.37,
-        "price": 55.05
+        "price": 58.54
       },
       "fundFlow": {
-        "mainNet5d": 0,
-        "r0Net": 0,
-        "netRatio": 0,
-        "trend": "neutral"
+        "mainNet5d": -3006.0,
+        "r0Net": -2789.0,
+        "netRatio": -0.290432,
+        "trend": "out"
       },
       "action": "hold",
       "tags": [
         "ROE健康",
         "现金流正",
         "利润连增",
-        "破位MA20",
-        "资金平淡"
+        "KDJ金叉",
+        "主力流出"
       ],
-      "reason": "财务优秀，ROE=18.19%，资金不活跃"
+      "reason": "财务优秀，ROE=18.19%，主力流出"
     },
     "sh601991": {
       "name": "大唐发电",
-      "score": 60,
+      "score": 79,
       "financial": {
         "roe": 18.15,
         "roeTrend": "up",
@@ -352,31 +312,31 @@
       },
       "technical": {
         "trend": "sideways",
-        "aboveMa20": false,
-        "kdjSignal": "bearish",
+        "aboveMa20": true,
+        "kdjSignal": "golden_cross",
         "support": 6.68,
         "resistance": 9.92,
-        "price": 7.76
+        "price": 7.99
       },
       "fundFlow": {
-        "mainNet5d": -5629.0,
-        "r0Net": -5629.0,
-        "netRatio": -0.12313,
-        "trend": "out"
+        "mainNet5d": 10591.0,
+        "r0Net": 4088.0,
+        "netRatio": 0.0213862,
+        "trend": "in"
       },
       "action": "hold",
       "tags": [
         "ROE健康",
         "现金流正",
         "利润连增",
-        "破位MA20",
-        "主力流出"
+        "KDJ金叉",
+        "主力流入"
       ],
-      "reason": "财务优秀，ROE=18.15%，主力流出"
+      "reason": "财务优秀，ROE=18.15%，主力净流入"
     },
     "sh601600": {
       "name": "中国铝业",
-      "score": 75,
+      "score": 74,
       "financial": {
         "roe": 17.64,
         "roeTrend": "up",
@@ -389,17 +349,17 @@
         "grade": "A"
       },
       "technical": {
-        "trend": "down",
+        "trend": "sideways",
         "aboveMa20": false,
         "kdjSignal": "bullish",
         "support": 9.79,
         "resistance": 12.47,
-        "price": 10.1
+        "price": 10.33
       },
       "fundFlow": {
-        "mainNet5d": 2234.0,
-        "r0Net": 2028.0,
-        "netRatio": 0.355757,
+        "mainNet5d": 6537.0,
+        "r0Net": 8805.0,
+        "netRatio": 0.0306057,
         "trend": "in"
       },
       "action": "hold",
@@ -407,15 +367,14 @@
         "ROE健康",
         "现金流正",
         "利润连增",
-        "均线空头",
         "破位MA20",
         "主力流入"
       ],
-      "reason": "财务优秀，ROE=17.64%，下降趋势，主力净流入"
+      "reason": "财务优秀，ROE=17.64%，主力净流入"
     },
     "sh600186": {
       "name": "莲花控股",
-      "score": 85,
+      "score": 79,
       "financial": {
         "roe": 16.99,
         "roeTrend": "up",
@@ -433,12 +392,12 @@
         "kdjSignal": "bullish",
         "support": 9.09,
         "resistance": 13.7,
-        "price": 11.62
+        "price": 12.63
       },
       "fundFlow": {
-        "mainNet5d": 635.0,
-        "r0Net": 611.0,
-        "netRatio": 0.135607,
+        "mainNet5d": 29633.0,
+        "r0Net": 34405.0,
+        "netRatio": 0.0680504,
         "trend": "in"
       },
       "action": "hold",
@@ -452,7 +411,7 @@
     },
     "sh601899": {
       "name": "紫金矿业",
-      "score": 68,
+      "score": 65,
       "financial": {
         "roe": 33.04,
         "roeTrend": "up",
@@ -467,15 +426,15 @@
       "technical": {
         "trend": "down",
         "aboveMa20": false,
-        "kdjSignal": "death_cross",
-        "support": 27.2,
-        "resistance": 34.76,
-        "price": 27.7
+        "kdjSignal": "bearish",
+        "support": 26.8,
+        "resistance": 33.0,
+        "price": 27.33
       },
       "fundFlow": {
-        "mainNet5d": 4693.0,
-        "r0Net": 4693.0,
-        "netRatio": 0.102891,
+        "mainNet5d": 85595.0,
+        "r0Net": 83040.0,
+        "netRatio": 0.0977134,
         "trend": "in"
       },
       "action": "hold",
@@ -484,7 +443,6 @@
         "现金流正",
         "利润连增",
         "均线空头",
-        "KDJ死叉",
         "破位MA20",
         "主力流入"
       ],
@@ -492,7 +450,7 @@
     },
     "sz002056": {
       "name": "横店东磁",
-      "score": 63,
+      "score": 75,
       "financial": {
         "roe": 17.42,
         "roeTrend": "down",
@@ -510,26 +468,26 @@
         "kdjSignal": "bearish",
         "support": 18.93,
         "resistance": 30.24,
-        "price": 25.48
+        "price": 24.72
       },
       "fundFlow": {
-        "mainNet5d": -2359.0,
-        "r0Net": -2300.0,
-        "netRatio": -0.135598,
-        "trend": "out"
+        "mainNet5d": 10167.0,
+        "r0Net": 12972.0,
+        "netRatio": 0.0616622,
+        "trend": "in"
       },
       "action": "hold",
       "tags": [
         "ROE健康",
         "现金流正",
         "利润连增",
-        "主力流出"
+        "主力流入"
       ],
-      "reason": "财务优秀，ROE=17.42%，主力流出"
+      "reason": "财务优秀，ROE=17.42%，主力净流入"
     },
     "sz002837": {
       "name": "英维克",
-      "score": 85,
+      "score": 66,
       "financial": {
         "roe": 16.58,
         "roeTrend": "up",
@@ -546,46 +504,8 @@
         "aboveMa20": false,
         "kdjSignal": "bullish",
         "support": 62.2,
-        "resistance": 85.48,
-        "price": 68.9
-      },
-      "fundFlow": {
-        "mainNet5d": 4488.0,
-        "r0Net": 4488.0,
-        "netRatio": 0.417637,
-        "trend": "in"
-      },
-      "action": "hold",
-      "tags": [
-        "ROE健康",
-        "现金流正",
-        "利润连增",
-        "破位MA20",
-        "主力流入"
-      ],
-      "reason": "财务优秀，ROE=16.58%，主力净流入"
-    },
-    "sz300274": {
-      "name": "阳光电源",
-      "score": 61,
-      "financial": {
-        "roe": 31.26,
-        "roeTrend": "up",
-        "netProfitGrowth3y": [
-          162.69,
-          16.92,
-          21.97
-        ],
-        "cashFlowPositive": true,
-        "grade": "A"
-      },
-      "technical": {
-        "trend": "sideways",
-        "aboveMa20": false,
-        "kdjSignal": "death_cross",
-        "support": 131.02,
-        "resistance": 191.71,
-        "price": 143.55
+        "resistance": 84.85,
+        "price": 67.14
       },
       "fundFlow": {
         "mainNet5d": 0,
@@ -598,11 +518,50 @@
         "ROE健康",
         "现金流正",
         "利润连增",
-        "KDJ死叉",
         "破位MA20",
         "资金平淡"
       ],
-      "reason": "财务优秀，ROE=31.26%，资金不活跃"
+      "reason": "财务优秀，ROE=16.58%，资金不活跃"
+    },
+    "sz300274": {
+      "name": "阳光电源",
+      "score": 69,
+      "financial": {
+        "roe": 31.26,
+        "roeTrend": "up",
+        "netProfitGrowth3y": [
+          162.69,
+          16.92,
+          21.97
+        ],
+        "cashFlowPositive": true,
+        "grade": "A"
+      },
+      "technical": {
+        "trend": "down",
+        "aboveMa20": false,
+        "kdjSignal": "golden_cross",
+        "support": 131.02,
+        "resistance": 191.71,
+        "price": 146.75
+      },
+      "fundFlow": {
+        "mainNet5d": 37550.0,
+        "r0Net": 30018.0,
+        "netRatio": 0.0465676,
+        "trend": "in"
+      },
+      "action": "hold",
+      "tags": [
+        "ROE健康",
+        "现金流正",
+        "利润连增",
+        "均线空头",
+        "KDJ金叉",
+        "破位MA20",
+        "主力流入"
+      ],
+      "reason": "财务优秀，ROE=31.26%，下降趋势，主力净流入"
     },
     "sz300304": {
       "name": "云意电气",
@@ -619,32 +578,30 @@
         "grade": "B"
       },
       "technical": {
-        "trend": "up",
+        "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "bearish",
         "support": 12.19,
         "resistance": 16.85,
-        "price": 16.15
+        "price": 15.5
       },
       "fundFlow": {
-        "mainNet5d": -1053.0,
-        "r0Net": -528.0,
-        "netRatio": -0.243807,
-        "trend": "out"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
       "action": "hold",
       "tags": [
         "现金流正",
         "利润连增",
-        "均线多头",
-        "KDJ死叉",
-        "主力流出"
+        "资金平淡"
       ],
-      "reason": "财务良好，ROE=14.52%，上升趋势，主力流出"
+      "reason": "财务良好，ROE=14.52%，资金不活跃"
     },
     "sh605117": {
       "name": "德业股份",
-      "score": 77,
+      "score": 49,
       "financial": {
         "roe": 32.66,
         "roeTrend": "down",
@@ -659,31 +616,32 @@
       "technical": {
         "trend": "down",
         "aboveMa20": false,
-        "kdjSignal": "bullish",
-        "support": 99.7,
+        "kdjSignal": "death_cross",
+        "support": 98.73,
         "resistance": 126.9,
-        "price": 103.7
+        "price": 101.2
       },
       "fundFlow": {
-        "mainNet5d": 614.0,
-        "r0Net": 623.0,
-        "netRatio": 0.404311,
-        "trend": "in"
+        "mainNet5d": -1428.0,
+        "r0Net": -1366.0,
+        "netRatio": -0.141413,
+        "trend": "out"
       },
-      "action": "hold",
+      "action": "reduce",
       "tags": [
         "ROE健康",
         "现金流正",
         "利润连增",
         "均线空头",
+        "KDJ死叉",
         "破位MA20",
-        "主力流入"
+        "主力流出"
       ],
-      "reason": "财务优秀，ROE=32.66%，下降趋势，主力净流入"
+      "reason": "财务优秀，ROE=32.66%，下降趋势，主力流出"
     },
     "sz002475": {
       "name": "立讯精密",
-      "score": 72,
+      "score": 64,
       "financial": {
         "roe": 21.1,
         "roeTrend": "down",
@@ -698,15 +656,15 @@
       "technical": {
         "trend": "down",
         "aboveMa20": false,
-        "kdjSignal": "death_cross",
-        "support": 64.6,
-        "resistance": 79.35,
-        "price": 65.51
+        "kdjSignal": "bearish",
+        "support": 63.22,
+        "resistance": 78.0,
+        "price": 64.58
       },
       "fundFlow": {
-        "mainNet5d": 13009.0,
-        "r0Net": 13009.0,
-        "netRatio": 0.674519,
+        "mainNet5d": 45628.0,
+        "r0Net": 49468.0,
+        "netRatio": 0.0576791,
         "trend": "in"
       },
       "action": "hold",
@@ -715,7 +673,6 @@
         "现金流正",
         "利润连增",
         "均线空头",
-        "KDJ死叉",
         "破位MA20",
         "主力流入"
       ],
@@ -738,15 +695,15 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": false,
-        "kdjSignal": "death_cross",
-        "support": 44.24,
+        "kdjSignal": "golden_cross",
+        "support": 43.5,
         "resistance": 56.0,
-        "price": 45.36
+        "price": 45.69
       },
       "fundFlow": {
-        "mainNet5d": 2524.0,
-        "r0Net": 2524.0,
-        "netRatio": 0.167037,
+        "mainNet5d": 7107.0,
+        "r0Net": 23323.0,
+        "netRatio": 0.0151942,
         "trend": "in"
       },
       "action": "hold",
@@ -754,7 +711,7 @@
         "ROE健康",
         "现金流正",
         "利润连增",
-        "KDJ死叉",
+        "KDJ金叉",
         "破位MA20",
         "主力流入"
       ],
@@ -762,7 +719,7 @@
     },
     "sz002484": {
       "name": "江海股份",
-      "score": 51,
+      "score": 55,
       "financial": {
         "roe": 11.15,
         "roeTrend": "down",
@@ -777,28 +734,27 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
-        "support": 44.72,
+        "kdjSignal": "bearish",
+        "support": 45.14,
         "resistance": 96.35,
-        "price": 87.6
+        "price": 82.8
       },
       "fundFlow": {
-        "mainNet5d": -1563.0,
-        "r0Net": -1860.0,
-        "netRatio": -0.0303186,
-        "trend": "out"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
       "action": "hold",
       "tags": [
         "现金流正",
-        "KDJ死叉",
-        "主力流出"
+        "资金平淡"
       ],
-      "reason": "财务良好，ROE=11.15%，主力流出"
+      "reason": "财务良好，ROE=11.15%，资金不活跃"
     },
     "sz300054": {
       "name": "鼎龙股份",
-      "score": 75,
+      "score": 74,
       "financial": {
         "roe": 12.83,
         "roeTrend": "up",
@@ -812,29 +768,28 @@
       },
       "technical": {
         "trend": "sideways",
-        "aboveMa20": false,
+        "aboveMa20": true,
         "kdjSignal": "bullish",
         "support": 64.08,
         "resistance": 81.58,
-        "price": 71.04
+        "price": 75.48
       },
       "fundFlow": {
-        "mainNet5d": 5026.0,
-        "r0Net": 5026.0,
-        "netRatio": 0.644285,
+        "mainNet5d": 40295.0,
+        "r0Net": 36219.0,
+        "netRatio": 0.109008,
         "trend": "in"
       },
       "action": "hold",
       "tags": [
         "现金流正",
-        "破位MA20",
         "主力流入"
       ],
       "reason": "财务良好，ROE=12.83%，主力净流入"
     },
     "sz002409": {
       "name": "雅克科技",
-      "score": 78,
+      "score": 74,
       "financial": {
         "roe": 12.59,
         "roeTrend": "up",
@@ -851,13 +806,13 @@
         "aboveMa20": true,
         "kdjSignal": "bullish",
         "support": 103.4,
-        "resistance": 127.84,
-        "price": 122.55
+        "resistance": 134.81,
+        "price": 134.81
       },
       "fundFlow": {
-        "mainNet5d": 40336.0,
-        "r0Net": 40336.0,
-        "netRatio": 0.565038,
+        "mainNet5d": 129340.0,
+        "r0Net": 120312.0,
+        "netRatio": 0.175476,
         "trend": "in"
       },
       "action": "hold",
@@ -870,7 +825,7 @@
     },
     "sz300221": {
       "name": "银禧科技",
-      "score": 76,
+      "score": 50,
       "financial": {
         "roe": 7.92,
         "roeTrend": "up",
@@ -885,29 +840,30 @@
       "technical": {
         "trend": "up",
         "aboveMa20": true,
-        "kdjSignal": "bullish",
+        "kdjSignal": "death_cross",
         "support": 11.5,
         "resistance": 18.27,
-        "price": 16.95
+        "price": 16.12
       },
       "fundFlow": {
-        "mainNet5d": 5387.0,
-        "r0Net": 5387.0,
-        "netRatio": 0.571984,
-        "trend": "in"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
-      "action": "buy",
+      "action": "hold",
       "tags": [
         "现金流正",
         "利润连增",
         "均线多头",
-        "主力流入"
+        "KDJ死叉",
+        "资金平淡"
       ],
-      "reason": "ROE=7.92%，上升趋势，主力净流入"
+      "reason": "ROE=7.92%，上升趋势，资金不活跃"
     },
     "sz002552": {
       "name": "宝鼎科技",
-      "score": 59,
+      "score": 45,
       "financial": {
         "roe": 8.29,
         "roeTrend": "up",
@@ -922,24 +878,23 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "bearish",
         "support": 31.84,
         "resistance": 66.68,
-        "price": 59.3
+        "price": 53.37
       },
       "fundFlow": {
-        "mainNet5d": 1253.0,
-        "r0Net": 1117.0,
-        "netRatio": 0.237172,
-        "trend": "in"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
-      "action": "hold",
+      "action": "reduce",
       "tags": [
         "现金流正",
-        "KDJ死叉",
-        "主力流入"
+        "资金平淡"
       ],
-      "reason": "ROE=8.29%，主力净流入"
+      "reason": "ROE=8.29%，资金不活跃"
     },
     "sh600021": {
       "name": "上海电力",
@@ -961,7 +916,7 @@
         "kdjSignal": "bearish",
         "support": 16.56,
         "resistance": 22.35,
-        "price": 17.27
+        "price": 17.14
       },
       "fundFlow": {
         "mainNet5d": 0,
@@ -980,7 +935,7 @@
     },
     "sz300811": {
       "name": "铂科新材",
-      "score": 60,
+      "score": 66,
       "financial": {
         "roe": 15.14,
         "roeTrend": "down",
@@ -995,30 +950,29 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "bearish",
         "support": 68.9,
         "resistance": 101.99,
-        "price": 88.3
+        "price": 86.06
       },
       "fundFlow": {
-        "mainNet5d": -2254.0,
-        "r0Net": -1570.0,
-        "netRatio": -0.131746,
-        "trend": "out"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
       "action": "hold",
       "tags": [
         "ROE健康",
         "现金流正",
         "利润连增",
-        "KDJ死叉",
-        "主力流出"
+        "资金平淡"
       ],
-      "reason": "财务优秀，ROE=15.14%，主力流出"
+      "reason": "财务优秀，ROE=15.14%，资金不活跃"
     },
     "sz002920": {
       "name": "德赛西威",
-      "score": 52,
+      "score": 55,
       "financial": {
         "roe": 21.67,
         "roeTrend": "up",
@@ -1033,10 +987,10 @@
       "technical": {
         "trend": "down",
         "aboveMa20": false,
-        "kdjSignal": "death_cross",
-        "support": 89.56,
+        "kdjSignal": "bearish",
+        "support": 85.05,
         "resistance": 114.96,
-        "price": 89.57
+        "price": 85.48
       },
       "fundFlow": {
         "mainNet5d": 0,
@@ -1050,50 +1004,14 @@
         "现金流正",
         "利润连增",
         "均线空头",
-        "KDJ死叉",
         "破位MA20",
         "资金平淡"
       ],
       "reason": "财务优秀，ROE=21.67%，下降趋势，资金不活跃"
     },
-    "sz000733": {
-      "name": "振华科技",
-      "score": 45,
-      "financial": {
-        "roe": 6.74,
-        "roeTrend": "down",
-        "netProfitGrowth3y": [
-          12.57,
-          -63.83,
-          5.69
-        ],
-        "cashFlowPositive": true,
-        "grade": "C"
-      },
-      "technical": {
-        "trend": "sideways",
-        "aboveMa20": true,
-        "kdjSignal": "bearish",
-        "support": 44.07,
-        "resistance": 61.77,
-        "price": 51.08
-      },
-      "fundFlow": {
-        "mainNet5d": 0,
-        "r0Net": 0,
-        "netRatio": 0,
-        "trend": "neutral"
-      },
-      "action": "reduce",
-      "tags": [
-        "现金流正",
-        "资金平淡"
-      ],
-      "reason": "ROE=6.74%，资金不活跃"
-    },
     "sz002947": {
       "name": "恒铭达",
-      "score": 66,
+      "score": 57,
       "financial": {
         "roe": 17.02,
         "roeTrend": "up",
@@ -1106,12 +1024,12 @@
         "grade": "A"
       },
       "technical": {
-        "trend": "sideways",
+        "trend": "down",
         "aboveMa20": false,
         "kdjSignal": "bullish",
         "support": 80.3,
         "resistance": 105.0,
-        "price": 86.4
+        "price": 84.1
       },
       "fundFlow": {
         "mainNet5d": 0,
@@ -1124,14 +1042,15 @@
         "ROE健康",
         "现金流正",
         "利润连增",
+        "均线空头",
         "破位MA20",
         "资金平淡"
       ],
-      "reason": "财务优秀，ROE=17.02%，资金不活跃"
+      "reason": "财务优秀，ROE=17.02%，下降趋势，资金不活跃"
     },
     "sh600578": {
       "name": "京能电力",
-      "score": 66,
+      "score": 52,
       "financial": {
         "roe": 14.46,
         "roeTrend": "up",
@@ -1146,30 +1065,29 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": false,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "bearish",
         "support": 5.88,
         "resistance": 10.05,
-        "price": 8.22
+        "price": 7.78
       },
       "fundFlow": {
-        "mainNet5d": 1385.0,
-        "r0Net": 1403.0,
-        "netRatio": 0.237789,
-        "trend": "in"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
       "action": "hold",
       "tags": [
         "现金流正",
         "利润连增",
-        "KDJ死叉",
         "破位MA20",
-        "主力流入"
+        "资金平淡"
       ],
-      "reason": "财务良好，ROE=14.46%，主力净流入"
+      "reason": "财务良好，ROE=14.46%，资金不活跃"
     },
     "sz000021": {
       "name": "深科技",
-      "score": 65,
+      "score": 57,
       "financial": {
         "roe": 9.09,
         "roeTrend": "up",
@@ -1187,12 +1105,12 @@
         "kdjSignal": "bullish",
         "support": 32.66,
         "resistance": 46.81,
-        "price": 38.34
+        "price": 39.08
       },
       "fundFlow": {
-        "mainNet5d": 3712.0,
-        "r0Net": 3712.0,
-        "netRatio": 0.256658,
+        "mainNet5d": 20026.0,
+        "r0Net": 17043.0,
+        "netRatio": 0.0402893,
         "trend": "in"
       },
       "action": "hold",
@@ -1222,7 +1140,7 @@
         "kdjSignal": "bearish",
         "support": 8.18,
         "resistance": 10.91,
-        "price": 8.25
+        "price": 8.24
       },
       "fundFlow": {
         "mainNet5d": 0,
@@ -1241,7 +1159,7 @@
     },
     "sh600063": {
       "name": "皖维高新",
-      "score": 56,
+      "score": 42,
       "financial": {
         "roe": 5.12,
         "roeTrend": "down",
@@ -1254,31 +1172,30 @@
         "grade": "C"
       },
       "technical": {
-        "trend": "up",
+        "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "golden_cross",
+        "kdjSignal": "death_cross",
         "support": 5.9,
         "resistance": 8.5,
-        "price": 8.41
+        "price": 7.75
       },
       "fundFlow": {
-        "mainNet5d": -2149.0,
-        "r0Net": -1692.0,
-        "netRatio": -0.0751089,
-        "trend": "out"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
-      "action": "hold",
+      "action": "reduce",
       "tags": [
         "现金流正",
-        "均线多头",
-        "KDJ金叉",
-        "主力流出"
+        "KDJ死叉",
+        "资金平淡"
       ],
-      "reason": "ROE=5.12%，上升趋势，主力流出"
+      "reason": "ROE=5.12%，资金不活跃"
     },
     "sh600795": {
       "name": "国电电力",
-      "score": 52,
+      "score": 73,
       "financial": {
         "roe": 12.28,
         "roeTrend": "up",
@@ -1293,28 +1210,29 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": false,
-        "kdjSignal": "bearish",
+        "kdjSignal": "golden_cross",
         "support": 4.83,
         "resistance": 5.37,
-        "price": 4.92
+        "price": 4.99
       },
       "fundFlow": {
-        "mainNet5d": 0,
-        "r0Net": 0,
-        "netRatio": 0,
-        "trend": "neutral"
+        "mainNet5d": 13015.0,
+        "r0Net": 8859.0,
+        "netRatio": 0.149254,
+        "trend": "in"
       },
       "action": "hold",
       "tags": [
         "现金流正",
+        "KDJ金叉",
         "破位MA20",
-        "资金平淡"
+        "主力流入"
       ],
-      "reason": "财务良好，ROE=12.28%，资金不活跃"
+      "reason": "财务良好，ROE=12.28%，主力净流入"
     },
     "sh600549": {
       "name": "厦门钨业",
-      "score": 66,
+      "score": 76,
       "financial": {
         "roe": 13.99,
         "roeTrend": "down",
@@ -1331,27 +1249,27 @@
         "aboveMa20": true,
         "kdjSignal": "bullish",
         "support": 48.9,
-        "resistance": 65.87,
-        "price": 63.35
+        "resistance": 68.6,
+        "price": 67.44
       },
       "fundFlow": {
-        "mainNet5d": 0,
-        "r0Net": 0,
-        "netRatio": 0,
-        "trend": "neutral"
+        "mainNet5d": 60300.0,
+        "r0Net": 48683.0,
+        "netRatio": 0.0763972,
+        "trend": "in"
       },
-      "action": "hold",
+      "action": "buy",
       "tags": [
         "现金流正",
         "利润连增",
         "均线多头",
-        "资金平淡"
+        "主力流入"
       ],
-      "reason": "财务良好，ROE=13.99%，上升趋势，资金不活跃"
+      "reason": "财务良好，ROE=13.99%，上升趋势，主力净流入"
     },
     "sz300319": {
       "name": "麦捷科技",
-      "score": 62,
+      "score": 54,
       "financial": {
         "roe": 6.76,
         "roeTrend": "up",
@@ -1366,64 +1284,27 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "bearish",
         "support": 12.91,
         "resistance": 25.22,
-        "price": 22.08
+        "price": 20.81
       },
       "fundFlow": {
-        "mainNet5d": 15406.0,
-        "r0Net": 15406.0,
-        "netRatio": 0.871253,
+        "mainNet5d": 22047.0,
+        "r0Net": 22323.0,
+        "netRatio": 0.0589653,
         "trend": "in"
       },
       "action": "hold",
       "tags": [
         "现金流正",
-        "KDJ死叉",
         "主力流入"
       ],
       "reason": "ROE=6.76%，主力净流入"
     },
-    "sh600487": {
-      "name": "亨通光电",
-      "score": 49,
-      "financial": {
-        "roe": 8.96,
-        "roeTrend": "up",
-        "netProfitGrowth3y": [
-          35.77,
-          28.57,
-          -3.2
-        ],
-        "cashFlowPositive": true,
-        "grade": "C"
-      },
-      "technical": {
-        "trend": "up",
-        "aboveMa20": true,
-        "kdjSignal": "bullish",
-        "support": 65.62,
-        "resistance": 109.99,
-        "price": 106.88
-      },
-      "fundFlow": {
-        "mainNet5d": -79897.0,
-        "r0Net": -79897.0,
-        "netRatio": -0.337105,
-        "trend": "out"
-      },
-      "action": "reduce",
-      "tags": [
-        "现金流正",
-        "均线多头",
-        "主力流出"
-      ],
-      "reason": "ROE=8.96%，上升趋势，主力流出"
-    },
     "sz001896": {
       "name": "豫能控股",
-      "score": 82,
+      "score": 74,
       "financial": {
         "roe": 11.82,
         "roeTrend": "up",
@@ -1441,12 +1322,12 @@
         "kdjSignal": "bullish",
         "support": 14.38,
         "resistance": 24.04,
-        "price": 21.17
+        "price": 21.21
       },
       "fundFlow": {
-        "mainNet5d": 1622.0,
-        "r0Net": 1622.0,
-        "netRatio": 0.134578,
+        "mainNet5d": 9580.0,
+        "r0Net": 3197.0,
+        "netRatio": 0.0198542,
         "trend": "in"
       },
       "action": "buy",
@@ -1460,7 +1341,7 @@
     },
     "sz000063": {
       "name": "中兴通讯",
-      "score": 59,
+      "score": 40,
       "financial": {
         "roe": 7.58,
         "roeTrend": "down",
@@ -1473,67 +1354,29 @@
         "grade": "C"
       },
       "technical": {
-        "trend": "up",
+        "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "bearish",
         "support": 34.43,
         "resistance": 41.3,
-        "price": 38.42
+        "price": 37.81
       },
       "fundFlow": {
-        "mainNet5d": 1026.0,
-        "r0Net": 1026.0,
-        "netRatio": 0.0518886,
-        "trend": "in"
-      },
-      "action": "hold",
-      "tags": [
-        "现金流正",
-        "均线多头",
-        "KDJ死叉",
-        "主力流入"
-      ],
-      "reason": "ROE=7.58%，上升趋势，主力净流入"
-    },
-    "sz002179": {
-      "name": "中航光电",
-      "score": 42,
-      "financial": {
-        "roe": 9.16,
-        "roeTrend": "down",
-        "netProfitGrowth3y": [
-          22.86,
-          0.45,
-          -35.56
-        ],
-        "cashFlowPositive": true,
-        "grade": "C"
-      },
-      "technical": {
-        "trend": "sideways",
-        "aboveMa20": false,
-        "kdjSignal": "bullish",
-        "support": 34.79,
-        "resistance": 42.25,
-        "price": 37.16
-      },
-      "fundFlow": {
-        "mainNet5d": -1359.0,
-        "r0Net": -1094.0,
-        "netRatio": -0.14548,
+        "mainNet5d": -14324.0,
+        "r0Net": -14324.0,
+        "netRatio": -0.211663,
         "trend": "out"
       },
       "action": "reduce",
       "tags": [
         "现金流正",
-        "破位MA20",
         "主力流出"
       ],
-      "reason": "ROE=9.16%，主力流出"
+      "reason": "ROE=7.58%，主力流出"
     },
     "sz002608": {
       "name": "江苏国信",
-      "score": 72,
+      "score": 61,
       "financial": {
         "roe": 10.17,
         "roeTrend": "up",
@@ -1551,12 +1394,12 @@
         "kdjSignal": "bearish",
         "support": 7.89,
         "resistance": 11.13,
-        "price": 8.66
+        "price": 8.74
       },
       "fundFlow": {
-        "mainNet5d": 1232.0,
-        "r0Net": 1311.0,
-        "netRatio": 0.52594,
+        "mainNet5d": 4681.0,
+        "r0Net": 6152.0,
+        "netRatio": 0.065464,
         "trend": "in"
       },
       "action": "hold",
@@ -1570,7 +1413,7 @@
     },
     "sz002579": {
       "name": "中京电子",
-      "score": 59,
+      "score": 42,
       "financial": {
         "roe": 1.13,
         "roeTrend": "up",
@@ -1588,26 +1431,26 @@
         "kdjSignal": "bearish",
         "support": 12.6,
         "resistance": 21.88,
-        "price": 15.82
+        "price": 15.29
       },
       "fundFlow": {
-        "mainNet5d": 1406.0,
-        "r0Net": 1500.0,
-        "netRatio": 0.20004,
-        "trend": "in"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
-      "action": "hold",
+      "action": "reduce",
       "tags": [
         "现金流正",
         "利润连增",
         "破位MA20",
-        "主力流入"
+        "资金平淡"
       ],
-      "reason": "ROE=1.13%，主力净流入"
+      "reason": "ROE=1.13%，资金不活跃"
     },
     "sh600378": {
       "name": "昊华科技",
-      "score": 52,
+      "score": 74,
       "financial": {
         "roe": 8.19,
         "roeTrend": "down",
@@ -1623,27 +1466,27 @@
         "trend": "up",
         "aboveMa20": true,
         "kdjSignal": "bullish",
-        "support": 33.81,
-        "resistance": 58.08,
-        "price": 58.08
+        "support": 33.42,
+        "resistance": 63.5,
+        "price": 63.498
       },
       "fundFlow": {
-        "mainNet5d": -11074.0,
-        "r0Net": -12460.0,
-        "netRatio": -0.176211,
-        "trend": "out"
+        "mainNet5d": 174092.0,
+        "r0Net": 157593.0,
+        "netRatio": 0.344865,
+        "trend": "in"
       },
-      "action": "hold",
+      "action": "buy",
       "tags": [
         "现金流正",
         "均线多头",
-        "主力流出"
+        "主力流入"
       ],
-      "reason": "ROE=8.19%，上升趋势，主力流出"
+      "reason": "ROE=8.19%，上升趋势，主力净流入"
     },
     "sh603516": {
       "name": "淳中科技",
-      "score": 72,
+      "score": 53,
       "financial": {
         "roe": 17.74,
         "roeTrend": "up",
@@ -1661,25 +1504,25 @@
         "kdjSignal": "bearish",
         "support": 108.38,
         "resistance": 139.03,
-        "price": 115.77
+        "price": 113.95
       },
       "fundFlow": {
-        "mainNet5d": 750.0,
-        "r0Net": 595.0,
-        "netRatio": 0.409035,
-        "trend": "in"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
       "action": "hold",
       "tags": [
         "ROE健康",
         "破位MA20",
-        "主力流入"
+        "资金平淡"
       ],
-      "reason": "财务良好，ROE=17.74%，主力净流入"
+      "reason": "财务良好，ROE=17.74%，资金不活跃"
     },
     "sz000725": {
       "name": "京东方Ａ",
-      "score": 61,
+      "score": 53,
       "financial": {
         "roe": 4.39,
         "roeTrend": "down",
@@ -1694,63 +1537,27 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "bearish",
         "support": 4.08,
         "resistance": 6.77,
-        "price": 6.03
+        "price": 5.83
       },
       "fundFlow": {
-        "mainNet5d": 31073.0,
-        "r0Net": 31073.0,
-        "netRatio": 0.480531,
+        "mainNet5d": 27023.0,
+        "r0Net": 25138.0,
+        "netRatio": 0.0139036,
         "trend": "in"
       },
       "action": "hold",
       "tags": [
         "现金流正",
-        "KDJ死叉",
         "主力流入"
       ],
       "reason": "ROE=4.39%，主力净流入"
     },
-    "sh600721": {
-      "name": "百花医药",
-      "score": 48,
-      "financial": {
-        "roe": 5.21,
-        "roeTrend": "up",
-        "netProfitGrowth3y": [
-          137.31,
-          219.75,
-          -1.91
-        ],
-        "cashFlowPositive": true,
-        "grade": "C"
-      },
-      "technical": {
-        "trend": "sideways",
-        "aboveMa20": true,
-        "kdjSignal": "bullish",
-        "support": 6.97,
-        "resistance": 8.38,
-        "price": 8.02
-      },
-      "fundFlow": {
-        "mainNet5d": 0,
-        "r0Net": 0,
-        "netRatio": 0,
-        "trend": "neutral"
-      },
-      "action": "reduce",
-      "tags": [
-        "现金流正",
-        "资金平淡"
-      ],
-      "reason": "ROE=5.21%，资金不活跃"
-    },
     "sz002466": {
       "name": "天齐锂业",
-      "score": 62,
+      "score": 38,
       "financial": {
         "roe": 1.1,
         "roeTrend": "down",
@@ -1767,26 +1574,26 @@
         "aboveMa20": false,
         "kdjSignal": "bullish",
         "support": 54.87,
-        "resistance": 74.38,
-        "price": 59.48
+        "resistance": 71.42,
+        "price": 61.0
       },
       "fundFlow": {
-        "mainNet5d": 2229.0,
-        "r0Net": 2229.0,
-        "netRatio": 0.236707,
-        "trend": "in"
+        "mainNet5d": -14255.0,
+        "r0Net": -14255.0,
+        "netRatio": -0.329119,
+        "trend": "out"
       },
-      "action": "hold",
+      "action": "reduce",
       "tags": [
         "现金流正",
         "破位MA20",
-        "主力流入"
+        "主力流出"
       ],
-      "reason": "ROE=1.1%，主力净流入"
+      "reason": "ROE=1.1%，主力流出"
     },
     "sz002080": {
       "name": "中材科技",
-      "score": 64,
+      "score": 53,
       "financial": {
         "roe": 9.49,
         "roeTrend": "down",
@@ -1804,12 +1611,12 @@
         "kdjSignal": "bullish",
         "support": 57.8,
         "resistance": 76.63,
-        "price": 62.8
+        "price": 63.88
       },
       "fundFlow": {
-        "mainNet5d": 3698.0,
-        "r0Net": 3698.0,
-        "netRatio": 0.423316,
+        "mainNet5d": 9063.0,
+        "r0Net": 1304.0,
+        "netRatio": 0.027139,
         "trend": "in"
       },
       "action": "hold",
@@ -1822,7 +1629,7 @@
     },
     "sh600255": {
       "name": "鑫科材料",
-      "score": 65,
+      "score": 63,
       "financial": {
         "roe": 2.14,
         "roeTrend": "down",
@@ -1840,12 +1647,12 @@
         "kdjSignal": "bearish",
         "support": 3.4,
         "resistance": 4.83,
-        "price": 4.01
+        "price": 4.27
       },
       "fundFlow": {
-        "mainNet5d": 2454.0,
-        "r0Net": 2510.0,
-        "netRatio": 0.597914,
+        "mainNet5d": 74410.0,
+        "r0Net": 51885.0,
+        "netRatio": 0.376721,
         "trend": "in"
       },
       "action": "hold",
@@ -1856,7 +1663,7 @@
     },
     "sh600522": {
       "name": "中天科技",
-      "score": 69,
+      "score": 40,
       "financial": {
         "roe": 8.0,
         "roeTrend": "down",
@@ -1869,31 +1676,29 @@
         "grade": "C"
       },
       "technical": {
-        "trend": "up",
+        "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "bearish",
         "support": 37.75,
         "resistance": 54.48,
-        "price": 50.2
+        "price": 49.27
       },
       "fundFlow": {
-        "mainNet5d": 15299.0,
-        "r0Net": 15299.0,
-        "netRatio": 0.462858,
-        "trend": "in"
+        "mainNet5d": -24736.0,
+        "r0Net": -24736.0,
+        "netRatio": -0.242653,
+        "trend": "out"
       },
-      "action": "hold",
+      "action": "reduce",
       "tags": [
         "现金流正",
-        "均线多头",
-        "KDJ死叉",
-        "主力流入"
+        "主力流出"
       ],
-      "reason": "ROE=8.0%，上升趋势，主力净流入"
+      "reason": "ROE=8.0%，主力流出"
     },
     "sz000970": {
       "name": "中科三环",
-      "score": 45,
+      "score": 50,
       "financial": {
         "roe": 1.41,
         "roeTrend": "down",
@@ -1906,28 +1711,29 @@
         "grade": "C"
       },
       "technical": {
-        "trend": "sideways",
+        "trend": "up",
         "aboveMa20": true,
         "kdjSignal": "bullish",
         "support": 10.71,
         "resistance": 14.49,
-        "price": 14.495
+        "price": 14.03
       },
       "fundFlow": {
-        "mainNet5d": -5298.0,
-        "r0Net": -5164.0,
-        "netRatio": -0.126453,
+        "mainNet5d": -3159.0,
+        "r0Net": -2915.0,
+        "netRatio": -0.258396,
         "trend": "out"
       },
-      "action": "reduce",
+      "action": "hold",
       "tags": [
+        "均线多头",
         "主力流出"
       ],
-      "reason": "ROE=1.41%，主力流出"
+      "reason": "ROE=1.41%，上升趋势，主力流出"
     },
     "sh601208": {
       "name": "东材科技",
-      "score": 66,
+      "score": 53,
       "financial": {
         "roe": 5.61,
         "roeTrend": "down",
@@ -1945,25 +1751,25 @@
         "kdjSignal": "bullish",
         "support": 43.8,
         "resistance": 64.34,
-        "price": 62.35
+        "price": 61.72
       },
       "fundFlow": {
-        "mainNet5d": 1419.0,
-        "r0Net": 1419.0,
-        "netRatio": 0.0892181,
-        "trend": "in"
+        "mainNet5d": -5669.0,
+        "r0Net": -5669.0,
+        "netRatio": -0.132048,
+        "trend": "out"
       },
       "action": "hold",
       "tags": [
         "现金流正",
         "均线多头",
-        "主力流入"
+        "主力流出"
       ],
-      "reason": "ROE=5.61%，上升趋势，主力净流入"
+      "reason": "ROE=5.61%，上升趋势，主力流出"
     },
     "sz002669": {
       "name": "康达新材",
-      "score": 47,
+      "score": 42,
       "financial": {
         "roe": 4.59,
         "roeTrend": "up",
@@ -1976,29 +1782,29 @@
         "grade": "C"
       },
       "technical": {
-        "trend": "up",
+        "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "bullish",
+        "kdjSignal": "death_cross",
         "support": 13.28,
         "resistance": 19.13,
-        "price": 19.13
+        "price": 17.22
       },
       "fundFlow": {
-        "mainNet5d": -13729.0,
-        "r0Net": -14126.0,
-        "netRatio": -0.417278,
-        "trend": "out"
+        "mainNet5d": 0,
+        "r0Net": 0,
+        "netRatio": 0,
+        "trend": "neutral"
       },
       "action": "reduce",
       "tags": [
-        "均线多头",
-        "主力流出"
+        "KDJ死叉",
+        "资金平淡"
       ],
-      "reason": "ROE=4.59%，上升趋势，主力流出"
+      "reason": "ROE=4.59%，资金不活跃"
     },
     "sh600596": {
       "name": "新安股份",
-      "score": 70,
+      "score": 42,
       "financial": {
         "roe": 1.18,
         "roeTrend": "down",
@@ -2011,31 +1817,29 @@
         "grade": "C"
       },
       "technical": {
-        "trend": "up",
+        "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "bearish",
         "support": 11.47,
         "resistance": 15.82,
-        "price": 14.83
+        "price": 14.3
       },
       "fundFlow": {
-        "mainNet5d": 3102.0,
-        "r0Net": 2967.0,
-        "netRatio": 0.525498,
-        "trend": "in"
+        "mainNet5d": -1229.0,
+        "r0Net": -1257.0,
+        "netRatio": -0.139127,
+        "trend": "out"
       },
-      "action": "buy",
+      "action": "reduce",
       "tags": [
         "现金流正",
-        "均线多头",
-        "KDJ死叉",
-        "主力流入"
+        "主力流出"
       ],
-      "reason": "ROE=1.18%，上升趋势，主力净流入"
+      "reason": "ROE=1.18%，主力流出"
     },
     "sz300395": {
       "name": "菲利华",
-      "score": 75,
+      "score": 63,
       "financial": {
         "roe": 10.15,
         "roeTrend": "down",
@@ -2053,12 +1857,12 @@
         "kdjSignal": "bullish",
         "support": 111.51,
         "resistance": 153.58,
-        "price": 121.31
+        "price": 124.0
       },
       "fundFlow": {
-        "mainNet5d": 11364.0,
-        "r0Net": 11364.0,
-        "netRatio": 0.913355,
+        "mainNet5d": 13993.0,
+        "r0Net": 13170.0,
+        "netRatio": 0.0293572,
         "trend": "in"
       },
       "action": "hold",
@@ -2071,7 +1875,7 @@
     },
     "sz000776": {
       "name": "广发证券",
-      "score": 77,
+      "score": 55,
       "financial": {
         "roe": 10.16,
         "roeTrend": "up",
@@ -2085,29 +1889,27 @@
       },
       "technical": {
         "trend": "sideways",
-        "aboveMa20": false,
-        "kdjSignal": "golden_cross",
+        "aboveMa20": true,
+        "kdjSignal": "bullish",
         "support": 18.38,
-        "resistance": 20.94,
-        "price": 19.06
+        "resistance": 20.45,
+        "price": 19.15
       },
       "fundFlow": {
-        "mainNet5d": 1650.0,
-        "r0Net": 1433.0,
-        "netRatio": 0.50889,
-        "trend": "in"
+        "mainNet5d": -1023.0,
+        "r0Net": -867.0,
+        "netRatio": -0.123282,
+        "trend": "out"
       },
       "action": "hold",
       "tags": [
-        "KDJ金叉",
-        "破位MA20",
-        "主力流入"
+        "主力流出"
       ],
-      "reason": "财务良好，ROE=10.16%，主力净流入"
+      "reason": "财务良好，ROE=10.16%，主力流出"
     },
     "sz000688": {
       "name": "国城矿业",
-      "score": 76,
+      "score": 77,
       "financial": {
         "roe": 22.97,
         "roeTrend": "up",
@@ -2121,30 +1923,29 @@
       },
       "technical": {
         "trend": "sideways",
-        "aboveMa20": false,
+        "aboveMa20": true,
         "kdjSignal": "bullish",
         "support": 37.01,
         "resistance": 46.06,
-        "price": 41.2
+        "price": 45.32
       },
       "fundFlow": {
-        "mainNet5d": 1785.0,
-        "r0Net": 1748.0,
-        "netRatio": 0.440749,
+        "mainNet5d": 56107.0,
+        "r0Net": 39869.0,
+        "netRatio": 0.247638,
         "trend": "in"
       },
       "action": "hold",
       "tags": [
         "ROE健康",
         "现金流正",
-        "破位MA20",
         "主力流入"
       ],
       "reason": "财务良好，ROE=22.97%，主力净流入"
     },
     "sh600498": {
       "name": "烽火通信",
-      "score": 61,
+      "score": 68,
       "financial": {
         "roe": 3.14,
         "roeTrend": "down",
@@ -2159,28 +1960,28 @@
       "technical": {
         "trend": "sideways",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "golden_cross",
         "support": 46.09,
-        "resistance": 62.99,
-        "price": 55.7
+        "resistance": 61.27,
+        "price": 60.99
       },
       "fundFlow": {
-        "mainNet5d": 7017.0,
-        "r0Net": 7017.0,
-        "netRatio": 0.428348,
+        "mainNet5d": 509020.0,
+        "r0Net": 466490.0,
+        "netRatio": 0.35907,
         "trend": "in"
       },
       "action": "hold",
       "tags": [
         "现金流正",
-        "KDJ死叉",
+        "KDJ金叉",
         "主力流入"
       ],
       "reason": "ROE=3.14%，主力净流入"
     },
     "sh601336": {
       "name": "新华保险",
-      "score": 57,
+      "score": 53,
       "financial": {
         "roe": 34.69,
         "roeTrend": "up",
@@ -2194,30 +1995,29 @@
       },
       "technical": {
         "trend": "sideways",
-        "aboveMa20": false,
+        "aboveMa20": true,
         "kdjSignal": "bullish",
         "support": 55.01,
-        "resistance": 64.19,
-        "price": 58.03
+        "resistance": 62.67,
+        "price": 59.22
       },
       "fundFlow": {
-        "mainNet5d": 0,
-        "r0Net": 0,
-        "netRatio": 0,
-        "trend": "neutral"
+        "mainNet5d": -5650.0,
+        "r0Net": -5650.0,
+        "netRatio": -0.335001,
+        "trend": "out"
       },
       "action": "hold",
       "tags": [
         "ROE健康",
         "现金流正",
-        "破位MA20",
-        "资金平淡"
+        "主力流出"
       ],
-      "reason": "财务良好，ROE=34.69%，资金不活跃"
+      "reason": "财务良好，ROE=34.69%，主力流出"
     },
     "sz002165": {
       "name": "红 宝 丽",
-      "score": 55,
+      "score": 66,
       "financial": {
         "roe": 0.85,
         "roeTrend": "up",
@@ -2231,103 +2031,28 @@
       },
       "technical": {
         "trend": "sideways",
-        "aboveMa20": false,
+        "aboveMa20": true,
         "kdjSignal": "bullish",
         "support": 6.41,
         "resistance": 10.23,
-        "price": 7.3
+        "price": 8.03
       },
       "fundFlow": {
-        "mainNet5d": 1604.0,
-        "r0Net": 1604.0,
-        "netRatio": 0.0799183,
+        "mainNet5d": 43592.0,
+        "r0Net": 28841.0,
+        "netRatio": 0.319085,
         "trend": "in"
       },
       "action": "hold",
       "tags": [
         "现金流正",
-        "破位MA20",
         "主力流入"
       ],
       "reason": "ROE=0.85%，主力净流入"
     },
-    "sz001696": {
-      "name": "宗申动力",
-      "score": 76,
-      "financial": {
-        "roe": 12.82,
-        "roeTrend": "up",
-        "netProfitGrowth3y": [
-          -7.26,
-          27.45,
-          44.25
-        ],
-        "cashFlowPositive": true,
-        "grade": "B"
-      },
-      "technical": {
-        "trend": "sideways",
-        "aboveMa20": true,
-        "kdjSignal": "bullish",
-        "support": 13.98,
-        "resistance": 19.31,
-        "price": 19.05
-      },
-      "fundFlow": {
-        "mainNet5d": 8369.0,
-        "r0Net": 8369.0,
-        "netRatio": 0.351375,
-        "trend": "in"
-      },
-      "action": "hold",
-      "tags": [
-        "现金流正",
-        "主力流入"
-      ],
-      "reason": "财务良好，ROE=12.82%，主力净流入"
-    },
-    "sz002254": {
-      "name": "泰和新材",
-      "score": 60,
-      "financial": {
-        "roe": 0.58,
-        "roeTrend": "down",
-        "netProfitGrowth3y": [
-          -23.59,
-          -73.61,
-          -52.81
-        ],
-        "cashFlowPositive": true,
-        "grade": "D"
-      },
-      "technical": {
-        "trend": "up",
-        "aboveMa20": true,
-        "kdjSignal": "death_cross",
-        "support": 12.97,
-        "resistance": 18.79,
-        "price": 17.2
-      },
-      "fundFlow": {
-        "mainNet5d": 14522.0,
-        "r0Net": 14522.0,
-        "netRatio": 0.591103,
-        "trend": "in"
-      },
-      "action": "eliminate",
-      "tags": [
-        "现金流正",
-        "财务预警",
-        "利润连降",
-        "均线多头",
-        "KDJ死叉",
-        "主力流入"
-      ],
-      "reason": "财务不佳，ROE=0.58%，上升趋势，主力净流入"
-    },
     "sh600505": {
       "name": "西昌电力",
-      "score": 70,
+      "score": 68,
       "financial": {
         "roe": 0.98,
         "roeTrend": "down",
@@ -2342,64 +2067,29 @@
       "technical": {
         "trend": "up",
         "aboveMa20": true,
-        "kdjSignal": "death_cross",
+        "kdjSignal": "golden_cross",
         "support": 12.25,
-        "resistance": 15.17,
-        "price": 14.38
+        "resistance": 15.2,
+        "price": 14.86
       },
       "fundFlow": {
-        "mainNet5d": 657.0,
-        "r0Net": 649.0,
-        "netRatio": 0.578403,
+        "mainNet5d": 5432.0,
+        "r0Net": 4786.0,
+        "netRatio": 0.0869513,
         "trend": "in"
       },
-      "action": "buy",
+      "action": "hold",
       "tags": [
         "现金流正",
         "均线多头",
-        "KDJ死叉",
+        "KDJ金叉",
         "主力流入"
       ],
       "reason": "ROE=0.98%，上升趋势，主力净流入"
     },
-    "sz000584": {
-      "name": "工智退",
-      "score": 28,
-      "financial": {
-        "roe": -49.39,
-        "roeTrend": "down",
-        "netProfitGrowth3y": [
-          -33.01,
-          48.67,
-          46.54
-        ],
-        "cashFlowPositive": false,
-        "grade": "D"
-      },
-      "technical": {
-        "trend": "unknown",
-        "aboveMa20": null,
-        "kdjSignal": "unknown",
-        "support": null,
-        "resistance": null,
-        "price": null
-      },
-      "fundFlow": {
-        "mainNet5d": 0,
-        "r0Net": 0,
-        "netRatio": 0,
-        "trend": "neutral"
-      },
-      "action": "eliminate",
-      "tags": [
-        "财务预警",
-        "资金平淡"
-      ],
-      "reason": "财务不佳，ROE=-49.39%，资金不活跃"
-    },
     "sh600096": {
       "name": "云天化",
-      "score": 67,
+      "score": 66,
       "financial": {
         "roe": 21.87,
         "roeTrend": "down",
@@ -2412,105 +2102,408 @@
         "grade": "B"
       },
       "technical": {
-        "trend": "down",
+        "trend": "sideways",
         "aboveMa20": false,
         "kdjSignal": "bullish",
         "support": 28.09,
-        "resistance": 33.51,
-        "price": 28.7
+        "resistance": 33.14,
+        "price": 29.99
       },
       "fundFlow": {
-        "mainNet5d": 2887.0,
-        "r0Net": 2887.0,
-        "netRatio": 0.485186,
+        "mainNet5d": 9438.0,
+        "r0Net": 3320.0,
+        "netRatio": 0.0588941,
         "trend": "in"
       },
       "action": "hold",
       "tags": [
         "ROE健康",
         "现金流正",
-        "均线空头",
         "破位MA20",
         "主力流入"
       ],
-      "reason": "财务良好，ROE=21.87%，下降趋势，主力净流入"
+      "reason": "财务良好，ROE=21.87%，主力净流入"
+    },
+    "sz002428": {
+      "name": "云南锗业",
+      "score": 68,
+      "financial": {
+        "roe": 1.37,
+        "roeTrend": "up",
+        "netProfitGrowth3y": [
+          111.18,
+          661.28,
+          -62.06
+        ],
+        "cashFlowPositive": false,
+        "grade": "C"
+      },
+      "technical": {
+        "trend": "sideways",
+        "aboveMa20": true,
+        "kdjSignal": "golden_cross",
+        "support": 78.0,
+        "resistance": 97.28,
+        "price": 88.24
+      },
+      "fundFlow": {
+        "mainNet5d": 371805.0,
+        "r0Net": 366397.0,
+        "netRatio": 0.330377,
+        "trend": "in"
+      },
+      "action": "hold",
+      "tags": [
+        "KDJ金叉",
+        "主力流入"
+      ],
+      "reason": "ROE=1.37%，主力净流入"
+    },
+    "sz300666": {
+      "name": "江丰电子",
+      "score": 84,
+      "financial": {
+        "roe": 10.58,
+        "roeTrend": "down",
+        "netProfitGrowth3y": [
+          -3.35,
+          56.79,
+          24.7
+        ],
+        "cashFlowPositive": true,
+        "grade": "B"
+      },
+      "technical": {
+        "trend": "up",
+        "aboveMa20": true,
+        "kdjSignal": "bullish",
+        "support": 180.73,
+        "resistance": 292.4,
+        "price": 292.4
+      },
+      "fundFlow": {
+        "mainNet5d": 232110.0,
+        "r0Net": 210203.0,
+        "netRatio": 0.385851,
+        "trend": "in"
+      },
+      "action": "buy",
+      "tags": [
+        "现金流正",
+        "均线多头",
+        "主力流入"
+      ],
+      "reason": "财务良好，ROE=10.58%，上升趋势，主力净流入"
+    },
+    "sh600667": {
+      "name": "太极实业",
+      "score": 74,
+      "financial": {
+        "roe": 5.22,
+        "roeTrend": "up",
+        "netProfitGrowth3y": [
+          198.35,
+          -9.98,
+          -31.84
+        ],
+        "cashFlowPositive": true,
+        "grade": "C"
+      },
+      "technical": {
+        "trend": "up",
+        "aboveMa20": true,
+        "kdjSignal": "bullish",
+        "support": 12.14,
+        "resistance": 17.51,
+        "price": 17.51
+      },
+      "fundFlow": {
+        "mainNet5d": 209863.0,
+        "r0Net": 175374.0,
+        "netRatio": 0.370664,
+        "trend": "in"
+      },
+      "action": "buy",
+      "tags": [
+        "现金流正",
+        "均线多头",
+        "主力流入"
+      ],
+      "reason": "ROE=5.22%，上升趋势，主力净流入"
+    },
+    "sz002654": {
+      "name": "万润科技",
+      "score": 64,
+      "financial": {
+        "roe": 2.07,
+        "roeTrend": "up",
+        "netProfitGrowth3y": [
+          126.47,
+          38.62,
+          -48.8
+        ],
+        "cashFlowPositive": true,
+        "grade": "C"
+      },
+      "technical": {
+        "trend": "sideways",
+        "aboveMa20": false,
+        "kdjSignal": "bullish",
+        "support": 14.07,
+        "resistance": 20.1,
+        "price": 16.16
+      },
+      "fundFlow": {
+        "mainNet5d": 72425.0,
+        "r0Net": 56189.0,
+        "netRatio": 0.45417,
+        "trend": "in"
+      },
+      "action": "hold",
+      "tags": [
+        "现金流正",
+        "破位MA20",
+        "主力流入"
+      ],
+      "reason": "ROE=2.07%，主力净流入"
+    },
+    "sh601958": {
+      "name": "金钼股份",
+      "score": 78,
+      "financial": {
+        "roe": 17.38,
+        "roeTrend": "up",
+        "netProfitGrowth3y": [
+          132.19,
+          -3.76,
+          5.77
+        ],
+        "cashFlowPositive": true,
+        "grade": "B"
+      },
+      "technical": {
+        "trend": "sideways",
+        "aboveMa20": true,
+        "kdjSignal": "bullish",
+        "support": 19.8,
+        "resistance": 26.85,
+        "price": 23.2
+      },
+      "fundFlow": {
+        "mainNet5d": 51477.0,
+        "r0Net": 35313.0,
+        "netRatio": 0.482059,
+        "trend": "in"
+      },
+      "action": "hold",
+      "tags": [
+        "ROE健康",
+        "现金流正",
+        "主力流入"
+      ],
+      "reason": "财务良好，ROE=17.38%，主力净流入"
+    },
+    "sh600353": {
+      "name": "旭光电子",
+      "score": 74,
+      "financial": {
+        "roe": 8.6,
+        "roeTrend": "down",
+        "netProfitGrowth3y": [
+          -7.39,
+          10.53,
+          57.67
+        ],
+        "cashFlowPositive": true,
+        "grade": "C"
+      },
+      "technical": {
+        "trend": "up",
+        "aboveMa20": true,
+        "kdjSignal": "bullish",
+        "support": 20.76,
+        "resistance": 29.94,
+        "price": 29.94
+      },
+      "fundFlow": {
+        "mainNet5d": 107493.0,
+        "r0Net": 82098.0,
+        "netRatio": 0.356765,
+        "trend": "in"
+      },
+      "action": "buy",
+      "tags": [
+        "现金流正",
+        "均线多头",
+        "主力流入"
+      ],
+      "reason": "ROE=8.6%，上升趋势，主力净流入"
+    },
+    "sz300263": {
+      "name": "隆华科技",
+      "score": 67,
+      "financial": {
+        "roe": 5.28,
+        "roeTrend": "up",
+        "netProfitGrowth3y": [
+          97.15,
+          3.37,
+          45.03
+        ],
+        "cashFlowPositive": true,
+        "grade": "C"
+      },
+      "technical": {
+        "trend": "sideways",
+        "aboveMa20": true,
+        "kdjSignal": "bullish",
+        "support": 10.77,
+        "resistance": 14.48,
+        "price": 14.18
+      },
+      "fundFlow": {
+        "mainNet5d": 121588.0,
+        "r0Net": 107639.0,
+        "netRatio": 0.45804,
+        "trend": "in"
+      },
+      "action": "hold",
+      "tags": [
+        "现金流正",
+        "利润连增",
+        "主力流入"
+      ],
+      "reason": "ROE=5.28%，主力净流入"
+    },
+    "sh603399": {
+      "name": "永杉锂业",
+      "score": 55,
+      "financial": {
+        "roe": -20.63,
+        "roeTrend": "down",
+        "netProfitGrowth3y": [
+          -168.52,
+          107.54,
+          -1411.34
+        ],
+        "cashFlowPositive": false,
+        "grade": "D"
+      },
+      "technical": {
+        "trend": "sideways",
+        "aboveMa20": true,
+        "kdjSignal": "bullish",
+        "support": 15.34,
+        "resistance": 21.8,
+        "price": 19.18
+      },
+      "fundFlow": {
+        "mainNet5d": 47423.0,
+        "r0Net": 37416.0,
+        "netRatio": 0.282738,
+        "trend": "in"
+      },
+      "action": "eliminate",
+      "tags": [
+        "财务预警",
+        "主力流入"
+      ],
+      "reason": "财务不佳，ROE=-20.63%，主力净流入"
     }
   },
   "todayAdded": [
     {
-      "code": "sh600505",
-      "name": "西昌电力",
-      "score": 70,
-      "sector": "成渝特区"
+      "code": "sh601958",
+      "name": "金钼股份",
+      "score": 78,
+      "sector": "融资融券"
     },
     {
-      "code": "sh600096",
-      "name": "云天化",
+      "code": "sh600667",
+      "name": "太极实业",
+      "score": 74,
+      "sector": "融资融券"
+    },
+    {
+      "code": "sh600353",
+      "name": "旭光电子",
+      "score": 74,
+      "sector": "国防军工"
+    },
+    {
+      "code": "sz002428",
+      "name": "云南锗业",
+      "score": 68,
+      "sector": "稀缺资源"
+    },
+    {
+      "code": "sz300263",
+      "name": "隆华科技",
       "score": 67,
-      "sector": "聚氨酯"
+      "sector": "股权激励"
     }
   ],
   "todayRemoved": [
     {
-      "code": "sh600221",
-      "name": "海航控股",
-      "date": "2026-06-11",
+      "code": "sz002466",
+      "name": "天齐锂业",
+      "date": "2026-06-12",
       "score": 38,
       "reason": "评分最低淘汰"
     },
     {
-      "code": "sz002179",
-      "name": "中航光电",
-      "date": "2026-06-11",
+      "code": "sz000063",
+      "name": "中兴通讯",
+      "date": "2026-06-12",
+      "score": 40,
+      "reason": "评分最低淘汰"
+    },
+    {
+      "code": "sh600522",
+      "name": "中天科技",
+      "date": "2026-06-12",
+      "score": 40,
+      "reason": "评分最低淘汰"
+    },
+    {
+      "code": "sh600063",
+      "name": "皖维高新",
+      "date": "2026-06-12",
       "score": 42,
       "reason": "评分最低淘汰"
     },
     {
-      "code": "sz000733",
-      "name": "振华科技",
-      "date": "2026-06-11",
-      "score": 45,
-      "reason": "评分最低淘汰"
-    },
-    {
-      "code": "sh600721",
-      "name": "百花医药",
-      "date": "2026-06-11",
-      "score": 48,
-      "reason": "评分最低淘汰"
-    },
-    {
-      "code": "sh600487",
-      "name": "亨通光电",
-      "date": "2026-06-11",
-      "score": 49,
+      "code": "sz002579",
+      "name": "中京电子",
+      "date": "2026-06-12",
+      "score": 42,
       "reason": "评分最低淘汰"
     }
   ],
   "eliminate": [
     {
-      "code": "sh600221",
-      "name": "海航控股",
+      "code": "sz002466",
+      "name": "天齐锂业",
       "reason": "评分最低淘汰"
     },
     {
-      "code": "sz002179",
-      "name": "中航光电",
+      "code": "sz000063",
+      "name": "中兴通讯",
       "reason": "评分最低淘汰"
     },
     {
-      "code": "sz000733",
-      "name": "振华科技",
+      "code": "sh600522",
+      "name": "中天科技",
       "reason": "评分最低淘汰"
     },
     {
-      "code": "sh600721",
-      "name": "百花医药",
+      "code": "sh600063",
+      "name": "皖维高新",
       "reason": "评分最低淘汰"
     },
     {
-      "code": "sh600487",
-      "name": "亨通光电",
+      "code": "sz002579",
+      "name": "中京电子",
       "reason": "评分最低淘汰"
     }
   ],

@@ -1,7 +1,7 @@
 {
-  "version": "20260611b",
+  "version": "20260612a",
   "startDate": "2026-03-12",
-  "dayCount": 92,
+  "dayCount": 93,
   "stocks": [
     {
       "code": "sz002436",
@@ -221,13 +221,6 @@
       "source": "sector:光伏"
     },
     {
-      "code": "sh600063",
-      "name": "皖维高新",
-      "group": "focus",
-      "addedDate": "2026-05-28",
-      "source": "sector:光伏"
-    },
-    {
       "code": "sh600795",
       "name": "国电电力",
       "group": "focus",
@@ -256,25 +249,11 @@
       "source": "sector:风电"
     },
     {
-      "code": "sz000063",
-      "name": "中兴通讯",
-      "group": "focus",
-      "addedDate": "2026-06-03",
-      "source": "sector:5G概念"
-    },
-    {
       "code": "sz002608",
       "name": "江苏国信",
       "group": "focus",
       "addedDate": "2026-06-04",
       "source": "sector:业绩预升"
-    },
-    {
-      "code": "sz002579",
-      "name": "中京电子",
-      "group": "focus",
-      "addedDate": "2026-06-04",
-      "source": "sector:华为概念"
     },
     {
       "code": "sh600378",
@@ -298,13 +277,6 @@
       "source": "sector:含B股"
     },
     {
-      "code": "sz002466",
-      "name": "天齐锂业",
-      "group": "focus",
-      "addedDate": "2026-06-08",
-      "source": "sector:特斯拉"
-    },
-    {
       "code": "sz002080",
       "name": "中材科技",
       "group": "focus",
@@ -317,13 +289,6 @@
       "group": "focus",
       "addedDate": "2026-06-09",
       "source": "sector:超导概念"
-    },
-    {
-      "code": "sh600522",
-      "name": "中天科技",
-      "group": "focus",
-      "addedDate": "2026-06-09",
-      "source": "sector:海工装备"
     },
     {
       "code": "sz000970",
@@ -408,17 +373,55 @@
       "group": "focus",
       "addedDate": "2026-06-11",
       "source": "sector:聚氨酯"
+    },
+    {
+      "code": "sh601958",
+      "name": "金钼股份",
+      "group": "focus",
+      "addedDate": "2026-06-12",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600667",
+      "name": "太极实业",
+      "group": "focus",
+      "addedDate": "2026-06-12",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600353",
+      "name": "旭光电子",
+      "group": "focus",
+      "addedDate": "2026-06-12",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz002428",
+      "name": "云南锗业",
+      "group": "focus",
+      "addedDate": "2026-06-12",
+      "source": "sector:稀缺资源"
+    },
+    {
+      "code": "sz300263",
+      "name": "隆华科技",
+      "group": "focus",
+      "addedDate": "2026-06-12",
+      "source": "sector:股权激励"
     }
   ],
   "todayAdded": [
-    "sh600505",
-    "sh600096"
+    "sh601958",
+    "sh600667",
+    "sh600353",
+    "sz002428",
+    "sz300263"
   ],
   "todayRemoved": [
-    "sh600221",
-    "sz002179",
-    "sz000733",
-    "sh600721",
-    "sh600487"
+    "sz002466",
+    "sz000063",
+    "sh600522",
+    "sh600063",
+    "sz002579"
   ]
 }
