@@ -1,7 +1,7 @@
 {
-  "version": "20260612a",
+  "version": "20260615a",
   "startDate": "2026-03-12",
-  "dayCount": 93,
+  "dayCount": 96,
   "stocks": [
     {
       "code": "sz002436",
@@ -207,13 +207,6 @@
       "source": "sector:业绩预升"
     },
     {
-      "code": "sz000021",
-      "name": "深科技",
-      "group": "focus",
-      "addedDate": "2026-05-26",
-      "source": "sector:华为概念"
-    },
-    {
       "code": "sz000791",
       "name": "甘肃能源",
       "group": "focus",
@@ -277,13 +270,6 @@
       "source": "sector:含B股"
     },
     {
-      "code": "sz002080",
-      "name": "中材科技",
-      "group": "focus",
-      "addedDate": "2026-06-09",
-      "source": "sector:风电"
-    },
-    {
       "code": "sh600255",
       "name": "鑫科材料",
       "group": "focus",
@@ -303,13 +289,6 @@
       "group": "focus",
       "addedDate": "2026-06-10",
       "source": "sector:光伏"
-    },
-    {
-      "code": "sz002669",
-      "name": "康达新材",
-      "group": "focus",
-      "addedDate": "2026-06-10",
-      "source": "sector:光伏概念"
     },
     {
       "code": "sh600596",
@@ -354,20 +333,6 @@
       "source": "sector:含H股"
     },
     {
-      "code": "sz002165",
-      "name": "红 宝 丽",
-      "group": "focus",
-      "addedDate": "2026-06-11",
-      "source": "sector:聚氨酯"
-    },
-    {
-      "code": "sh600505",
-      "name": "西昌电力",
-      "group": "focus",
-      "addedDate": "2026-06-11",
-      "source": "sector:成渝特区"
-    },
-    {
       "code": "sh600096",
       "name": "云天化",
       "group": "focus",
@@ -408,20 +373,55 @@
       "group": "focus",
       "addedDate": "2026-06-12",
       "source": "sector:股权激励"
+    },
+    {
+      "code": "sz000737",
+      "name": "北方铜业",
+      "group": "focus",
+      "addedDate": "2026-06-15",
+      "source": "sector:参股金融"
+    },
+    {
+      "code": "sh600489",
+      "name": "中金黄金",
+      "group": "focus",
+      "addedDate": "2026-06-15",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000960",
+      "name": "锡业股份",
+      "group": "focus",
+      "addedDate": "2026-06-15",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000792",
+      "name": "盐湖股份",
+      "group": "focus",
+      "addedDate": "2026-06-15",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz002378",
+      "name": "章源钨业",
+      "group": "focus",
+      "addedDate": "2026-06-15",
+      "source": "sector:稀缺资源"
     }
   ],
   "todayAdded": [
-    "sh601958",
-    "sh600667",
-    "sh600353",
-    "sz002428",
-    "sz300263"
+    "sz000737",
+    "sh600489",
+    "sz000960",
+    "sz000792",
+    "sz002378"
   ],
   "todayRemoved": [
-    "sz002466",
-    "sz000063",
-    "sh600522",
-    "sh600063",
-    "sz002579"
+    "sz000021",
+    "sz002080",
+    "sz002669",
+    "sh600505",
+    "sz002165"
   ]
 }
