@@ -1,7 +1,7 @@
 {
-  "version": "20260615a",
+  "version": "20260616a",
   "startDate": "2026-03-12",
-  "dayCount": 96,
+  "dayCount": 97,
   "stocks": [
     {
       "code": "sz002436",
@@ -37,13 +37,6 @@
       "group": "focus",
       "addedDate": "2026-04-27",
       "source": "sector:特斯拉"
-    },
-    {
-      "code": "sz002938",
-      "name": "鹏鼎控股",
-      "group": "focus",
-      "addedDate": "2026-03-16",
-      "source": "sector:无线耳机"
     },
     {
       "code": "sh600415",
@@ -249,13 +242,6 @@
       "source": "sector:业绩预升"
     },
     {
-      "code": "sh600378",
-      "name": "昊华科技",
-      "group": "focus",
-      "addedDate": "2026-06-05",
-      "source": "sector:国防军工"
-    },
-    {
       "code": "sh603516",
       "name": "淳中科技",
       "group": "focus",
@@ -268,13 +254,6 @@
       "group": "focus",
       "addedDate": "2026-06-05",
       "source": "sector:含B股"
-    },
-    {
-      "code": "sh600255",
-      "name": "鑫科材料",
-      "group": "focus",
-      "addedDate": "2026-06-09",
-      "source": "sector:超导概念"
     },
     {
       "code": "sz000970",
@@ -310,13 +289,6 @@
       "group": "focus",
       "addedDate": "2026-06-11",
       "source": "sector:含H股"
-    },
-    {
-      "code": "sz000688",
-      "name": "国城矿业",
-      "group": "focus",
-      "addedDate": "2026-06-11",
-      "source": "sector:成渝特区"
     },
     {
       "code": "sh600498",
@@ -368,13 +340,6 @@
       "source": "sector:稀缺资源"
     },
     {
-      "code": "sz300263",
-      "name": "隆华科技",
-      "group": "focus",
-      "addedDate": "2026-06-12",
-      "source": "sector:股权激励"
-    },
-    {
       "code": "sz000737",
       "name": "北方铜业",
       "group": "focus",
@@ -408,20 +373,55 @@
       "group": "focus",
       "addedDate": "2026-06-15",
       "source": "sector:稀缺资源"
+    },
+    {
+      "code": "sz300285",
+      "name": "国瓷材料",
+      "group": "focus",
+      "addedDate": "2026-06-16",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sh601636",
+      "name": "旗滨集团",
+      "group": "focus",
+      "addedDate": "2026-06-16",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sh603267",
+      "name": "鸿远电子",
+      "group": "focus",
+      "addedDate": "2026-06-16",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz300005",
+      "name": "探路者",
+      "group": "focus",
+      "addedDate": "2026-06-16",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz300433",
+      "name": "蓝思科技",
+      "group": "focus",
+      "addedDate": "2026-06-16",
+      "source": "sector:华为概念"
     }
   ],
   "todayAdded": [
-    "sz000737",
-    "sh600489",
-    "sz000960",
-    "sz000792",
-    "sz002378"
+    "sz300285",
+    "sh601636",
+    "sh603267",
+    "sz300005",
+    "sz300433"
   ],
   "todayRemoved": [
-    "sz000021",
-    "sz002080",
-    "sz002669",
-    "sh600505",
-    "sz002165"
+    "sh600378",
+    "sh600255",
+    "sz300263",
+    "sz002938",
+    "sz000688"
   ]
 }
