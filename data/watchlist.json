@@ -1,7 +1,7 @@
 {
-  "version": "20260616a",
+  "version": "20260617a",
   "startDate": "2026-03-12",
-  "dayCount": 97,
+  "dayCount": 98,
   "stocks": [
     {
       "code": "sz002436",
@@ -123,13 +123,6 @@
       "source": "sector:华为概念"
     },
     {
-      "code": "sz002050",
-      "name": "三花智控",
-      "group": "focus",
-      "addedDate": "2026-05-04",
-      "source": "sector:光伏概念"
-    },
-    {
       "code": "sz002484",
       "name": "江海股份",
       "group": "focus",
@@ -165,13 +158,6 @@
       "source": "sector:业绩预降"
     },
     {
-      "code": "sh600021",
-      "name": "上海电力",
-      "group": "focus",
-      "addedDate": "2026-05-20",
-      "source": "sector:光伏"
-    },
-    {
       "code": "sz300811",
       "name": "铂科新材",
       "group": "focus",
@@ -205,13 +191,6 @@
       "group": "focus",
       "addedDate": "2026-05-28",
       "source": "sector:光伏"
-    },
-    {
-      "code": "sh600795",
-      "name": "国电电力",
-      "group": "focus",
-      "addedDate": "2026-06-01",
-      "source": "sector:融资融券"
     },
     {
       "code": "sh600549",
@@ -298,13 +277,6 @@
       "source": "sector:保险重仓"
     },
     {
-      "code": "sh601336",
-      "name": "新华保险",
-      "group": "focus",
-      "addedDate": "2026-06-11",
-      "source": "sector:含H股"
-    },
-    {
       "code": "sh600096",
       "name": "云天化",
       "group": "focus",
@@ -331,13 +303,6 @@
       "group": "focus",
       "addedDate": "2026-06-12",
       "source": "sector:国防军工"
-    },
-    {
-      "code": "sz002428",
-      "name": "云南锗业",
-      "group": "focus",
-      "addedDate": "2026-06-12",
-      "source": "sector:稀缺资源"
     },
     {
       "code": "sz000737",
@@ -408,20 +373,55 @@
       "group": "focus",
       "addedDate": "2026-06-16",
       "source": "sector:华为概念"
+    },
+    {
+      "code": "sz300776",
+      "name": "帝尔激光",
+      "group": "focus",
+      "addedDate": "2026-06-17",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz000636",
+      "name": "风华高科",
+      "group": "focus",
+      "addedDate": "2026-06-17",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sh600105",
+      "name": "XD永鼎股",
+      "group": "focus",
+      "addedDate": "2026-06-17",
+      "source": "sector:5G概念"
+    },
+    {
+      "code": "sz002080",
+      "name": "中材科技",
+      "group": "focus",
+      "addedDate": "2026-06-17",
+      "source": "sector:锂电池"
+    },
+    {
+      "code": "sz002028",
+      "name": "思源电气",
+      "group": "focus",
+      "addedDate": "2026-06-17",
+      "source": "sector:股权激励"
     }
   ],
   "todayAdded": [
-    "sz300285",
-    "sh601636",
-    "sh603267",
-    "sz300005",
-    "sz300433"
+    "sz300776",
+    "sz000636",
+    "sh600105",
+    "sz002080",
+    "sz002028"
   ],
   "todayRemoved": [
-    "sh600378",
-    "sh600255",
-    "sz300263",
-    "sz002938",
-    "sz000688"
+    "sh600795",
+    "sz002050",
+    "sz002428",
+    "sh601336",
+    "sh600021"
   ]
 }
