@@ -1,7 +1,7 @@
 {
-  "version": "20260617a",
+  "version": "20260618a",
   "startDate": "2026-03-12",
-  "dayCount": 98,
+  "dayCount": 99,
   "stocks": [
     {
       "code": "sz002436",
@@ -144,13 +144,6 @@
       "source": "sector:聚氨酯"
     },
     {
-      "code": "sz300221",
-      "name": "银禧科技",
-      "group": "focus",
-      "addedDate": "2026-05-19",
-      "source": "sector:业绩预降"
-    },
-    {
       "code": "sz002552",
       "name": "宝鼎科技",
       "group": "focus",
@@ -200,13 +193,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz300319",
-      "name": "麦捷科技",
-      "group": "focus",
-      "addedDate": "2026-06-02",
-      "source": "sector:重组概念"
-    },
-    {
       "code": "sz001896",
       "name": "豫能控股",
       "group": "focus",
@@ -226,20 +212,6 @@
       "group": "focus",
       "addedDate": "2026-06-05",
       "source": "sector:国防军工"
-    },
-    {
-      "code": "sz000725",
-      "name": "京东方Ａ",
-      "group": "focus",
-      "addedDate": "2026-06-05",
-      "source": "sector:含B股"
-    },
-    {
-      "code": "sz000970",
-      "name": "中科三环",
-      "group": "focus",
-      "addedDate": "2026-06-09",
-      "source": "sector:风电"
     },
     {
       "code": "sh601208",
@@ -333,13 +305,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz002378",
-      "name": "章源钨业",
-      "group": "focus",
-      "addedDate": "2026-06-15",
-      "source": "sector:稀缺资源"
-    },
-    {
       "code": "sz300285",
       "name": "国瓷材料",
       "group": "focus",
@@ -408,20 +373,55 @@
       "group": "focus",
       "addedDate": "2026-06-17",
       "source": "sector:股权激励"
+    },
+    {
+      "code": "sh600460",
+      "name": "士兰微",
+      "group": "focus",
+      "addedDate": "2026-06-18",
+      "source": "sector:触摸屏"
+    },
+    {
+      "code": "sz000021",
+      "name": "深科技",
+      "group": "focus",
+      "addedDate": "2026-06-18",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz002185",
+      "name": "华天科技",
+      "group": "focus",
+      "addedDate": "2026-06-18",
+      "source": "sector:触摸屏"
+    },
+    {
+      "code": "sh600584",
+      "name": "长电科技",
+      "group": "focus",
+      "addedDate": "2026-06-18",
+      "source": "sector:触摸屏"
+    },
+    {
+      "code": "sz002579",
+      "name": "中京电子",
+      "group": "focus",
+      "addedDate": "2026-06-18",
+      "source": "sector:华为概念"
     }
   ],
   "todayAdded": [
-    "sz300776",
-    "sz000636",
-    "sh600105",
-    "sz002080",
-    "sz002028"
+    "sh600460",
+    "sz000021",
+    "sz002185",
+    "sh600584",
+    "sz002579"
   ],
   "todayRemoved": [
-    "sh600795",
-    "sz002050",
-    "sz002428",
-    "sh601336",
-    "sh600021"
+    "sz300319",
+    "sz000725",
+    "sz000970",
+    "sz002378",
+    "sz300221"
   ]
 }
