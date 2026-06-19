@@ -1,7 +1,7 @@
 {
-  "version": "20260618a",
+  "version": "20260619a",
   "startDate": "2026-03-12",
-  "dayCount": 99,
+  "dayCount": 100,
   "stocks": [
     {
       "code": "sz002436",
@@ -172,20 +172,6 @@
       "source": "sector:无线耳机"
     },
     {
-      "code": "sh600578",
-      "name": "京能电力",
-      "group": "focus",
-      "addedDate": "2026-05-26",
-      "source": "sector:业绩预升"
-    },
-    {
-      "code": "sz000791",
-      "name": "甘肃能源",
-      "group": "focus",
-      "addedDate": "2026-05-28",
-      "source": "sector:光伏"
-    },
-    {
       "code": "sh600549",
       "name": "厦门钨业",
       "group": "focus",
@@ -200,13 +186,6 @@
       "source": "sector:风电"
     },
     {
-      "code": "sz002608",
-      "name": "江苏国信",
-      "group": "focus",
-      "addedDate": "2026-06-04",
-      "source": "sector:业绩预升"
-    },
-    {
       "code": "sh603516",
       "name": "淳中科技",
       "group": "focus",
@@ -216,13 +195,6 @@
     {
       "code": "sh601208",
       "name": "东材科技",
-      "group": "focus",
-      "addedDate": "2026-06-10",
-      "source": "sector:光伏"
-    },
-    {
-      "code": "sh600596",
-      "name": "新安股份",
       "group": "focus",
       "addedDate": "2026-06-10",
       "source": "sector:光伏"
@@ -307,13 +279,6 @@
     {
       "code": "sz300285",
       "name": "国瓷材料",
-      "group": "focus",
-      "addedDate": "2026-06-16",
-      "source": "sector:股权激励"
-    },
-    {
-      "code": "sh601636",
-      "name": "旗滨集团",
       "group": "focus",
       "addedDate": "2026-06-16",
       "source": "sector:股权激励"
@@ -410,18 +375,12 @@
       "source": "sector:华为概念"
     }
   ],
-  "todayAdded": [
-    "sh600460",
-    "sz000021",
-    "sz002185",
-    "sh600584",
-    "sz002579"
-  ],
+  "todayAdded": [],
   "todayRemoved": [
-    "sz300319",
-    "sz000725",
-    "sz000970",
-    "sz002378",
-    "sz300221"
+    "sh600578",
+    "sz002608",
+    "sz000791",
+    "sh600596",
+    "sh601636"
   ]
 }
