@@ -1,7 +1,7 @@
 {
-  "version": "20260619a",
+  "version": "20260622a",
   "startDate": "2026-03-12",
-  "dayCount": 100,
+  "dayCount": 103,
   "stocks": [
     {
       "code": "sz002436",
@@ -193,13 +193,6 @@
       "source": "sector:国防军工"
     },
     {
-      "code": "sh601208",
-      "name": "东材科技",
-      "group": "focus",
-      "addedDate": "2026-06-10",
-      "source": "sector:光伏"
-    },
-    {
       "code": "sz300395",
       "name": "菲利华",
       "group": "focus",
@@ -263,13 +256,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz000960",
-      "name": "锡业股份",
-      "group": "focus",
-      "addedDate": "2026-06-15",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz000792",
       "name": "盐湖股份",
       "group": "focus",
@@ -282,13 +268,6 @@
       "group": "focus",
       "addedDate": "2026-06-16",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sh603267",
-      "name": "鸿远电子",
-      "group": "focus",
-      "addedDate": "2026-06-16",
-      "source": "sector:专精特新"
     },
     {
       "code": "sz300005",
@@ -361,26 +340,53 @@
       "source": "sector:触摸屏"
     },
     {
-      "code": "sh600584",
-      "name": "长电科技",
+      "code": "sz002655",
+      "name": "共达电声",
       "group": "focus",
-      "addedDate": "2026-06-18",
-      "source": "sector:触摸屏"
+      "addedDate": "2026-06-22",
+      "source": "sector:无线耳机"
     },
     {
-      "code": "sz002579",
-      "name": "中京电子",
+      "code": "sz000100",
+      "name": "TCL科技",
       "group": "focus",
-      "addedDate": "2026-06-18",
+      "addedDate": "2026-06-22",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz002179",
+      "name": "中航光电",
+      "group": "focus",
+      "addedDate": "2026-06-22",
       "source": "sector:华为概念"
+    },
+    {
+      "code": "sz002885",
+      "name": "京泉华",
+      "group": "focus",
+      "addedDate": "2026-06-22",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz002407",
+      "name": "多氟多",
+      "group": "focus",
+      "addedDate": "2026-06-22",
+      "source": "sector:股权激励"
     }
   ],
-  "todayAdded": [],
+  "todayAdded": [
+    "sz002655",
+    "sz000100",
+    "sz002179",
+    "sz002885",
+    "sz002407"
+  ],
   "todayRemoved": [
-    "sh600578",
-    "sz002608",
-    "sz000791",
-    "sh600596",
-    "sh601636"
+    "sz000960",
+    "sh603267",
+    "sh600584",
+    "sz002579",
+    "sh601208"
   ]
 }
