@@ -1,7 +1,7 @@
 {
-  "version": "20260622a",
+  "version": "20260623a",
   "startDate": "2026-03-12",
-  "dayCount": 103,
+  "dayCount": 104,
   "stocks": [
     {
       "code": "sz002436",
@@ -193,13 +193,6 @@
       "source": "sector:国防军工"
     },
     {
-      "code": "sz300395",
-      "name": "菲利华",
-      "group": "focus",
-      "addedDate": "2026-06-10",
-      "source": "sector:国防军工"
-    },
-    {
       "code": "sz000776",
       "name": "广发证券",
       "group": "focus",
@@ -263,13 +256,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz300285",
-      "name": "国瓷材料",
-      "group": "focus",
-      "addedDate": "2026-06-16",
-      "source": "sector:股权激励"
-    },
-    {
       "code": "sz300005",
       "name": "探路者",
       "group": "focus",
@@ -277,25 +263,11 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz300433",
-      "name": "蓝思科技",
-      "group": "focus",
-      "addedDate": "2026-06-16",
-      "source": "sector:华为概念"
-    },
-    {
       "code": "sz300776",
       "name": "帝尔激光",
       "group": "focus",
       "addedDate": "2026-06-17",
       "source": "sector:光伏"
-    },
-    {
-      "code": "sz000636",
-      "name": "风华高科",
-      "group": "focus",
-      "addedDate": "2026-06-17",
-      "source": "sector:锂电池"
     },
     {
       "code": "sh600105",
@@ -333,13 +305,6 @@
       "source": "sector:华为概念"
     },
     {
-      "code": "sz002185",
-      "name": "华天科技",
-      "group": "focus",
-      "addedDate": "2026-06-18",
-      "source": "sector:触摸屏"
-    },
-    {
       "code": "sz002655",
       "name": "共达电声",
       "group": "focus",
@@ -373,20 +338,47 @@
       "group": "focus",
       "addedDate": "2026-06-22",
       "source": "sector:股权激励"
+    },
+    {
+      "code": "sz000783",
+      "name": "长江证券",
+      "group": "focus",
+      "addedDate": "2026-06-23",
+      "source": "sector:股期概念"
+    },
+    {
+      "code": "sz002317",
+      "name": "众生药业",
+      "group": "focus",
+      "addedDate": "2026-06-23",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz002008",
+      "name": "大族激光",
+      "group": "focus",
+      "addedDate": "2026-06-23",
+      "source": "sector:苹果概念"
+    },
+    {
+      "code": "sh600851",
+      "name": "海欣股份",
+      "group": "focus",
+      "addedDate": "2026-06-23",
+      "source": "sector:创新药"
     }
   ],
   "todayAdded": [
-    "sz002655",
-    "sz000100",
-    "sz002179",
-    "sz002885",
-    "sz002407"
+    "sz000783",
+    "sz002317",
+    "sz002008",
+    "sh600851"
   ],
   "todayRemoved": [
-    "sz000960",
-    "sh603267",
-    "sh600584",
-    "sz002579",
-    "sh601208"
+    "sz000636",
+    "sz300433",
+    "sz002185",
+    "sz300395",
+    "sz300285"
   ]
 }
