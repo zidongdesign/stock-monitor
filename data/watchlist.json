@@ -1,7 +1,7 @@
 {
-  "version": "20260623a",
+  "version": "20260624a",
   "startDate": "2026-03-12",
-  "dayCount": 104,
+  "dayCount": 105,
   "stocks": [
     {
       "code": "sz002436",
@@ -158,13 +158,6 @@
       "source": "sector:华为汽车"
     },
     {
-      "code": "sz002920",
-      "name": "德赛西威",
-      "group": "focus",
-      "addedDate": "2026-05-22",
-      "source": "sector:华为汽车"
-    },
-    {
       "code": "sz002947",
       "name": "恒铭达",
       "group": "focus",
@@ -200,25 +193,11 @@
       "source": "sector:含H股"
     },
     {
-      "code": "sh600498",
-      "name": "烽火通信",
-      "group": "focus",
-      "addedDate": "2026-06-11",
-      "source": "sector:保险重仓"
-    },
-    {
       "code": "sh600096",
       "name": "云天化",
       "group": "focus",
       "addedDate": "2026-06-11",
       "source": "sector:聚氨酯"
-    },
-    {
-      "code": "sh601958",
-      "name": "金钼股份",
-      "group": "focus",
-      "addedDate": "2026-06-12",
-      "source": "sector:融资融券"
     },
     {
       "code": "sh600667",
@@ -233,13 +212,6 @@
       "group": "focus",
       "addedDate": "2026-06-12",
       "source": "sector:国防军工"
-    },
-    {
-      "code": "sz000737",
-      "name": "北方铜业",
-      "group": "focus",
-      "addedDate": "2026-06-15",
-      "source": "sector:参股金融"
     },
     {
       "code": "sh600489",
@@ -261,13 +233,6 @@
       "group": "focus",
       "addedDate": "2026-06-16",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sz300776",
-      "name": "帝尔激光",
-      "group": "focus",
-      "addedDate": "2026-06-17",
-      "source": "sector:光伏"
     },
     {
       "code": "sh600105",
@@ -366,19 +331,55 @@
       "group": "focus",
       "addedDate": "2026-06-23",
       "source": "sector:创新药"
+    },
+    {
+      "code": "sh603259",
+      "name": "药明康德",
+      "group": "focus",
+      "addedDate": "2026-06-24",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sh600276",
+      "name": "恒瑞医药",
+      "group": "focus",
+      "addedDate": "2026-06-24",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz300347",
+      "name": "泰格医药",
+      "group": "focus",
+      "addedDate": "2026-06-24",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz000725",
+      "name": "京东方Ａ",
+      "group": "focus",
+      "addedDate": "2026-06-24",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz002185",
+      "name": "华天科技",
+      "group": "focus",
+      "addedDate": "2026-06-24",
+      "source": "sector:触摸屏"
     }
   ],
   "todayAdded": [
-    "sz000783",
-    "sz002317",
-    "sz002008",
-    "sh600851"
+    "sh603259",
+    "sh600276",
+    "sz300347",
+    "sz000725",
+    "sz002185"
   ],
   "todayRemoved": [
-    "sz000636",
-    "sz300433",
-    "sz002185",
-    "sz300395",
-    "sz300285"
+    "sh601958",
+    "sh600498",
+    "sz300776",
+    "sz002920",
+    "sz000737"
   ]
 }
