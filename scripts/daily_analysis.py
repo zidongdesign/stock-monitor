@@ -8,13 +8,27 @@
 """
 
 import json
+import os
 import re
 import time
 import traceback
 from datetime import datetime, timedelta
 from pathlib import Path
 
+# --- 绕过 macOS 系统代理（networksetup 设置的 HTTP/HTTPS proxy） ---
+for _k in ['http_proxy', 'https_proxy', 'HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'all_proxy']:
+    os.environ.pop(_k, None)
+os.environ['no_proxy'] = '*'
+os.environ['NO_PROXY'] = '*'
+
 import requests
+# Monkey-patch: 让 requests.Session 不信任系统代理
+_orig_session_init = requests.Session.__init__
+def _patched_session_init(self, *a, **kw):
+    _orig_session_init(self, *a, **kw)
+    self.trust_env = False
+requests.Session.__init__ = _patched_session_init
+# --- 代理绕过结束 ---
 
 import akshare as ak
 import numpy as np
