@@ -1,7 +1,7 @@
 {
-  "version": "20260624a",
+  "version": "20260625a",
   "startDate": "2026-03-12",
-  "dayCount": 105,
+  "dayCount": 106,
   "stocks": [
     {
       "code": "sz002436",
@@ -30,13 +30,6 @@
       "group": "focus",
       "addedDate": "2026-05-13",
       "source": "sector:稀缺资源"
-    },
-    {
-      "code": "sz000988",
-      "name": "华工科技",
-      "group": "focus",
-      "addedDate": "2026-04-27",
-      "source": "sector:特斯拉"
     },
     {
       "code": "sh600415",
@@ -207,20 +200,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sh600353",
-      "name": "旭光电子",
-      "group": "focus",
-      "addedDate": "2026-06-12",
-      "source": "sector:国防军工"
-    },
-    {
-      "code": "sh600489",
-      "name": "中金黄金",
-      "group": "focus",
-      "addedDate": "2026-06-15",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz000792",
       "name": "盐湖股份",
       "group": "focus",
@@ -256,13 +235,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sh600460",
-      "name": "士兰微",
-      "group": "focus",
-      "addedDate": "2026-06-18",
-      "source": "sector:触摸屏"
-    },
-    {
       "code": "sz000021",
       "name": "深科技",
       "group": "focus",
@@ -286,13 +258,6 @@
     {
       "code": "sz002179",
       "name": "中航光电",
-      "group": "focus",
-      "addedDate": "2026-06-22",
-      "source": "sector:华为概念"
-    },
-    {
-      "code": "sz002885",
-      "name": "京泉华",
       "group": "focus",
       "addedDate": "2026-06-22",
       "source": "sector:华为概念"
@@ -366,20 +331,55 @@
       "group": "focus",
       "addedDate": "2026-06-24",
       "source": "sector:触摸屏"
+    },
+    {
+      "code": "sh603019",
+      "name": "中科曙光",
+      "group": "focus",
+      "addedDate": "2026-06-25",
+      "source": "sector:军工航天"
+    },
+    {
+      "code": "sz002046",
+      "name": "国机精工",
+      "group": "focus",
+      "addedDate": "2026-06-25",
+      "source": "sector:军工航天"
+    },
+    {
+      "code": "sh603678",
+      "name": "火炬电子",
+      "group": "focus",
+      "addedDate": "2026-06-25",
+      "source": "sector:军工航天"
+    },
+    {
+      "code": "sz000823",
+      "name": "超声电子",
+      "group": "focus",
+      "addedDate": "2026-06-25",
+      "source": "sector:触摸屏"
+    },
+    {
+      "code": "sz002580",
+      "name": "圣阳股份",
+      "group": "focus",
+      "addedDate": "2026-06-25",
+      "source": "sector:黄河三角"
     }
   ],
   "todayAdded": [
-    "sh603259",
-    "sh600276",
-    "sz300347",
-    "sz000725",
-    "sz002185"
+    "sh603019",
+    "sz002046",
+    "sh603678",
+    "sz000823",
+    "sz002580"
   ],
   "todayRemoved": [
-    "sh601958",
-    "sh600498",
-    "sz300776",
-    "sz002920",
-    "sz000737"
+    "sz002885",
+    "sz000988",
+    "sh600489",
+    "sh600460",
+    "sh600353"
   ]
 }
