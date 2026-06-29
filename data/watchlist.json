@@ -1,7 +1,7 @@
 {
-  "version": "20260625a",
+  "version": "20260629a",
   "startDate": "2026-03-12",
-  "dayCount": 106,
+  "dayCount": 110,
   "stocks": [
     {
       "code": "sz002436",
@@ -137,13 +137,6 @@
       "source": "sector:聚氨酯"
     },
     {
-      "code": "sz002552",
-      "name": "宝鼎科技",
-      "group": "focus",
-      "addedDate": "2026-05-19",
-      "source": "sector:业绩预降"
-    },
-    {
       "code": "sz300811",
       "name": "铂科新材",
       "group": "focus",
@@ -214,13 +207,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sh600105",
-      "name": "XD永鼎股",
-      "group": "focus",
-      "addedDate": "2026-06-17",
-      "source": "sector:5G概念"
-    },
-    {
       "code": "sz002080",
       "name": "中材科技",
       "group": "focus",
@@ -284,13 +270,6 @@
       "source": "sector:创新药"
     },
     {
-      "code": "sz002008",
-      "name": "大族激光",
-      "group": "focus",
-      "addedDate": "2026-06-23",
-      "source": "sector:苹果概念"
-    },
-    {
       "code": "sh600851",
       "name": "海欣股份",
       "group": "focus",
@@ -340,13 +319,6 @@
       "source": "sector:军工航天"
     },
     {
-      "code": "sz002046",
-      "name": "国机精工",
-      "group": "focus",
-      "addedDate": "2026-06-25",
-      "source": "sector:军工航天"
-    },
-    {
       "code": "sh603678",
       "name": "火炬电子",
       "group": "focus",
@@ -361,25 +333,53 @@
       "source": "sector:触摸屏"
     },
     {
-      "code": "sz002580",
-      "name": "圣阳股份",
+      "code": "sz002138",
+      "name": "顺络电子",
       "group": "focus",
-      "addedDate": "2026-06-25",
-      "source": "sector:黄河三角"
+      "addedDate": "2026-06-29",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz300260",
+      "name": "新莱应材",
+      "group": "focus",
+      "addedDate": "2026-06-29",
+      "source": "sector:业绩预降"
+    },
+    {
+      "code": "sz300136",
+      "name": "信维通信",
+      "group": "focus",
+      "addedDate": "2026-06-29",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sz000988",
+      "name": "华工科技",
+      "group": "focus",
+      "addedDate": "2026-06-29",
+      "source": "sector:业绩预降"
+    },
+    {
+      "code": "sz000938",
+      "name": "紫光股份",
+      "group": "focus",
+      "addedDate": "2026-06-29",
+      "source": "sector:分拆上市"
     }
   ],
   "todayAdded": [
-    "sh603019",
-    "sz002046",
-    "sh603678",
-    "sz000823",
-    "sz002580"
+    "sz002138",
+    "sz300260",
+    "sz300136",
+    "sz000988",
+    "sz000938"
   ],
   "todayRemoved": [
-    "sz002885",
-    "sz000988",
-    "sh600489",
-    "sh600460",
-    "sh600353"
+    "sh600105",
+    "sz002580",
+    "sz002552",
+    "sz002046",
+    "sz002008"
   ]
 }
