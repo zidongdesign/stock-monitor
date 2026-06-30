@@ -1,29 +1,8 @@
 {
-  "version": "20260629a",
+  "version": "20260630a",
   "startDate": "2026-03-12",
-  "dayCount": 110,
+  "dayCount": 111,
   "stocks": [
-    {
-      "code": "sz002436",
-      "name": "兴森科技",
-      "group": "focus",
-      "addedDate": "2026-05-07",
-      "source": "sector:股权激励"
-    },
-    {
-      "code": "sz002897",
-      "name": "意华股份",
-      "group": "focus",
-      "addedDate": "2026-05-13",
-      "source": "sector:华为概念"
-    },
-    {
-      "code": "sh600183",
-      "name": "生益科技",
-      "group": "focus",
-      "addedDate": "2026-05-14",
-      "source": "sector:股权激励"
-    },
     {
       "code": "sh603993",
       "name": "洛阳钼业",
@@ -123,13 +102,6 @@
       "source": "sector:特斯拉"
     },
     {
-      "code": "sz300054",
-      "name": "鼎龙股份",
-      "group": "focus",
-      "addedDate": "2026-04-30",
-      "source": "sector:股权激励"
-    },
-    {
       "code": "sz002409",
       "name": "雅克科技",
       "group": "focus",
@@ -156,13 +128,6 @@
       "group": "focus",
       "addedDate": "2026-06-01",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sz001896",
-      "name": "豫能控股",
-      "group": "focus",
-      "addedDate": "2026-06-03",
-      "source": "sector:风电"
     },
     {
       "code": "sh603516",
@@ -366,20 +331,39 @@
       "group": "focus",
       "addedDate": "2026-06-29",
       "source": "sector:分拆上市"
+    },
+    {
+      "code": "sh600378",
+      "name": "昊华科技",
+      "group": "focus",
+      "addedDate": "2026-06-30",
+      "source": "sector:节能环保"
+    },
+    {
+      "code": "sh603063",
+      "name": "禾望电气",
+      "group": "focus",
+      "addedDate": "2026-06-30",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sh600367",
+      "name": "红星发展",
+      "group": "focus",
+      "addedDate": "2026-06-30",
+      "source": "sector:锂矿"
     }
   ],
   "todayAdded": [
-    "sz002138",
-    "sz300260",
-    "sz300136",
-    "sz000988",
-    "sz000938"
+    "sh600378",
+    "sh603063",
+    "sh600367"
   ],
   "todayRemoved": [
-    "sh600105",
-    "sz002580",
-    "sz002552",
-    "sz002046",
-    "sz002008"
+    "sz002436",
+    "sz001896",
+    "sz002897",
+    "sz300054",
+    "sh600183"
   ]
 }
