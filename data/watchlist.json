@@ -1,7 +1,7 @@
 {
-  "version": "20260630a",
+  "version": "20260701a",
   "startDate": "2026-03-12",
-  "dayCount": 111,
+  "dayCount": 112,
   "stocks": [
     {
       "code": "sh603993",
@@ -9,13 +9,6 @@
       "group": "focus",
       "addedDate": "2026-05-13",
       "source": "sector:稀缺资源"
-    },
-    {
-      "code": "sh600415",
-      "name": "小商品城",
-      "group": "focus",
-      "addedDate": "2026-04-23",
-      "source": "sector:金融参股"
     },
     {
       "code": "sh600301",
@@ -44,13 +37,6 @@
       "group": "focus",
       "addedDate": "2026-03-19",
       "source": "sector:准ST股"
-    },
-    {
-      "code": "sh601899",
-      "name": "紫金矿业",
-      "group": "focus",
-      "addedDate": "2026-05-12",
-      "source": "sector:黄金概念"
     },
     {
       "code": "sz002056",
@@ -228,20 +214,6 @@
       "source": "sector:股期概念"
     },
     {
-      "code": "sz002317",
-      "name": "众生药业",
-      "group": "focus",
-      "addedDate": "2026-06-23",
-      "source": "sector:创新药"
-    },
-    {
-      "code": "sh600851",
-      "name": "海欣股份",
-      "group": "focus",
-      "addedDate": "2026-06-23",
-      "source": "sector:创新药"
-    },
-    {
       "code": "sh603259",
       "name": "药明康德",
       "group": "focus",
@@ -251,13 +223,6 @@
     {
       "code": "sh600276",
       "name": "恒瑞医药",
-      "group": "focus",
-      "addedDate": "2026-06-24",
-      "source": "sector:创新药"
-    },
-    {
-      "code": "sz300347",
-      "name": "泰格医药",
       "group": "focus",
       "addedDate": "2026-06-24",
       "source": "sector:创新药"
@@ -352,18 +317,55 @@
       "group": "focus",
       "addedDate": "2026-06-30",
       "source": "sector:锂矿"
+    },
+    {
+      "code": "sz002747",
+      "name": "埃斯顿",
+      "group": "focus",
+      "addedDate": "2026-07-01",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz002167",
+      "name": "东方锆业",
+      "group": "focus",
+      "addedDate": "2026-07-01",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sh600584",
+      "name": "长电科技",
+      "group": "focus",
+      "addedDate": "2026-07-01",
+      "source": "sector:智能穿戴"
+    },
+    {
+      "code": "sz002049",
+      "name": "紫光国微",
+      "group": "focus",
+      "addedDate": "2026-07-01",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz000733",
+      "name": "振华科技",
+      "group": "focus",
+      "addedDate": "2026-07-01",
+      "source": "sector:参股金融"
     }
   ],
   "todayAdded": [
-    "sh600378",
-    "sh603063",
-    "sh600367"
+    "sz002747",
+    "sz002167",
+    "sh600584",
+    "sz002049",
+    "sz000733"
   ],
   "todayRemoved": [
-    "sz002436",
-    "sz001896",
-    "sz002897",
-    "sz300054",
-    "sh600183"
+    "sz300347",
+    "sh600415",
+    "sh600851",
+    "sh601899",
+    "sz002317"
   ]
 }
