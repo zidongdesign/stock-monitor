@@ -1,7 +1,7 @@
 {
-  "version": "20260701a",
+  "version": "20260702a",
   "startDate": "2026-03-12",
-  "dayCount": 112,
+  "dayCount": 113,
   "stocks": [
     {
       "code": "sh603993",
@@ -172,13 +172,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz000021",
-      "name": "深科技",
-      "group": "focus",
-      "addedDate": "2026-06-18",
-      "source": "sector:华为概念"
-    },
-    {
       "code": "sz002655",
       "name": "共达电声",
       "group": "focus",
@@ -191,13 +184,6 @@
       "group": "focus",
       "addedDate": "2026-06-22",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sz002179",
-      "name": "中航光电",
-      "group": "focus",
-      "addedDate": "2026-06-22",
-      "source": "sector:华为概念"
     },
     {
       "code": "sz002407",
@@ -235,13 +221,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz002185",
-      "name": "华天科技",
-      "group": "focus",
-      "addedDate": "2026-06-24",
-      "source": "sector:触摸屏"
-    },
-    {
       "code": "sh603019",
       "name": "中科曙光",
       "group": "focus",
@@ -256,13 +235,6 @@
       "source": "sector:军工航天"
     },
     {
-      "code": "sz000823",
-      "name": "超声电子",
-      "group": "focus",
-      "addedDate": "2026-06-25",
-      "source": "sector:触摸屏"
-    },
-    {
       "code": "sz002138",
       "name": "顺络电子",
       "group": "focus",
@@ -275,13 +247,6 @@
       "group": "focus",
       "addedDate": "2026-06-29",
       "source": "sector:业绩预降"
-    },
-    {
-      "code": "sz300136",
-      "name": "信维通信",
-      "group": "focus",
-      "addedDate": "2026-06-29",
-      "source": "sector:华为概念"
     },
     {
       "code": "sz000988",
@@ -352,20 +317,47 @@
       "group": "focus",
       "addedDate": "2026-07-01",
       "source": "sector:参股金融"
+    },
+    {
+      "code": "sz002594",
+      "name": "比亚迪",
+      "group": "focus",
+      "addedDate": "2026-07-02",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sz002294",
+      "name": "信立泰",
+      "group": "focus",
+      "addedDate": "2026-07-02",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz002602",
+      "name": "世纪华通",
+      "group": "focus",
+      "addedDate": "2026-07-02",
+      "source": "sector:网络游戏"
+    },
+    {
+      "code": "sh601899",
+      "name": "紫金矿业",
+      "group": "focus",
+      "addedDate": "2026-07-02",
+      "source": "sector:锂矿"
     }
   ],
   "todayAdded": [
-    "sz002747",
-    "sz002167",
-    "sh600584",
-    "sz002049",
-    "sz000733"
+    "sz002594",
+    "sz002294",
+    "sz002602",
+    "sh601899"
   ],
   "todayRemoved": [
-    "sz300347",
-    "sh600415",
-    "sh600851",
-    "sh601899",
-    "sz002317"
+    "sz002185",
+    "sz300136",
+    "sz000823",
+    "sz002179",
+    "sz000021"
   ]
 }
