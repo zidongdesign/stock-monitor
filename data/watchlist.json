@@ -1,7 +1,7 @@
 {
-  "version": "20260702a",
+  "version": "20260703a",
   "startDate": "2026-03-12",
-  "dayCount": 113,
+  "dayCount": 114,
   "stocks": [
     {
       "code": "sh603993",
@@ -9,13 +9,6 @@
       "group": "focus",
       "addedDate": "2026-05-13",
       "source": "sector:稀缺资源"
-    },
-    {
-      "code": "sh600301",
-      "name": "华锡有色",
-      "group": "focus",
-      "addedDate": "2026-05-07",
-      "source": "sector:融资融券"
     },
     {
       "code": "sh601991",
@@ -67,13 +60,6 @@
       "source": "戈叔研究:汽车电子+社保基金"
     },
     {
-      "code": "sh605117",
-      "name": "德业股份",
-      "group": "focus",
-      "addedDate": "2026-03-20",
-      "source": "sector:光伏"
-    },
-    {
       "code": "sz002475",
       "name": "立讯精密",
       "group": "focus",
@@ -93,13 +79,6 @@
       "group": "focus",
       "addedDate": "2026-05-15",
       "source": "sector:聚氨酯"
-    },
-    {
-      "code": "sz300811",
-      "name": "铂科新材",
-      "group": "focus",
-      "addedDate": "2026-05-22",
-      "source": "sector:华为汽车"
     },
     {
       "code": "sz002947",
@@ -242,13 +221,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz300260",
-      "name": "新莱应材",
-      "group": "focus",
-      "addedDate": "2026-06-29",
-      "source": "sector:业绩预降"
-    },
-    {
       "code": "sz000988",
       "name": "华工科技",
       "group": "focus",
@@ -275,13 +247,6 @@
       "group": "focus",
       "addedDate": "2026-06-30",
       "source": "sector:光伏概念"
-    },
-    {
-      "code": "sh600367",
-      "name": "红星发展",
-      "group": "focus",
-      "addedDate": "2026-06-30",
-      "source": "sector:锂矿"
     },
     {
       "code": "sz002747",
@@ -345,19 +310,55 @@
       "group": "focus",
       "addedDate": "2026-07-02",
       "source": "sector:锂矿"
+    },
+    {
+      "code": "sz002472",
+      "name": "双环传动",
+      "group": "focus",
+      "addedDate": "2026-07-03",
+      "source": "sector:本月解禁"
+    },
+    {
+      "code": "sh600150",
+      "name": "中国船舶",
+      "group": "focus",
+      "addedDate": "2026-07-03",
+      "source": "sector:军民融合"
+    },
+    {
+      "code": "sz000977",
+      "name": "浪潮信息",
+      "group": "focus",
+      "addedDate": "2026-07-03",
+      "source": "sector:军工航天"
+    },
+    {
+      "code": "sz300115",
+      "name": "长盈精密",
+      "group": "focus",
+      "addedDate": "2026-07-03",
+      "source": "sector:本月解禁"
+    },
+    {
+      "code": "sh600879",
+      "name": "航天电子",
+      "group": "focus",
+      "addedDate": "2026-07-03",
+      "source": "sector:军民融合"
     }
   ],
   "todayAdded": [
-    "sz002594",
-    "sz002294",
-    "sz002602",
-    "sh601899"
+    "sz002472",
+    "sh600150",
+    "sz000977",
+    "sz300115",
+    "sh600879"
   ],
   "todayRemoved": [
-    "sz002185",
-    "sz300136",
-    "sz000823",
-    "sz002179",
-    "sz000021"
+    "sh605117",
+    "sz300811",
+    "sh600301",
+    "sz300260",
+    "sh600367"
   ]
 }
