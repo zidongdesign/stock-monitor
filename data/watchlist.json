@@ -1,7 +1,7 @@
 {
-  "version": "20260703a",
+  "version": "20260706a",
   "startDate": "2026-03-12",
-  "dayCount": 114,
+  "dayCount": 117,
   "stocks": [
     {
       "code": "sh603993",
@@ -137,13 +137,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz002080",
-      "name": "中材科技",
-      "group": "focus",
-      "addedDate": "2026-06-17",
-      "source": "sector:锂电池"
-    },
-    {
       "code": "sz002028",
       "name": "思源电气",
       "group": "focus",
@@ -156,13 +149,6 @@
       "group": "focus",
       "addedDate": "2026-06-22",
       "source": "sector:无线耳机"
-    },
-    {
-      "code": "sz000100",
-      "name": "TCL科技",
-      "group": "focus",
-      "addedDate": "2026-06-22",
-      "source": "sector:股权激励"
     },
     {
       "code": "sz002407",
@@ -235,13 +221,6 @@
       "source": "sector:分拆上市"
     },
     {
-      "code": "sh600378",
-      "name": "昊华科技",
-      "group": "focus",
-      "addedDate": "2026-06-30",
-      "source": "sector:节能环保"
-    },
-    {
       "code": "sh603063",
       "name": "禾望电气",
       "group": "focus",
@@ -275,13 +254,6 @@
       "group": "focus",
       "addedDate": "2026-07-01",
       "source": "sector:国防军工"
-    },
-    {
-      "code": "sz000733",
-      "name": "振华科技",
-      "group": "focus",
-      "addedDate": "2026-07-01",
-      "source": "sector:参股金融"
     },
     {
       "code": "sz002594",
@@ -333,32 +305,60 @@
       "source": "sector:军工航天"
     },
     {
-      "code": "sz300115",
-      "name": "长盈精密",
-      "group": "focus",
-      "addedDate": "2026-07-03",
-      "source": "sector:本月解禁"
-    },
-    {
       "code": "sh600879",
       "name": "航天电子",
       "group": "focus",
       "addedDate": "2026-07-03",
       "source": "sector:军民融合"
+    },
+    {
+      "code": "sh600489",
+      "name": "中金黄金",
+      "group": "focus",
+      "addedDate": "2026-07-06",
+      "source": "sector:黄金概念"
+    },
+    {
+      "code": "sz002192",
+      "name": "融捷股份",
+      "group": "focus",
+      "addedDate": "2026-07-06",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sz002716",
+      "name": "湖南白银",
+      "group": "focus",
+      "addedDate": "2026-07-06",
+      "source": "sector:黄金概念"
+    },
+    {
+      "code": "sh603799",
+      "name": "华友钴业",
+      "group": "focus",
+      "addedDate": "2026-07-06",
+      "source": "sector:锂矿"
+    },
+    {
+      "code": "sz000060",
+      "name": "中金岭南",
+      "group": "focus",
+      "addedDate": "2026-07-06",
+      "source": "sector:稀缺资源"
     }
   ],
   "todayAdded": [
-    "sz002472",
-    "sh600150",
-    "sz000977",
-    "sz300115",
-    "sh600879"
+    "sh600489",
+    "sz002192",
+    "sz002716",
+    "sh603799",
+    "sz000060"
   ],
   "todayRemoved": [
-    "sh605117",
-    "sz300811",
-    "sh600301",
-    "sz300260",
-    "sh600367"
+    "sz000100",
+    "sz000733",
+    "sh600378",
+    "sz300115",
+    "sz002080"
   ]
 }
