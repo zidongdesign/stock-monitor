@@ -1,7 +1,7 @@
 {
-  "version": "20260706a",
+  "version": "20260708a",
   "startDate": "2026-03-12",
-  "dayCount": 117,
+  "dayCount": 119,
   "stocks": [
     {
       "code": "sh603993",
@@ -116,27 +116,6 @@
       "source": "sector:聚氨酯"
     },
     {
-      "code": "sh600667",
-      "name": "太极实业",
-      "group": "focus",
-      "addedDate": "2026-06-12",
-      "source": "sector:融资融券"
-    },
-    {
-      "code": "sz000792",
-      "name": "盐湖股份",
-      "group": "focus",
-      "addedDate": "2026-06-15",
-      "source": "sector:融资融券"
-    },
-    {
-      "code": "sz300005",
-      "name": "探路者",
-      "group": "focus",
-      "addedDate": "2026-06-16",
-      "source": "sector:股权激励"
-    },
-    {
       "code": "sz002028",
       "name": "思源电气",
       "group": "focus",
@@ -188,13 +167,6 @@
     {
       "code": "sh603019",
       "name": "中科曙光",
-      "group": "focus",
-      "addedDate": "2026-06-25",
-      "source": "sector:军工航天"
-    },
-    {
-      "code": "sh603678",
-      "name": "火炬电子",
       "group": "focus",
       "addedDate": "2026-06-25",
       "source": "sector:军工航天"
@@ -291,13 +263,6 @@
       "source": "sector:本月解禁"
     },
     {
-      "code": "sh600150",
-      "name": "中国船舶",
-      "group": "focus",
-      "addedDate": "2026-07-03",
-      "source": "sector:军民融合"
-    },
-    {
       "code": "sz000977",
       "name": "浪潮信息",
       "group": "focus",
@@ -345,20 +310,55 @@
       "group": "focus",
       "addedDate": "2026-07-06",
       "source": "sector:稀缺资源"
+    },
+    {
+      "code": "sh600900",
+      "name": "长江电力",
+      "group": "focus",
+      "addedDate": "2026-07-08",
+      "source": "sector:分拆上市"
+    },
+    {
+      "code": "sz000301",
+      "name": "东方盛虹",
+      "group": "focus",
+      "addedDate": "2026-07-08",
+      "source": "sector:分拆上市"
+    },
+    {
+      "code": "sz002008",
+      "name": "大族激光",
+      "group": "focus",
+      "addedDate": "2026-07-08",
+      "source": "sector:分拆上市"
+    },
+    {
+      "code": "sz300017",
+      "name": "网宿科技",
+      "group": "focus",
+      "addedDate": "2026-07-08",
+      "source": "sector:电商概念"
+    },
+    {
+      "code": "sz002261",
+      "name": "拓维信息",
+      "group": "focus",
+      "addedDate": "2026-07-08",
+      "source": "sector:5G概念"
     }
   ],
   "todayAdded": [
-    "sh600489",
-    "sz002192",
-    "sz002716",
-    "sh603799",
-    "sz000060"
+    "sh600900",
+    "sz000301",
+    "sz002008",
+    "sz300017",
+    "sz002261"
   ],
   "todayRemoved": [
-    "sz000100",
-    "sz000733",
-    "sh600378",
-    "sz300115",
-    "sz002080"
+    "sz000792",
+    "sh603678",
+    "sh600150",
+    "sh600667",
+    "sz300005"
   ]
 }
