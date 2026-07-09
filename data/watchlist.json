@@ -1,7 +1,7 @@
 {
-  "version": "20260708a",
+  "version": "20260709a",
   "startDate": "2026-03-12",
-  "dayCount": 119,
+  "dayCount": 120,
   "stocks": [
     {
       "code": "sh603993",
@@ -51,13 +51,6 @@
       "group": "focus",
       "addedDate": "2026-03-20",
       "source": "sector:光伏"
-    },
-    {
-      "code": "sz300304",
-      "name": "云意电气",
-      "group": "focus",
-      "addedDate": "2026-04-20",
-      "source": "戈叔研究:汽车电子+社保基金"
     },
     {
       "code": "sz002475",
@@ -200,25 +193,11 @@
       "source": "sector:光伏概念"
     },
     {
-      "code": "sz002747",
-      "name": "埃斯顿",
-      "group": "focus",
-      "addedDate": "2026-07-01",
-      "source": "sector:国防军工"
-    },
-    {
       "code": "sz002167",
       "name": "东方锆业",
       "group": "focus",
       "addedDate": "2026-07-01",
       "source": "sector:国防军工"
-    },
-    {
-      "code": "sh600584",
-      "name": "长电科技",
-      "group": "focus",
-      "addedDate": "2026-07-01",
-      "source": "sector:智能穿戴"
     },
     {
       "code": "sz002049",
@@ -284,13 +263,6 @@
       "source": "sector:黄金概念"
     },
     {
-      "code": "sz002192",
-      "name": "融捷股份",
-      "group": "focus",
-      "addedDate": "2026-07-06",
-      "source": "sector:锂矿"
-    },
-    {
       "code": "sz002716",
       "name": "湖南白银",
       "group": "focus",
@@ -303,13 +275,6 @@
       "group": "focus",
       "addedDate": "2026-07-06",
       "source": "sector:锂矿"
-    },
-    {
-      "code": "sz000060",
-      "name": "中金岭南",
-      "group": "focus",
-      "addedDate": "2026-07-06",
-      "source": "sector:稀缺资源"
     },
     {
       "code": "sh600900",
@@ -345,20 +310,55 @@
       "group": "focus",
       "addedDate": "2026-07-08",
       "source": "sector:5G概念"
+    },
+    {
+      "code": "sz300054",
+      "name": "鼎龙股份",
+      "group": "focus",
+      "addedDate": "2026-07-09",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz000063",
+      "name": "中兴通讯",
+      "group": "focus",
+      "addedDate": "2026-07-09",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz002230",
+      "name": "科大讯飞",
+      "group": "focus",
+      "addedDate": "2026-07-09",
+      "source": "sector:智能穿戴"
+    },
+    {
+      "code": "sz000021",
+      "name": "深科技",
+      "group": "focus",
+      "addedDate": "2026-07-09",
+      "source": "sector:金融参股"
+    },
+    {
+      "code": "sh600667",
+      "name": "太极实业",
+      "group": "focus",
+      "addedDate": "2026-07-09",
+      "source": "sector:业绩预降"
     }
   ],
   "todayAdded": [
-    "sh600900",
-    "sz000301",
-    "sz002008",
-    "sz300017",
-    "sz002261"
+    "sz300054",
+    "sz000063",
+    "sz002230",
+    "sz000021",
+    "sh600667"
   ],
   "todayRemoved": [
-    "sz000792",
-    "sh603678",
-    "sh600150",
-    "sh600667",
-    "sz300005"
+    "sz002747",
+    "sz002192",
+    "sz000060",
+    "sh600584",
+    "sz300304"
   ]
 }
