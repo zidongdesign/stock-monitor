@@ -1,7 +1,7 @@
 {
-  "version": "20260709a",
+  "version": "20260710a",
   "startDate": "2026-03-12",
-  "dayCount": 120,
+  "dayCount": 121,
   "stocks": [
     {
       "code": "sh603993",
@@ -102,13 +102,6 @@
       "source": "sector:含H股"
     },
     {
-      "code": "sh600096",
-      "name": "云天化",
-      "group": "focus",
-      "addedDate": "2026-06-11",
-      "source": "sector:聚氨酯"
-    },
-    {
       "code": "sz002028",
       "name": "思源电气",
       "group": "focus",
@@ -149,13 +142,6 @@
       "group": "focus",
       "addedDate": "2026-06-24",
       "source": "sector:创新药"
-    },
-    {
-      "code": "sz000725",
-      "name": "京东方Ａ",
-      "group": "focus",
-      "addedDate": "2026-06-24",
-      "source": "sector:融资融券"
     },
     {
       "code": "sh603019",
@@ -249,32 +235,11 @@
       "source": "sector:军工航天"
     },
     {
-      "code": "sh600879",
-      "name": "航天电子",
-      "group": "focus",
-      "addedDate": "2026-07-03",
-      "source": "sector:军民融合"
-    },
-    {
       "code": "sh600489",
       "name": "中金黄金",
       "group": "focus",
       "addedDate": "2026-07-06",
       "source": "sector:黄金概念"
-    },
-    {
-      "code": "sz002716",
-      "name": "湖南白银",
-      "group": "focus",
-      "addedDate": "2026-07-06",
-      "source": "sector:黄金概念"
-    },
-    {
-      "code": "sh603799",
-      "name": "华友钴业",
-      "group": "focus",
-      "addedDate": "2026-07-06",
-      "source": "sector:锂矿"
     },
     {
       "code": "sh600900",
@@ -345,20 +310,47 @@
       "group": "focus",
       "addedDate": "2026-07-09",
       "source": "sector:业绩预降"
+    },
+    {
+      "code": "sh600360",
+      "name": "华微电子",
+      "group": "focus",
+      "addedDate": "2026-07-10",
+      "source": "sector:金融参股"
+    },
+    {
+      "code": "sz002364",
+      "name": "中恒电气",
+      "group": "focus",
+      "addedDate": "2026-07-10",
+      "source": "sector:5G概念"
+    },
+    {
+      "code": "sh600487",
+      "name": "亨通光电",
+      "group": "focus",
+      "addedDate": "2026-07-10",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh600522",
+      "name": "中天科技",
+      "group": "focus",
+      "addedDate": "2026-07-10",
+      "source": "sector:5G概念"
     }
   ],
   "todayAdded": [
-    "sz300054",
-    "sz000063",
-    "sz002230",
-    "sz000021",
-    "sh600667"
+    "sh600360",
+    "sz002364",
+    "sh600487",
+    "sh600522"
   ],
   "todayRemoved": [
-    "sz002747",
-    "sz002192",
-    "sz000060",
-    "sh600584",
-    "sz300304"
+    "sz002716",
+    "sh600096",
+    "sh600879",
+    "sh603799",
+    "sz000725"
   ]
 }
