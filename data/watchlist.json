@@ -1,7 +1,7 @@
 {
-  "version": "20260710a",
+  "version": "20260713a",
   "startDate": "2026-03-12",
-  "dayCount": 121,
+  "dayCount": 124,
   "stocks": [
     {
       "code": "sh603993",
@@ -114,13 +114,6 @@
       "group": "focus",
       "addedDate": "2026-06-22",
       "source": "sector:无线耳机"
-    },
-    {
-      "code": "sz002407",
-      "name": "多氟多",
-      "group": "focus",
-      "addedDate": "2026-06-22",
-      "source": "sector:股权激励"
     },
     {
       "code": "sz000783",
@@ -263,20 +256,6 @@
       "source": "sector:分拆上市"
     },
     {
-      "code": "sz300017",
-      "name": "网宿科技",
-      "group": "focus",
-      "addedDate": "2026-07-08",
-      "source": "sector:电商概念"
-    },
-    {
-      "code": "sz002261",
-      "name": "拓维信息",
-      "group": "focus",
-      "addedDate": "2026-07-08",
-      "source": "sector:5G概念"
-    },
-    {
       "code": "sz300054",
       "name": "鼎龙股份",
       "group": "focus",
@@ -291,13 +270,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz002230",
-      "name": "科大讯飞",
-      "group": "focus",
-      "addedDate": "2026-07-09",
-      "source": "sector:智能穿戴"
-    },
-    {
       "code": "sz000021",
       "name": "深科技",
       "group": "focus",
@@ -310,13 +282,6 @@
       "group": "focus",
       "addedDate": "2026-07-09",
       "source": "sector:业绩预降"
-    },
-    {
-      "code": "sh600360",
-      "name": "华微电子",
-      "group": "focus",
-      "addedDate": "2026-07-10",
-      "source": "sector:金融参股"
     },
     {
       "code": "sz002364",
@@ -338,19 +303,55 @@
       "group": "focus",
       "addedDate": "2026-07-10",
       "source": "sector:5G概念"
+    },
+    {
+      "code": "sz300395",
+      "name": "菲利华",
+      "group": "focus",
+      "addedDate": "2026-07-13",
+      "source": "sector:军工航天"
+    },
+    {
+      "code": "sz002185",
+      "name": "华天科技",
+      "group": "focus",
+      "addedDate": "2026-07-13",
+      "source": "sector:陕甘宁"
+    },
+    {
+      "code": "sz000970",
+      "name": "中科三环",
+      "group": "focus",
+      "addedDate": "2026-07-13",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz002436",
+      "name": "兴森科技",
+      "group": "focus",
+      "addedDate": "2026-07-13",
+      "source": "sector:军工航天"
+    },
+    {
+      "code": "sh600353",
+      "name": "旭光电子",
+      "group": "focus",
+      "addedDate": "2026-07-13",
+      "source": "sector:军民融合"
     }
   ],
   "todayAdded": [
-    "sh600360",
-    "sz002364",
-    "sh600487",
-    "sh600522"
+    "sz300395",
+    "sz002185",
+    "sz000970",
+    "sz002436",
+    "sh600353"
   ],
   "todayRemoved": [
-    "sz002716",
-    "sh600096",
-    "sh600879",
-    "sh603799",
-    "sz000725"
+    "sz002407",
+    "sz300017",
+    "sz002261",
+    "sz002230",
+    "sh600360"
   ]
 }
