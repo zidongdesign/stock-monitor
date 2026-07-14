@@ -1,7 +1,7 @@
 {
-  "version": "20260713a",
+  "version": "20260714a",
   "startDate": "2026-03-12",
-  "dayCount": 124,
+  "dayCount": 125,
   "stocks": [
     {
       "code": "sh603993",
@@ -81,20 +81,6 @@
       "source": "sector:无线耳机"
     },
     {
-      "code": "sh600549",
-      "name": "厦门钨业",
-      "group": "focus",
-      "addedDate": "2026-06-01",
-      "source": "sector:融资融券"
-    },
-    {
-      "code": "sh603516",
-      "name": "淳中科技",
-      "group": "focus",
-      "addedDate": "2026-06-05",
-      "source": "sector:国防军工"
-    },
-    {
       "code": "sz000776",
       "name": "广发证券",
       "group": "focus",
@@ -107,13 +93,6 @@
       "group": "focus",
       "addedDate": "2026-06-17",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sz002655",
-      "name": "共达电声",
-      "group": "focus",
-      "addedDate": "2026-06-22",
-      "source": "sector:无线耳机"
     },
     {
       "code": "sz000783",
@@ -249,13 +228,6 @@
       "source": "sector:分拆上市"
     },
     {
-      "code": "sz002008",
-      "name": "大族激光",
-      "group": "focus",
-      "addedDate": "2026-07-08",
-      "source": "sector:分拆上市"
-    },
-    {
       "code": "sz300054",
       "name": "鼎龙股份",
       "group": "focus",
@@ -298,13 +270,6 @@
       "source": "sector:风电"
     },
     {
-      "code": "sh600522",
-      "name": "中天科技",
-      "group": "focus",
-      "addedDate": "2026-07-10",
-      "source": "sector:5G概念"
-    },
-    {
       "code": "sz300395",
       "name": "菲利华",
       "group": "focus",
@@ -338,20 +303,55 @@
       "group": "focus",
       "addedDate": "2026-07-13",
       "source": "sector:军民融合"
+    },
+    {
+      "code": "sz002396",
+      "name": "星网锐捷",
+      "group": "focus",
+      "addedDate": "2026-07-14",
+      "source": "sector:电子支付"
+    },
+    {
+      "code": "sz000792",
+      "name": "盐湖股份",
+      "group": "focus",
+      "addedDate": "2026-07-14",
+      "source": "sector:保险重仓"
+    },
+    {
+      "code": "sh600584",
+      "name": "长电科技",
+      "group": "focus",
+      "addedDate": "2026-07-14",
+      "source": "sector:电子支付"
+    },
+    {
+      "code": "sz000811",
+      "name": "冰轮环境",
+      "group": "focus",
+      "addedDate": "2026-07-14",
+      "source": "sector:黄河三角"
+    },
+    {
+      "code": "sz300285",
+      "name": "国瓷材料",
+      "group": "focus",
+      "addedDate": "2026-07-14",
+      "source": "sector:黄河三角"
     }
   ],
   "todayAdded": [
-    "sz300395",
-    "sz002185",
-    "sz000970",
-    "sz002436",
-    "sh600353"
+    "sz002396",
+    "sz000792",
+    "sh600584",
+    "sz000811",
+    "sz300285"
   ],
   "todayRemoved": [
-    "sz002407",
-    "sz300017",
-    "sz002261",
-    "sz002230",
-    "sh600360"
+    "sh600522",
+    "sz002008",
+    "sh603516",
+    "sz002655",
+    "sh600549"
   ]
 }
