@@ -1,7 +1,7 @@
 {
-  "version": "20260714a",
+  "version": "20260715a",
   "startDate": "2026-03-12",
-  "dayCount": 125,
+  "dayCount": 126,
   "stocks": [
     {
       "code": "sh603993",
@@ -151,13 +151,6 @@
       "source": "sector:光伏概念"
     },
     {
-      "code": "sz002167",
-      "name": "东方锆业",
-      "group": "focus",
-      "addedDate": "2026-07-01",
-      "source": "sector:国防军工"
-    },
-    {
       "code": "sz002049",
       "name": "紫光国微",
       "group": "focus",
@@ -170,13 +163,6 @@
       "group": "focus",
       "addedDate": "2026-07-02",
       "source": "sector:锂矿"
-    },
-    {
-      "code": "sz002294",
-      "name": "信立泰",
-      "group": "focus",
-      "addedDate": "2026-07-02",
-      "source": "sector:创新药"
     },
     {
       "code": "sz002602",
@@ -221,13 +207,6 @@
       "source": "sector:分拆上市"
     },
     {
-      "code": "sz000301",
-      "name": "东方盛虹",
-      "group": "focus",
-      "addedDate": "2026-07-08",
-      "source": "sector:分拆上市"
-    },
-    {
       "code": "sz300054",
       "name": "鼎龙股份",
       "group": "focus",
@@ -240,20 +219,6 @@
       "group": "focus",
       "addedDate": "2026-07-09",
       "source": "sector:股权激励"
-    },
-    {
-      "code": "sz000021",
-      "name": "深科技",
-      "group": "focus",
-      "addedDate": "2026-07-09",
-      "source": "sector:金融参股"
-    },
-    {
-      "code": "sh600667",
-      "name": "太极实业",
-      "group": "focus",
-      "addedDate": "2026-07-09",
-      "source": "sector:业绩预降"
     },
     {
       "code": "sz002364",
@@ -338,20 +303,55 @@
       "group": "focus",
       "addedDate": "2026-07-14",
       "source": "sector:黄河三角"
+    },
+    {
+      "code": "sh600183",
+      "name": "生益科技",
+      "group": "focus",
+      "addedDate": "2026-07-15",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sh601628",
+      "name": "中国人寿",
+      "group": "focus",
+      "addedDate": "2026-07-15",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600497",
+      "name": "驰宏锌锗",
+      "group": "focus",
+      "addedDate": "2026-07-15",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000933",
+      "name": "神火股份",
+      "group": "focus",
+      "addedDate": "2026-07-15",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600522",
+      "name": "XD中天科",
+      "group": "focus",
+      "addedDate": "2026-07-15",
+      "source": "sector:光伏"
     }
   ],
   "todayAdded": [
-    "sz002396",
-    "sz000792",
-    "sh600584",
-    "sz000811",
-    "sz300285"
+    "sh600183",
+    "sh601628",
+    "sh600497",
+    "sz000933",
+    "sh600522"
   ],
   "todayRemoved": [
-    "sh600522",
-    "sz002008",
-    "sh603516",
-    "sz002655",
-    "sh600549"
+    "sz002167",
+    "sz002294",
+    "sz000301",
+    "sh600667",
+    "sz000021"
   ]
 }
