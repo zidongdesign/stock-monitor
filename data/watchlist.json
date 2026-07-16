@@ -1,7 +1,7 @@
 {
-  "version": "20260715a",
+  "version": "20260716a",
   "startDate": "2026-03-12",
-  "dayCount": 126,
+  "dayCount": 127,
   "stocks": [
     {
       "code": "sh603993",
@@ -207,13 +207,6 @@
       "source": "sector:分拆上市"
     },
     {
-      "code": "sz300054",
-      "name": "鼎龙股份",
-      "group": "focus",
-      "addedDate": "2026-07-09",
-      "source": "sector:股权激励"
-    },
-    {
       "code": "sz000063",
       "name": "中兴通讯",
       "group": "focus",
@@ -221,25 +214,11 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz002364",
-      "name": "中恒电气",
-      "group": "focus",
-      "addedDate": "2026-07-10",
-      "source": "sector:5G概念"
-    },
-    {
       "code": "sh600487",
       "name": "亨通光电",
       "group": "focus",
       "addedDate": "2026-07-10",
       "source": "sector:风电"
-    },
-    {
-      "code": "sz300395",
-      "name": "菲利华",
-      "group": "focus",
-      "addedDate": "2026-07-13",
-      "source": "sector:军工航天"
     },
     {
       "code": "sz002185",
@@ -254,20 +233,6 @@
       "group": "focus",
       "addedDate": "2026-07-13",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sz002436",
-      "name": "兴森科技",
-      "group": "focus",
-      "addedDate": "2026-07-13",
-      "source": "sector:军工航天"
-    },
-    {
-      "code": "sh600353",
-      "name": "旭光电子",
-      "group": "focus",
-      "addedDate": "2026-07-13",
-      "source": "sector:军民融合"
     },
     {
       "code": "sz002396",
@@ -338,20 +303,55 @@
       "group": "focus",
       "addedDate": "2026-07-15",
       "source": "sector:光伏"
+    },
+    {
+      "code": "sh600690",
+      "name": "海尔智家",
+      "group": "focus",
+      "addedDate": "2026-07-16",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600036",
+      "name": "招商银行",
+      "group": "focus",
+      "addedDate": "2026-07-16",
+      "source": "sector:基金重仓"
+    },
+    {
+      "code": "sh601166",
+      "name": "兴业银行",
+      "group": "focus",
+      "addedDate": "2026-07-16",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh601668",
+      "name": "XD中国建",
+      "group": "focus",
+      "addedDate": "2026-07-16",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000858",
+      "name": "五 粮 液",
+      "group": "focus",
+      "addedDate": "2026-07-16",
+      "source": "sector:保险重仓"
     }
   ],
   "todayAdded": [
-    "sh600183",
-    "sh601628",
-    "sh600497",
-    "sz000933",
-    "sh600522"
+    "sh600690",
+    "sh600036",
+    "sh601166",
+    "sh601668",
+    "sz000858"
   ],
   "todayRemoved": [
-    "sz002167",
-    "sz002294",
-    "sz000301",
-    "sh600667",
-    "sz000021"
+    "sh600353",
+    "sz300054",
+    "sz300395",
+    "sz002436",
+    "sz002364"
   ]
 }
