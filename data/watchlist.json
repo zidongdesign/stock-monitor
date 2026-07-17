@@ -1,7 +1,7 @@
 {
-  "version": "20260716a",
+  "version": "20260717a",
   "startDate": "2026-03-12",
-  "dayCount": 127,
+  "dayCount": 128,
   "stocks": [
     {
       "code": "sh603993",
@@ -58,13 +58,6 @@
       "group": "focus",
       "addedDate": "2026-05-06",
       "source": "sector:华为概念"
-    },
-    {
-      "code": "sz002484",
-      "name": "江海股份",
-      "group": "focus",
-      "addedDate": "2026-04-27",
-      "source": "sector:特斯拉"
     },
     {
       "code": "sz002409",
@@ -144,20 +137,6 @@
       "source": "sector:分拆上市"
     },
     {
-      "code": "sh603063",
-      "name": "禾望电气",
-      "group": "focus",
-      "addedDate": "2026-06-30",
-      "source": "sector:光伏概念"
-    },
-    {
-      "code": "sz002049",
-      "name": "紫光国微",
-      "group": "focus",
-      "addedDate": "2026-07-01",
-      "source": "sector:国防军工"
-    },
-    {
       "code": "sz002594",
       "name": "比亚迪",
       "group": "focus",
@@ -228,13 +207,6 @@
       "source": "sector:陕甘宁"
     },
     {
-      "code": "sz000970",
-      "name": "中科三环",
-      "group": "focus",
-      "addedDate": "2026-07-13",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz002396",
       "name": "星网锐捷",
       "group": "focus",
@@ -247,13 +219,6 @@
       "group": "focus",
       "addedDate": "2026-07-14",
       "source": "sector:保险重仓"
-    },
-    {
-      "code": "sh600584",
-      "name": "长电科技",
-      "group": "focus",
-      "addedDate": "2026-07-14",
-      "source": "sector:电子支付"
     },
     {
       "code": "sz000811",
@@ -338,20 +303,39 @@
       "group": "focus",
       "addedDate": "2026-07-16",
       "source": "sector:保险重仓"
+    },
+    {
+      "code": "sz300070",
+      "name": "碧水源",
+      "group": "focus",
+      "addedDate": "2026-07-17",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000968",
+      "name": "蓝焰控股",
+      "group": "focus",
+      "addedDate": "2026-07-17",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz300014",
+      "name": "亿纬锂能",
+      "group": "focus",
+      "addedDate": "2026-07-17",
+      "source": "sector:股权激励"
     }
   ],
   "todayAdded": [
-    "sh600690",
-    "sh600036",
-    "sh601166",
-    "sh601668",
-    "sz000858"
+    "sz300070",
+    "sz000968",
+    "sz300014"
   ],
   "todayRemoved": [
-    "sh600353",
-    "sz300054",
-    "sz300395",
-    "sz002436",
-    "sz002364"
+    "sh600584",
+    "sh603063",
+    "sz002484",
+    "sz000970",
+    "sz002049"
   ]
 }

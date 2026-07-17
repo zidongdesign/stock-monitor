@@ -1,556 +1,434 @@
 {
-  "updated": "2026-07-16T09:33:58.357747+08:00",
+  "updated": "2026-07-17T09:33:57.536413+08:00",
   "sectors": [
     {
       "name": "融资融券",
-      "netAmount": 18114305845.42,
-      "avgChange": 0.87,
+      "netAmount": 7721160646.73,
+      "avgChange": -1.01,
       "leader": {
-        "code": "sh600257",
-        "name": "大湖股份",
-        "change": 4.9
+        "code": "sh600491",
+        "name": "ST龙元",
+        "change": 0
       },
       "hotStocks": [
         {
-          "code": "sh600519",
-          "name": "贵州茅台",
-          "change": 0.94,
-          "netAmount": 1954209782.67,
-          "reason": "净流入19.5亿"
+          "code": "sz000792",
+          "name": "盐湖股份",
+          "change": 1.5,
+          "netAmount": 64754984.0,
+          "reason": "净流入647550万"
         },
         {
-          "code": "sh601166",
-          "name": "兴业银行",
-          "change": 0.73,
-          "netAmount": 664787638.91,
-          "reason": "净流入6.6亿"
+          "code": "sz300070",
+          "name": "碧水源",
+          "change": 2.86,
+          "netAmount": 22959823.61,
+          "reason": "净流入229598万"
         },
         {
-          "code": "sh600690",
-          "name": "海尔智家",
-          "change": 0.95,
-          "netAmount": 318106633.71,
-          "reason": "净流入3.2亿"
+          "code": "sh600418",
+          "name": "江淮汽车",
+          "change": 2.61,
+          "netAmount": 18324759.0,
+          "reason": "净流入183248万"
         },
         {
-          "code": "sh601668",
-          "name": "XD中国建",
-          "change": 0.9,
-          "netAmount": 305016968.96,
-          "reason": "净流入3.1亿"
+          "code": "sz002146",
+          "name": "荣盛发展",
+          "change": 2.65,
+          "netAmount": 17769649.6,
+          "reason": "净流入177696万"
         },
         {
-          "code": "sz000568",
-          "name": "泸州老窖",
-          "change": 0.82,
-          "netAmount": 268105827.53,
-          "reason": "净流入2.7亿"
+          "code": "sz000968",
+          "name": "蓝焰控股",
+          "change": 2.85,
+          "netAmount": 13714035.0,
+          "reason": "净流入137140万"
         }
       ]
+    },
+    {
+      "name": "分拆上市",
+      "netAmount": 5218689808.0,
+      "avgChange": -1.44,
+      "leader": {
+        "code": "sz000676",
+        "name": "智度股份",
+        "change": 9.97
+      },
+      "hotStocks": [
+        {
+          "code": "sz000676",
+          "name": "智度股份",
+          "change": 9.97,
+          "netAmount": 170821171.13,
+          "reason": "涨停+净流入1.7亿"
+        },
+        {
+          "code": "sz002123",
+          "name": "梦网科技",
+          "change": 3.91,
+          "netAmount": 80409738.26,
+          "reason": "显著上涨+净流入804097万"
+        },
+        {
+          "code": "sh600027",
+          "name": "华电国际",
+          "change": 1.09,
+          "netAmount": 20076776.0,
+          "reason": "净流入200768万"
+        },
+        {
+          "code": "sh600795",
+          "name": "国电电力",
+          "change": 0.86,
+          "netAmount": 12304139.0,
+          "reason": "净流入123041万"
+        },
+        {
+          "code": "sh601991",
+          "name": "大唐发电",
+          "change": 0.35,
+          "netAmount": 10423185.35,
+          "reason": "净流入104232万"
+        }
+      ]
+    },
+    {
+      "name": "股权激励",
+      "netAmount": 5142082231.54,
+      "avgChange": -0.7,
+      "leader": {
+        "code": "sz000566",
+        "name": "海南海药",
+        "change": 0
+      },
+      "hotStocks": [
+        {
+          "code": "sz300014",
+          "name": "亿纬锂能",
+          "change": 1.47,
+          "netAmount": 52636088.04,
+          "reason": "净流入526361万"
+        },
+        {
+          "code": "sz002167",
+          "name": "东方锆业",
+          "change": 2.95,
+          "netAmount": 35521439.0,
+          "reason": "净流入355214万"
+        },
+        {
+          "code": "sz300070",
+          "name": "碧水源",
+          "change": 2.86,
+          "netAmount": 22959823.61,
+          "reason": "净流入229598万"
+        },
+        {
+          "code": "sz002146",
+          "name": "荣盛发展",
+          "change": 2.65,
+          "netAmount": 17769649.6,
+          "reason": "净流入177696万"
+        },
+        {
+          "code": "sz300031",
+          "name": "宝通科技",
+          "change": 1.85,
+          "netAmount": 9146945.0,
+          "reason": "资金净流入"
+        }
+      ]
+    },
+    {
+      "name": "业绩预升",
+      "netAmount": 4790014525.46,
+      "avgChange": -0.76,
+      "leader": {
+        "code": "sz000639",
+        "name": "ST西王",
+        "change": 0
+      },
+      "hotStocks": [
+        {
+          "code": "sz300071",
+          "name": "福石控股",
+          "change": 1.54,
+          "netAmount": 65685874.0,
+          "reason": "净流入656859万"
+        },
+        {
+          "code": "sz300014",
+          "name": "亿纬锂能",
+          "change": 1.47,
+          "netAmount": 52636088.04,
+          "reason": "净流入526361万"
+        },
+        {
+          "code": "sh600418",
+          "name": "江淮汽车",
+          "change": 2.61,
+          "netAmount": 18324759.0,
+          "reason": "净流入183248万"
+        },
+        {
+          "code": "sz002547",
+          "name": "*ST春兴",
+          "change": 2.12,
+          "netAmount": 7295530.0,
+          "reason": "资金净流入"
+        },
+        {
+          "code": "sz002410",
+          "name": "广联达",
+          "change": 1.6,
+          "netAmount": 6759103.0,
+          "reason": "资金净流入"
+        }
+      ]
+    },
+    {
+      "name": "3D打印",
+      "netAmount": 4587839277.91,
+      "avgChange": -1.54,
+      "leader": {
+        "code": "sz300227",
+        "name": "光韵达",
+        "change": -4.93
+      },
+      "hotStocks": []
+    },
+    {
+      "name": "机器人概念",
+      "netAmount": 4319252084.87,
+      "avgChange": 0.36,
+      "leader": {
+        "code": "sz000938",
+        "name": "紫光股份",
+        "change": 0
+      },
+      "hotStocks": []
+    },
+    {
+      "name": "智能机器",
+      "netAmount": 4266334765.42,
+      "avgChange": 0.75,
+      "leader": {
+        "code": "sz000938",
+        "name": "紫光股份",
+        "change": -7.41
+      },
+      "hotStocks": []
     },
     {
       "name": "基金重仓",
-      "netAmount": 15440027592.46,
-      "avgChange": 1.48,
+      "netAmount": 3731784373.72,
+      "avgChange": -0.69,
       "leader": {
-        "code": "sz002310",
-        "name": "东方新能",
+        "code": "sh600518",
+        "name": "康美药业",
         "change": 0
       },
       "hotStocks": [
         {
           "code": "sh600519",
           "name": "贵州茅台",
-          "change": 0.94,
-          "netAmount": 1954209782.67,
-          "reason": "净流入19.5亿"
-        },
-        {
-          "code": "sh600036",
-          "name": "招商银行",
-          "change": 0.5,
-          "netAmount": 745226797.91,
-          "reason": "净流入7.5亿"
-        },
-        {
-          "code": "sh601166",
-          "name": "兴业银行",
-          "change": 0.73,
-          "netAmount": 664787638.91,
-          "reason": "净流入6.6亿"
-        },
-        {
-          "code": "sh600016",
-          "name": "民生银行",
-          "change": 0.58,
-          "netAmount": 362354080.04,
-          "reason": "净流入3.6亿"
-        },
-        {
-          "code": "sh600690",
-          "name": "海尔智家",
-          "change": 0.95,
-          "netAmount": 318106633.71,
-          "reason": "净流入3.2亿"
-        }
-      ]
-    },
-    {
-      "name": "保险重仓",
-      "netAmount": 12620937664.25,
-      "avgChange": 1.02,
-      "leader": {
-        "code": "sh601888",
-        "name": "中国中免",
-        "change": 0
-      },
-      "hotStocks": [
-        {
-          "code": "sh600519",
-          "name": "贵州茅台",
-          "change": 0.94,
-          "netAmount": 1954209782.67,
-          "reason": "净流入19.5亿"
-        },
-        {
-          "code": "sh600036",
-          "name": "招商银行",
-          "change": 0.5,
-          "netAmount": 745226797.91,
-          "reason": "净流入7.5亿"
+          "change": 0.72,
+          "netAmount": 166783681.0,
+          "reason": "净流入1.7亿"
         },
         {
           "code": "sz000858",
           "name": "五 粮 液",
-          "change": 0.15,
-          "netAmount": 588681147.8,
-          "reason": "净流入5.9亿"
-        },
-        {
-          "code": "sh600900",
-          "name": "长江电力",
-          "change": 0.1,
-          "netAmount": 367370848.74,
-          "reason": "净流入3.7亿"
-        },
-        {
-          "code": "sh600016",
-          "name": "民生银行",
-          "change": 0.86,
-          "netAmount": 362354080.04,
-          "reason": "净流入3.6亿"
-        }
-      ]
-    },
-    {
-      "name": "创新药",
-      "netAmount": 12151140805.63,
-      "avgChange": 3.99,
-      "leader": {
-        "code": "sh688192",
-        "name": "迪哲医药",
-        "change": 0
-      },
-      "hotStocks": [
-        {
-          "code": "sh603127",
-          "name": "昭衍新药",
-          "change": 8.61,
-          "netAmount": 1179007811.78,
-          "reason": "强势拉升+净流入11.8亿"
-        },
-        {
-          "code": "sz300149",
-          "name": "睿智医药",
-          "change": 6.64,
-          "netAmount": 417807310.96,
-          "reason": "显著上涨+净流入4.2亿"
-        },
-        {
-          "code": "sz000566",
-          "name": "海南海药",
-          "change": 7.96,
-          "netAmount": 337743656.96,
-          "reason": "强势拉升+净流入3.4亿"
-        },
-        {
-          "code": "sz300204",
-          "name": "舒泰神",
-          "change": 3.73,
-          "netAmount": 321410186.35,
-          "reason": "显著上涨+净流入3.2亿"
-        },
-        {
-          "code": "sz300436",
-          "name": "广生堂",
-          "change": 1.41,
-          "netAmount": 144028683.91,
-          "reason": "净流入1.4亿"
-        }
-      ]
-    },
-    {
-      "name": "含H股",
-      "netAmount": 7388013708.77,
-      "avgChange": 0.74,
-      "leader": {
-        "code": "sh600188",
-        "name": "兖矿能源",
-        "change": 0
-      },
-      "hotStocks": [
-        {
-          "code": "sh600036",
-          "name": "招商银行",
-          "change": 0.5,
-          "netAmount": 745226797.91,
-          "reason": "净流入7.5亿"
-        },
-        {
-          "code": "sh600016",
-          "name": "民生银行",
-          "change": 0.86,
-          "netAmount": 362354080.04,
-          "reason": "净流入3.6亿"
-        },
-        {
-          "code": "sh601919",
-          "name": "中远海控",
-          "change": 0.2,
-          "netAmount": 356933268.91,
-          "reason": "净流入3.6亿"
-        },
-        {
-          "code": "sh601328",
-          "name": "交通银行",
-          "change": 0.44,
-          "netAmount": 272928399.33,
-          "reason": "净流入2.7亿"
-        },
-        {
-          "code": "sz002594",
-          "name": "比亚迪",
-          "change": 0.61,
-          "netAmount": 268469150.56,
-          "reason": "净流入2.7亿"
-        }
-      ]
-    },
-    {
-      "name": "超大盘",
-      "netAmount": 4967291068.46,
-      "avgChange": 0.54,
-      "leader": {
-        "code": "sh601318",
-        "name": "中国平安",
-        "change": -0.1
-      },
-      "hotStocks": [
-        {
-          "code": "sh600036",
-          "name": "招商银行",
-          "change": 0.5,
-          "netAmount": 745226797.91,
-          "reason": "净流入7.5亿"
-        },
-        {
-          "code": "sh600900",
-          "name": "长江电力",
-          "change": 0.17,
-          "netAmount": 367370848.74,
-          "reason": "净流入3.7亿"
-        },
-        {
-          "code": "sh601919",
-          "name": "中远海控",
-          "change": 0.27,
-          "netAmount": 356933268.91,
-          "reason": "净流入3.6亿"
+          "change": 1.0,
+          "netAmount": 109012421.74,
+          "reason": "净流入1.1亿"
         },
         {
           "code": "sh601668",
-          "name": "XD中国建",
+          "name": "中国建筑",
           "change": 1.12,
-          "netAmount": 305016968.96,
-          "reason": "净流入3.1亿"
+          "netAmount": 37940795.68,
+          "reason": "净流入379408万"
         },
         {
-          "code": "sh600000",
-          "name": "XD浦发银",
-          "change": 0.45,
-          "netAmount": 226868579.6,
-          "reason": "净流入2.3亿"
+          "code": "sh601288",
+          "name": "农业银行",
+          "change": 0.64,
+          "netAmount": 34502657.0,
+          "reason": "净流入345027万"
+        },
+        {
+          "code": "sz000651",
+          "name": "格力电器",
+          "change": 0.65,
+          "netAmount": 33542035.48,
+          "reason": "净流入335420万"
+        }
+      ]
+    },
+    {
+      "name": "高校背景",
+      "netAmount": 3631556505.03,
+      "avgChange": -1.54,
+      "leader": {
+        "code": "sz000938",
+        "name": "紫光股份",
+        "change": -7.41
+      },
+      "hotStocks": [
+        {
+          "code": "sh600857",
+          "name": "宁波中百",
+          "change": 4.33,
+          "netAmount": 13240678.0,
+          "reason": "显著上涨+净流入132407万"
+        },
+        {
+          "code": "sh601901",
+          "name": "方正证券",
+          "change": 0.28,
+          "netAmount": 6147040.0,
+          "reason": "资金净流入"
+        },
+        {
+          "code": "sh600730",
+          "name": "*ST高科",
+          "change": 10.06,
+          "netAmount": 0,
+          "reason": "涨停"
         }
       ]
     },
     {
       "name": "社保重仓",
-      "netAmount": 4201435823.78,
-      "avgChange": 1.66,
+      "netAmount": 3385143484.1,
+      "avgChange": -1.11,
       "leader": {
         "code": "sz000566",
         "name": "海南海药",
-        "change": 7.77
+        "change": 1.06
       },
       "hotStocks": [
         {
           "code": "sz000858",
           "name": "五 粮 液",
-          "change": 0.14,
-          "netAmount": 588681147.8,
-          "reason": "净流入5.9亿"
-        },
-        {
-          "code": "sz000566",
-          "name": "海南海药",
-          "change": 7.77,
-          "netAmount": 337743656.96,
-          "reason": "强势拉升+净流入3.4亿"
+          "change": 1.0,
+          "netAmount": 109012421.74,
+          "reason": "净流入1.1亿"
         },
         {
           "code": "sh601668",
-          "name": "XD中国建",
-          "change": 0.9,
-          "netAmount": 305016968.96,
-          "reason": "净流入3.1亿"
+          "name": "中国建筑",
+          "change": 1.12,
+          "netAmount": 37940795.68,
+          "reason": "净流入379408万"
         },
         {
-          "code": "sz002241",
-          "name": "歌尔股份",
-          "change": 1.57,
-          "netAmount": 205615956.62,
-          "reason": "净流入2.1亿"
+          "code": "sz002129",
+          "name": "TCL中环",
+          "change": 0.77,
+          "netAmount": 24737587.9,
+          "reason": "净流入247376万"
         },
         {
-          "code": "sh600887",
-          "name": "伊利股份",
-          "change": 0.69,
-          "netAmount": 204444579.13,
-          "reason": "净流入2.0亿"
-        }
-      ]
-    },
-    {
-      "name": "抗癌",
-      "netAmount": 4175287815.66,
-      "avgChange": 2.99,
-      "leader": {
-        "code": "sh600664",
-        "name": "哈药股份",
-        "change": 10.02
-      },
-      "hotStocks": [
-        {
-          "code": "sz000566",
-          "name": "海南海药",
-          "change": 7.77,
-          "netAmount": 337743656.96,
-          "reason": "强势拉升+净流入3.4亿"
+          "code": "sh601888",
+          "name": "中国中免",
+          "change": 0.81,
+          "netAmount": 21820349.0,
+          "reason": "净流入218203万"
         },
         {
-          "code": "sh600664",
-          "name": "哈药股份",
-          "change": 10.02,
-          "netAmount": 233629464.32,
-          "reason": "涨停+净流入2.3亿"
-        },
-        {
-          "code": "sh600535",
-          "name": "天士力",
-          "change": 0.92,
-          "netAmount": 97135410.51,
-          "reason": "净流入971354万"
-        },
-        {
-          "code": "sh600267",
-          "name": "海正药业",
-          "change": 1.75,
-          "netAmount": 81427258.49,
-          "reason": "净流入814273万"
-        },
-        {
-          "code": "sz002437",
-          "name": "誉衡药业",
-          "change": 2.87,
-          "netAmount": 61976990.0,
-          "reason": "净流入619770万"
-        }
-      ]
-    },
-    {
-      "name": "白酒概念",
-      "netAmount": 4005880850.93,
-      "avgChange": 3.71,
-      "leader": {
-        "code": "sh600257",
-        "name": "大湖股份",
-        "change": 4.29
-      },
-      "hotStocks": [
-        {
-          "code": "sh600519",
-          "name": "贵州茅台",
-          "change": 0.95,
-          "netAmount": 1954209782.67,
-          "reason": "净流入19.5亿"
-        },
-        {
-          "code": "sz000858",
-          "name": "五 粮 液",
-          "change": 0.14,
-          "netAmount": 588681147.8,
-          "reason": "净流入5.9亿"
-        },
-        {
-          "code": "sz000568",
-          "name": "泸州老窖",
-          "change": 0.94,
-          "netAmount": 268105827.53,
-          "reason": "净流入2.7亿"
-        },
-        {
-          "code": "sh600809",
-          "name": "山西汾酒",
-          "change": 0.94,
-          "netAmount": 258781915.61,
-          "reason": "净流入2.6亿"
-        },
-        {
-          "code": "sz000596",
-          "name": "古井贡酒",
-          "change": 0.7,
-          "netAmount": 228870918.29,
-          "reason": "净流入2.3亿"
-        }
-      ]
-    },
-    {
-      "name": "央企50",
-      "netAmount": 3876762286.48,
-      "avgChange": 0.78,
-      "leader": {
-        "code": "sh601628",
-        "name": "中国人寿",
-        "change": -1.58
-      },
-      "hotStocks": [
-        {
-          "code": "sh600036",
-          "name": "招商银行",
-          "change": 0.5,
-          "netAmount": 745226797.91,
-          "reason": "净流入7.5亿"
-        },
-        {
-          "code": "sh601919",
-          "name": "中远海控",
-          "change": 0.27,
-          "netAmount": 356933268.91,
-          "reason": "净流入3.6亿"
-        },
-        {
-          "code": "sh601328",
-          "name": "交通银行",
-          "change": 0.59,
-          "netAmount": 272928399.33,
-          "reason": "净流入2.7亿"
-        },
-        {
-          "code": "sh601766",
-          "name": "中国中车",
-          "change": 0.18,
-          "netAmount": 188499319.46,
-          "reason": "净流入1.9亿"
-        },
-        {
-          "code": "sh600050",
-          "name": "中国联通",
-          "change": 0.23,
-          "netAmount": 171908672.73,
-          "reason": "净流入1.7亿"
+          "code": "sh600660",
+          "name": "福耀玻璃",
+          "change": 1.02,
+          "netAmount": 20096571.12,
+          "reason": "净流入200966万"
         }
       ]
     }
   ],
   "recommend": [
     {
-      "code": "sh600519",
-      "name": "贵州茅台",
+      "code": "sz000676",
+      "name": "智度股份",
+      "sector": "分拆上市",
+      "score": 86,
+      "reason": "[分拆上市]涨停+净流入1.7亿",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sz002123",
+      "name": "梦网科技",
+      "sector": "分拆上市",
+      "score": 85,
+      "reason": "[分拆上市]显著上涨+净流入804097万",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sz000792",
+      "name": "盐湖股份",
       "sector": "融资融券",
-      "score": 90,
-      "reason": "[融资融券]净流入19.5亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sh601166",
-      "name": "兴业银行",
-      "sector": "融资融券",
-      "score": 90,
-      "reason": "[融资融券]净流入6.6亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sh603127",
-      "name": "昭衍新药",
-      "sector": "创新药",
-      "score": 89,
-      "reason": "[创新药]强势拉升+净流入11.8亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sz300149",
-      "name": "睿智医药",
-      "sector": "创新药",
-      "score": 89,
-      "reason": "[创新药]显著上涨+净流入4.2亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sz300204",
-      "name": "舒泰神",
-      "sector": "创新药",
-      "score": 89,
-      "reason": "[创新药]显著上涨+净流入3.2亿",
-      "suggestGroup": "watch"
-    },
-    {
-      "code": "sh600036",
-      "name": "招商银行",
-      "sector": "基金重仓",
-      "score": 88,
-      "reason": "[基金重仓]净流入7.5亿",
+      "score": 80,
+      "reason": "[融资融券]净流入647550万",
       "suggestGroup": "watch"
     },
     {
       "code": "sz000858",
       "name": "五 粮 液",
-      "sector": "保险重仓",
-      "score": 86,
-      "reason": "[保险重仓]净流入5.9亿",
+      "sector": "基金重仓",
+      "score": 78,
+      "reason": "[基金重仓]净流入1.1亿",
       "suggestGroup": "watch"
     },
     {
-      "code": "sz300436",
-      "name": "广生堂",
-      "sector": "创新药",
-      "score": 82,
-      "reason": "[创新药]净流入1.4亿",
+      "code": "sz300014",
+      "name": "亿纬锂能",
+      "sector": "股权激励",
+      "score": 76,
+      "reason": "[股权激励]净流入526361万",
       "suggestGroup": "watch"
     },
     {
-      "code": "sh600690",
-      "name": "海尔智家",
+      "code": "sz300071",
+      "name": "福石控股",
+      "sector": "业绩预升",
+      "score": 74,
+      "reason": "[业绩预升]净流入656859万",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sz300070",
+      "name": "碧水源",
       "sector": "融资融券",
-      "score": 80,
-      "reason": "[融资融券]净流入3.2亿",
+      "score": 73,
+      "reason": "[融资融券]净流入229598万",
       "suggestGroup": "watch"
     },
     {
-      "code": "sh601668",
-      "name": "XD中国建",
+      "code": "sh600418",
+      "name": "江淮汽车",
       "sector": "融资融券",
-      "score": 80,
-      "reason": "[融资融券]净流入3.1亿",
+      "score": 73,
+      "reason": "[融资融券]净流入183248万",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sz002146",
+      "name": "荣盛发展",
+      "sector": "融资融券",
+      "score": 73,
+      "reason": "[融资融券]净流入177696万",
+      "suggestGroup": "watch"
+    },
+    {
+      "code": "sz000968",
+      "name": "蓝焰控股",
+      "sector": "融资融券",
+      "score": 73,
+      "reason": "[融资融券]净流入137140万",
       "suggestGroup": "watch"
     }
   ]
