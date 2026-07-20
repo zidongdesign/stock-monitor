@@ -1,7 +1,7 @@
 {
-  "version": "20260717a",
+  "version": "20260720a",
   "startDate": "2026-03-12",
-  "dayCount": 128,
+  "dayCount": 131,
   "stocks": [
     {
       "code": "sh603993",
@@ -186,20 +186,6 @@
       "source": "sector:分拆上市"
     },
     {
-      "code": "sz000063",
-      "name": "中兴通讯",
-      "group": "focus",
-      "addedDate": "2026-07-09",
-      "source": "sector:股权激励"
-    },
-    {
-      "code": "sh600487",
-      "name": "亨通光电",
-      "group": "focus",
-      "addedDate": "2026-07-10",
-      "source": "sector:风电"
-    },
-    {
       "code": "sz002185",
       "name": "华天科技",
       "group": "focus",
@@ -235,22 +221,8 @@
       "source": "sector:黄河三角"
     },
     {
-      "code": "sh600183",
-      "name": "生益科技",
-      "group": "focus",
-      "addedDate": "2026-07-15",
-      "source": "sector:华为概念"
-    },
-    {
       "code": "sh601628",
       "name": "中国人寿",
-      "group": "focus",
-      "addedDate": "2026-07-15",
-      "source": "sector:融资融券"
-    },
-    {
-      "code": "sh600497",
-      "name": "驰宏锌锗",
       "group": "focus",
       "addedDate": "2026-07-15",
       "source": "sector:融资融券"
@@ -261,13 +233,6 @@
       "group": "focus",
       "addedDate": "2026-07-15",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sh600522",
-      "name": "XD中天科",
-      "group": "focus",
-      "addedDate": "2026-07-15",
-      "source": "sector:光伏"
     },
     {
       "code": "sh600690",
@@ -324,18 +289,55 @@
       "group": "focus",
       "addedDate": "2026-07-17",
       "source": "sector:股权激励"
+    },
+    {
+      "code": "sh600236",
+      "name": "桂冠电力",
+      "group": "focus",
+      "addedDate": "2026-07-20",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh601857",
+      "name": "中国石油",
+      "group": "focus",
+      "addedDate": "2026-07-20",
+      "source": "sector:央企50"
+    },
+    {
+      "code": "sh601766",
+      "name": "中国中车",
+      "group": "focus",
+      "addedDate": "2026-07-20",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600938",
+      "name": "中国海油",
+      "group": "focus",
+      "addedDate": "2026-07-20",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh600744",
+      "name": "华银电力",
+      "group": "focus",
+      "addedDate": "2026-07-20",
+      "source": "sector:融资融券"
     }
   ],
   "todayAdded": [
-    "sz300070",
-    "sz000968",
-    "sz300014"
+    "sh600236",
+    "sh601857",
+    "sh601766",
+    "sh600938",
+    "sh600744"
   ],
   "todayRemoved": [
-    "sh600584",
-    "sh603063",
-    "sz002484",
-    "sz000970",
-    "sz002049"
+    "sh600497",
+    "sh600522",
+    "sz000063",
+    "sh600183",
+    "sh600487"
   ]
 }
