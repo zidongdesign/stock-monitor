@@ -1,7 +1,7 @@
 {
-  "version": "20260720a",
+  "version": "20260721a",
   "startDate": "2026-03-12",
-  "dayCount": 131,
+  "dayCount": 132,
   "stocks": [
     {
       "code": "sh603993",
@@ -58,13 +58,6 @@
       "group": "focus",
       "addedDate": "2026-05-06",
       "source": "sector:华为概念"
-    },
-    {
-      "code": "sz002409",
-      "name": "雅克科技",
-      "group": "focus",
-      "addedDate": "2026-05-15",
-      "source": "sector:聚氨酯"
     },
     {
       "code": "sz002947",
@@ -186,39 +179,11 @@
       "source": "sector:分拆上市"
     },
     {
-      "code": "sz002185",
-      "name": "华天科技",
-      "group": "focus",
-      "addedDate": "2026-07-13",
-      "source": "sector:陕甘宁"
-    },
-    {
       "code": "sz002396",
       "name": "星网锐捷",
       "group": "focus",
       "addedDate": "2026-07-14",
       "source": "sector:电子支付"
-    },
-    {
-      "code": "sz000792",
-      "name": "盐湖股份",
-      "group": "focus",
-      "addedDate": "2026-07-14",
-      "source": "sector:保险重仓"
-    },
-    {
-      "code": "sz000811",
-      "name": "冰轮环境",
-      "group": "focus",
-      "addedDate": "2026-07-14",
-      "source": "sector:黄河三角"
-    },
-    {
-      "code": "sz300285",
-      "name": "国瓷材料",
-      "group": "focus",
-      "addedDate": "2026-07-14",
-      "source": "sector:黄河三角"
     },
     {
       "code": "sh601628",
@@ -324,20 +289,55 @@
       "group": "focus",
       "addedDate": "2026-07-20",
       "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000425",
+      "name": "徐工机械",
+      "group": "focus",
+      "addedDate": "2026-07-21",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600415",
+      "name": "小商品城",
+      "group": "focus",
+      "addedDate": "2026-07-21",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh601398",
+      "name": "工商银行",
+      "group": "focus",
+      "addedDate": "2026-07-21",
+      "source": "sector:基金重仓"
+    },
+    {
+      "code": "sz000625",
+      "name": "长安汽车",
+      "group": "focus",
+      "addedDate": "2026-07-21",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000100",
+      "name": "TCL科技",
+      "group": "focus",
+      "addedDate": "2026-07-21",
+      "source": "sector:融资融券"
     }
   ],
   "todayAdded": [
-    "sh600236",
-    "sh601857",
-    "sh601766",
-    "sh600938",
-    "sh600744"
+    "sz000425",
+    "sh600415",
+    "sh601398",
+    "sz000625",
+    "sz000100"
   ],
   "todayRemoved": [
-    "sh600497",
-    "sh600522",
-    "sz000063",
-    "sh600183",
-    "sh600487"
+    "sz300285",
+    "sz000792",
+    "sz002185",
+    "sz000811",
+    "sz002409"
   ]
 }
