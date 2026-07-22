@@ -1,7 +1,7 @@
 {
-  "version": "20260721a",
+  "version": "20260722a",
   "startDate": "2026-03-12",
-  "dayCount": 132,
+  "dayCount": 133,
   "stocks": [
     {
       "code": "sh603993",
@@ -81,13 +81,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz000783",
-      "name": "长江证券",
-      "group": "focus",
-      "addedDate": "2026-06-23",
-      "source": "sector:股期概念"
-    },
-    {
       "code": "sh603259",
       "name": "药明康德",
       "group": "focus",
@@ -116,13 +109,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz000988",
-      "name": "华工科技",
-      "group": "focus",
-      "addedDate": "2026-06-29",
-      "source": "sector:业绩预降"
-    },
-    {
       "code": "sz000938",
       "name": "紫光股份",
       "group": "focus",
@@ -149,13 +135,6 @@
       "group": "focus",
       "addedDate": "2026-07-02",
       "source": "sector:锂矿"
-    },
-    {
-      "code": "sz002472",
-      "name": "双环传动",
-      "group": "focus",
-      "addedDate": "2026-07-03",
-      "source": "sector:本月解禁"
     },
     {
       "code": "sz000977",
@@ -214,25 +193,11 @@
       "source": "sector:基金重仓"
     },
     {
-      "code": "sh601166",
-      "name": "兴业银行",
-      "group": "focus",
-      "addedDate": "2026-07-16",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sh601668",
       "name": "XD中国建",
       "group": "focus",
       "addedDate": "2026-07-16",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sz000858",
-      "name": "五 粮 液",
-      "group": "focus",
-      "addedDate": "2026-07-16",
-      "source": "sector:保险重仓"
     },
     {
       "code": "sz300070",
@@ -324,20 +289,55 @@
       "group": "focus",
       "addedDate": "2026-07-21",
       "source": "sector:融资融券"
+    },
+    {
+      "code": "sz300139",
+      "name": "晓程科技",
+      "group": "focus",
+      "addedDate": "2026-07-22",
+      "source": "sector:光伏概念"
+    },
+    {
+      "code": "sh600183",
+      "name": "生益科技",
+      "group": "focus",
+      "addedDate": "2026-07-22",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz300285",
+      "name": "国瓷材料",
+      "group": "focus",
+      "addedDate": "2026-07-22",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sh600667",
+      "name": "太极实业",
+      "group": "focus",
+      "addedDate": "2026-07-22",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600206",
+      "name": "有研新材",
+      "group": "focus",
+      "addedDate": "2026-07-22",
+      "source": "sector:光伏"
     }
   ],
   "todayAdded": [
-    "sz000425",
-    "sh600415",
-    "sh601398",
-    "sz000625",
-    "sz000100"
+    "sz300139",
+    "sh600183",
+    "sz300285",
+    "sh600667",
+    "sh600206"
   ],
   "todayRemoved": [
-    "sz300285",
-    "sz000792",
-    "sz002185",
-    "sz000811",
-    "sz002409"
+    "sh601166",
+    "sz000783",
+    "sz000988",
+    "sz002472",
+    "sz000858"
   ]
 }
