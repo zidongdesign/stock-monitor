@@ -1,7 +1,7 @@
 {
-  "version": "20260722a",
+  "version": "20260723a",
   "startDate": "2026-03-12",
-  "dayCount": 133,
+  "dayCount": 134,
   "stocks": [
     {
       "code": "sh603993",
@@ -67,13 +67,6 @@
       "source": "sector:无线耳机"
     },
     {
-      "code": "sz000776",
-      "name": "广发证券",
-      "group": "focus",
-      "addedDate": "2026-06-11",
-      "source": "sector:含H股"
-    },
-    {
       "code": "sz002028",
       "name": "思源电气",
       "group": "focus",
@@ -114,20 +107,6 @@
       "group": "focus",
       "addedDate": "2026-06-29",
       "source": "sector:分拆上市"
-    },
-    {
-      "code": "sz002594",
-      "name": "比亚迪",
-      "group": "focus",
-      "addedDate": "2026-07-02",
-      "source": "sector:锂矿"
-    },
-    {
-      "code": "sz002602",
-      "name": "世纪华通",
-      "group": "focus",
-      "addedDate": "2026-07-02",
-      "source": "sector:网络游戏"
     },
     {
       "code": "sh601899",
@@ -200,25 +179,11 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz300070",
-      "name": "碧水源",
-      "group": "focus",
-      "addedDate": "2026-07-17",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz000968",
       "name": "蓝焰控股",
       "group": "focus",
       "addedDate": "2026-07-17",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sz300014",
-      "name": "亿纬锂能",
-      "group": "focus",
-      "addedDate": "2026-07-17",
-      "source": "sector:股权激励"
     },
     {
       "code": "sh600236",
@@ -324,20 +289,55 @@
       "group": "focus",
       "addedDate": "2026-07-22",
       "source": "sector:光伏"
+    },
+    {
+      "code": "sh601168",
+      "name": "西部矿业",
+      "group": "focus",
+      "addedDate": "2026-07-23",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600256",
+      "name": "广汇能源",
+      "group": "focus",
+      "addedDate": "2026-07-23",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000034",
+      "name": "神州数码",
+      "group": "focus",
+      "addedDate": "2026-07-23",
+      "source": "sector:深圳本地"
+    },
+    {
+      "code": "sh600362",
+      "name": "江西铜业",
+      "group": "focus",
+      "addedDate": "2026-07-23",
+      "source": "sector:含H股"
+    },
+    {
+      "code": "sh600664",
+      "name": "哈药股份",
+      "group": "focus",
+      "addedDate": "2026-07-23",
+      "source": "sector:融资融券"
     }
   ],
   "todayAdded": [
-    "sz300139",
-    "sh600183",
-    "sz300285",
-    "sh600667",
-    "sh600206"
+    "sh601168",
+    "sh600256",
+    "sz000034",
+    "sh600362",
+    "sh600664"
   ],
   "todayRemoved": [
-    "sh601166",
-    "sz000783",
-    "sz000988",
-    "sz002472",
-    "sz000858"
+    "sz002602",
+    "sz300070",
+    "sz002594",
+    "sz300014",
+    "sz000776"
   ]
 }
