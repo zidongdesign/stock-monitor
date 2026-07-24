@@ -1,7 +1,7 @@
 {
-  "version": "20260723a",
+  "version": "20260724a",
   "startDate": "2026-03-12",
-  "dayCount": 134,
+  "dayCount": 135,
   "stocks": [
     {
       "code": "sh603993",
@@ -74,20 +74,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sh603259",
-      "name": "药明康德",
-      "group": "focus",
-      "addedDate": "2026-06-24",
-      "source": "sector:创新药"
-    },
-    {
-      "code": "sh600276",
-      "name": "恒瑞医药",
-      "group": "focus",
-      "addedDate": "2026-06-24",
-      "source": "sector:创新药"
-    },
-    {
       "code": "sh603019",
       "name": "中科曙光",
       "group": "focus",
@@ -116,13 +102,6 @@
       "source": "sector:锂矿"
     },
     {
-      "code": "sz000977",
-      "name": "浪潮信息",
-      "group": "focus",
-      "addedDate": "2026-07-03",
-      "source": "sector:军工航天"
-    },
-    {
       "code": "sh600489",
       "name": "中金黄金",
       "group": "focus",
@@ -135,13 +114,6 @@
       "group": "focus",
       "addedDate": "2026-07-08",
       "source": "sector:分拆上市"
-    },
-    {
-      "code": "sz002396",
-      "name": "星网锐捷",
-      "group": "focus",
-      "addedDate": "2026-07-14",
-      "source": "sector:电子支付"
     },
     {
       "code": "sh601628",
@@ -184,13 +156,6 @@
       "group": "focus",
       "addedDate": "2026-07-17",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sh600236",
-      "name": "桂冠电力",
-      "group": "focus",
-      "addedDate": "2026-07-20",
-      "source": "sector:风电"
     },
     {
       "code": "sh601857",
@@ -324,20 +289,55 @@
       "group": "focus",
       "addedDate": "2026-07-23",
       "source": "sector:融资融券"
+    },
+    {
+      "code": "sh603606",
+      "name": "东方电缆",
+      "group": "focus",
+      "addedDate": "2026-07-24",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sh605117",
+      "name": "德业股份",
+      "group": "focus",
+      "addedDate": "2026-07-24",
+      "source": "sector:光伏"
+    },
+    {
+      "code": "sz002353",
+      "name": "杰瑞股份",
+      "group": "focus",
+      "addedDate": "2026-07-24",
+      "source": "sector:业绩预升"
+    },
+    {
+      "code": "sh601179",
+      "name": "中国西电",
+      "group": "focus",
+      "addedDate": "2026-07-24",
+      "source": "sector:风电"
+    },
+    {
+      "code": "sz002498",
+      "name": "汉缆股份",
+      "group": "focus",
+      "addedDate": "2026-07-24",
+      "source": "sector:风电"
     }
   ],
   "todayAdded": [
-    "sh601168",
-    "sh600256",
-    "sz000034",
-    "sh600362",
-    "sh600664"
+    "sh603606",
+    "sh605117",
+    "sz002353",
+    "sh601179",
+    "sz002498"
   ],
   "todayRemoved": [
-    "sz002602",
-    "sz300070",
-    "sz002594",
-    "sz300014",
-    "sz000776"
+    "sz002396",
+    "sh600236",
+    "sh603259",
+    "sh600276",
+    "sz000977"
   ]
 }
