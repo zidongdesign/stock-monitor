@@ -1,7 +1,7 @@
 {
-  "version": "20260724a",
+  "version": "20260727a",
   "startDate": "2026-03-12",
-  "dayCount": 135,
+  "dayCount": 138,
   "stocks": [
     {
       "code": "sh603993",
@@ -165,13 +165,6 @@
       "source": "sector:央企50"
     },
     {
-      "code": "sh601766",
-      "name": "中国中车",
-      "group": "focus",
-      "addedDate": "2026-07-20",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sh600938",
       "name": "中国海油",
       "group": "focus",
@@ -214,13 +207,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz000100",
-      "name": "TCL科技",
-      "group": "focus",
-      "addedDate": "2026-07-21",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz300139",
       "name": "晓程科技",
       "group": "focus",
@@ -230,13 +216,6 @@
     {
       "code": "sh600183",
       "name": "生益科技",
-      "group": "focus",
-      "addedDate": "2026-07-22",
-      "source": "sector:股权激励"
-    },
-    {
-      "code": "sz300285",
-      "name": "国瓷材料",
       "group": "focus",
       "addedDate": "2026-07-22",
       "source": "sector:股权激励"
@@ -263,25 +242,11 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sh600256",
-      "name": "广汇能源",
-      "group": "focus",
-      "addedDate": "2026-07-23",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz000034",
       "name": "神州数码",
       "group": "focus",
       "addedDate": "2026-07-23",
       "source": "sector:深圳本地"
-    },
-    {
-      "code": "sh600362",
-      "name": "江西铜业",
-      "group": "focus",
-      "addedDate": "2026-07-23",
-      "source": "sector:含H股"
     },
     {
       "code": "sh600664",
@@ -324,20 +289,55 @@
       "group": "focus",
       "addedDate": "2026-07-24",
       "source": "sector:风电"
+    },
+    {
+      "code": "sz300014",
+      "name": "亿纬锂能",
+      "group": "focus",
+      "addedDate": "2026-07-27",
+      "source": "sector:无线耳机"
+    },
+    {
+      "code": "sz300438",
+      "name": "鹏辉能源",
+      "group": "focus",
+      "addedDate": "2026-07-27",
+      "source": "sector:无线耳机"
+    },
+    {
+      "code": "sh600584",
+      "name": "长电科技",
+      "group": "focus",
+      "addedDate": "2026-07-27",
+      "source": "sector:华为海思"
+    },
+    {
+      "code": "sz002460",
+      "name": "赣锋锂业",
+      "group": "focus",
+      "addedDate": "2026-07-27",
+      "source": "sector:无线耳机"
+    },
+    {
+      "code": "sz002436",
+      "name": "兴森科技",
+      "group": "focus",
+      "addedDate": "2026-07-27",
+      "source": "sector:华为海思"
     }
   ],
   "todayAdded": [
-    "sh603606",
-    "sh605117",
-    "sz002353",
-    "sh601179",
-    "sz002498"
+    "sz300014",
+    "sz300438",
+    "sh600584",
+    "sz002460",
+    "sz002436"
   ],
   "todayRemoved": [
-    "sz002396",
-    "sh600236",
-    "sh603259",
-    "sh600276",
-    "sz000977"
+    "sz300285",
+    "sh600256",
+    "sh600362",
+    "sz000100",
+    "sh601766"
   ]
 }
