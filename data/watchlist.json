@@ -1,7 +1,7 @@
 {
-  "version": "20260727a",
+  "version": "20260728a",
   "startDate": "2026-03-12",
-  "dayCount": 138,
+  "dayCount": 139,
   "stocks": [
     {
       "code": "sh603993",
@@ -324,20 +324,25 @@
       "group": "focus",
       "addedDate": "2026-07-27",
       "source": "sector:华为海思"
+    },
+    {
+      "code": "sz002195",
+      "name": "岩山科技",
+      "group": "focus",
+      "addedDate": "2026-07-28",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sh600488",
+      "name": "津药药业",
+      "group": "focus",
+      "addedDate": "2026-07-28",
+      "source": "sector:重组概念"
     }
   ],
   "todayAdded": [
-    "sz300014",
-    "sz300438",
-    "sh600584",
-    "sz002460",
-    "sz002436"
+    "sz002195",
+    "sh600488"
   ],
-  "todayRemoved": [
-    "sz300285",
-    "sh600256",
-    "sh600362",
-    "sz000100",
-    "sh601766"
-  ]
+  "todayRemoved": []
 }

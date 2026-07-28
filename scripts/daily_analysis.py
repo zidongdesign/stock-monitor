@@ -733,11 +733,11 @@ def main():
     protected_codes = {s["code"] for s in pool_stocks if s.get("addedDate", "") > protect_deadline}
     scored_pool = [(code, score) for code, score in scored_pool if code not in protected_codes]
 
-    if day_count >= MATURE_DAYS:
+    if day_count >= MATURE_DAYS and pool_size >= POOL_MAX:
         eliminate_count = min(ELIMINATE_COUNT, len(scored_pool))
         to_remove = scored_pool[:eliminate_count]
 
-        print(f"\n🗑️ 淘汰 {eliminate_count} 只（池子已运行 {day_count} 天 >= {MATURE_DAYS}）:")
+        print(f"\n🗑️ 淘汰 {eliminate_count} 只（池子已满 {pool_size}/{POOL_MAX}）:")
         for code, score in to_remove:
             name = STOCK_NAMES.get(code, code)
             print(f"  ❌ {code} {name}: {score}分")
@@ -752,6 +752,8 @@ def main():
 
         # 更新 history.json
         history["removed"].extend(today_removed)
+    elif day_count >= MATURE_DAYS and pool_size < POOL_MAX:
+        print(f"\n⏸️ 池子 {pool_size}/{POOL_MAX} 未满，暂停淘汰，优先补入")
     else:
         print(f"\n⏳ 池子运行 {day_count} 天 < {MATURE_DAYS} 天，暂不淘汰")
 
@@ -778,7 +780,9 @@ def main():
     # ---- 自动补入 ----
     today_added = []
     spots_available = POOL_MAX - len(current_pool)
-    add_target = min(ADD_COUNT, spots_available)
+    # 池子未满时加速补入（每天最多补10只），已满时正常补5只
+    add_limit = ADD_COUNT * 2 if spots_available > ADD_COUNT else ADD_COUNT
+    add_target = min(add_limit, spots_available)
 
     if add_target > 0:
         print(f"\n🔍 扫描板块，寻找 {add_target} 只补入候选...")
@@ -823,10 +827,18 @@ def main():
                 print(f"  ⛔ {code} {name}: 近5日涨幅{gain_5d}%>30%")
                 continue
 
+            # 技术形态过滤：空头/破位的不补进（只能做多，补空头没意义）
+            from technical_pattern import _analyze_single_stock
+            tech_result = _analyze_single_stock(code, name)
+            if tech_result["score"] < 40:
+                print(f"  ⛔ {code} {name}: 技术形态弱({tech_result['score']}分, {tech_result['signals'][:2]})")
+                continue
+
             filtered_candidates.append({
                 "code": code,
                 "name": name,
                 "score": data["score"],
+                "tech_score": tech_result["score"],
                 "sector": cand.get("sector", ""),
             })
 
@@ -836,14 +848,31 @@ def main():
 
         print(f"\n✅ 补入 {len(to_add)} 只:")
         for cand in to_add:
-            print(f"  ➕ {cand['code']} {cand['name']}: {cand['score']}分 [{cand['sector']}]")
-            current_pool.append({
+            # 检测是否涨停入池
+            cand_price = stocks_data.get(cand['code'], {}).get('technical', {}).get('price')
+            cand_prev = stocks_data.get(cand['code'], {}).get('technical', {}).get('prevClose')
+            is_limit_up = False
+            if cand_price and cand_prev and cand_prev > 0:
+                gain_pct = (cand_price - cand_prev) / cand_prev * 100
+                if gain_pct >= 9.5:  # 涨停或接近涨停
+                    is_limit_up = True
+
+            entry = {
                 "code": cand["code"],
                 "name": cand["name"],
                 "group": "focus",
                 "addedDate": today,
                 "source": f"sector:{cand['sector']}",
-            })
+            }
+            if is_limit_up:
+                entry["limitUp"] = True
+                entry["limitUpPrice"] = cand_price
+                entry["limitUpDate"] = today
+                print(f"  ➕ {cand['code']} {cand['name']}: {cand['score']}分 [{cand['sector']}] 🔺涨停入池")
+            else:
+                print(f"  ➕ {cand['code']} {cand['name']}: {cand['score']}分 [{cand['sector']}]")
+
+            current_pool.append(entry)
             pool_codes.add(cand["code"])
             STOCK_NAMES[cand["code"]] = cand["name"]
             today_added.append({
@@ -851,6 +880,7 @@ def main():
                 "name": cand["name"],
                 "score": cand["score"],
                 "sector": cand["sector"],
+                "limitUp": is_limit_up,
             })
     else:
         print(f"\n⚠️ 池子已满 ({len(current_pool)}/{POOL_MAX})，无法补入")
