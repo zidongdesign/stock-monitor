@@ -1,7 +1,7 @@
 {
-  "version": "20260728a",
+  "version": "20260729a",
   "startDate": "2026-03-12",
-  "dayCount": 139,
+  "dayCount": 140,
   "stocks": [
     {
       "code": "sh603993",
@@ -338,11 +338,73 @@
       "group": "focus",
       "addedDate": "2026-07-28",
       "source": "sector:重组概念"
+    },
+    {
+      "code": "sz000651",
+      "name": "格力电器",
+      "group": "focus",
+      "addedDate": "2026-07-29",
+      "source": "sector:基金重仓"
+    },
+    {
+      "code": "sz002415",
+      "name": "海康威视",
+      "group": "focus",
+      "addedDate": "2026-07-29",
+      "source": "sector:基金重仓"
+    },
+    {
+      "code": "sh600887",
+      "name": "伊利股份",
+      "group": "focus",
+      "addedDate": "2026-07-29",
+      "source": "sector:基金重仓"
+    },
+    {
+      "code": "sz002594",
+      "name": "比亚迪",
+      "group": "focus",
+      "addedDate": "2026-07-29",
+      "source": "sector:含H股"
+    },
+    {
+      "code": "sz000001",
+      "name": "平安银行",
+      "group": "focus",
+      "addedDate": "2026-07-29",
+      "source": "sector:基金重仓"
+    },
+    {
+      "code": "sz002241",
+      "name": "歌尔股份",
+      "group": "focus",
+      "addedDate": "2026-07-29",
+      "source": "sector:基金重仓"
+    },
+    {
+      "code": "sz300347",
+      "name": "泰格医药",
+      "group": "focus",
+      "addedDate": "2026-07-29",
+      "source": "sector:QFII重仓"
+    },
+    {
+      "code": "sh600256",
+      "name": "广汇能源",
+      "group": "focus",
+      "addedDate": "2026-07-29",
+      "source": "sector:融资融券"
     }
   ],
   "todayAdded": [
-    "sz002195",
-    "sh600488"
+    "sz000651",
+    "sz002415",
+    "sh600887",
+    "sz002594",
+    "sz000001",
+    "sz002241",
+    "sz300347",
+    "sh600256"
   ],
   "todayRemoved": []
 }
