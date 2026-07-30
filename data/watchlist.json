@@ -1,7 +1,7 @@
 {
-  "version": "20260729a",
+  "version": "20260730a",
   "startDate": "2026-03-12",
-  "dayCount": 140,
+  "dayCount": 141,
   "stocks": [
     {
       "code": "sh603993",
@@ -394,17 +394,25 @@
       "group": "focus",
       "addedDate": "2026-07-29",
       "source": "sector:融资融券"
+    },
+    {
+      "code": "sz300285",
+      "name": "国瓷材料",
+      "group": "focus",
+      "addedDate": "2026-07-30",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz000960",
+      "name": "锡业股份",
+      "group": "focus",
+      "addedDate": "2026-07-30",
+      "source": "sector:融资融券"
     }
   ],
   "todayAdded": [
-    "sz000651",
-    "sz002415",
-    "sh600887",
-    "sz002594",
-    "sz000001",
-    "sz002241",
-    "sz300347",
-    "sh600256"
+    "sz300285",
+    "sz000960"
   ],
   "todayRemoved": []
 }
