@@ -1,7 +1,7 @@
 {
-  "version": "20260730a",
+  "version": "20260731a",
   "startDate": "2026-03-12",
-  "dayCount": 141,
+  "dayCount": 142,
   "stocks": [
     {
       "code": "sh603993",
@@ -408,11 +408,25 @@
       "group": "focus",
       "addedDate": "2026-07-30",
       "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000338",
+      "name": "潍柴动力",
+      "group": "focus",
+      "addedDate": "2026-07-31",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000630",
+      "name": "铜陵有色",
+      "group": "focus",
+      "addedDate": "2026-07-31",
+      "source": "sector:基金重仓"
     }
   ],
   "todayAdded": [
-    "sz300285",
-    "sz000960"
+    "sz000338",
+    "sz000630"
   ],
   "todayRemoved": []
 }
