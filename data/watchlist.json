@@ -1,7 +1,7 @@
 {
-  "version": "20260731a",
+  "version": "20260803a",
   "startDate": "2026-03-12",
-  "dayCount": 142,
+  "dayCount": 145,
   "stocks": [
     {
       "code": "sh603993",
@@ -422,11 +422,41 @@
       "group": "focus",
       "addedDate": "2026-07-31",
       "source": "sector:基金重仓"
+    },
+    {
+      "code": "sh600580",
+      "name": "卧龙电驱",
+      "group": "focus",
+      "addedDate": "2026-08-03",
+      "source": "sector:业绩预升"
+    },
+    {
+      "code": "sz002131",
+      "name": "利欧股份",
+      "group": "focus",
+      "addedDate": "2026-08-03",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sz002230",
+      "name": "科大讯飞",
+      "group": "focus",
+      "addedDate": "2026-08-03",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sz300408",
+      "name": "三环集团",
+      "group": "focus",
+      "addedDate": "2026-08-03",
+      "source": "sector:小米概念"
     }
   ],
   "todayAdded": [
-    "sz000338",
-    "sz000630"
+    "sh600580",
+    "sz002131",
+    "sz002230",
+    "sz300408"
   ],
   "todayRemoved": []
 }
