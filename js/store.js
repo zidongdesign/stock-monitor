@@ -39,7 +39,7 @@ const Store = {
     ]
   },
 
-  _STOCK_VERSION: '20260803a',
+  _STOCK_VERSION: '20260804a',
 
   getStocks(groupId) {
     // 版本检查：如果版本不对，强制用新默认值
