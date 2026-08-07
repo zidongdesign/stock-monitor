@@ -1,7 +1,7 @@
 {
-  "version": "20260804a",
+  "version": "20260807a",
   "startDate": "2026-03-12",
-  "dayCount": 146,
+  "dayCount": 149,
   "stocks": [
     {
       "code": "sh603993",
@@ -450,8 +450,41 @@
       "group": "focus",
       "addedDate": "2026-08-03",
       "source": "sector:小米概念"
+    },
+    {
+      "code": "sz002446",
+      "name": "盛路通信",
+      "group": "focus",
+      "addedDate": "2026-08-07",
+      "source": "sector:国防军工"
+    },
+    {
+      "code": "sz300083",
+      "name": "创世纪",
+      "group": "focus",
+      "addedDate": "2026-08-07",
+      "source": "sector:触摸屏"
+    },
+    {
+      "code": "sz000063",
+      "name": "中兴通讯",
+      "group": "focus",
+      "addedDate": "2026-08-07",
+      "source": "sector:智能穿戴"
+    },
+    {
+      "code": "sz300433",
+      "name": "蓝思科技",
+      "group": "focus",
+      "addedDate": "2026-08-07",
+      "source": "sector:华为概念"
     }
   ],
-  "todayAdded": [],
+  "todayAdded": [
+    "sz002446",
+    "sz300083",
+    "sz000063",
+    "sz300433"
+  ],
   "todayRemoved": []
 }
