@@ -1,7 +1,7 @@
 {
-  "version": "20260807a",
+  "version": "20260810a",
   "startDate": "2026-03-12",
-  "dayCount": 149,
+  "dayCount": 152,
   "stocks": [
     {
       "code": "sh603993",
@@ -478,13 +478,33 @@
       "group": "focus",
       "addedDate": "2026-08-07",
       "source": "sector:华为概念"
+    },
+    {
+      "code": "sh600141",
+      "name": "兴发集团",
+      "group": "focus",
+      "addedDate": "2026-08-10",
+      "source": "sector:稀缺资源"
+    },
+    {
+      "code": "sz300404",
+      "name": "博济医药",
+      "group": "focus",
+      "addedDate": "2026-08-10",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sh600522",
+      "name": "中天科技",
+      "group": "focus",
+      "addedDate": "2026-08-10",
+      "source": "sector:光伏"
     }
   ],
   "todayAdded": [
-    "sz002446",
-    "sz300083",
-    "sz000063",
-    "sz300433"
+    "sh600141",
+    "sz300404",
+    "sh600522"
   ],
   "todayRemoved": []
 }
