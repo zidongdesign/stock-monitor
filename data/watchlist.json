@@ -1,7 +1,7 @@
 {
-  "version": "20260810a",
+  "version": "20260811a",
   "startDate": "2026-03-12",
-  "dayCount": 152,
+  "dayCount": 153,
   "stocks": [
     {
       "code": "sh603993",
@@ -499,12 +499,65 @@
       "group": "focus",
       "addedDate": "2026-08-10",
       "source": "sector:光伏"
+    },
+    {
+      "code": "sz002437",
+      "name": "誉衡药业",
+      "group": "focus",
+      "addedDate": "2026-08-11",
+      "source": "sector:参股金融"
+    },
+    {
+      "code": "sz002602",
+      "name": "世纪华通",
+      "group": "focus",
+      "addedDate": "2026-08-11",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sh600547",
+      "name": "山东黄金",
+      "group": "focus",
+      "addedDate": "2026-08-11",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600988",
+      "name": "赤峰黄金",
+      "group": "focus",
+      "addedDate": "2026-08-11",
+      "source": "sector:重组概念"
+    },
+    {
+      "code": "sh600711",
+      "name": "盛屯矿业",
+      "group": "focus",
+      "addedDate": "2026-08-11",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz000039",
+      "name": "中集集团",
+      "group": "focus",
+      "addedDate": "2026-08-11",
+      "source": "sector:参股金融"
+    },
+    {
+      "code": "sh600309",
+      "name": "万华化学",
+      "group": "focus",
+      "addedDate": "2026-08-11",
+      "source": "sector:保险重仓"
     }
   ],
   "todayAdded": [
-    "sh600141",
-    "sz300404",
-    "sh600522"
+    "sz002437",
+    "sz002602",
+    "sh600547",
+    "sh600988",
+    "sh600711",
+    "sz000039",
+    "sh600309"
   ],
   "todayRemoved": []
 }
