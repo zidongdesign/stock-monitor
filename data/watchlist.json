@@ -1,7 +1,7 @@
 {
-  "version": "20260811a",
+  "version": "20260812a",
   "startDate": "2026-03-12",
-  "dayCount": 153,
+  "dayCount": 154,
   "stocks": [
     {
       "code": "sh603993",
@@ -548,16 +548,25 @@
       "group": "focus",
       "addedDate": "2026-08-11",
       "source": "sector:保险重仓"
+    },
+    {
+      "code": "sh603087",
+      "name": "甘李药业",
+      "group": "focus",
+      "addedDate": "2026-08-12",
+      "source": "sector:创新药"
+    },
+    {
+      "code": "sz300759",
+      "name": "康龙化成",
+      "group": "focus",
+      "addedDate": "2026-08-12",
+      "source": "sector:创新药"
     }
   ],
   "todayAdded": [
-    "sz002437",
-    "sz002602",
-    "sh600547",
-    "sh600988",
-    "sh600711",
-    "sz000039",
-    "sh600309"
+    "sh603087",
+    "sz300759"
   ],
   "todayRemoved": []
 }
