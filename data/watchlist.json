@@ -1,7 +1,7 @@
 {
-  "version": "20260812a",
+  "version": "20260813a",
   "startDate": "2026-03-12",
-  "dayCount": 154,
+  "dayCount": 155,
   "stocks": [
     {
       "code": "sh603993",
@@ -144,13 +144,6 @@
       "source": "sector:基金重仓"
     },
     {
-      "code": "sh601668",
-      "name": "XD中国建",
-      "group": "focus",
-      "addedDate": "2026-07-16",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz000968",
       "name": "蓝焰控股",
       "group": "focus",
@@ -172,13 +165,6 @@
       "source": "sector:风电"
     },
     {
-      "code": "sh600744",
-      "name": "华银电力",
-      "group": "focus",
-      "addedDate": "2026-07-20",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz000425",
       "name": "徐工机械",
       "group": "focus",
@@ -191,13 +177,6 @@
       "group": "focus",
       "addedDate": "2026-07-21",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sh601398",
-      "name": "工商银行",
-      "group": "focus",
-      "addedDate": "2026-07-21",
-      "source": "sector:基金重仓"
     },
     {
       "code": "sz000625",
@@ -333,13 +312,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sh600488",
-      "name": "津药药业",
-      "group": "focus",
-      "addedDate": "2026-07-28",
-      "source": "sector:重组概念"
-    },
-    {
       "code": "sz000651",
       "name": "格力电器",
       "group": "focus",
@@ -349,13 +321,6 @@
     {
       "code": "sz002415",
       "name": "海康威视",
-      "group": "focus",
-      "addedDate": "2026-07-29",
-      "source": "sector:基金重仓"
-    },
-    {
-      "code": "sh600887",
-      "name": "伊利股份",
       "group": "focus",
       "addedDate": "2026-07-29",
       "source": "sector:基金重仓"
@@ -562,11 +527,47 @@
       "group": "focus",
       "addedDate": "2026-08-12",
       "source": "sector:创新药"
+    },
+    {
+      "code": "sh600105",
+      "name": "永鼎股份",
+      "group": "focus",
+      "addedDate": "2026-08-13",
+      "source": "sector:专精特新"
+    },
+    {
+      "code": "sz300223",
+      "name": "君正股份",
+      "group": "focus",
+      "addedDate": "2026-08-13",
+      "source": "sector:业绩预降"
+    },
+    {
+      "code": "sz002364",
+      "name": "中恒电气",
+      "group": "focus",
+      "addedDate": "2026-08-13",
+      "source": "sector:股权激励"
+    },
+    {
+      "code": "sh603115",
+      "name": "海星股份",
+      "group": "focus",
+      "addedDate": "2026-08-13",
+      "source": "sector:专精特新"
     }
   ],
   "todayAdded": [
-    "sh603087",
-    "sz300759"
+    "sh600105",
+    "sz300223",
+    "sz002364",
+    "sh603115"
   ],
-  "todayRemoved": []
+  "todayRemoved": [
+    "sh601398",
+    "sh601668",
+    "sh600744",
+    "sh600488",
+    "sh600887"
+  ]
 }
