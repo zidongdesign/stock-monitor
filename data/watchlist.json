@@ -1,7 +1,7 @@
 {
-  "version": "20260813a",
+  "version": "20260814a",
   "startDate": "2026-03-12",
-  "dayCount": 155,
+  "dayCount": 156,
   "stocks": [
     {
       "code": "sh603993",
@@ -555,19 +555,17 @@
       "group": "focus",
       "addedDate": "2026-08-13",
       "source": "sector:专精特新"
+    },
+    {
+      "code": "sz300009",
+      "name": "安科生物",
+      "group": "focus",
+      "addedDate": "2026-08-14",
+      "source": "sector:创新药"
     }
   ],
   "todayAdded": [
-    "sh600105",
-    "sz300223",
-    "sz002364",
-    "sh603115"
+    "sz300009"
   ],
-  "todayRemoved": [
-    "sh601398",
-    "sh601668",
-    "sh600744",
-    "sh600488",
-    "sh600887"
-  ]
+  "todayRemoved": []
 }
