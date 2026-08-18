@@ -1,7 +1,7 @@
 {
-  "version": "20260814a",
+  "version": "20260818a",
   "startDate": "2026-03-12",
-  "dayCount": 156,
+  "dayCount": 160,
   "stocks": [
     {
       "code": "sh603993",
@@ -137,13 +137,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sh600036",
-      "name": "招商银行",
-      "group": "focus",
-      "addedDate": "2026-07-16",
-      "source": "sector:基金重仓"
-    },
-    {
       "code": "sz000968",
       "name": "蓝焰控股",
       "group": "focus",
@@ -179,13 +172,6 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sz000625",
-      "name": "长安汽车",
-      "group": "focus",
-      "addedDate": "2026-07-21",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz300139",
       "name": "晓程科技",
       "group": "focus",
@@ -207,25 +193,11 @@
       "source": "sector:融资融券"
     },
     {
-      "code": "sh600206",
-      "name": "有研新材",
-      "group": "focus",
-      "addedDate": "2026-07-22",
-      "source": "sector:光伏"
-    },
-    {
       "code": "sh601168",
       "name": "西部矿业",
       "group": "focus",
       "addedDate": "2026-07-23",
       "source": "sector:融资融券"
-    },
-    {
-      "code": "sz000034",
-      "name": "神州数码",
-      "group": "focus",
-      "addedDate": "2026-07-23",
-      "source": "sector:深圳本地"
     },
     {
       "code": "sh600664",
@@ -258,13 +230,6 @@
     {
       "code": "sh601179",
       "name": "中国西电",
-      "group": "focus",
-      "addedDate": "2026-07-24",
-      "source": "sector:风电"
-    },
-    {
-      "code": "sz002498",
-      "name": "汉缆股份",
       "group": "focus",
       "addedDate": "2026-07-24",
       "source": "sector:风电"
@@ -305,13 +270,6 @@
       "source": "sector:华为海思"
     },
     {
-      "code": "sz002195",
-      "name": "岩山科技",
-      "group": "focus",
-      "addedDate": "2026-07-28",
-      "source": "sector:股权激励"
-    },
-    {
       "code": "sz000651",
       "name": "格力电器",
       "group": "focus",
@@ -331,13 +289,6 @@
       "group": "focus",
       "addedDate": "2026-07-29",
       "source": "sector:含H股"
-    },
-    {
-      "code": "sz000001",
-      "name": "平安银行",
-      "group": "focus",
-      "addedDate": "2026-07-29",
-      "source": "sector:基金重仓"
     },
     {
       "code": "sz002241",
@@ -368,13 +319,6 @@
       "source": "sector:股权激励"
     },
     {
-      "code": "sz000960",
-      "name": "锡业股份",
-      "group": "focus",
-      "addedDate": "2026-07-30",
-      "source": "sector:融资融券"
-    },
-    {
       "code": "sz000338",
       "name": "潍柴动力",
       "group": "focus",
@@ -403,13 +347,6 @@
       "source": "sector:重组概念"
     },
     {
-      "code": "sz002230",
-      "name": "科大讯飞",
-      "group": "focus",
-      "addedDate": "2026-08-03",
-      "source": "sector:股权激励"
-    },
-    {
       "code": "sz300408",
       "name": "三环集团",
       "group": "focus",
@@ -422,13 +359,6 @@
       "group": "focus",
       "addedDate": "2026-08-07",
       "source": "sector:国防军工"
-    },
-    {
-      "code": "sz300083",
-      "name": "创世纪",
-      "group": "focus",
-      "addedDate": "2026-08-07",
-      "source": "sector:触摸屏"
     },
     {
       "code": "sz000063",
@@ -562,10 +492,90 @@
       "group": "focus",
       "addedDate": "2026-08-14",
       "source": "sector:创新药"
+    },
+    {
+      "code": "sz300548",
+      "name": "长芯博创",
+      "group": "focus",
+      "addedDate": "2026-08-17",
+      "source": "sector:华为概念"
+    },
+    {
+      "code": "sh600487",
+      "name": "亨通光电",
+      "group": "focus",
+      "addedDate": "2026-08-17",
+      "source": "sector:业绩预降"
+    },
+    {
+      "code": "sz002281",
+      "name": "光迅科技",
+      "group": "focus",
+      "addedDate": "2026-08-17",
+      "source": "sector:5G概念"
+    },
+    {
+      "code": "sh600362",
+      "name": "江西铜业",
+      "group": "focus",
+      "addedDate": "2026-08-17",
+      "source": "sector:业绩预降"
+    },
+    {
+      "code": "sz002428",
+      "name": "云南锗业",
+      "group": "focus",
+      "addedDate": "2026-08-17",
+      "source": "sector:稀缺资源"
+    },
+    {
+      "code": "sz000725",
+      "name": "京东方Ａ",
+      "group": "focus",
+      "addedDate": "2026-08-18",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600096",
+      "name": "云天化",
+      "group": "focus",
+      "addedDate": "2026-08-18",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sh600549",
+      "name": "厦门钨业",
+      "group": "focus",
+      "addedDate": "2026-08-18",
+      "source": "sector:融资融券"
+    },
+    {
+      "code": "sz002284",
+      "name": "亚太股份",
+      "group": "focus",
+      "addedDate": "2026-08-18",
+      "source": "sector:业绩预升"
+    },
+    {
+      "code": "sz002156",
+      "name": "通富微电",
+      "group": "focus",
+      "addedDate": "2026-08-18",
+      "source": "sector:业绩预升"
     }
   ],
   "todayAdded": [
-    "sz300009"
+    "sz000725",
+    "sh600096",
+    "sh600549",
+    "sz002284",
+    "sz002156"
   ],
-  "todayRemoved": []
+  "todayRemoved": [
+    "sz000001",
+    "sz002230",
+    "sz300083",
+    "sz000034",
+    "sz000960"
+  ]
 }
